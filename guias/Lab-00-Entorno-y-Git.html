@@ -311,10 +311,10 @@ cd ~/mpoo</code></pre>
 ├── <span class="d">guias/</span>         <span class="c"># las guías de laboratorio (las subo yo)</span>
 ├── <span class="d">apoyo/</span>         <span class="c"># código de ejemplo de cada tema (lo subo yo)</span>
 └── <span class="d">entregas/</span>      <span class="c"># aquí van sus prácticas</span>
-    ├── <span class="d">ramirez/</span>
+    ├── <span class="d">ramirez_ana/</span>
     │   ├── <span class="d">lab00/</span>
     │   └── <span class="d">p01/</span>
-    └── <span class="d">cruz/</span>
+    └── <span class="d">cruz_luis/</span>
         └── <span class="d">lab00/</span></div>
 <p><strong>Cada quien toca solo su carpeta.</strong> Por eso 27 personas pueden trabajar en el mismo repositorio sin pisarse.</p>
 
@@ -352,16 +352,18 @@ nothing to commit, working tree clean</div>
 <h2>Parte 4 · Tu primera entrega</h2>
 
 <h3>4.1 · Crear tu carpeta y poner el programa</h3>
-<p>Usa <strong>tu apellido en minúsculas y sin acentos</strong>. Si te apellidas Ramírez, es <code>ramirez</code>.</p>
-<pre><code>mkdir -p entregas/<span class="v">tuapellido</span>/lab00
-cp ~/mpoo/HolaMundo.java entregas/<span class="v">tuapellido</span>/lab00/</code></pre>
+<p>Usa <strong>tu primer apellido y tu primer nombre, en minúsculas y sin acentos, unidos
+por un guion bajo</strong>: así dos personas con el mismo apellido no chocan. Si te llamas Ana
+Ramírez, tu carpeta es <code>ramirez_ana</code>. La mía sería <code>ruiz_oscar</code>.</p>
+<pre><code>mkdir -p entregas/<span class="v">apellido_nombre</span>/lab00
+cp ~/mpoo/HolaMundo.java entregas/<span class="v">apellido_nombre</span>/lab00/</code></pre>
 
 <h3>4.2 · Los tres comandos que vas a repetir todo el semestre</h3>
 <pre><code><span class="c"># 1. ¿qué cambió?</span>
 git status
 
 <span class="c"># 2. preparo lo que quiero guardar</span>
-git add entregas/<span class="v">tuapellido</span>/lab00
+git add entregas/<span class="v">apellido_nombre</span>/lab00
 
 <span class="c"># 3. lo guardo con un mensaje que explique qué hice</span>
 git commit -m <span class="v">"Lab 0: entorno verificado y hola mundo"</span></code></pre>
@@ -391,7 +393,7 @@ del navegador la terminal te pide contraseña, sigue los pasos de abajo.</p></di
 <p>Entra a <code>github.com/TU-USUARIO/mpoo-2027-1</code> y navega a tu carpeta. <strong>Si ves ahí tu <code>HolaMundo.java</code>, terminaste.</strong></p>
 
 <div class="cp"><h4><span class="n">4</span>Punto de control 4</h4>
-<p>Tu archivo visible en GitHub, en <code>entregas/tuapellido/lab00/</code>. Marca CP4 y avísame para revisarlo.</p></div>
+<p>Tu archivo visible en GitHub, en <code>entregas/apellido_nombre/lab00/</code>. Marca CP4 y avísame para revisarlo.</p></div>
 
 <h2>Cómo les subo el material nuevo</h2>
 <p>Cada semana subo la guía y el código de apoyo al repositorio del curso. Como ustedes trabajan en un fork, hay que <strong>sincronizarlo</strong> para recibir lo nuevo. Es un botón:</p>
@@ -427,7 +429,7 @@ del navegador la terminal te pide contraseña, sigue los pasos de abajo.</p></di
 
   <div class="step"><div class="b">1</div><div>
     <b style="color:#dbe7f7">Trabaja</b>
-    <div class="d">Tu código va en <code style="font-size:.9rem">entregas/tuapellido/pNN/</code>. Nunca toques la carpeta de otro ni <code style="font-size:.9rem">guias/</code> ni <code style="font-size:.9rem">apoyo/</code>.</div>
+    <div class="d">Tu código va en <code style="font-size:.9rem">entregas/apellido_nombre/pNN/</code>. Nunca toques la carpeta de otro ni <code style="font-size:.9rem">guias/</code> ni <code style="font-size:.9rem">apoyo/</code>.</div>
   </div></div>
 
   <div class="step"><div class="b">2</div><div>
@@ -436,7 +438,7 @@ del navegador la terminal te pide contraseña, sigue los pasos de abajo.</p></di
   </div></div>
 
   <div class="step"><div class="b">3</div><div>
-    <div><code>git add entregas/tuapellido/pNN</code></div>
+    <div><code>git add entregas/apellido_nombre/pNN</code></div>
     <div class="d"><b>Preparo lo que quiero guardar.</b> Nombra tu carpeta, no uses <code style="font-size:.9rem">git add .</code>: eso agarra todo lo que haya, incluida basura del IDE.</div>
   </div></div>
 

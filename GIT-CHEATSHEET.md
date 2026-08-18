@@ -16,7 +16,7 @@ la guía vieja.
 
 ## 1 · Trabaja
 
-Tu código va en `entregas/tuapellido/pNN/`. Nunca toques la carpeta de otro, ni `guias/`,
+Tu código va en `entregas/apellido_nombre/pNN/`. Nunca toques la carpeta de otro, ni `guias/`,
 ni `apoyo/`.
 
 ## 2 · ¿Qué cambió?
@@ -30,7 +30,7 @@ Míralo siempre antes de guardar. Si aparece un archivo que no esperabas, ahí l
 ## 3 · Prepara lo que quieres guardar
 
 ```bash
-git add entregas/tuapellido/pNN
+git add entregas/apellido_nombre/pNN
 ```
 
 Nombra tu carpeta. No uses `git add .`: eso agarra todo lo que haya, incluida basura del

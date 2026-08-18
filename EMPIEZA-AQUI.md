@@ -20,7 +20,7 @@ mpoo-2027-1/
 ├── guias/           ← las guías de laboratorio (las subo yo)
 ├── apoyo/           ← código de ejemplo de cada tema (lo subo yo)
 └── entregas/        ← aquí van tus prácticas, en tu carpeta
-    └── tuapellido/
+    └── apellido_nombre/
         ├── lab00/
         └── p01/ … p12/
 ```
