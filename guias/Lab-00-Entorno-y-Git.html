@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · Laboratorio 0 — Entorno y Git</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:60ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;color:#33465e;white-space:pre-wrap}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+#ostabs{position:sticky;top:0;z-index:20;background:rgba(245,248,252,.94);backdrop-filter:blur(8px);
+border-bottom:1px solid var(--line);padding:.7rem 5vw;margin-bottom:1.6rem}
+#ostabs .in{max-width:920px;margin:0 auto;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+#ostabs span{font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-right:.3rem}
+.osbtn{border:1px solid var(--line);background:var(--panel);color:var(--dim);border-radius:999px;
+padding:.42em 1.1em;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit}
+.osbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+[data-os]{display:none}[data-os].on{display:block}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+.sheet{background:var(--code);border-radius:14px;padding:1.5rem 1.7rem;margin:1.2rem 0 .8rem;color:#dbe7f7}
+.sheet h3{color:#ffb340;margin:0 0 .2rem;font-size:1.15rem;border:none;padding:0}
+.sheet .sub{color:#93a7c4;font-size:.9rem;margin:0 0 1.2rem}
+.step{display:grid;grid-template-columns:2em 1fr;gap:.9rem;align-items:start;padding:.7rem 0;border-top:1px solid #24374f}
+.step:first-of-type{border-top:none;padding-top:0}
+.step .b{background:#ffb340;color:#12253d;width:1.85em;height:1.85em;border-radius:50%;
+display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem}
+.step code{background:#1b2c45;border:1px solid #2b405d;color:#ffd699;font-size:.95rem;padding:.16em .5em;display:inline-block}
+.step .d{color:#93a7c4;font-size:.87rem;margin-top:.3rem;line-height:1.5}
+.step .d b{color:#dbe7f7}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+</style></head><body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · Laboratorio 0</div>
+  <h1>Laboratorio 0<br>Entorno de trabajo y primer <em style="color:#ffb340">push</em></h1>
+  <p>Miércoles 19 de agosto · 100 minutos. Al terminar vas a tener Java funcionando, tu primer programa compilado a mano, y tu trabajo guardado en GitHub. Cuatro puntos de control.</p>
+</div></header>
+
+<nav id="ostabs"><div class="in">
+  <span>Tu sistema</span>
+  <button class="osbtn" data-set="win">Windows</button>
+  <button class="osbtn" data-set="mac">macOS</button>
+  <button class="osbtn" data-set="linux">Linux</button>
+</div></nav>
+
+<div class="wrap">
+
+<div class="box tip">
+  <h4>Antes de empezar: elige tu sistema arriba</h4>
+  <p>Los comandos cambian según el sistema. Toda la guía se adapta a lo que elijas. Si te equivocas, cámbialo cuando quieras.</p>
+</div>
+
+<h2>Parte 0 · En casa, antes del miércoles</h2>
+<p>Esto <strong>no</strong> se hace en el laboratorio. Se hace antes, y el miércoles solo verificamos. Si algo no instala, avísame el martes, no el miércoles a las 15:05.</p>
+
+<h3>0.1 · Instalar el JDK 21</h3>
+<p>El JDK es el kit que compila y ejecuta Java. Vamos con la versión <strong>21</strong>, que es LTS (soporte extendido) y la que usa la industria hoy.</p>
+
+<div data-os="win">
+<p>Opción rápida, en <strong>PowerShell</strong>:</p>
+<pre><code>winget install EclipseAdoptium.Temurin.21.JDK</code></pre>
+<p>Si <code>winget</code> no existe en tu equipo, descarga el instalador <code>.msi</code> desde <a href="https://adoptium.net/temurin/releases/?version=21">adoptium.net</a> y sigue el asistente. <strong>Deja marcada la casilla "Set JAVA_HOME variable"</strong> y "Add to PATH". Si la dejaste sin marcar, no reinstales: en la Parte 1 viene cómo agregarlo a mano.</p>
+</div>
+<div data-os="mac">
+<p>Si tienes <a href="https://brew.sh">Homebrew</a>:</p>
+<pre><code>brew install --cask temurin@21</code></pre>
+<p>Si no tienes Homebrew, descarga el <code>.pkg</code> desde <a href="https://adoptium.net/temurin/releases/?version=21">adoptium.net</a> (elige <strong>aarch64</strong> si tu Mac es M1/M2/M3/M4, o <strong>x64</strong> si es Intel) y sigue el asistente.</p>
+</div>
+<div data-os="linux">
+<p>En Ubuntu (22.04 o más nuevo) o Debian 13:</p>
+<pre><code>sudo apt update
+sudo apt install openjdk-21-jdk</code></pre>
+<p>En Debian 12 ese paquete no existe: usa el repo de Adoptium, igual que en Fedora
+(las instrucciones para <code>deb</code> están en
+<a href="https://adoptium.net/installation/linux/">adoptium.net/installation/linux</a>).</p>
+<p>En Fedora el repositorio oficial ya no trae Java 21 (solo 25 y más nuevos). Agrega el
+repo de Adoptium e instala Temurin 21:</p>
+<pre><code>sudo tee /etc/yum.repos.d/adoptium.repo &lt;&lt;'EOF'
+[Adoptium]
+name=Adoptium
+baseurl=https://packages.adoptium.net/artifactory/rpm/fedora/$releasever/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.adoptium.net/artifactory/api/gpg/key/public
+EOF
+sudo dnf install temurin-21-jdk</code></pre>
+<p>En Arch: <code>sudo pacman -S jdk21-openjdk</code></p>
+</div>
+
+<h3>0.2 · Instalar Git</h3>
+<div data-os="win">
+<pre><code>winget install Git.Git</code></pre>
+<p>O el instalador de <a href="https://git-scm.com/download/win">git-scm.com</a>. Instala también <strong>Git Bash</strong>, que es la terminal que vamos a usar en clase.</p>
+<div class="box tip"><h4>Por qué Git Bash y no PowerShell</h4>
+<p>Con Git Bash, <strong>los comandos de Windows son idénticos a los de Mac y Linux</strong>. Así todos escribimos lo mismo y nadie se pierde. Ábrelo desde el menú Inicio buscando "Git Bash".</p></div>
+</div>
+<div data-os="mac">
+<p>Lo más simple, en la Terminal:</p>
+<pre><code>xcode-select --install</code></pre>
+<p>Eso instala las herramientas de línea de comandos de Apple, que incluyen Git. Si prefieres la versión más nueva: <code>brew install git</code>.</p>
+</div>
+<div data-os="linux">
+<pre><code>sudo apt install git</code></pre>
+<p>En Fedora: <code>sudo dnf install git</code> · En Arch: <code>sudo pacman -S git</code></p>
+</div>
+
+<h3>0.3 · Instalar el IDE</h3>
+<p>Vamos con <strong>IntelliJ IDEA</strong>. Desde finales de 2025 es <strong>un solo
+producto</strong>: la "Community Edition" que vas a ver mencionada en tutoriales viejos ya no
+existe como descarga aparte. El instalador es uno, la <strong>capa gratuita viene activada
+por defecto</strong> y no pide cuenta ni licencia. Las funciones de paga quedan apagadas y no
+las vamos a necesitar.</p>
+<div data-os="win"><pre><code>winget install JetBrains.IntelliJIDEA</code></pre>
+<p>O desde <a href="https://www.jetbrains.com/idea/download/">jetbrains.com/idea/download</a>. Hay un solo botón de descarga; no busques "Community".</p></div>
+<div data-os="mac"><pre><code>brew install --cask intellij-idea</code></pre>
+<p>O desde <a href="https://www.jetbrains.com/idea/download/">jetbrains.com/idea/download</a>. Hay un solo botón de descarga; no busques "Community".</p></div>
+<div data-os="linux"><pre><code>sudo snap install intellij-idea --classic</code></pre>
+<p>O el <code>.tar.gz</code> desde <a href="https://www.jetbrains.com/idea/download/">jetbrains.com/idea/download</a>. Hay un solo botón de descarga; no busques "Community".</p></div>
+
+<h3>0.4 · Crear tu cuenta de GitHub</h3>
+<p>En <a href="https://github.com/signup">github.com/signup</a>. Dos cosas importantes:</p>
+<ul>
+  <li>Usa un <strong>nombre de usuario que puedas enseñar en una entrevista</strong>. Este repositorio va a ser lo primero que tengas en tu portafolio.</li>
+  <li>Usa un correo al que <strong>tengas acceso siempre</strong>, no el institucional que pierdes al egresar.</li>
+</ul>
+
+<div class="box warn"><h4>Entregable de la Parte 0</h4>
+<p>Llega el miércoles con las cuatro cosas instaladas y tu usuario de GitHub anotado. La Parte 1 tarda cinco minutos si hiciste esto, y toda la sesión si no.</p></div>
+
+<h2>Parte 1 · Verificar el entorno</h2>
+<p>Abre tu terminal.</p>
+<div data-os="win"><p><strong>Git Bash</strong> (menú Inicio → escribe "Git Bash").</p></div>
+<div data-os="mac"><p><strong>Terminal</strong> (Cmd + Espacio → escribe "Terminal").</p></div>
+<div data-os="linux"><p>Tu terminal de siempre (Ctrl + Alt + T en Ubuntu).</p></div>
+
+<p>Corre estos tres comandos, uno por uno:</p>
+<pre><code>java -version
+javac -version
+git --version</code></pre>
+
+<div class="out"><b>Salida esperada, algo así</b>openjdk version "21.0.4" 2024-07-16 LTS
+javac 21.0.4
+git version 2.45.2</div>
+
+<p>Los números pueden variar. Lo que importa: que <strong>diga 21</strong> en las dos primeras, y que ninguna diga "command not found".</p>
+
+<h3>Si algo falla</h3>
+<table>
+  <tr><th>Lo que ves</th><th>Qué pasa y cómo se arregla</th></tr>
+  <tr><td><code>java: command not found</code></td><td>El JDK no está instalado, o no está en el <b>PATH</b>. Qué es eso y cómo se arregla a mano, paso a paso: abajo, en <b>"El PATH, explicado desde cero"</b>.</td></tr>
+  <tr><td><code>java</code> sí funciona pero <code>javac</code> no</td><td>Instalaste un <b>JRE</b> (solo ejecuta) en vez de un <b>JDK</b> (compila y ejecuta). Instala el JDK.</td></tr>
+  <tr><td>Dice otra versión, por ejemplo 17 u 8</td><td>Tienes varias versiones y el sistema está tomando otra. Avísame en el laboratorio, se resuelve en dos minutos.</td></tr>
+</table>
+<div data-os="mac"><div class="box warn"><h4>macOS: "no se puede abrir porque el desarrollador no está verificado"</h4>
+<p>Ve a <b>Ajustes del Sistema → Privacidad y seguridad</b>, baja hasta el aviso y dale <b>"Abrir de todos modos"</b>.</p></div></div>
+<div data-os="win"><div class="box warn"><h4>Windows: la terminal no reconoce nada después de instalar</h4>
+<p>Cierra <b>todas</b> las ventanas de Git Bash y abre una nueva. Windows solo actualiza el PATH en terminales nuevas.</p></div></div>
+
+<h3>El PATH, explicado desde cero</h3>
+<p>Cuando escribes <code>java</code> y das Enter, la terminal no adivina dónde está el
+programa: lo busca en una <strong>lista de carpetas, en orden</strong>, y ejecuta el primero
+que encuentre. Esa lista se llama el <em>PATH</em>. Si la carpeta donde quedó Java no está
+en la lista, la terminal contesta <code>command not found</code> aunque Java sí esté
+instalado. No hay nada roto: la terminal solo no sabe dónde buscar.</p>
+<p>Puedes ver tu lista ahora mismo. Este comando la imprime, una carpeta por renglón, y es
+el mismo en los tres sistemas:</p>
+<pre><code>echo $PATH | tr ':' '\n'</code></pre>
+<div class="box tip"><h4>Las dos reglas que explican casi todos los sustos</h4>
+<p><b>1 ·</b> Los instaladores agregan su carpeta al PATH por ti; por eso normalmente no lo
+tocas nunca. <b>2 ·</b> La terminal lee el PATH <b>una sola vez, al abrirse</b>. Después de
+cualquier cambio, la ventana que ya estaba abierta no se entera: cierra y abre una nueva.</p></div>
+<div data-os="win">
+<p>Tu JDK quedó en <code>C:\Program Files\Eclipse Adoptium\jdk-21…\bin</code> (en Git Bash
+esa misma carpeta se ve como <code>/c/Program Files/…</code>; es la misma). El instalador la
+agrega al PATH solo. Lo que sigue es <strong>únicamente por si no quedó</strong>:</p>
+<ol>
+  <li><strong>Copia la ruta de la carpeta.</strong> Abre el Explorador de archivos →
+      <code>C:\Program Files\Eclipse Adoptium</code> → entra a la carpeta que empieza con
+      <code>jdk-21</code> → entra a <code>bin</code>. Ahí debe estar <code>java.exe</code>.
+      Haz clic en la <strong>barra de direcciones</strong> y copia la ruta completa
+      (Ctrl + C).</li>
+  <li>Menú Inicio → escribe <strong>variables</strong> → abre <strong>"Editar las variables
+      de entorno del sistema"</strong> → botón <strong>Variables de entorno…</strong></li>
+  <li>Vas a ver dos listas. En la de abajo, <strong>Variables del sistema</strong>,
+      selecciona <code>Path</code> → <strong>Editar…</strong> → <strong>Nuevo</strong> →
+      pega la ruta → <strong>Aceptar</strong> en las tres ventanas. Si el equipo no te deja
+      tocar la lista de abajo (pasa en máquinas sin permisos, como las del laboratorio), usa
+      la de arriba, la de usuario: para ti funciona igual.</li>
+  <li>Cierra <strong>todas</strong> las ventanas de Git Bash, abre una nueva y corre
+      <code>java -version</code>.</li>
+</ol>
+</div>
+<div data-os="mac">
+<p>En macOS <strong>no tienes que tocar el PATH para Java</strong>: el instalador deja el
+JDK en una carpeta que el sistema ya vigila, y el <code>java</code> de <code>/usr/bin</code>
+lo encuentra solo. Si <code>java -version</code> no responde, pregúntale al sistema qué JDKs
+está viendo:</p>
+<pre><code>/usr/libexec/java_home -V</code></pre>
+<p>Si tu JDK 21 no aparece en esa lista, la instalación no terminó: vuelve a correr el
+<code>.pkg</code>. Si sí aparece y aun así falla, avísame y lo resolvemos en el laboratorio.</p>
+</div>
+<div data-os="linux">
+<p>En Linux <strong>no hay nada que hacer</strong>: <code>apt</code>, <code>dnf</code> y
+<code>pacman</code> dejan los programas en <code>/usr/bin</code>, que siempre está en el
+PATH. Solo si un día instalas algo a mano, descomprimiendo un <code>.tar.gz</code>, te toca
+agregar su carpeta <code>bin</code> al final de tu <code>~/.bashrc</code> con una línea
+<code>export PATH="…/bin:$PATH"</code>, y abrir una terminal nueva.</p>
+</div>
+
+<div class="cp"><h4><span class="n">1</span>Punto de control 1</h4>
+<p>Los tres comandos responden y las versiones de Java dicen <b>21</b>. Marca CP1 en el tablero.</p></div>
+
+<h2>Parte 2 · Tu primer programa, sin IDE</h2>
+<p>Vamos a compilar y ejecutar a mano, con dos comandos. Después usaremos el IDE todo el semestre, pero <strong>primero hay que ver qué hace el compilador</strong>. El IDE hace esto mismo escondido detrás de un botón verde.</p>
+
+<h3>2.1 · Crear la carpeta y el archivo</h3>
+<pre><code><span class="c"># crea una carpeta para el curso y entra en ella</span>
+mkdir -p ~/mpoo
+cd ~/mpoo</code></pre>
+
+<p>Ahora crea un archivo llamado <strong><code>HolaMundo.java</code></strong> con este contenido. Puedes usar el Bloc de notas, TextEdit, nano, o el editor que quieras:</p>
+<pre><code><span class="o">public class</span> <span class="v">HolaMundo</span> {
+    <span class="o">public static void</span> main(String[] args) {
+        System.out.println(<span class="v">"Hola, mundo"</span>);
+    }
+}</code></pre>
+
+<div class="box warn"><h4>El nombre del archivo importa</h4>
+<p>Tiene que llamarse <b>exactamente</b> <code>HolaMundo.java</code>, con la H y la M mayúsculas. En Java, el archivo <b>debe llamarse igual que la clase pública</b> que contiene. Es la primera regla del lenguaje que vas a romper sin querer, y hoy la rompemos a propósito para verla.</p></div>
+
+<h3>2.2 · Compilar</h3>
+<pre><code>javac HolaMundo.java</code></pre>
+<p>Si todo salió bien, <strong>no imprime nada</strong>. En Unix el silencio es señal de éxito. Ahora mira qué apareció:</p>
+<pre><code>ls</code></pre>
+<div class="out"><b>Salida esperada</b>HolaMundo.class    HolaMundo.java</div>
+<p>Ese <code>HolaMundo.class</code> no lo escribiste tú: <strong>lo generó el compilador</strong>. No es código Java ni es un ejecutable de tu sistema: es <em>bytecode</em>, un lenguaje intermedio que entiende la máquina virtual de Java. Es la razón por la que el mismo archivo corre igual en Windows, Mac y Linux.</p>
+
+<h3>2.3 · Ejecutar</h3>
+<pre><code>java HolaMundo</code></pre>
+<div class="out"><b>Salida esperada</b>Hola, mundo</div>
+<p>Fíjate en el detalle: al compilar escribiste <code>HolaMundo.java</code> con extensión, y al ejecutar escribiste <code>HolaMundo</code> <strong>sin extensión</strong>. No le pasas un archivo: le pasas el <strong>nombre de la clase</strong> que quieres correr.</p>
+
+<h3>2.4 · Rómpelo a propósito</h3>
+<p>Quítale el punto y coma a la línea del <code>println</code>, guarda y vuelve a compilar:</p>
+<pre><code>javac HolaMundo.java</code></pre>
+<div class="out"><b>Salida esperada</b>HolaMundo.java:3: error: ';' expected
+        System.out.println("Hola, mundo")
+                                         ^
+1 error</div>
+<p>Lee el mensaje completo: te dice <strong>archivo, línea, qué esperaba y dónde</strong>. Vas a leer cientos de estos este semestre. El que aprende a leerlos avanza el triple. Vuelve a poner el punto y coma y compila otra vez.</p>
+
+<h3>2.5 · Lo mismo, ahora en el IDE</h3>
+<ol>
+  <li>Abre IntelliJ IDEA → <strong>New Project</strong>.</li>
+  <li>Nómbralo <code>hola-ide</code>, elige <strong>Java</strong> y como SDK el <strong>21</strong> que instalaste.</li>
+  <li>En <code>src</code>, clic derecho → <strong>New → Java Class</strong> → nómbrala <code>HolaMundo</code>.</li>
+  <li>Escribe el mismo <code>main</code> y dale al <strong>triángulo verde</strong>.</li>
+</ol>
+<p>Mira la ventana de abajo cuando corre: ahí está <strong>el mismo <code>javac</code> y el mismo <code>java</code></strong> que acabas de escribir a mano. El IDE no hace magia, escribe los comandos por ti.</p>
+
+<div class="cp"><h4><span class="n">2</span>Punto de control 2</h4>
+<p><code>Hola, mundo</code> corriendo <b>desde la terminal</b> y también desde IntelliJ. Marca CP2.</p></div>
+
+<h2>Parte 3 · Git: dónde va a vivir tu trabajo</h2>
+
+<h3>3.1 · Cómo funciona el repositorio del curso</h3>
+<p>Todo el material del curso vive en un repositorio público de GitHub. Yo subo ahí las guías y el código de apoyo; ustedes suben ahí sus entregas.</p>
+<div class="tree"><span class="d">mpoo-2027-1/</span>
+├── <span class="d">guias/</span>         <span class="c"># las guías de laboratorio (las subo yo)</span>
+├── <span class="d">apoyo/</span>         <span class="c"># código de ejemplo de cada tema (lo subo yo)</span>
+└── <span class="d">entregas/</span>      <span class="c"># aquí van sus prácticas</span>
+    ├── <span class="d">ramirez/</span>
+    │   ├── <span class="d">lab00/</span>
+    │   └── <span class="d">p01/</span>
+    └── <span class="d">cruz/</span>
+        └── <span class="d">lab00/</span></div>
+<p><strong>Cada quien toca solo su carpeta.</strong> Por eso 27 personas pueden trabajar en el mismo repositorio sin pisarse.</p>
+
+<h3>3.2 · Presentarte con Git</h3>
+<p>Git firma cada cambio con tu nombre. Configúralo una sola vez en tu vida:</p>
+<pre><code>git config --global user.name <span class="v">"Tu Nombre Completo"</span>
+git config --global user.email <span class="v">"el-correo-de-tu-cuenta-de-github@ejemplo.com"</span></code></pre>
+<div class="box tip"><h4>Usa el mismo correo de tu cuenta de GitHub</h4>
+<p>Si pones otro, tus commits aparecen como de un desconocido y no se te acreditan. Y esa acreditación es justamente la evidencia de trabajo en equipo que se califica en el proyecto final.</p></div>
+
+<h3>3.3 · Hacer tu copia (fork)</h3>
+<p>No vas a escribir directo en mi repositorio: vas a trabajar en <strong>tu propia copia</strong>. Así no puedes romper nada de nadie.</p>
+<ol>
+  <li>Entra al repositorio del curso (te paso el enlace en clase).</li>
+  <li>Arriba a la derecha, botón <strong>Fork</strong> → <strong>Create fork</strong>.</li>
+  <li>Ya tienes <code>github.com/TU-USUARIO/mpoo-2027-1</code>. Es tuyo.</li>
+</ol>
+
+<h3>3.4 · Bajarlo a tu computadora (clone)</h3>
+<p>En tu fork, botón verde <strong>Code</strong> → copia la URL HTTPS. Luego:</p>
+<pre><code>cd ~/mpoo
+git clone https://github.com/<span class="v">TU-USUARIO</span>/mpoo-2027-1.git
+cd mpoo-2027-1</code></pre>
+<p>Comprueba que estás parado en el lugar correcto:</p>
+<pre><code>git status</code></pre>
+<div class="out"><b>Salida esperada</b>On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean</div>
+<p><strong>"nothing to commit, working tree clean"</strong> quiere decir: no has cambiado nada todavía. Vas a ver ese mensaje mil veces.</p>
+
+<div class="cp"><h4><span class="n">3</span>Punto de control 3</h4>
+<p>Git configurado con tu nombre, fork hecho, repositorio clonado y <code>git status</code> respondiendo. Marca CP3.</p></div>
+
+<h2>Parte 4 · Tu primera entrega</h2>
+
+<h3>4.1 · Crear tu carpeta y poner el programa</h3>
+<p>Usa <strong>tu apellido en minúsculas y sin acentos</strong>. Si te apellidas Ramírez, es <code>ramirez</code>.</p>
+<pre><code>mkdir -p entregas/<span class="v">tuapellido</span>/lab00
+cp ~/mpoo/HolaMundo.java entregas/<span class="v">tuapellido</span>/lab00/</code></pre>
+
+<h3>4.2 · Los tres comandos que vas a repetir todo el semestre</h3>
+<pre><code><span class="c"># 1. ¿qué cambió?</span>
+git status
+
+<span class="c"># 2. preparo lo que quiero guardar</span>
+git add entregas/<span class="v">tuapellido</span>/lab00
+
+<span class="c"># 3. lo guardo con un mensaje que explique qué hice</span>
+git commit -m <span class="v">"Lab 0: entorno verificado y hola mundo"</span></code></pre>
+<div class="out"><b>Salida esperada del commit</b>[main a3f9c21] Lab 0: entorno verificado y hola mundo
+ 1 file changed, 5 insertions(+)</div>
+
+<p>Ese <code>a3f9c21</code> es el identificador único de tu cambio. Tu trabajo ya está guardado <strong>en tu computadora</strong>. Falta subirlo.</p>
+
+<h3>4.3 · Subirlo (push)</h3>
+<pre><code>git push</code></pre>
+<div data-os="win"><p>La primera vez, Git te va a <strong>abrir el navegador</strong> para
+autorizar la conexión con GitHub (lo hace el Git Credential Manager, que vino con Git for
+Windows). Inicia sesión, dale <strong>Authorize</strong>, y no necesitas nada más. Si en vez
+del navegador la terminal te pide contraseña, sigue los pasos de abajo.</p></div>
+<div data-os="mac"><p>La primera vez te va a pedir usuario y contraseña. <strong>La contraseña de GitHub ya no funciona ahí:</strong> hay que usar un <em>token</em>. Sácalo así:</p></div>
+<div data-os="linux"><p>La primera vez te va a pedir usuario y contraseña. <strong>La contraseña de GitHub ya no funciona ahí:</strong> hay que usar un <em>token</em>. Sácalo así:</p></div>
+<ol>
+  <li>GitHub → tu foto arriba a la derecha → <strong>Settings</strong>.</li>
+  <li>Hasta abajo: <strong>Developer settings → Personal access tokens → Tokens (classic)</strong>.</li>
+  <li><strong>Generate new token (classic)</strong>. Nómbralo <code>mpoo</code>, marca la casilla <strong>repo</strong>, y genéralo.</li>
+  <li><strong>Cópialo ya</strong>: no lo vuelves a ver. Pégalo donde te pide la contraseña.</li>
+</ol>
+<div class="box tip"><h4>Guarda el token</h4>
+<p>Pégalo en tus notas. Lo vas a necesitar cada vez que subas algo desde una máquina nueva, y los laboratorios de la Facultad se borran al reiniciar.</p></div>
+
+<h3>4.4 · Comprobar</h3>
+<p>Entra a <code>github.com/TU-USUARIO/mpoo-2027-1</code> y navega a tu carpeta. <strong>Si ves ahí tu <code>HolaMundo.java</code>, terminaste.</strong></p>
+
+<div class="cp"><h4><span class="n">4</span>Punto de control 4</h4>
+<p>Tu archivo visible en GitHub, en <code>entregas/tuapellido/lab00/</code>. Marca CP4 y avísame para revisarlo.</p></div>
+
+<h2>Cómo les subo el material nuevo</h2>
+<p>Cada semana subo la guía y el código de apoyo al repositorio del curso. Como ustedes trabajan en un fork, hay que <strong>sincronizarlo</strong> para recibir lo nuevo. Es un botón:</p>
+<ol>
+  <li>Entra a tu fork en GitHub.</li>
+  <li>Si dice <em>"This branch is behind…"</em>, dale a <strong>Sync fork → Update branch</strong>.</li>
+  <li>En tu terminal, baja los cambios:</li>
+</ol>
+<pre><code>git pull</code></pre>
+<p>Hazlo <strong>al inicio de cada laboratorio</strong>. Te toma cinco segundos y te evita trabajar con la guía vieja.</p>
+
+<h2>Qué entregas y cuándo</h2>
+<table>
+  <tr><th>Qué</th><th>Cuándo</th></tr>
+  <tr><td><b>Laboratorio 0</b>: los 4 puntos de control y tu <code>HolaMundo.java</code> en GitHub</td><td>Hoy, en clase</td></tr>
+  <tr><td><b>Práctica 1 completa</b>: se presenta hoy, se entrega la próxima semana</td><td>Miércoles 26 de agosto</td></tr>
+</table>
+<p>La regla de puntualidad y la política de uso de IA están en el encuadre, en el repositorio. Dos recordatorios de hoy: <strong>en el laboratorio se trabaja sin IA</strong>, y <strong>si la usaste en casa, se declara en una línea al inicio del archivo</strong>.</p>
+
+<h2>Los pasos: cómo se entrega, siempre</h2>
+<p>Esta es la rutina completa. <strong>La vas a repetir doce veces este semestre</strong>, una por práctica. Tómale captura.</p>
+
+<div class="sheet">
+  <h3>Rutina de entrega</h3>
+  <p class="sub">De la práctica 1 a la 12 · siempre igual</p>
+
+  <div class="step"><div class="b">0</div><div>
+    <b style="color:#dbe7f7">Antes de empezar: trae lo nuevo</b>
+    <div class="d">En GitHub, en tu fork, dale a <b>Sync fork → Update branch</b> si aparece. Luego, en tu terminal:</div>
+    <div style="margin-top:.5rem"><code>cd ~/mpoo/mpoo-2027-1</code> &nbsp; <code>git pull</code></div>
+    <div class="d">Baja las guías y el código de apoyo que subí esta semana. <b>Cinco segundos y te evita trabajar con la guía vieja.</b></div>
+  </div></div>
+
+  <div class="step"><div class="b">1</div><div>
+    <b style="color:#dbe7f7">Trabaja</b>
+    <div class="d">Tu código va en <code style="font-size:.9rem">entregas/tuapellido/pNN/</code>. Nunca toques la carpeta de otro ni <code style="font-size:.9rem">guias/</code> ni <code style="font-size:.9rem">apoyo/</code>.</div>
+  </div></div>
+
+  <div class="step"><div class="b">2</div><div>
+    <div><code>git status</code></div>
+    <div class="d"><b>¿Qué cambió?</b> Míralo siempre antes de guardar. Si aparece un archivo que no esperabas, ahí lo cachas.</div>
+  </div></div>
+
+  <div class="step"><div class="b">3</div><div>
+    <div><code>git add entregas/tuapellido/pNN</code></div>
+    <div class="d"><b>Preparo lo que quiero guardar.</b> Nombra tu carpeta, no uses <code style="font-size:.9rem">git add .</code>: eso agarra todo lo que haya, incluida basura del IDE.</div>
+  </div></div>
+
+  <div class="step"><div class="b">4</div><div>
+    <div><code>git commit -m "P03: arreglos y arreglos multidimensionales"</code></div>
+    <div class="d"><b>Lo guardo con un mensaje que explique qué hice.</b> Empieza con el número de práctica. Un mensaje como "cambios" o "asdf" no le sirve a nadie, empezando por ti en noviembre.</div>
+  </div></div>
+
+  <div class="step"><div class="b">5</div><div>
+    <div><code>git push</code></div>
+    <div class="d"><b>Lo subo a GitHub.</b> Hasta aquí tu trabajo vivía solo en tu computadora. <b>Sin push, no hay entrega.</b></div>
+  </div></div>
+
+  <div class="step"><div class="b">6</div><div>
+    <b style="color:#dbe7f7">Comprueba en GitHub</b>
+    <div class="d">Entra a tu fork y confirma que tu archivo está ahí. <b>Lo que se califica es lo que se ve en GitHub</b>, no lo que tienes en tu máquina. La hora que cuenta es la del push.</div>
+  </div></div>
+</div>
+
+<h3>Los cuatro errores de siempre</h3>
+<table>
+  <tr><th>Lo que pasa</th><th>Qué significa y qué haces</th></tr>
+  <tr><td><code>nothing to commit</code> después del <code>add</code></td><td>No guardaste el archivo en el editor, o lo pusiste en otra carpeta. Corre <code>git status</code> y revisa la ruta.</td></tr>
+  <tr><td>Hiciste <code>commit</code> pero no aparece en GitHub</td><td><b>Falta el <code>push</code>.</b> El commit guarda en tu computadora; el push lo sube. Es el error número uno.</td></tr>
+  <tr><td><code>rejected … fetch first</code> al hacer <code>push</code></td><td>Hay algo en GitHub que no tienes abajo. Corre <code>git pull</code> y vuelve a intentar el <code>push</code>.</td></tr>
+  <tr><td>Te pide contraseña y la rechaza</td><td>La contraseña de GitHub no sirve para <code>push</code>. Usa tu <b>token</b> (Parte 4.3). Si lo perdiste, genera otro.</td></tr>
+</table>
+
+<div class="box tip"><h4>Si te atoras y no sabes qué hiciste</h4>
+<p><b>No borres la carpeta ni vuelvas a clonar.</b> Corre <code>git status</code>, tómale captura y mándamela. Casi siempre son dos comandos para salir, y aprender a leer <code>git status</code> vale más que cualquier atajo.</p></div>
+
+<footer>
+  <p><strong>MPOO 2027-1 · Grupo 6 · Facultad de Ingeniería, UNAM</strong><br>
+  Prof. Oscar Manuel Ruiz Hurtado · Laboratorio 0 · 19 de agosto de 2026</p>
+</footer>
+</div>
+
+<script>
+const KEY='mpoo-os';
+function setOS(os){
+  document.querySelectorAll('[data-os]').forEach(e=>e.classList.toggle('on',e.dataset.os===os));
+  document.querySelectorAll('.osbtn').forEach(b=>b.classList.toggle('on',b.dataset.set===os));
+  try{localStorage.setItem(KEY,os)}catch(e){}
+}
+document.querySelectorAll('.osbtn').forEach(b=>b.onclick=()=>setOS(b.dataset.set));
+let saved=null; try{saved=localStorage.getItem(KEY)}catch(e){}
+if(!saved){const p=navigator.platform+navigator.userAgent;
+  saved=/Win/i.test(p)?'win':/Mac/i.test(p)?'mac':'linux';}
+setOS(saved);
+</script>
+</body></html>
