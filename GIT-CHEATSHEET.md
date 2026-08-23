@@ -1,5 +1,9 @@
 # La rutina de entrega
 
+> Esta misma guía, en bonito y con glosario, vive en
+> **<https://oscarruiz21.github.io/mpoo-2027-1/guias/Guia-Git-GitHub.html>**. Es la página
+> que conviene dejar en marcadores.
+
 De la práctica 1 a la 12, siempre igual. Guárdate esta página.
 
 ## 0 · Antes de empezar: trae lo nuevo

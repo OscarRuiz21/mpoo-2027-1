@@ -38,7 +38,9 @@ Cuatro reglas:
 
 ## La rutina de cada semana
 
-Está resumida en [`GIT-CHEATSHEET.md`](GIT-CHEATSHEET.md): traer lo nuevo, crear tu rama,
+Está paso a paso en la
+[guía de Git y GitHub](https://oscarruiz21.github.io/mpoo-2027-1/guias/Guia-Git-GitHub.html)
+(y resumida en [`GIT-CHEATSHEET.md`](GIT-CHEATSHEET.md)): traer lo nuevo, crear tu rama,
 trabajar en tu carpeta, `status`, `add`, `commit`, `push`, abrir el PR.
 
 ## Dudas
