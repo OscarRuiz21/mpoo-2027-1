@@ -74,8 +74,8 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
 
 <header><div class="in">
   <div class="kicker">MPOO 2027-1 · Grupo 6 · Laboratorio 0</div>
-  <h1>Laboratorio 0<br>Entorno de trabajo y primer <em style="color:#ffb340">push</em></h1>
-  <p>Miércoles 19 de agosto · 100 minutos. Al terminar vas a tener Java funcionando, tu primer programa compilado a mano, y tu trabajo guardado en GitHub. Cuatro puntos de control.</p>
+  <h1>Laboratorio 0<br>Entorno de trabajo y primer <em style="color:#ffb340">pull request</em></h1>
+  <p>Se corre en dos miércoles: el 19 (Partes 0–2: tu entorno y tu primer programa) y el 26 (Partes 3–4: Git, GitHub y tu primera entrega, que ya cuenta como la P1). Cuatro puntos de control.</p>
 </div></header>
 
 <nav id="ostabs"><div class="in">
@@ -325,18 +325,20 @@ git config --global user.email <span class="v">"el-correo-de-tu-cuenta-de-github
 <div class="box tip"><h4>Usa el mismo correo de tu cuenta de GitHub</h4>
 <p>Si pones otro, tus commits aparecen como de un desconocido y no se te acreditan. Y esa acreditación es justamente la evidencia de trabajo en equipo que se califica en el proyecto final.</p></div>
 
-<h3>3.3 · Hacer tu copia (fork)</h3>
-<p>No vas a escribir directo en mi repositorio: vas a trabajar en <strong>tu propia copia</strong>. Así no puedes romper nada de nadie.</p>
+<h3>3.3 · Vuélvete colaborador</h3>
+<p>Todos trabajamos <strong>en el mismo repositorio</strong>, como un equipo en una empresa. Pero para poder subir algo, primero tengo que darte acceso:</p>
 <ol>
-  <li>Entra al repositorio del curso (te paso el enlace en clase).</li>
-  <li>Arriba a la derecha, botón <strong>Fork</strong> → <strong>Create fork</strong>.</li>
-  <li>Ya tienes <code>github.com/TU-USUARIO/mpoo-2027-1</code>. Es tuyo.</li>
+  <li><strong>Mándame tu usuario de GitHub</strong> por el chat del grupo, en una línea: <code>usuario: fulanito123</code>.</li>
+  <li>Te va a llegar una <strong>invitación</strong>: revisa tu correo o <code>github.com/notifications</code>.</li>
+  <li>Dale <strong>Accept invitation</strong>. Sin este paso no vas a poder subir nada.</li>
 </ol>
+<div class="box tip"><h4>¿Y no puedo romper algo?</h4>
+<p>No. La rama principal, <code>main</code>, está <b>protegida</b>: nadie escribe directo en ella, ni por accidente. Todo entra por <b>pull request</b> que yo apruebo, y tú siempre trabajas en una rama tuya.</p></div>
 
 <h3>3.4 · Bajarlo a tu computadora (clone)</h3>
-<p>En tu fork, botón verde <strong>Code</strong> → copia la URL HTTPS. Luego:</p>
+<p>Se clona <strong>el repositorio del curso</strong>, el mismo para todos:</p>
 <pre><code>cd ~/mpoo
-git clone https://github.com/<span class="v">TU-USUARIO</span>/mpoo-2027-1.git
+git clone https://github.com/OscarRuiz21/mpoo-2027-1.git
 cd mpoo-2027-1</code></pre>
 <p>Comprueba que estás parado en el lugar correcto:</p>
 <pre><code>git status</code></pre>
@@ -347,33 +349,53 @@ nothing to commit, working tree clean</div>
 <p><strong>"nothing to commit, working tree clean"</strong> quiere decir: no has cambiado nada todavía. Vas a ver ese mensaje mil veces.</p>
 
 <div class="cp"><h4><span class="n">3</span>Punto de control 3</h4>
-<p>Git configurado con tu nombre, fork hecho, repositorio clonado y <code>git status</code> respondiendo. Marca CP3.</p></div>
+<p>Git configurado con tu nombre, invitación aceptada, repositorio clonado y <code>git status</code> respondiendo. Marca CP3.</p></div>
 
-<h2>Parte 4 · Tu primera entrega</h2>
+<h2>Parte 4 · Tu primera entrega: la P1</h2>
 
-<h3>4.1 · Crear tu carpeta y poner el programa</h3>
-<p>Usa <strong>tu primer apellido y tu primer nombre, en minúsculas y sin acentos, unidos
+<h3>4.1 · Crea tu rama</h3>
+<p>Regla de oro del curso: <strong>nunca trabajas en <code>main</code></strong>. Cada práctica vive en una rama con el número de la práctica y tu apellido:</p>
+<pre><code><span class="c"># parado en main, con lo último</span>
+git checkout main
+git pull
+
+<span class="c"># tu rama de la práctica 1</span>
+git checkout -b p01-<span class="v">apellido</span></code></pre>
+<p>Una <strong>rama</strong> es una línea de trabajo aparte: lo que hagas ahí no toca lo de nadie. En la sesión 6 la vamos a entender a fondo; hoy basta con saber usarla.</p>
+
+<h3>4.2 · Tu carpeta y tu programa</h3>
+<p>La carpeta usa <strong>tu primer apellido y tu primer nombre, en minúsculas y sin acentos, unidos
 por un guion bajo</strong>: así dos personas con el mismo apellido no chocan. Si te llamas Ana
 Ramírez, tu carpeta es <code>ramirez_ana</code>. La mía sería <code>ruiz_oscar</code>.</p>
-<pre><code>mkdir -p entregas/<span class="v">apellido_nombre</span>/lab00
-cp ~/mpoo/HolaMundo.java entregas/<span class="v">apellido_nombre</span>/lab00/</code></pre>
+<pre><code>mkdir -p entregas/<span class="v">apellido_nombre</span>/p01
+cp ~/mpoo/HolaMundo.java entregas/<span class="v">apellido_nombre</span>/p01/</code></pre>
+<p>Y ahora <strong>personalízalo</strong>, porque la P1 pide un programa tuyo, no el de la guía. Edítalo para que use <strong>dos variables y las concatene</strong>:</p>
+<pre><code><span class="k">public class</span> <span class="t">HolaMundo</span> {
+    <span class="k">public static void</span> main(String[] args) {
+        String nombre = <span class="s">"Ana"</span>;      <span class="c">// el tuyo</span>
+        String apellido = <span class="s">"Ramírez"</span>; <span class="c">// el tuyo</span>
+        System.out.println(<span class="s">"Hola, soy "</span> + nombre + <span class="s">" "</span> + apellido);
+    }
+}</code></pre>
+<p>Ese <code>+</code> entre cadenas se llama <em>concatenación</em> y es tu primer contacto con <code>String</code>. Compílalo y córrelo para comprobar que imprime tu nombre.</p>
 
-<h3>4.2 · Los tres comandos que vas a repetir todo el semestre</h3>
+<h3>4.3 · Guardar: los tres comandos de siempre</h3>
 <pre><code><span class="c"># 1. ¿qué cambió?</span>
 git status
 
 <span class="c"># 2. preparo lo que quiero guardar</span>
-git add entregas/<span class="v">apellido_nombre</span>/lab00
+git add entregas/<span class="v">apellido_nombre</span>/p01
 
 <span class="c"># 3. lo guardo con un mensaje que explique qué hice</span>
-git commit -m <span class="v">"Lab 0: entorno verificado y hola mundo"</span></code></pre>
-<div class="out"><b>Salida esperada del commit</b>[main a3f9c21] Lab 0: entorno verificado y hola mundo
- 1 file changed, 5 insertions(+)</div>
+git commit -m <span class="v">"P01: entorno y hola mundo con mi nombre"</span></code></pre>
+<div class="out"><b>Salida esperada del commit</b>[p01-ramirez a3f9c21] P01: entorno y hola mundo con mi nombre
+ 1 file changed, 7 insertions(+)</div>
 
 <p>Ese <code>a3f9c21</code> es el identificador único de tu cambio. Tu trabajo ya está guardado <strong>en tu computadora</strong>. Falta subirlo.</p>
 
-<h3>4.3 · Subirlo (push)</h3>
-<pre><code>git push</code></pre>
+<h3>4.4 · Subir tu rama (push)</h3>
+<pre><code>git push -u origin p01-<span class="v">apellido</span></code></pre>
+<p>El <code>-u origin p01-apellido</code> solo se escribe la <strong>primera vez</strong> que subes una rama nueva; después basta <code>git push</code>.</p>
 <div data-os="win"><p>La primera vez, Git te va a <strong>abrir el navegador</strong> para
 autorizar la conexión con GitHub (lo hace el Git Credential Manager, que vino con Git for
 Windows). Inicia sesión, dale <strong>Authorize</strong>, y no necesitas nada más. Si en vez
@@ -389,27 +411,29 @@ del navegador la terminal te pide contraseña, sigue los pasos de abajo.</p></di
 <div class="box tip"><h4>Guarda el token</h4>
 <p>Pégalo en tus notas. Lo vas a necesitar cada vez que subas algo desde una máquina nueva, y los laboratorios de la Facultad se borran al reiniciar.</p></div>
 
-<h3>4.4 · Comprobar</h3>
-<p>Entra a <code>github.com/TU-USUARIO/mpoo-2027-1</code> y navega a tu carpeta. <strong>Si ves ahí tu <code>HolaMundo.java</code>, terminaste.</strong></p>
+<h3>4.5 · Abrir tu pull request</h3>
+<p>Un <strong>pull request</strong> (PR) es la forma profesional de decir "aquí está mi trabajo, revísenlo". Así se entrega en la industria, y así se entrega aquí:</p>
+<ol>
+  <li>Entra a <code>github.com/OscarRuiz21/mpoo-2027-1</code>. Arriba aparece un aviso amarillo con tu rama y el botón <strong>Compare &amp; pull request</strong>. Dale.</li>
+  <li>Título: <code>P01 · Tu Apellido</code>. En la descripción, una línea de qué hiciste.</li>
+  <li>Botón verde <strong>Create pull request</strong>. Listo.</li>
+</ol>
+<p>Yo lo reviso y lo integro a <code>main</code>. <strong>Tu entrega es el PR</strong>: la hora que cuenta es la de tu último push a la rama.</p>
 
 <div class="cp"><h4><span class="n">4</span>Punto de control 4</h4>
-<p>Tu archivo visible en GitHub, en <code>entregas/apellido_nombre/lab00/</code>. Marca CP4 y avísame para revisarlo.</p></div>
+<p>Tu PR abierto y visible en la pestaña <b>Pull requests</b> del repositorio del curso, con tu <code>HolaMundo.java</code> personalizado adentro. Marca CP4 y avísame para revisarlo.</p></div>
 
 <h2>Cómo les subo el material nuevo</h2>
-<p>Cada semana subo la guía y el código de apoyo al repositorio del curso. Como ustedes trabajan en un fork, hay que <strong>sincronizarlo</strong> para recibir lo nuevo. Es un botón:</p>
-<ol>
-  <li>Entra a tu fork en GitHub.</li>
-  <li>Si dice <em>"This branch is behind…"</em>, dale a <strong>Sync fork → Update branch</strong>.</li>
-  <li>En tu terminal, baja los cambios:</li>
-</ol>
-<pre><code>git pull</code></pre>
-<p>Hazlo <strong>al inicio de cada laboratorio</strong>. Te toma cinco segundos y te evita trabajar con la guía vieja.</p>
+<p>Cada semana subo la guía y el código de apoyo a <code>main</code>. Para traerlo, párate en <code>main</code> y jala:</p>
+<pre><code>git checkout main
+git pull</code></pre>
+<p>Hazlo <strong>al inicio de cada laboratorio</strong>, antes de crear tu rama nueva. Cinco segundos y te evita trabajar con la guía vieja.</p>
 
 <h2>Qué entregas y cuándo</h2>
 <table>
   <tr><th>Qué</th><th>Cuándo</th></tr>
-  <tr><td><b>Laboratorio 0</b>: los 4 puntos de control y tu <code>HolaMundo.java</code> en GitHub</td><td>Hoy, en clase</td></tr>
-  <tr><td><b>Práctica 1 completa</b>: se presenta hoy, se entrega la próxima semana</td><td>Miércoles 26 de agosto</td></tr>
+  <tr><td><b>P1 · Entorno y lenguaje de programación</b>: tu PR con <code>HolaMundo.java</code> personalizado (nombre y apellido concatenados)</td><td>Hoy, en clase</td></tr>
+  <tr><td><b>P2 · Abstracción y modelado</b>: se presenta la próxima sesión de laboratorio</td><td>Miércoles 2 de septiembre</td></tr>
 </table>
 <p>La regla de puntualidad y la política de uso de IA están en el encuadre, en el repositorio. Dos recordatorios de hoy: <strong>en el laboratorio se trabaja sin IA</strong>, y <strong>si la usaste en casa, se declara en una línea al inicio del archivo</strong>.</p>
 
@@ -422,49 +446,54 @@ del navegador la terminal te pide contraseña, sigue los pasos de abajo.</p></di
 
   <div class="step"><div class="b">0</div><div>
     <b style="color:#dbe7f7">Antes de empezar: trae lo nuevo</b>
-    <div class="d">En GitHub, en tu fork, dale a <b>Sync fork → Update branch</b> si aparece. Luego, en tu terminal:</div>
-    <div style="margin-top:.5rem"><code>cd ~/mpoo/mpoo-2027-1</code> &nbsp; <code>git pull</code></div>
+    <div style="margin-top:.5rem"><code>cd ~/mpoo/mpoo-2027-1</code> &nbsp; <code>git checkout main</code> &nbsp; <code>git pull</code></div>
     <div class="d">Baja las guías y el código de apoyo que subí esta semana. <b>Cinco segundos y te evita trabajar con la guía vieja.</b></div>
   </div></div>
 
   <div class="step"><div class="b">1</div><div>
+    <div><code>git checkout -b pNN-apellido</code></div>
+    <div class="d"><b>Tu rama de la práctica.</b> Nunca trabajas en <code style="font-size:.9rem">main</code>: está protegida y no te va a dejar. Ejemplo: <code style="font-size:.9rem">p03-ramirez</code>.</div>
+  </div></div>
+
+  <div class="step"><div class="b">2</div><div>
     <b style="color:#dbe7f7">Trabaja</b>
     <div class="d">Tu código va en <code style="font-size:.9rem">entregas/apellido_nombre/pNN/</code>. Nunca toques la carpeta de otro ni <code style="font-size:.9rem">guias/</code> ni <code style="font-size:.9rem">apoyo/</code>.</div>
   </div></div>
 
-  <div class="step"><div class="b">2</div><div>
+  <div class="step"><div class="b">3</div><div>
     <div><code>git status</code></div>
     <div class="d"><b>¿Qué cambió?</b> Míralo siempre antes de guardar. Si aparece un archivo que no esperabas, ahí lo cachas.</div>
   </div></div>
 
-  <div class="step"><div class="b">3</div><div>
+  <div class="step"><div class="b">4</div><div>
     <div><code>git add entregas/apellido_nombre/pNN</code></div>
     <div class="d"><b>Preparo lo que quiero guardar.</b> Nombra tu carpeta, no uses <code style="font-size:.9rem">git add .</code>: eso agarra todo lo que haya, incluida basura del IDE.</div>
   </div></div>
 
-  <div class="step"><div class="b">4</div><div>
+  <div class="step"><div class="b">5</div><div>
     <div><code>git commit -m "P03: arreglos y arreglos multidimensionales"</code></div>
     <div class="d"><b>Lo guardo con un mensaje que explique qué hice.</b> Empieza con el número de práctica. Un mensaje como "cambios" o "asdf" no le sirve a nadie, empezando por ti en noviembre.</div>
   </div></div>
 
-  <div class="step"><div class="b">5</div><div>
-    <div><code>git push</code></div>
-    <div class="d"><b>Lo subo a GitHub.</b> Hasta aquí tu trabajo vivía solo en tu computadora. <b>Sin push, no hay entrega.</b></div>
+  <div class="step"><div class="b">6</div><div>
+    <div><code>git push -u origin pNN-apellido</code></div>
+    <div class="d"><b>Subo mi rama a GitHub.</b> El <code style="font-size:.9rem">-u origin …</code> solo la primera vez; después basta <code style="font-size:.9rem">git push</code>. <b>Sin push no hay nada.</b></div>
   </div></div>
 
-  <div class="step"><div class="b">6</div><div>
-    <b style="color:#dbe7f7">Comprueba en GitHub</b>
-    <div class="d">Entra a tu fork y confirma que tu archivo está ahí. <b>Lo que se califica es lo que se ve en GitHub</b>, no lo que tienes en tu máquina. La hora que cuenta es la del push.</div>
+  <div class="step"><div class="b">7</div><div>
+    <b style="color:#dbe7f7">Abre tu PR y comprueba</b>
+    <div class="d">En el repo del curso: <b>Compare &amp; pull request</b> → título <code style="font-size:.9rem">PNN · Apellido</code> → <b>Create</b>. <b>Tu entrega es el PR</b>, y la hora que cuenta es la de tu último push.</div>
   </div></div>
 </div>
 
-<h3>Los cuatro errores de siempre</h3>
+<h3>Los errores de siempre</h3>
 <table>
   <tr><th>Lo que pasa</th><th>Qué significa y qué haces</th></tr>
   <tr><td><code>nothing to commit</code> después del <code>add</code></td><td>No guardaste el archivo en el editor, o lo pusiste en otra carpeta. Corre <code>git status</code> y revisa la ruta.</td></tr>
   <tr><td>Hiciste <code>commit</code> pero no aparece en GitHub</td><td><b>Falta el <code>push</code>.</b> El commit guarda en tu computadora; el push lo sube. Es el error número uno.</td></tr>
-  <tr><td><code>rejected … fetch first</code> al hacer <code>push</code></td><td>Hay algo en GitHub que no tienes abajo. Corre <code>git pull</code> y vuelve a intentar el <code>push</code>.</td></tr>
-  <tr><td>Te pide contraseña y la rechaza</td><td>La contraseña de GitHub no sirve para <code>push</code>. Usa tu <b>token</b> (Parte 4.3). Si lo perdiste, genera otro.</td></tr>
+  <tr><td><code>protected branch</code> al hacer <code>push</code></td><td>Commiteaste en <code>main</code> sin querer. No pasa nada: corre <code>git checkout -b pNN-apellido</code>; la rama nueva se lleva tus commits, y desde ahí pusheas normal.</td></tr>
+  <tr><td>Olvidaste el <code>-u origin …</code> en el primer push</td><td>Git te lo dice con el comando exacto en pantalla. Cópialo y córrelo: es eso.</td></tr>
+  <tr><td>Te pide contraseña y la rechaza</td><td>La contraseña de GitHub no sirve para <code>push</code>. Usa tu <b>token</b> (Parte 4.4). Si lo perdiste, genera otro.</td></tr>
 </table>
 
 <div class="box tip"><h4>Si te atoras y no sabes qué hiciste</h4>
@@ -472,7 +501,7 @@ del navegador la terminal te pide contraseña, sigue los pasos de abajo.</p></di
 
 <footer>
   <p><strong>MPOO 2027-1 · Grupo 6 · Facultad de Ingeniería, UNAM</strong><br>
-  Prof. Oscar Manuel Ruiz Hurtado · Laboratorio 0 · 19 de agosto de 2026</p>
+  Prof. Oscar Manuel Ruiz Hurtado · Laboratorio 0 · agosto de 2026</p>
 </footer>
 </div>
 

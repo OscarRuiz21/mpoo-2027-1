@@ -6,9 +6,9 @@ acentos, unidos por un guion bajo** (así dos personas con el mismo apellido no 
 ```
 entregas/
 └── ramirez_ana/
-    ├── lab00/
     ├── p01/
-    └── …
+    └── p02/ … p12/
 ```
 
-Tu carpeta la creas en el Lab 0. Cada quien toca solo la suya.
+Cada práctica se entrega desde una rama `pNN-apellido` como **pull request** al
+repositorio. Tu carpeta la creas en el Lab 0. Cada quien toca solo la suya.
