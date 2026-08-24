@@ -178,9 +178,17 @@ cd mpoo-2027-1</code></pre></li>
 </ul>
 
 <h2>La contraseña que no es contraseña</h2>
-<div data-os="win"><p>La primera vez que haces <code>push</code> en una máquina, Git te <strong>abre el navegador</strong> para autorizar la conexión con GitHub. Inicia sesión, dale <strong>Authorize</strong> y listo, no vuelve a preguntar. Si en vez del navegador la terminal te pide contraseña, necesitas un <em>token</em>: los pasos están en la Parte 4.4 del <a href="Lab-00-Entorno-y-Git.html">Laboratorio 0</a>.</p></div>
-<div data-os="mac"><p>La primera vez que haces <code>push</code> en una máquina, la terminal pide usuario y contraseña, pero <strong>la contraseña de GitHub ya no funciona ahí</strong>: se usa un <em>token</em> que generas una vez y guardas en tus notas. Los pasos exactos están en la Parte 4.4 del <a href="Lab-00-Entorno-y-Git.html">Laboratorio 0</a>.</p></div>
-<div data-os="linux"><p>La primera vez que haces <code>push</code> en una máquina, la terminal pide usuario y contraseña, pero <strong>la contraseña de GitHub ya no funciona ahí</strong>: se usa un <em>token</em> que generas una vez y guardas en tus notas. Los pasos exactos están en la Parte 4.4 del <a href="Lab-00-Entorno-y-Git.html">Laboratorio 0</a>.</p></div>
+<div data-os="win"><p>La primera vez que haces <code>push</code> en una máquina, Git te <strong>abre el navegador</strong> para autorizar la conexión con GitHub. Inicia sesión, dale <strong>Authorize</strong> y listo, no vuelve a preguntar. Si en vez del navegador la terminal te pide contraseña, necesitas un <em>token</em>: se genera una sola vez, así:</p></div>
+<div data-os="mac"><p>La primera vez que haces <code>push</code> en una máquina, la terminal pide usuario y contraseña, pero <strong>la contraseña de GitHub ya no funciona ahí</strong>: se usa un <em>token</em> que generas una sola vez, así:</p></div>
+<div data-os="linux"><p>La primera vez que haces <code>push</code> en una máquina, la terminal pide usuario y contraseña, pero <strong>la contraseña de GitHub ya no funciona ahí</strong>: se usa un <em>token</em> que generas una sola vez, así:</p></div>
+<ol>
+  <li>GitHub → tu foto arriba a la derecha → <strong>Settings</strong>.</li>
+  <li>Hasta abajo: <strong>Developer settings → Personal access tokens → Tokens (classic)</strong>.</li>
+  <li><strong>Generate new token (classic)</strong>. Nómbralo <code>mpoo</code>, marca la casilla <strong>repo</strong>, y genéralo.</li>
+  <li><strong>Cópialo ya</strong>: no lo vuelves a ver. Pégalo donde te pide la contraseña.</li>
+</ol>
+<div class="box tip"><h4>Guarda el token</h4>
+<p>Pégalo en tus notas. Lo vas a necesitar cada vez que subas algo desde una máquina nueva, y los laboratorios de la Facultad se borran al reiniciar. Si lo pierdes, no pasa nada: generas otro con los mismos pasos.</p></div>
 
 <h2>Los errores de siempre</h2>
 <table>
