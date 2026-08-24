@@ -19,6 +19,7 @@ son tu entorno; las Partes 3 y 4 son Git, GitHub y tu primera entrega.
 ```
 mpoo-2027-1/
 ├── guias/           ← las guías de laboratorio (las subo yo)
+├── material/        ← los decks de las clases de teoría (los subo yo)
 ├── apoyo/           ← código de ejemplo de cada tema (lo subo yo)
 └── entregas/        ← aquí van tus prácticas, en tu carpeta
     └── apellido_nombre/

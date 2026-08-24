@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO 2027-1 · Clase 2 · Paradigma OO</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#ffffff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--code:#eef3f9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);height:100vh;overflow:hidden;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+section{position:absolute;inset:0;display:none;flex-direction:column;padding:3.2vh 4.5vw 4.5vh;animation:f .3s ease both}
+section.on{display:flex}
+@keyframes f{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--am);font-size:clamp(.7rem,1.05vw,1rem);font-weight:800;
+letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5em}
+h1{font-size:clamp(2.1rem,3.9vw,3.5rem);line-height:1.06;letter-spacing:-.02em;font-weight:800;margin-bottom:.5em}
+h2{font-size:clamp(1.3rem,2.1vw,2.1rem);line-height:1.15;font-weight:750;margin-bottom:.45em}
+p{font-size:clamp(.92rem,1.3vw,1.32rem);line-height:1.5;color:var(--dim)}
+strong{color:var(--ink);font-weight:700}
+em{color:var(--am);font-style:normal;font-weight:700}
+.body{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;justify-content:center;gap:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.1em}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9em}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75em}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:.95em 1.1em;
+box-shadow:0 1px 2px rgba(18,37,61,.05),0 4px 14px rgba(18,37,61,.045)}
+.card h3{font-size:clamp(.96rem,1.34vw,1.34rem);color:var(--ink);font-weight:750;margin-bottom:.3em;display:flex;align-items:center;gap:.5em}
+.card p{font-size:clamp(.82rem,1.12vw,1.14rem);line-height:1.45}
+.num{color:var(--am);font-weight:900;font-size:1.15em;min-width:1.1em}
+ul{list-style:none}
+li{font-size:clamp(.88rem,1.22vw,1.24rem);line-height:1.45;color:var(--dim);margin:.42em 0;padding-left:1.25em;position:relative}
+li::before{content:"";position:absolute;left:0;top:.55em;width:.42em;height:.42em;border-radius:50%;background:var(--am)}
+li b{color:var(--ink)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:11px;padding:.8em 1em;overflow:auto}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:clamp(.9rem,1.38vw,1.4rem);line-height:1.6;color:#1e293b}
+.k{color:#0369a1}.t{color:#b45309}.n{color:#64748b}.s{color:#15803d}
+table{border-collapse:collapse;width:100%;font-size:clamp(.85rem,1.16vw,1.18rem)}
+td,th{padding:.42em .7em;border-bottom:1px solid var(--line);text-align:left;color:var(--dim)}
+th{color:var(--am);font-size:.8em;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+tr.tot td{border-top:2px solid var(--am);color:var(--ink);font-weight:800}
+.r{text-align:right}
+.quote{border-left:4px solid var(--am);padding-left:.9em;font-size:clamp(1.06rem,1.62vw,1.58rem);
+line-height:1.35;color:var(--ink);font-weight:700}
+.foto{border-radius:50%;border:3px solid var(--am);display:block;object-fit:cover}
+.chip{display:inline-block;background:#edf3fa;border:1px solid var(--line);border-radius:999px;
+padding:.2em .7em;font-size:clamp(.74rem,1.02vw,1rem);color:var(--dim);margin:.16em .22em .16em 0}
+.chip b{color:var(--am)}
+.tier{border-radius:7px;padding:.5em .8em;font-weight:750;font-size:clamp(.85rem,1.16vw,1.18rem);margin:0 auto .28em;text-align:center}
+.tier small{display:block;font-weight:500;opacity:.82;font-size:.8em}
+.t1{width:30%;background:#1d3a60;color:#eaf3ff}.t2{width:60%;background:#3a628f;color:#f2f8ff}
+.t3{width:100%;background:#9b2222;color:#fff0f0}
+.term{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:.6em .3em;
+box-shadow:0 1px 2px rgba(18,37,61,.05);
+text-align:center;font-weight:750;font-size:clamp(.82rem,1.16vw,1.18rem);color:var(--ink)}
+.term.hot{border-color:var(--am);color:var(--am);background:var(--amsoft)}
+.ico{width:1.5em;height:1.5em;flex:none}
+#bar{position:fixed;left:0;bottom:0;height:3px;background:var(--am);transition:width .3s}
+#num{position:fixed;right:1vw;bottom:.7vh;font-size:.72rem;color:#9db0c6;font-variant-numeric:tabular-nums}
+#hint{position:fixed;left:1.2vw;bottom:.7vh;font-size:.72rem;color:#9db0c6}
+body:fullscreen #hint{display:none}
+</style></head><body>
+
+<!-- 1 · PORTADA -->
+<section>
+ <div class="body" style="align-items:center;text-align:center;gap:.5em">
+  <div class="eyebrow" style="margin-bottom:0">MPOO 2027-1 · Grupo 6 · Clase 2 · Lunes 24 de agosto</div>
+  <h1>El paradigma<br>orientado a <em>objetos</em></h1>
+  <p style="max-width:34em">Hoy dejamos de escribir <strong>pasos</strong> y empezamos a construir <strong>cosas</strong>: qué es un objeto, qué es una clase, y la anatomía completa de una clase Java.</p>
+  <div style="margin-top:1em">
+    <span class="chip"><b>1</b> Funciones vs objetos</span>
+    <span class="chip"><b>2</b> Objeto: estado + comportamiento</span>
+    <span class="chip"><b>3</b> Clase: el molde</span>
+    <span class="chip"><b>4</b> Atributos y métodos</span>
+    <span class="chip"><b>5</b> Nombres, palabras reservadas y comentarios</span>
+    <span class="chip"><b>6</b> Anatomía + demo</span>
+  </div>
+ </div>
+</section>
+
+<!-- 2 · ESTRUCTURADO VS OO -->
+<section>
+ <div class="eyebrow">De funciones a objetos · el cambio de pregunta</div>
+ <div class="body">
+  <div class="g2" style="gap:1.1em;margin-bottom:.8em;align-items:start">
+   <div class="card">
+    <h3>Lo que ya saben: estructurado</h3>
+    <pre style="margin-bottom:.5em"><code style="font-size:clamp(.78rem,1.14vw,1.16rem)"><span class="t">double</span> velocidad <span class="n">=</span> <span class="s">0</span><span class="n">;</span>
+<span class="t">double</span> gasolina  <span class="n">=</span> <span class="s">40</span><span class="n">;</span>
+
+<span class="t">double</span> <span class="k">acelerar</span><span class="n">(</span><span class="t">double</span> vel<span class="n">,</span> <span class="t">double</span> gas<span class="n">,</span> <span class="t">double</span> kmh<span class="n">)</span> <span class="n">{</span>
+    <span class="k">if</span> <span class="n">(</span>gas <span class="n">&gt;</span> <span class="s">0</span><span class="n">)</span> <span class="n">{</span> <span class="k">return</span> vel <span class="n">+</span> kmh<span class="n">;</span> <span class="n">}</span>
+    <span class="k">return</span> vel<span class="n">;</span>
+<span class="n">}</span>
+
+<span class="n" style="color:#64748b">// tú le acarreas los datos y tú guardas el resultado:</span>
+velocidad <span class="n">=</span> <span class="k">acelerar</span><span class="n">(</span>velocidad<span class="n">,</span> gasolina<span class="n">,</span> <span class="s">20</span><span class="n">);</span></code></pre>
+    <ul>
+      <li>La función <b>no sabe de quién</b> es esa velocidad: se la pasas tú, cada vez.</li>
+      <li>Si olvidas el <code style="font-size:.85em">velocidad =</code> de la izquierda, <b>no pasa nada y nadie avisa</b>.</li>
+      <li><code style="font-size:.85em">velocidad</code> y <code style="font-size:.85em">gasolina</code> son del mismo coche <b>solo en tu cabeza</b>: en el código, nada las une.</li>
+    </ul>
+   </div>
+   <div class="card" style="border-color:var(--am);background:var(--amsoft)">
+    <h3 style="color:var(--am)">A dónde vamos: orientado a objetos</h3>
+    <pre style="margin-bottom:.5em"><code style="font-size:clamp(.78rem,1.14vw,1.16rem)"><span class="k">public class</span> <span class="t">Coche</span> <span class="n">{</span>
+    <span class="t">double</span> velocidad<span class="n">;</span>
+    <span class="t">double</span> gasolina<span class="n">;</span>
+
+    <span class="t">void</span> <span class="k">acelerar</span><span class="n">(</span><span class="t">double</span> kmh<span class="n">)</span> <span class="n">{</span>
+        <span class="k">if</span> <span class="n">(</span>gasolina <span class="n">&gt;</span> <span class="s">0</span><span class="n">)</span> <span class="n">{</span> velocidad <span class="n">=</span> velocidad <span class="n">+</span> kmh<span class="n">;</span> <span class="n">}</span>
+    <span class="n">}</span>
+<span class="n">}</span>
+
+<span class="n" style="color:#64748b">// no le pasas sus datos: ya son suyos</span>
+miCoche<span class="n">.</span><span class="k">acelerar</span><span class="n">(</span><span class="s">20</span><span class="n">);</span></code></pre>
+    <ul>
+      <li>El método solo recibe <b>lo nuevo</b> (cuánto acelerar); la velocidad y la gasolina <b>ya viven ahí</b>.</li>
+      <li>Nada que olvidar guardar: el coche <b>actualiza su propio estado</b>.</li>
+      <li>"Esta velocidad es de este coche" ya no vive en tu cabeza: <b>lo garantiza el lenguaje</b>.</li>
+    </ul>
+   </div>
+  </div>
+  <div class="quote" style="font-size:clamp(.98rem,1.5vw,1.45rem)">La prueba de fuego: con dos coches, <code style="font-size:.9em">acelerar(velocidad1, gasolina2, 20)</code> <em>compila sin quejarse</em>, mezclaste dos coches y nadie te avisó. En objetos, esa confusión <em>ni siquiera se puede escribir</em>: <code style="font-size:.9em">coche1.acelerar(20)</code> solo toca lo de <code style="font-size:.9em">coche1</code>.</div>
+ </div>
+</section>
+
+<!-- 2b · EL MISMO PROBLEMA DOS VECES: BANCO -->
+<section>
+ <div class="eyebrow">El mismo problema, dos veces · retirar dinero de una cuenta</div>
+ <div class="body">
+  <div class="g2" style="gap:1.1em;margin-bottom:.7em;align-items:start">
+   <div class="card">
+    <h3>Como lo venían haciendo</h3>
+    <pre style="margin-bottom:.5em"><code><span class="t">double</span> saldoAna  <span class="n">=</span> <span class="s">500</span><span class="n">;</span>
+<span class="t">double</span> saldoLuis <span class="n">=</span> <span class="s">300</span><span class="n">;</span>
+
+<span class="n" style="color:#64748b">// retirar 200 de la cuenta de Ana</span>
+<span class="k">if</span> <span class="n">(</span>saldoAna <span class="n">&gt;=</span> <span class="s">200</span><span class="n">)</span> <span class="n">{</span>
+    saldoAna <span class="n">=</span> saldoAna <span class="n">-</span> <span class="s">200</span><span class="n">;</span>
+<span class="n">}</span></code></pre>
+    <ul>
+      <li>Cliente nuevo = <b>variable nueva</b>: saldoPedro, saldoMaría…</li>
+      <li>La regla "no retirar de más" se <b>repite en cada retiro</b> del programa.</li>
+      <li>Un <code style="font-size:.85em">if</code> olvidado en un solo lugar = <b>dinero fantasma</b>.</li>
+    </ul>
+   </div>
+   <div class="card" style="border-color:var(--am);background:var(--amsoft)">
+    <h3 style="color:var(--am)">Transformado a objetos</h3>
+    <pre style="margin-bottom:.5em"><code><span class="k">public class</span> <span class="t">CuentaBancaria</span> <span class="n">{</span>
+    <span class="t">String</span> titular<span class="n">;</span>
+    <span class="t">double</span> saldo<span class="n">;</span>
+
+    <span class="t">void</span> <span class="k">retirar</span><span class="n">(</span><span class="t">double</span> monto<span class="n">)</span> <span class="n">{</span>
+        <span class="k">if</span> <span class="n">(</span>saldo <span class="n">&gt;=</span> monto<span class="n">)</span> <span class="n">{</span>
+            saldo <span class="n">=</span> saldo <span class="n">-</span> monto<span class="n">;</span>
+        <span class="n">}</span>
+    <span class="n">}</span>
+<span class="n">}</span></code></pre>
+    <pre style="margin-bottom:.5em"><code>ana<span class="n">.</span><span class="k">retirar</span><span class="n">(</span><span class="s">200</span><span class="n">);</span>  <span class="n" style="color:#64748b">// la regla se aplica sola</span></code></pre>
+    <ul>
+      <li>Cliente nuevo = <code style="font-size:.85em"><b>new</b></code>, cero variables nuevas.</li>
+      <li>La regla vive <b>una sola vez</b>, dentro de <code style="font-size:.85em">retirar()</code>.</li>
+      <li><b>Nadie puede saltársela</b>: no hay retiro que no pase por ahí.</li>
+    </ul>
+   </div>
+  </div>
+  <div class="quote" style="text-align:center">La regla viaja <em>con los datos</em>. Eso es lo que compra el paradigma.</div>
+ </div>
+</section>
+
+<!-- 3 · OBJETO = ESTADO + COMPORTAMIENTO -->
+<section>
+ <div class="eyebrow">Objeto · la definición que hay que tatuarse</div>
+ <div class="body">
+  <h2 style="text-align:center;margin-bottom:.7em">Un objeto <em>sabe cosas</em> y <em>sabe hacer cosas</em></h2>
+  <div class="g3" style="gap:.9em;margin-bottom:.9em">
+   <div class="card">
+    <h3>🚗 Un coche</h3>
+    <p><b>Sabe:</b> su color, su velocidad actual, cuánta gasolina le queda.</p>
+    <p><b>Sabe hacer:</b> acelerar, frenar, encender.</p>
+   </div>
+   <div class="card">
+    <h3>⭕ Un círculo</h3>
+    <p><b>Sabe:</b> su radio.</p>
+    <p><b>Sabe hacer:</b> calcular su área, calcular su perímetro.</p>
+   </div>
+   <div class="card">
+    <h3>🏦 Una cuenta bancaria</h3>
+    <p><b>Sabe:</b> su saldo, su titular.</p>
+    <p><b>Sabe hacer:</b> depositar, retirar (y negarse si no alcanza).</p>
+   </div>
+  </div>
+  <div class="g2" style="gap:.9em">
+   <div class="card"><h3>Lo que sabe = <em>estado</em></h3><p>Los datos que el objeto carga consigo. Cambian con el tiempo: la velocidad sube, el saldo baja.</p></div>
+   <div class="card"><h3>Lo que sabe hacer = <em>comportamiento</em></h3><p>Las operaciones que ofrece. Trabajan <b>sobre su propio estado</b>: acelerar cambia <i>su</i> velocidad, no la de otro coche.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- 4 · CLASE VS OBJETO -->
+<section>
+ <div class="eyebrow">Clase vs objeto · el molde y lo moldeado</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div>
+    <h2>La clase es el <em>plano</em></h2>
+    <p style="margin-bottom:.6em">Se escribe <b>una vez</b>. Dice qué estado y qué comportamiento va a tener todo coche, sin ser ningún coche en particular.</p>
+    <pre style="margin-bottom:.7em"><code><span class="k">public class</span> <span class="t">Coche</span> <span class="n">{</span>
+    <span class="t">String</span> color<span class="n">;</span>
+    <span class="t">double</span> velocidad<span class="n">;</span>
+    <span class="t">void</span> <span class="k">acelerar</span><span class="n">(</span><span class="t">double</span> kmh<span class="n">)</span> <span class="n">{...}</span>
+<span class="n">}</span></code></pre>
+    <p>Una clase define un <b>tipo de dato nuevo</b>: igual que <code style="font-size:.85em">double</code> es un tipo y <code style="font-size:.85em">3.14</code> es un valor, <code style="font-size:.85em">Coche</code> es un tipo y cada coche concreto es un valor de ese tipo.</p>
+   </div>
+   <div>
+    <h2>Los objetos son las <em>instancias</em></h2>
+    <p style="margin-bottom:.6em">Se fabrican con <code style="font-size:.85em"><b>new</b></code>, las que quieras. Cada una con <b>su propio estado</b>:</p>
+    <div class="card" style="margin-bottom:.6em"><h3>miCoche</h3><p>color = <b>"rojo"</b> · velocidad = <b>120.0</b></p></div>
+    <div class="card" style="margin-bottom:.6em"><h3>tuCoche</h3><p>color = <b>"azul"</b> · velocidad = <b>0.0</b></p></div>
+    <div class="card" style="margin-bottom:.8em"><h3>cocheDeRenta</h3><p>color = <b>"blanco"</b> · velocidad = <b>80.0</b></p></div>
+    <div class="quote" style="font-size:clamp(.95rem,1.4vw,1.35rem)">Acelerar <em>miCoche</em> no mueve <em>tuCoche</em>:<br>cada instancia vive su vida.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 5 · ATRIBUTOS Y MÉTODOS -->
+<section>
+ <div class="eyebrow">Atributos y métodos · el vocabulario técnico</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div>
+    <pre style="margin-bottom:.7em"><code><span class="k">public class</span> <span class="t">Coche</span> <span class="n">{</span>
+
+    <span class="c" style="color:#64748b">// ATRIBUTOS: el estado</span>
+    <span class="t">String</span> color<span class="n">;</span>
+    <span class="t">double</span> velocidad<span class="n">;</span>
+
+    <span class="c" style="color:#64748b">// MÉTODO: el comportamiento</span>
+    <span class="t">void</span> <span class="k">acelerar</span><span class="n">(</span><span class="t">double</span> kmh<span class="n">)</span> <span class="n">{</span>
+        velocidad <span class="n">=</span> velocidad <span class="n">+</span> kmh<span class="n">;</span>
+    <span class="n">}</span>
+<span class="n">}</span></code></pre>
+    <p>Y desde afuera, todo se usa con el <b>punto</b>:</p>
+    <pre><code>miCoche<span class="n">.</span><span class="k">acelerar</span><span class="n">(</span><span class="s">20</span><span class="n">);</span></code></pre>
+   </div>
+   <div>
+    <ul style="margin-bottom:.8em">
+      <li><b>Atributo</b>: variable que vive <b>dentro del objeto</b>. Cada instancia tiene su copia.</li>
+      <li><b>Método</b>: función que vive <b>dentro de la clase</b> y puede leer y cambiar los atributos directamente (mira: usa <code style="font-size:.85em">velocidad</code> sin pedirla como parámetro).</li>
+      <li><b>La firma</b> <code style="font-size:.85em">void acelerar(double kmh)</code> es el <b>contrato</b>: qué recibe, qué devuelve, cómo se llama. Es todo lo que quien lo usa necesita saber.</li>
+    </ul>
+    <div class="card" style="border-color:var(--am);background:var(--amsoft)">
+      <h3 style="color:var(--am)">Compárenlo con el estructurado</h3>
+      <p>Ya no es <code style="font-size:.85em">acelerar(velocidad, gasolina)</code> pasando todo a mano: el método <b>ya vive donde viven los datos</b>. Eso es juntar estado y comportamiento.</p>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 5b · LA RECETA EN TRES MOVIMIENTOS -->
+<section>
+ <div class="eyebrow">De estructurado a OO · la receta en tres movimientos</div>
+ <div class="body">
+  <div class="g2" style="gap:1.1em;margin-bottom:.8em;align-items:start">
+   <pre><code><span class="n" style="color:#64748b">// suelto, como antes</span>
+<span class="t">double</span> radio1 <span class="n">=</span> <span class="s">2.0</span><span class="n">;</span>
+<span class="t">double</span> radio2 <span class="n">=</span> <span class="s">5.0</span><span class="n">;</span>
+
+<span class="t">double</span> <span class="k">area</span><span class="n">(</span><span class="t">double</span> radio<span class="n">)</span> <span class="n">{</span>
+    <span class="k">return</span> <span class="s">3.1416</span> <span class="n">*</span> radio <span class="n">*</span> radio<span class="n">;</span>
+<span class="n">}</span>
+<span class="n" style="color:#64748b">// area(radio1), area(radio2), …</span></code></pre>
+   <pre><code><span class="k">public class</span> <span class="t">Circulo</span> <span class="n">{</span>
+    <span class="t">double</span> radio<span class="n">;</span>
+
+    <span class="t">double</span> <span class="k">area</span><span class="n">()</span> <span class="n">{</span>
+        <span class="k">return</span> Math<span class="n">.</span>PI <span class="n">*</span> radio <span class="n">*</span> radio<span class="n">;</span>
+    <span class="n">}</span>
+<span class="n">}</span>
+<span class="n" style="color:#64748b">// c1.area() ← sin parámetro: ya sabe su radio</span></code></pre>
+  </div>
+  <div class="g3" style="gap:.8em">
+   <div class="card"><h3><span class="num">1</span> Variables sueltas → atributos</h3><p><code style="font-size:.85em">radio1</code>, <code style="font-size:.85em">radio2</code> desaparecen: cada círculo <b>carga su propio radio</b>.</p></div>
+   <div class="card"><h3><span class="num">2</span> Funciones → métodos sin parámetros</h3><p><code style="font-size:.85em">area(radio)</code> se vuelve <code style="font-size:.85em">area()</code>: ya no le pasas los datos, <b>vive donde viven los datos</b>.</p></div>
+   <div class="card"><h3><span class="num">3</span> Cada juego de valores → una instancia</h3><p>Lo que era <code style="font-size:.85em">radio1</code> y <code style="font-size:.85em">radio2</code> ahora es <code style="font-size:.85em">c1</code> y <code style="font-size:.85em">c2</code>, creados con <code style="font-size:.85em">new</code>.</p></div>
+  </div>
+  <p style="margin-top:.7em;text-align:center"><strong>Guárdense la receta:</strong> aplicarla a un objeto del mundo real <em>es</em> la P2 del 2 de septiembre. Y este <code style="font-size:.9em">Circulo</code> lo construimos en vivo en un momento.</p>
+ </div>
+</section>
+
+<!-- 6 · ABSTRACCIÓN Y ENCAPSULAMIENTO -->
+<section>
+ <div class="eyebrow">Dos ideas grandes · hoy solo el concepto</div>
+ <div class="body">
+  <div class="g2" style="gap:1em;margin-bottom:.9em">
+   <div class="card">
+    <h3>Abstracción · quedarte con lo esencial</h3>
+    <p style="margin-bottom:.5em">Un coche real tiene miles de piezas. Tu clase <code style="font-size:.85em">Coche</code> modela <b>solo lo que tu programa necesita</b>: para un simulador de tráfico, velocidad y posición; ni tornillos, ni asientos, ni el color del tablero.</p>
+    <p><b>Abstraer es decidir qué ignorar.</b> Es la habilidad número uno de esta materia, y la practican en la P2, el miércoles 2 de septiembre.</p>
+   </div>
+   <div class="card">
+    <h3>Encapsulamiento · esconder el interior</h3>
+    <p style="margin-bottom:.5em">Manejas con <b>volante y pedales</b>: nunca tocas la inyección de gasolina directo, y por eso no la puedes descomponer. La clase igual: expone operaciones seguras (<code style="font-size:.85em">acelerar()</code>, <code style="font-size:.85em">retirar()</code>) y esconde sus datos.</p>
+    <p>La cuenta bancaria <b>se niega</b> a retirar si no alcanza el saldo: la regla vive <b>dentro</b>, nadie la puede saltar.</p>
+   </div>
+  </div>
+  <div class="quote">Volante y pedales a la vista, motor escondido.</div>
+ </div>
+</section>
+
+<!-- 7 · IDENTIFICADORES Y PALABRAS RESERVADAS -->
+<section>
+ <div class="eyebrow">Unidad 1.1 · Cómo se nombra en Java</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div>
+    <h2>Identificadores: las reglas</h2>
+    <ul style="margin-bottom:.7em">
+      <li>Empieza con <b>letra</b>, <code style="font-size:.85em">_</code> o <code style="font-size:.85em">$</code>; después también dígitos.</li>
+      <li><b>Sensible a mayúsculas</b>: <code style="font-size:.85em">velocidad</code>, <code style="font-size:.85em">Velocidad</code> y <code style="font-size:.85em">VELOCIDAD</code> son tres nombres distintos.</li>
+      <li>No puede ser una <b>palabra reservada</b>.</li>
+      <li>Acentos y ñ son <b>legales</b> (Java es Unicode)… y una <b>pésima idea</b>: algún día ese archivo cruza una frontera.</li>
+    </ul>
+    <table>
+      <tr><th>Nombre</th><th>¿Válido?</th></tr>
+      <tr><td><code style="font-size:.85em">miCoche</code></td><td><b>Sí</b></td></tr>
+      <tr><td><code style="font-size:.85em">2doIntento</code></td><td><b>No</b>: empieza con dígito</td></tr>
+      <tr><td><code style="font-size:.85em">mi-coche</code></td><td><b>No</b>: el guion es una resta</td></tr>
+      <tr><td><code style="font-size:.85em">class</code></td><td><b>No</b>: reservada</td></tr>
+      <tr><td><code style="font-size:.85em">años</code></td><td><b>Sí</b>, pero no lo hagas</td></tr>
+    </table>
+   </div>
+   <div>
+    <h2>~50 palabras reservadas</h2>
+    <p style="margin-bottom:.5em">Son del lenguaje y no se pueden usar como nombres. Las de hoy:</p>
+    <div style="margin-bottom:.7em">
+      <span class="chip"><b>class</b></span><span class="chip"><b>public</b></span><span class="chip"><b>static</b></span>
+      <span class="chip"><b>void</b></span><span class="chip"><b>new</b></span><span class="chip"><b>return</b></span>
+      <span class="chip">if</span><span class="chip">else</span><span class="chip">while</span><span class="chip">for</span>
+      <span class="chip">int</span><span class="chip">double</span><span class="chip">boolean</span><span class="chip">final</span>
+    </div>
+    <p style="margin-bottom:.7em">Curiosidades: <code style="font-size:.85em">true</code>, <code style="font-size:.85em">false</code> y <code style="font-size:.85em">null</code> técnicamente son literales, no palabras clave; y <code style="font-size:.85em">const</code> y <code style="font-size:.85em">goto</code> están reservadas <b>sin usarse nunca</b>: Java se las apartó de C "por si acaso", hace 30 años, y ahí siguen.</p>
+    <div class="card" style="border-color:var(--am);background:var(--amsoft)">
+      <h3 style="color:var(--am)">La convención que se califica</h3>
+      <p><b>Clases</b> en PascalCase: <code style="font-size:.85em">Coche</code>, <code style="font-size:.85em">CuentaBancaria</code>.<br>
+      <b>Variables y métodos</b> en camelCase: <code style="font-size:.85em">miCoche</code>, <code style="font-size:.85em">calcularArea</code>.<br>
+      <b>Constantes</b>: <code style="font-size:.85em">VELOCIDAD_MAXIMA</code>.</p>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 8 · COMENTARIOS -->
+<section>
+ <div class="eyebrow">Unidad 1.1 · Comentarios y espacio en blanco</div>
+ <div class="body">
+  <div class="g3" style="gap:.9em;margin-bottom:.9em">
+   <div class="card">
+    <h3><code style="font-size:.9em">//</code> de línea</h3>
+    <pre><code><span class="c" style="color:#64748b">// hasta el fin de línea</span>
+<span class="t">double</span> radio <span class="n">=</span> <span class="s">2.5</span><span class="n">;</span> <span class="c" style="color:#64748b">// metros</span></code></pre>
+   </div>
+   <div class="card">
+    <h3><code style="font-size:.9em">/* */</code> de bloque</h3>
+    <pre><code><span class="c" style="color:#64748b">/* varias líneas.
+   Ojo: no se pueden
+   anidar. */</span></code></pre>
+   </div>
+   <div class="card">
+    <h3><code style="font-size:.9em">/** */</code> de documentación</h3>
+    <pre><code><span class="c" style="color:#64748b">/** Un coche del simulador.
+    De aquí salen las páginas
+    de documentación de Java. */</span></code></pre>
+   </div>
+  </div>
+  <div class="g2" style="gap:.9em">
+   <div class="card"><h3>El buen comentario dice <em>por qué</em></h3><p><code style="font-size:.85em">// suma 20</code> no aporta nada: eso ya lo dice el código. <code style="font-size:.85em">// el sensor entrega km/h, no m/s</code> salva al que sigue.</p></div>
+   <div class="card"><h3>El espacio en blanco no significa nada</h3><p>La indentación es <b>para humanos</b>: Java no es Python. El compilador solo ve los <code style="font-size:.85em">;</code> y las llaves. Aun así, indentamos siempre, porque el código se lee mil veces más de lo que se escribe.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- 9 · ANATOMÍA DE UNA CLASE -->
+<section>
+ <div class="eyebrow">Anatomía · la clase completa, línea por línea</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1.25fr 1fr;gap:1.1em;align-items:start">
+   <pre><code><span class="k">public class</span> <span class="t">Coche</span> <span class="n">{</span>
+
+    <span class="t">String</span> color<span class="n">;</span>
+    <span class="t">double</span> velocidad<span class="n">;</span>
+
+    <span class="t">void</span> <span class="k">acelerar</span><span class="n">(</span><span class="t">double</span> kmh<span class="n">)</span> <span class="n">{</span>
+        velocidad <span class="n">=</span> velocidad <span class="n">+</span> kmh<span class="n">;</span>
+    <span class="n">}</span>
+
+    <span class="k">public static void</span> <span class="k">main</span><span class="n">(</span><span class="t">String</span><span class="n">[]</span> args<span class="n">)</span> <span class="n">{</span>
+        <span class="t">Coche</span> miCoche <span class="n">=</span> <span class="k">new</span> <span class="t">Coche</span><span class="n">();</span>
+        miCoche<span class="n">.</span>color <span class="n">=</span> <span class="s">"rojo"</span><span class="n">;</span>
+        miCoche<span class="n">.</span><span class="k">acelerar</span><span class="n">(</span><span class="s">20</span><span class="n">);</span>
+        System<span class="n">.</span>out<span class="n">.</span><span class="k">println</span><span class="n">(</span>miCoche<span class="n">.</span>color
+            <span class="n">+</span> <span class="s">" a "</span> <span class="n">+</span> miCoche<span class="n">.</span>velocidad<span class="n">);</span>
+    <span class="n">}</span>
+<span class="n">}</span></code></pre>
+   <div>
+    <ul>
+      <li><b><code style="font-size:.85em">public class Coche</code></b> obliga a que el archivo se llame <b><code style="font-size:.85em">Coche.java</code></b>. El nombre de la clase <b>es</b> su dirección en disco.</li>
+      <li><b>Atributos primero, métodos después</b>: convención, no regla; pero así lo lee todo el mundo.</li>
+      <li><b><code style="font-size:.85em">main</code></b> es la <b>puerta de entrada</b>: la ejecución empieza ahí. Es el mismo main de su HolaMundo.</li>
+      <li><b><code style="font-size:.85em">new Coche()</code></b> fabrica la instancia y ejecuta el <b>constructor</b> (hoy, el que Java regala; los nuestros, próxima unidad).</li>
+      <li><b>El punto</b> entra al objeto: <code style="font-size:.85em">miCoche.color</code>, <code style="font-size:.85em">miCoche.acelerar(20)</code>.</li>
+      <li>Imprime: <b><code style="font-size:.85em">rojo a 20.0</code></b></li>
+    </ul>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 10 · DEMO EN VIVO -->
+<section>
+ <div class="eyebrow">Demo en vivo · IntelliJ compartido, ustedes predicen</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div>
+    <h2>Vamos a construir <code style="font-size:.85em">Circulo</code></h2>
+    <ul>
+      <li>Clase <code style="font-size:.85em">Circulo</code> con atributo <code style="font-size:.85em">double radio</code>.</li>
+      <li>Método <code style="font-size:.85em">double area()</code> con <code style="font-size:.85em">Math.PI * radio * radio</code>.</li>
+      <li>Método <code style="font-size:.85em">double perimetro()</code>.</li>
+      <li>En <code style="font-size:.85em">main</code>: <b>dos</b> círculos con radios distintos, imprimimos sus áreas.</li>
+    </ul>
+   </div>
+   <div>
+    <h2>Predicciones al chat, antes de correr</h2>
+    <ul>
+      <li>Si cambio el radio de <code style="font-size:.85em">c1</code>… ¿cambia el área de <code style="font-size:.85em">c2</code>?</li>
+      <li>¿Qué imprime <code style="font-size:.85em">c1.area()</code> si nadie le puso radio?</li>
+      <li>¿Cuántos objetos hay si escribo <code style="font-size:.85em">new Circulo()</code> tres veces?</li>
+      <li>¿Y si nombro el archivo <code style="font-size:.85em">circulo.java</code> con minúscula?</li>
+    </ul>
+    <div class="quote" style="margin-top:.8em">Primero apuestan, luego corremos.<br>Equivocarse en la predicción <em>es</em> el aprendizaje.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 11 · ERRORES DEL DÍA 1 -->
+<section>
+ <div class="eyebrow">Los errores de la primera semana · esto escribiste → esto grita Java → así se arregla</div>
+ <div class="body">
+  <div class="g2" style="gap:.8em;margin-bottom:.7em">
+
+   <div class="card">
+    <h3><span class="num">1</span> El archivo no se llama como la clase</h3>
+    <pre style="margin:.3em 0"><code style="font-size:clamp(.74rem,1.04vw,1.06rem)"><span class="k">public class</span> <span class="t">Coche</span> { … }   <span class="n" style="color:#64748b">// guardado como coche.java</span></code></pre>
+    <p style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(.7rem,.98vw,1rem);background:#fef2f2;border-left:3px solid #b91c1c;color:#991b1b;padding:.35em .7em;border-radius:0 6px 6px 0;margin:.35em 0"><span style="font-size:.68em;letter-spacing:.1em;color:#b91c1c;font-weight:800;display:block;margin-bottom:.15em">JAVA DICE</span>class Coche is public, should be declared in a file named Coche.java</p>
+    <p><b>Arreglo:</b> renombra el archivo a <code style="font-size:.85em">Coche.java</code>, mayúscula incluida.</p>
+   </div>
+
+   <div class="card">
+    <h3><span class="num">2</span> Una mayúscula cambiada</h3>
+    <pre style="margin:.3em 0"><code style="font-size:clamp(.74rem,1.04vw,1.06rem)">system<span class="n">.</span>out<span class="n">.</span><span class="k">println</span><span class="n">(</span><span class="s">"hola"</span><span class="n">);</span></code></pre>
+    <p style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(.7rem,.98vw,1rem);background:#fef2f2;border-left:3px solid #b91c1c;color:#991b1b;padding:.35em .7em;border-radius:0 6px 6px 0;margin:.35em 0"><span style="font-size:.68em;letter-spacing:.1em;color:#b91c1c;font-weight:800;display:block;margin-bottom:.15em">JAVA DICE</span>cannot find symbol: variable system</p>
+    <p><b>Arreglo:</b> es <code style="font-size:.85em">System</code>. Java nunca perdona una mayúscula.</p>
+   </div>
+
+   <div class="card">
+    <h3><span class="num">3</span> Falta un punto y coma</h3>
+    <pre style="margin:.3em 0"><code style="font-size:clamp(.74rem,1.04vw,1.06rem)"><span class="t">double</span> radio <span class="n">=</span> <span class="s">2.0</span>      <span class="n" style="color:#64748b">← aquí faltó</span>
+<span class="t">double</span> area<span class="n">;</span>           <span class="n" style="color:#64748b">← aquí truena</span></code></pre>
+    <p style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(.7rem,.98vw,1rem);background:#fef2f2;border-left:3px solid #b91c1c;color:#991b1b;padding:.35em .7em;border-radius:0 6px 6px 0;margin:.35em 0"><span style="font-size:.68em;letter-spacing:.1em;color:#b91c1c;font-weight:800;display:block;margin-bottom:.15em">JAVA DICE</span>';' expected</p>
+    <p><b>Arreglo:</b> el <code style="font-size:.85em">;</code> perdido casi siempre está en la <b>línea anterior</b> a la que marca el error.</p>
+   </div>
+
+   <div class="card">
+    <h3><span class="num">4</span> Código suelto fuera de un método</h3>
+    <pre style="margin:.3em 0"><code style="font-size:clamp(.74rem,1.04vw,1.06rem)"><span class="k">public class</span> <span class="t">Coche</span> <span class="n">{</span>
+    velocidad <span class="n">=</span> <span class="s">20</span><span class="n">;</span>   <span class="n" style="color:#64748b">← instrucción huérfana</span>
+<span class="n">}</span></code></pre>
+    <p style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(.7rem,.98vw,1rem);background:#fef2f2;border-left:3px solid #b91c1c;color:#991b1b;padding:.35em .7em;border-radius:0 6px 6px 0;margin:.35em 0"><span style="font-size:.68em;letter-spacing:.1em;color:#b91c1c;font-weight:800;display:block;margin-bottom:.15em">JAVA DICE</span>illegal start of type</p>
+    <p><b>Arreglo:</b> las instrucciones viven <b>dentro de métodos</b>; en el cuerpo de la clase solo se declaran atributos y métodos.</p>
+   </div>
+
+  </div>
+  <div class="quote" style="text-align:center;font-size:clamp(.95rem,1.4vw,1.35rem)">Regla de la casa: el mensaje de error <em>se lee completo</em> antes de preguntar.<br>La mitad de las veces trae la respuesta.</div>
+ </div>
+</section>
+
+<!-- 12 · MINI-RETO -->
+<section>
+ <div class="eyebrow">Mini-reto · al chat, 5 minutos</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div>
+    <h2>1 · ¿Clase u objeto?</h2>
+    <ul style="margin-bottom:.8em">
+      <li><b>Coche</b> → ¿?</li>
+      <li><b>El Tsuru rojo de mi tío</b> → ¿?</li>
+      <li><b>CuentaBancaria</b> → ¿?</li>
+      <li><b>La cuenta 0042 de Ana con $500</b> → ¿?</li>
+      <li><b>String</b> → ¿?</li>
+      <li><b>"hola"</b> → ¿?</li>
+    </ul>
+   </div>
+   <div>
+    <h2>2 · Modelen un <code style="font-size:.85em">FocoInteligente</code></h2>
+    <p style="margin-bottom:.6em">Al chat, en una línea, formato libre:</p>
+    <ul style="margin-bottom:.8em">
+      <li><b>2 atributos</b> (¿qué sabe un foco?)</li>
+      <li><b>2 métodos</b> (¿qué sabe hacer?)</li>
+    </ul>
+    <p>Leo respuestas en voz alta y las convertimos en clase Java al vuelo. No hay respuesta única: <b>abstraer es elegir</b>, y cada elección se defiende.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 13 · CIERRE -->
+<section>
+ <div class="eyebrow">Cierre · qué sigue esta semana</div>
+ <div class="body">
+  <div class="g2" style="gap:1.1em;margin-bottom:1em;align-items:start">
+   <div class="card">
+    <h3>Hoy se llevan</h3>
+    <p>Objeto = <b>estado + comportamiento</b> · clase = <b>el molde</b>, objetos = <b>instancias</b> con <code style="font-size:.85em">new</code> · atributos y métodos · las reglas de nombres y comentarios · la anatomía completa de una clase Java.</p>
+   </div>
+   <div class="card" style="border-color:var(--am);background:var(--amsoft)">
+    <h3 style="color:var(--am)">Miércoles 26 · laboratorio presencial</h3>
+    <p>Git, GitHub y <b>su primera entrega con pull request</b>: la P1, con el HolaMundo personalizado del Lab 0. Traigan su laptop con el entorno de las Partes 0 a 2 funcionando.</p>
+   </div>
+  </div>
+  <div class="quote" style="text-align:center;font-size:clamp(1.15rem,1.9vw,1.85rem)">
+    AHORITA, al chat: <em>usuario: su-usuario-de-github</em><br>
+    <span style="font-weight:500;font-size:.75em;color:var(--dim)">Hoy mismo les llega la invitación de colaborador. Acéptenla antes del miércoles: es el requisito para entregar.</span>
+  </div>
+ </div>
+</section>
+
+<div id="bar"></div>
+<div id="num"></div>
+<div id="hint">F o doble clic · pantalla completa &nbsp;·&nbsp; ←/→ navegar &nbsp;·&nbsp; R reinicia</div>
+
+<script>
+const S=[...document.querySelectorAll('section')];let i=0;
+const bar=document.getElementById('bar'),num=document.getElementById('num');
+function show(n){i=Math.max(0,Math.min(S.length-1,n));
+ S.forEach((s,k)=>s.classList.toggle('on',k===i));
+ bar.style.width=((i+1)/S.length*100)+'%';num.textContent=(i+1)+' / '+S.length;}
+addEventListener('keydown',e=>{
+ if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(i+1)}
+ else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}
+ else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1);
+ else if(e.key.toLowerCase()==='r')show(0);
+ else if(e.key.toLowerCase()==='f'||e.key==='F11'){e.preventDefault();fs();}});
+function fs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+addEventListener('dblclick',fs);
+show(0);
+</script></body></html>
