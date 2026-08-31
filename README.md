@@ -34,8 +34,3 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 
 **El proyecto por dentro:** código 15 · informe 5 · presentación del equipo 5 · evidencia
 de trabajo en equipo en GitHub 5.
-
-## Dudas
-
-Abre un **Issue** en este repositorio, con captura de pantalla si es un error. Preguntar
-el martes es gratis; preguntar el miércoles a las 15:05 cuesta la sesión.
