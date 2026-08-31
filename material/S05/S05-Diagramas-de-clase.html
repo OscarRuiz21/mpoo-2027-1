@@ -75,8 +75,9 @@ body:fullscreen #hint{display:none}
     <span class="chip"><b>2</b> Los 3 rectángulos</span>
     <span class="chip"><b>3</b> La sintaxis de cada línea</span>
     <span class="chip"><b>4</b> UML ↔ Java</span>
-    <span class="chip"><b>5</b> De ida y vuelta</span>
-    <span class="chip"><b>6</b> Así se usa en la P2</span>
+    <span class="chip"><b>5</b> Las cajas se conectan</span>
+    <span class="chip"><b>6</b> De ida y vuelta</span>
+    <span class="chip"><b>7</b> Así se usa en la P2</span>
   </div>
  </div>
 </section>
@@ -238,6 +239,54 @@ body:fullscreen #hint{display:none}
  </div>
 </section>
 
+<!-- 6b · LAS CAJAS SE CONECTAN -->
+<section>
+ <div class="eyebrow">Las cajas se conectan · relaciones y cardinalidad</div>
+ <div class="body">
+  <div style="display:flex;align-items:center;margin:0 auto .9em;width:min(100%,54em)">
+   <div class="uml" style="align-self:auto;min-width:0">
+    <div class="un">Playlist</div>
+    <div class="ua">
+     <div>nombre: <b>String</b></div>
+    </div>
+    <div class="um">
+     <div><b>agregar</b>(c: CancionMP3)</div>
+     <div><b>duracionTotal</b>(): int</div>
+    </div>
+   </div>
+   <div style="flex:1;min-width:7em;padding:0 .5em">
+    <div style="text-align:center;font-size:clamp(.78rem,1.08vw,1.1rem);color:var(--dim);font-weight:700;margin-bottom:.2em">tiene ▸</div>
+    <div style="height:2px;background:var(--ink)"></div>
+    <div style="display:flex;justify-content:space-between;font-family:ui-monospace,Menlo,monospace;font-weight:800;color:var(--am);font-size:clamp(.85rem,1.2vw,1.22rem);margin-top:.15em"><span>1</span><span>*</span></div>
+   </div>
+   <div class="uml" style="align-self:auto;min-width:0">
+    <div class="un">CancionMP3</div>
+    <div class="ua">
+     <div>titulo: <b>String</b></div>
+     <div>duracion: <b>int</b></div>
+    </div>
+    <div class="um">
+     <div><b>reproducir</b>()</div>
+    </div>
+   </div>
+  </div>
+  <div class="g3" style="gap:.9em">
+   <div class="card">
+    <h3>Asociación: la línea</h3>
+    <p>Se lee <b>"tiene"</b>: una playlist tiene canciones. En Java, la línea es <b>un atributo</b> cuyo tipo es la otra clase: <code style="font-size:.85em">CancionMP3[] canciones;</code> dentro de <code style="font-size:.85em">Playlist</code>.</p>
+   </div>
+   <div class="card">
+    <h3>Cardinalidad: cuántos</h3>
+    <p>Va en las puntas de la línea: <code style="font-size:.85em"><b>1</b></code> exactamente una · <code style="font-size:.85em"><b>0..1</b></code> una o ninguna · <code style="font-size:.85em"><b>*</b></code> muchas · <code style="font-size:.85em"><b>1..*</b></code> al menos una. Aquí: <b>1</b> playlist, <b>*</b> canciones.</p>
+   </div>
+   <div class="card" style="border-color:var(--am);background:var(--amsoft)">
+    <h3 style="color:var(--am)">Herencia: la flecha △</h3>
+    <p>Una flecha con <b>triángulo hueco</b> que se lee <b>"es un"</b>: <code style="font-size:.85em">CocheElectrico → Coche</code>. Hoy solo sépanla reconocer: se dibuja y se programa en la <b>Unidad 2</b>.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
 <!-- 7 · DE IDA Y VUELTA -->
 <section>
  <div class="eyebrow">De ida y vuelta · al chat, 5 minutos</div>
@@ -299,11 +348,11 @@ body:fullscreen #hint{display:none}
   <div class="g2" style="gap:1.1em;margin-bottom:1em;align-items:start">
    <div class="card">
     <h3>Hoy se llevan</h3>
-    <p>Una clase = <b>una caja de tres pisos</b>: nombre, atributos, métodos · tipos <b>después</b> del nombre, al revés que Java · cada método es una <b>firma</b> · el diagrama dice <b>qué</b>, el código dice <b>cómo</b>.</p>
+    <p>Una clase = <b>una caja de tres pisos</b> · tipos <b>después</b> del nombre, al revés que Java · cada método es una <b>firma</b> · las cajas se conectan con líneas que se leen (<b>"tiene"</b>, <b>"es un"</b>) y la <b>cardinalidad</b> dice cuántos · el diagrama dice <b>qué</b>, el código dice <b>cómo</b>.</p>
    </div>
    <div class="card">
     <h3>Lo que viene</h3>
-    <p>Hoy las cajas viven solas. En la <b>Unidad 2</b> se conectan: flechas de herencia, asociaciones, y los signos <code style="font-size:.85em">+</code>/<code style="font-size:.85em">−</code> cobran sentido con el encapsulamiento. El mismo dibujo, con más vocabulario.</p>
+    <p>Hoy las relaciones solo se <b>leen</b>. En la <b>Unidad 2</b> se dibujan y se programan: la flecha de herencia, y los signos <code style="font-size:.85em">+</code>/<code style="font-size:.85em">−</code> cobran sentido con el encapsulamiento. El mismo dibujo, con más vocabulario.</p>
    </div>
   </div>
   <div class="quote" style="text-align:center;font-size:clamp(1.15rem,1.9vw,1.85rem)">
