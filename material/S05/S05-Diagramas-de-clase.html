@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO 2027-1 · Clase 3 · Diagramas de clase</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#ffffff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--code:#eef3f9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);height:100vh;overflow:hidden;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+section{position:absolute;inset:0;display:none;flex-direction:column;padding:3.2vh 4.5vw 4.5vh;animation:f .3s ease both}
+section.on{display:flex}
+@keyframes f{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--am);font-size:clamp(.7rem,1.05vw,1rem);font-weight:800;
+letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5em}
+h1{font-size:clamp(2.1rem,3.9vw,3.5rem);line-height:1.06;letter-spacing:-.02em;font-weight:800;margin-bottom:.5em}
+h2{font-size:clamp(1.3rem,2.1vw,2.1rem);line-height:1.15;font-weight:750;margin-bottom:.45em}
+p{font-size:clamp(.92rem,1.3vw,1.32rem);line-height:1.5;color:var(--dim)}
+strong{color:var(--ink);font-weight:700}
+em{color:var(--am);font-style:normal;font-weight:700}
+.body{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;justify-content:center;gap:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.1em}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9em}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75em}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:.95em 1.1em;
+box-shadow:0 1px 2px rgba(18,37,61,.05),0 4px 14px rgba(18,37,61,.045)}
+.card h3{font-size:clamp(.96rem,1.34vw,1.34rem);color:var(--ink);font-weight:750;margin-bottom:.3em;display:flex;align-items:center;gap:.5em}
+.card p{font-size:clamp(.82rem,1.12vw,1.14rem);line-height:1.45}
+.num{color:var(--am);font-weight:900;font-size:1.15em;min-width:1.1em}
+ul{list-style:none}
+li{font-size:clamp(.88rem,1.22vw,1.24rem);line-height:1.45;color:var(--dim);margin:.42em 0;padding-left:1.25em;position:relative}
+li::before{content:"";position:absolute;left:0;top:.55em;width:.42em;height:.42em;border-radius:50%;background:var(--am)}
+li b{color:var(--ink)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:11px;padding:.8em 1em;overflow:auto}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:clamp(.9rem,1.38vw,1.4rem);line-height:1.6;color:#1e293b}
+.k{color:#0369a1}.t{color:#b45309}.n{color:#64748b}.s{color:#15803d}
+table{border-collapse:collapse;width:100%;font-size:clamp(.85rem,1.16vw,1.18rem)}
+td,th{padding:.42em .7em;border-bottom:1px solid var(--line);text-align:left;color:var(--dim)}
+th{color:var(--am);font-size:.8em;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+td code{font-size:clamp(.78rem,1.08vw,1.1rem)}
+.quote{border-left:4px solid var(--am);padding-left:.9em;font-size:clamp(1.06rem,1.62vw,1.58rem);
+line-height:1.35;color:var(--ink);font-weight:700}
+.chip{display:inline-block;background:#edf3fa;border:1px solid var(--line);border-radius:999px;
+padding:.2em .7em;font-size:clamp(.74rem,1.02vw,1rem);color:var(--dim);margin:.16em .22em .16em 0}
+.chip b{color:var(--am)}
+.uml{background:var(--panel);border:2px solid var(--ink);border-radius:5px;overflow:hidden;
+box-shadow:0 2px 6px rgba(18,37,61,.08);align-self:center;min-width:min(100%,15em)}
+.uml .un{padding:.4em .9em;text-align:center;font-weight:800;border-bottom:2px solid var(--ink);
+font-size:clamp(.95rem,1.35vw,1.38rem);letter-spacing:.01em}
+.uml .ua{border-bottom:2px solid var(--ink)}
+.uml .ua,.uml .um{padding:.45em .9em}
+.uml .ua div,.uml .um div{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+font-size:clamp(.8rem,1.16vw,1.18rem);line-height:1.65;color:var(--dim);white-space:nowrap}
+.uml .ua div b,.uml .um div b{color:var(--ink);font-weight:600}
+.uml .vac{color:#9db0c6;font-style:italic}
+.lbl{font-size:clamp(.68rem,.95vw,.95rem);font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+color:var(--am);margin:.2em 0 .35em;text-align:center}
+#bar{position:fixed;left:0;bottom:0;height:3px;background:var(--am);transition:width .3s}
+#num{position:fixed;right:1vw;bottom:.7vh;font-size:.72rem;color:#9db0c6;font-variant-numeric:tabular-nums}
+#hint{position:fixed;left:1.2vw;bottom:.7vh;font-size:.72rem;color:#9db0c6}
+body:fullscreen #hint{display:none}
+</style></head><body>
+
+<!-- 1 · PORTADA -->
+<section>
+ <div class="body" style="align-items:center;text-align:center;gap:.5em">
+  <div class="eyebrow" style="margin-bottom:0">MPOO 2027-1 · Grupo 6 · Clase 3 · Lunes 31 de agosto</div>
+  <h1>El diagrama<br>de <em>clases</em></h1>
+  <p style="max-width:34em">Antes de teclear una clase, se <strong>dibuja</strong>. Hoy aprenden a leer y dibujar el plano que van a entregar el miércoles en la <strong>P2</strong>.</p>
+  <div style="margin-top:1em">
+    <span class="chip"><b>1</b> Por qué dibujar</span>
+    <span class="chip"><b>2</b> Los 3 rectángulos</span>
+    <span class="chip"><b>3</b> La sintaxis de cada línea</span>
+    <span class="chip"><b>4</b> UML ↔ Java</span>
+    <span class="chip"><b>5</b> De ida y vuelta</span>
+    <span class="chip"><b>6</b> Así se usa en la P2</span>
+  </div>
+ </div>
+</section>
+
+<!-- 2 · POR QUÉ DIBUJAR -->
+<section>
+ <div class="eyebrow">Por qué dibujar · el código no cabe en una conversación</div>
+ <div class="body">
+  <div class="g2" style="gap:1em;margin-bottom:.9em">
+   <div class="card">
+    <h3>El diagrama es la clase vista desde arriba</h3>
+    <p style="margin-bottom:.5em">Una clase de 200 líneas no se discute en un pizarrón. Su diagrama sí: dice <b>qué sabe</b> y <b>qué sabe hacer</b>, sin los cuerpos de los métodos.</p>
+    <p>Es la misma jugada de la abstracción: <b>quedarse con lo esencial</b> y decidir qué ignorar. Aquí lo que se ignora es el <i>cómo</i>.</p>
+   </div>
+   <div class="card">
+    <h3>UML: el idioma común</h3>
+    <p style="margin-bottom:.5em"><b>Unified Modeling Language</b>: la notación estándar para dibujar software. Cualquier ingeniero, en cualquier empresa, lee el mismo dibujo.</p>
+    <p>UML tiene más de una docena de diagramas distintos. Este curso usa <b>uno</b>: el de clases. Con ese se diseña la P2… y el proyecto final.</p>
+   </div>
+  </div>
+  <div class="quote">Primero se decide <em>qué sabe</em> y <em>qué sabe hacer</em>; teclear es lo de menos.</div>
+ </div>
+</section>
+
+<!-- 3 · LOS 3 RECTÁNGULOS -->
+<section>
+ <div class="eyebrow">La caja · una clase = un rectángulo en tres pisos</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1fr 1.15fr;gap:1.6em;align-items:center">
+   <div style="display:flex;flex-direction:column">
+    <div class="lbl">El Coche de la clase pasada, dibujado</div>
+    <div class="uml">
+     <div class="un">Coche</div>
+     <div class="ua">
+      <div>color: <b>String</b></div>
+      <div>velocidad: <b>double</b></div>
+      <div>gasolina: <b>double</b></div>
+     </div>
+     <div class="um">
+      <div><b>acelerar</b>(kmh: double)</div>
+      <div><b>frenar</b>()</div>
+     </div>
+    </div>
+   </div>
+   <div>
+    <ul style="margin-bottom:.8em">
+      <li><b>Piso 1 · el nombre.</b> PascalCase y en singular: <code style="font-size:.85em">Coche</code>, no <code style="font-size:.85em">coches</code>. Es el mismo nombre del archivo <code style="font-size:.85em">.java</code>.</li>
+      <li><b>Piso 2 · los atributos.</b> Lo que el objeto <b>sabe</b>: su estado.</li>
+      <li><b>Piso 3 · los métodos.</b> Lo que el objeto <b>sabe hacer</b>: su comportamiento.</li>
+    </ul>
+    <div class="card" style="border-color:var(--am);background:var(--amsoft)">
+      <h3 style="color:var(--am)">Lo que NO se dibuja</h3>
+      <p>Ni cuerpos de métodos, ni <code style="font-size:.85em">if</code>, ni valores. El diagrama dice <b>qué</b>; el código dice <b>cómo</b>. Si estás dibujando lógica, ya te pasaste.</p>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 4 · LA SINTAXIS DE CADA LÍNEA -->
+<section>
+ <div class="eyebrow">La sintaxis de cada línea · tres reglas y una trampa</div>
+ <div class="body">
+  <div class="g2" style="gap:1.1em;align-items:start;margin-bottom:.8em">
+   <div>
+    <table style="margin-bottom:.7em">
+      <tr><th>En el diagrama</th><th>En Java</th></tr>
+      <tr><td><code>radio: double</code></td><td><code>double radio;</code></td></tr>
+      <tr><td><code>area(): double</code></td><td><code>double area() {…}</code></td></tr>
+      <tr><td><code>retirar(monto: double)</code></td><td><code>void retirar(double monto) {…}</code></td></tr>
+    </table>
+    <div class="card" style="border-color:var(--rd)">
+      <h3 style="color:var(--rd)">La trampa</h3>
+      <p>En UML el tipo va <b>después</b> del nombre, con dos puntos: <b>al revés que Java</b>. <code style="font-size:.85em">radio: double</code> ↔ <code style="font-size:.85em">double radio</code>. Es el error número uno al empezar.</p>
+    </div>
+   </div>
+   <div>
+    <ul>
+      <li><b>Atributo:</b> <code style="font-size:.85em">nombre: Tipo</code>.</li>
+      <li><b>Método:</b> <code style="font-size:.85em">nombre(parámetro: Tipo): TipoDeRetorno</code>. Si no devuelve nada, el <code style="font-size:.85em">: void</code> se puede omitir.</li>
+      <li><b>Visibilidad</b>, el signo al inicio: <code style="font-size:.85em">+</code> público · <code style="font-size:.85em">−</code> privado. Por ahora <b>solo léanla</b>: el porqué es el encapsulamiento, y llega en la Unidad 2. En la P2 pueden dibujar sin signos.</li>
+      <li>Cada línea de método es una <b>firma</b>: el contrato que ya conocen de la clase pasada.</li>
+    </ul>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 5 · UML ↔ JAVA COMPLETO -->
+<section>
+ <div class="eyebrow">UML ↔ Java · la traducción completa, línea por línea</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1fr 1.3fr;gap:1.4em;align-items:center">
+   <div style="display:flex;flex-direction:column">
+    <div class="lbl">El diagrama</div>
+    <div class="uml">
+     <div class="un">CuentaBancaria</div>
+     <div class="ua">
+      <div>titular: <b>String</b></div>
+      <div>saldo: <b>double</b></div>
+     </div>
+     <div class="um">
+      <div><b>depositar</b>(monto: double)</div>
+      <div><b>retirar</b>(monto: double)</div>
+      <div><b>consultar</b>(): double</div>
+     </div>
+    </div>
+   </div>
+   <div>
+    <div class="lbl" style="text-align:left">El código que sale de él</div>
+    <pre><code><span class="k">public class</span> <span class="t">CuentaBancaria</span> <span class="n">{</span>
+    <span class="t">String</span> titular<span class="n">;</span>
+    <span class="t">double</span> saldo<span class="n">;</span>
+
+    <span class="t">void</span> <span class="k">depositar</span><span class="n">(</span><span class="t">double</span> monto<span class="n">)</span> <span class="n">{</span> <span class="n">…</span> <span class="n">}</span>
+    <span class="t">void</span> <span class="k">retirar</span><span class="n">(</span><span class="t">double</span> monto<span class="n">)</span> <span class="n">{</span> <span class="n">…</span> <span class="n">}</span>
+    <span class="t">double</span> <span class="k">consultar</span><span class="n">()</span> <span class="n">{</span> <span class="n">…</span> <span class="n">}</span>
+<span class="n">}</span></code></pre>
+    <p style="margin-top:.6em">Cada línea del diagrama se vuelve <b>exactamente una</b> línea de declaración. Los <code style="font-size:.85em">…</code> son el <i>cómo</i>, y ese se decide después, tecleando.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 6 · DOS QUE YA CONOCEN -->
+<section>
+ <div class="eyebrow">Dos que ya conocen · la demo y el mini-reto, en limpio</div>
+ <div class="body">
+  <div class="g2" style="gap:2.2em;align-items:center;margin-bottom:.9em">
+   <div style="display:flex;flex-direction:column">
+    <div class="lbl">El Circulo de la demo en vivo</div>
+    <div class="uml">
+     <div class="un">Circulo</div>
+     <div class="ua">
+      <div>radio: <b>double</b></div>
+     </div>
+     <div class="um">
+      <div><b>area</b>(): double</div>
+      <div><b>perimetro</b>(): double</div>
+     </div>
+    </div>
+   </div>
+   <div style="display:flex;flex-direction:column">
+    <div class="lbl">El FocoInteligente que modelaron al chat</div>
+    <div class="uml">
+     <div class="un">FocoInteligente</div>
+     <div class="ua">
+      <div>encendido: <b>boolean</b></div>
+      <div>brillo: <b>int</b></div>
+     </div>
+     <div class="um">
+      <div><b>encender</b>()</div>
+      <div><b>ajustarBrillo</b>(nivel: int)</div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="quote" style="text-align:center">Un atributo puede bastar. La caja chica no es una caja pobre:<br>es una <em>abstracción bien hecha</em>.</div>
+ </div>
+</section>
+
+<!-- 7 · DE IDA Y VUELTA -->
+<section>
+ <div class="eyebrow">De ida y vuelta · al chat, 5 minutos</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div>
+    <h2>1 · De código a diagrama</h2>
+    <pre style="margin-bottom:.6em"><code><span class="k">public class</span> <span class="t">Alumno</span> <span class="n">{</span>
+    <span class="t">String</span> nombre<span class="n">;</span>
+    <span class="t">int</span> cuenta<span class="n">;</span>
+    <span class="t">double</span><span class="n">[]</span> calificaciones<span class="n">;</span>
+
+    <span class="t">double</span> <span class="k">promedio</span><span class="n">()</span> <span class="n">{</span> <span class="n">…</span> <span class="n">}</span>
+<span class="n">}</span></code></pre>
+    <p>Al chat, la caja en texto, tres pisos separados por <code style="font-size:.85em">|</code>:</p>
+    <p><code style="font-size:.85em">Alumno | nombre: String, … | …</code></p>
+   </div>
+   <div>
+    <h2>2 · De diagrama a código</h2>
+    <div class="uml" style="margin-bottom:.7em">
+     <div class="un">CancionMP3</div>
+     <div class="ua">
+      <div>titulo: <b>String</b></div>
+      <div>duracion: <b>int</b></div>
+     </div>
+     <div class="um">
+      <div><b>reproducir</b>()</div>
+      <div><b>duracionEnMinutos</b>(): double</div>
+     </div>
+    </div>
+    <p>Al chat: <b>solo las dos firmas</b> de los métodos, en Java. Nada de cuerpos.</p>
+    <div class="quote" style="margin-top:.7em;font-size:clamp(.95rem,1.4vw,1.35rem)">Si puedes ir y venir sin pensarlo,<br>la P2 ya está ganada a la mitad.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 8 · ASÍ SE USA EN LA P2 -->
+<section>
+ <div class="eyebrow">Así se usa en la P2 · miércoles 2 de septiembre, presencial</div>
+ <div class="body">
+  <div class="g4" style="gap:.8em;margin-bottom:.9em">
+   <div class="card"><h3><span class="num">1</span> Elige</h3><p>Un objeto del mundo real que te interese. De verdad cualquiera: una guitarra, un dron, una alberca.</p></div>
+   <div class="card"><h3><span class="num">2</span> Abstrae</h3><p>¿Qué <b>sabe</b>? ¿Qué <b>sabe hacer</b>? Solo lo que tu programa necesita: <b>abstraer es decidir qué ignorar</b>.</p></div>
+   <div class="card"><h3><span class="num">3</span> Dibuja</h3><p>La caja de tres pisos, con tipos y firmas. <b>Este dibujo va en tu entrega.</b></p></div>
+   <div class="card"><h3><span class="num">4</span> Teclea</h3><p>El diagrama se traduce a Java línea por línea, como la <code style="font-size:.85em">CuentaBancaria</code> de hace rato.</p></div>
+  </div>
+  <div class="g2" style="gap:.9em">
+   <div class="card"><h3>¿Con qué se dibuja?</h3><p>A mano y foto <b>vale</b>. También draw.io, la pizarra digital o el editor que quieran. Se califica el <b>contenido</b> de la caja, no el trazo.</p></div>
+   <div class="card" style="border-color:var(--am);background:var(--amsoft)"><h3 style="color:var(--am)">La entrega, como siempre</h3><p>Rama <code style="font-size:.85em">p02-apellido</code>, tu carpeta en <code style="font-size:.85em">entregas/</code>, pull request. La rutina completa está en la <b>guía de Git</b> del repo.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- 9 · CIERRE -->
+<section>
+ <div class="eyebrow">Cierre · la caja crece con el curso</div>
+ <div class="body">
+  <div class="g2" style="gap:1.1em;margin-bottom:1em;align-items:start">
+   <div class="card">
+    <h3>Hoy se llevan</h3>
+    <p>Una clase = <b>una caja de tres pisos</b>: nombre, atributos, métodos · tipos <b>después</b> del nombre, al revés que Java · cada método es una <b>firma</b> · el diagrama dice <b>qué</b>, el código dice <b>cómo</b>.</p>
+   </div>
+   <div class="card">
+    <h3>Lo que viene</h3>
+    <p>Hoy las cajas viven solas. En la <b>Unidad 2</b> se conectan: flechas de herencia, asociaciones, y los signos <code style="font-size:.85em">+</code>/<code style="font-size:.85em">−</code> cobran sentido con el encapsulamiento. El mismo dibujo, con más vocabulario.</p>
+   </div>
+  </div>
+  <div class="quote" style="text-align:center;font-size:clamp(1.15rem,1.9vw,1.85rem)">
+    El miércoles llegan con un objeto elegido.<br>
+    <span style="font-weight:500;font-size:.75em;color:var(--dim)">P2 presencial: se abstrae, se dibuja, se teclea y se entrega por PR. Traigan laptop con su entorno vivo.</span>
+  </div>
+ </div>
+</section>
+
+<div id="bar"></div>
+<div id="num"></div>
+<div id="hint">F o doble clic · pantalla completa &nbsp;·&nbsp; ←/→ navegar &nbsp;·&nbsp; R reinicia</div>
+
+<script>
+const S=[...document.querySelectorAll('section')];let i=0;
+const bar=document.getElementById('bar'),num=document.getElementById('num');
+function show(n){i=Math.max(0,Math.min(S.length-1,n));
+ S.forEach((s,k)=>s.classList.toggle('on',k===i));
+ bar.style.width=((i+1)/S.length*100)+'%';num.textContent=(i+1)+' / '+S.length;}
+addEventListener('keydown',e=>{
+ if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(i+1)}
+ else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}
+ else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1);
+ else if(e.key.toLowerCase()==='r')show(0);
+ else if(e.key.toLowerCase()==='f'||e.key==='F11'){e.preventDefault();fs();}});
+function fs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+addEventListener('dblclick',fs);
+show(0);
+</script></body></html>
