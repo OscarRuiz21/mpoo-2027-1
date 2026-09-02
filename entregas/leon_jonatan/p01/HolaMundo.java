@@ -1,5 +1,7 @@
-public class Holamundo {
+public class HolaMundo {
     public static void main(String[] args) {
-        System.out.println("Hola, mundo")
+        String variable1 = "Jonatan";      // el tuyo
+        String variable2 = "Leon"; // el tuyo
+        System.out.println("Hola, me llamo " + variable1 + " " +variable2 );
     }
 }
