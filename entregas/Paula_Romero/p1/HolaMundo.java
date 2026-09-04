@@ -1,5 +1,8 @@
 public class HolaMundo {
     public static void main(String[] args) {
-        System.out.println("Hola, mundo");
+        String nombre = "Paula";
+        String apellido = "Romero";
+
+        System.out.println("Hola mundo, " + nombre + " " + apellido);
     }
 }
