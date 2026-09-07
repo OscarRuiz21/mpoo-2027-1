@@ -29,9 +29,10 @@ Esto se hace **una sola vez**; después, tu semana es la rutina de abajo.
 
 ## Opcional · ver solo TU carpeta, sin las de tus compañeros
 
-Como todos trabajamos en el mismo repositorio, al bajarlo aparecen las carpetas de los 29.
-Si te estorban para encontrar la tuya, puedes pedirle a Git que en tu computadora solo
-aparezcan el material del curso y tu carpeta:
+En `entregas/` están las carpetas de las prácticas 0 a 2 de todo el grupo, ya revisadas.
+No van a crecer —de aquí en adelante cada quien trabaja en su rama— pero si te estorban
+para encontrar la tuya, puedes pedirle a Git que en tu computadora solo aparezcan el
+material del curso y tu carpeta:
 
 ```bash
 git sparse-checkout init --cone
@@ -60,6 +61,10 @@ git pull                    # trae TU rama tal como está en GitHub (si trabajas
 git pull origin main        # trae el material nuevo del curso (guías, tareas, apoyo) a tu rama
 ```
 
+`git pull origin main` te trae **solo material del curso**: guías, tareas, decks, apoyo.
+Las entregas de tus compañeros ya no pasan por `main` durante el semestre —cada quien
+trabaja en su rama— así que este pull no te va a llenar la pantalla con archivos ajenos.
+
 ## 0 · Párate en tu rama
 
 ```bash
@@ -69,8 +74,9 @@ git checkout entregas_apellido_nombre   # tu rama del semestre
 git pull origin main                    # trae guías y material nuevos DIRECTO a tu rama, en un paso
 ```
 
-**Nunca trabajas en `main`**: está protegida y no te va a dejar subir. No te asustes si el
-pull lista ramas de tus compañeros: es solo el índice, no toca tu trabajo.
+**Nunca trabajas en `main`**: está protegida y no te va a dejar subir. El `git fetch` sí
+lista los nombres de las ramas de todo el grupo: es solo el índice del repositorio, no baja
+su trabajo ni toca el tuyo.
 
 ## 1 · Trabaja
 
