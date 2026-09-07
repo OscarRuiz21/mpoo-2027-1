@@ -7,7 +7,7 @@ acentos, unidos por un guion bajo** (así dos personas con el mismo apellido no 
 entregas/
 └── ramirez_ana/
     ├── p01/ … p12/
-    └── t01/ …
+    └── tareas/t1/ …
 ```
 
 Todo se entrega con **push a tu rama** `entregas_apellido_nombre` (ya existe: te la

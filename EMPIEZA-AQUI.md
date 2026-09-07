@@ -25,7 +25,7 @@ mpoo-2027-1/
 └── entregas/        ← aquí van tus prácticas y tareas, en tu carpeta
     └── apellido_nombre/
         ├── p01/ … p12/
-        └── t01/ …
+        └── tareas/t1/ …
 ```
 
 Cuatro reglas:

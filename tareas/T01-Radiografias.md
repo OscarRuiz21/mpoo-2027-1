@@ -1,7 +1,7 @@
 # Tarea 1 · Radiografías con contexto
 
 **Entrega: lunes 14 de septiembre** · con **push a tu rama** `entregas_apellido_nombre`,
-en la carpeta `entregas/apellido_nombre/t01/` · **sin pull request**.
+en la carpeta `entregas/apellido_nombre/tareas/t1/` · **sin pull request**.
 
 Elige **3 objetos de tu vida** — prohibidos los de las prácticas y la clase (Punto,
 Círculo, Coche, CuentaBancaria, Canción, Alumno). Por cada uno, **parte del esqueleto**
@@ -38,7 +38,7 @@ ejecuto tu `.class` (`java TuClase`): **si no corre en mi entorno, la tarea est�
 mitad**.
 
 ```
-entregas/apellido_nombre/t01/
+entregas/apellido_nombre/tareas/t1/
 ├── Guitarra.java      ├── Guitarra.class
 ├── Mochila.java       ├── Mochila.class
 └── ...                └── ...
