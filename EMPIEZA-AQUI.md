@@ -9,7 +9,7 @@ trabajamos en este mismo repositorio**, como un equipo en una empresa.
 
 ## Tu primer paso
 
-**[Laboratorio 0 · Entorno de trabajo](https://oscarruiz21.github.io/mpoo-2027-1/guias/Lab-00-Entorno-y-Git.html)**
+**[Laboratorio 0 · Entorno de trabajo](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-00/Lab-00-Entorno-y-Git.html)**
 
 Ábrelo, elige tu sistema operativo arriba y sigue las partes en orden.
 
@@ -17,12 +17,15 @@ trabajamos en este mismo repositorio**, como un equipo en una empresa.
 
 ```
 mpoo-2027-1/
-├── guias/           ← las guías de laboratorio (las subo yo)
-├── material/        ← los decks de las clases de teoría (los subo yo)
-├── apoyo/           ← código de ejemplo de cada tema (lo subo yo)
-├── tareas/          ← los enunciados y esqueletos de tareas (los subo yo)
-├── calificaciones/  ← cortes de entregas, por número de cuenta
-└── entregas/        ← aquí van tus prácticas y tareas, en tu carpeta
+├── guias-laboratorios/  ← las guías de laboratorio (las subo yo)
+│   ├── Lab-00/          ← Lab 0 · entorno y primer pull request
+│   ├── Lab-03/          ← Lab 3 · laboratorio de predicciones
+│   └── referencia/      ← MADO-21, guía de Git, instalación
+├── material/            ← los decks de las clases de teoría (los subo yo)
+├── apoyo/               ← código de ejemplo de cada tema (lo subo yo)
+├── tareas/              ← los enunciados y esqueletos de tareas (los subo yo)
+├── calificaciones/      ← cortes de entregas, por número de cuenta
+└── entregas/            ← aquí van tus prácticas y tareas, en tu carpeta
     └── apellido_nombre/
         ├── p01/ … p12/
         └── tareas/t01/ …

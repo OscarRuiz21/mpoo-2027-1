@@ -53,7 +53,7 @@ pull lista ramas de tus compañeros: es solo el índice, no toca tu trabajo.
 ## 1 · Trabaja
 
 Tu código va en `entregas/apellido_nombre/pNN/` (o `tareas/tNN/` para las tareas). Nunca toques la
-carpeta de otro, ni `guias/`, ni `apoyo/`.
+carpeta de otro, ni `guias-laboratorios/`, ni `apoyo/`.
 
 ## 2 · ¿Qué cambió?
 
