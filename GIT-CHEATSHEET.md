@@ -4,30 +4,52 @@
 
 ## Primera vez · conecta tu clon con TU rama del semestre
 
-Tu rama `entregas_apellido_nombre` **ya existe en GitHub** (te la creamos, y si tenías
-trabajo pendiente, ya viaja en ella). Elige UN camino según tu caso:
-
-**A · Lo más común — solo tráela:**
-
-```bash
-git fetch origin                          # entérate de las ramas nuevas del repositorio
-git checkout entregas_apellido_nombre     # crea tu copia local, ya conectada con la remota
-```
-
-**B · Ya tenías una rama local con otro nombre (p02-apellido, etc.) y quieres conservarla renombrándola:**
+**Ya está todo puesto de tu lado.** Tu rama `entregas_apellido_nombre` existe en GitHub,
+tiene **todo tu trabajo ya integrado** y está al día con el material del curso. Las ramas
+viejas (`p01-…`, `p02-…`) ya no existen: las recogimos y las cerramos. Un solo comando:
 
 ```bash
-git branch -m p02-apellido entregas_apellido_nombre   # renómbrala (-m = move/rename)
-git fetch origin                                      # entérate de la rama remota
-git branch -u origin/entregas_apellido_nombre         # conéctala con la remota (-u = upstream)
-git pull                                              # mezcla lo que ya haya en la remota con lo tuyo
-git push                                              # y sube el resultado
+git fetch origin                          # entérate de las ramas del repositorio
+git checkout entregas_apellido_nombre     # tu copia local, ya conectada con la remota
 ```
 
-**C · Prefieres empezar de cero:** haz el camino A, copia tus archivos a tu carpeta de
-`entregas/apellido_nombre/`, y sigue la rutina normal de abajo.
+Si tenías una rama local vieja y te estorba, bórrala sin miedo — su contenido ya está en
+tu rama nueva:
 
-Cualquiera de los tres se hace **una sola vez**; después, tu semana es la rutina de abajo.
+```bash
+git branch -D p02-apellido                # -D borra esa rama SOLO de tu computadora
+```
+
+**Tu carpeta cambió de nombre.** Ahora todas se llaman igual: `entregas/apellido_nombre/`,
+en minúsculas y con guion bajo, y las prácticas van con dos dígitos (`p01`, no `p1`). Si
+tu carpeta se llamaba de otra forma, ya la renombramos: no la vuelvas a crear, solo trabaja
+en la que baja.
+
+Esto se hace **una sola vez**; después, tu semana es la rutina de abajo.
+
+## Opcional · ver solo TU carpeta, sin las de tus compañeros
+
+Como todos trabajamos en el mismo repositorio, al bajarlo aparecen las carpetas de los 29.
+Si te estorban para encontrar la tuya, puedes pedirle a Git que en tu computadora solo
+aparezcan el material del curso y tu carpeta:
+
+```bash
+git sparse-checkout init --cone
+git sparse-checkout set guias-laboratorios material apoyo tareas calificaciones entregas/apellido_nombre
+```
+
+A partir de ahí, `entregas/` solo te muestra la tuya. **No borra nada de nadie**: las demás
+siguen en GitHub, simplemente no se copian a tu disco. Todo lo demás funciona igual — `add`,
+`commit`, `push` y `git pull origin main` se comportan exactamente como siempre.
+
+Para volver a verlo todo:
+
+```bash
+git sparse-checkout disable
+```
+
+Necesita Git 2.25 o más nuevo (`git --version` te lo dice). Es **opcional**: si te confunde,
+no lo uses — no cambia en nada tu calificación ni tu forma de entregar.
 
 ## Mantén tu local al día
 
@@ -98,7 +120,8 @@ al final del semestre, con todo tu trabajo.
 | `nothing to commit` después del `add` | No guardaste el archivo en el editor, o lo pusiste en otra carpeta. Corre `git status` y revisa la ruta |
 | Hiciste `commit` pero no aparece en GitHub | Falta el `push`. El commit guarda en tu computadora; el push lo sube. Es el error número uno |
 | `protected branch` al hacer `push` | Commiteaste en `main` sin querer. No pasa nada: `git checkout entregas_apellido_nombre` (o créala con `-b`) se lleva tus commits a tu rama, y desde ahí pusheas normal |
-| Trabajaste en una rama vieja (`pNN-…`) | Tu rama `entregas_…` ya existe con tu trabajo: `git fetch origin` y `git checkout entregas_apellido_nombre`; desde hoy todo va ahí |
+| Tu rama vieja (`pNN-…`) ya no aparece en GitHub | La cerramos a propósito: **tu trabajo ya está en tu rama `entregas_…` y en `main`**, no se perdió nada. `git fetch origin` y `git checkout entregas_apellido_nombre` |
+| No encuentras tu carpeta, o tiene otro nombre | La renombramos a `entregas/apellido_nombre/` (minúsculas, guion bajo). Haz `git pull origin main` y trabaja en la que baje; no crees una nueva |
 | Te pide contraseña y la rechaza | La contraseña de GitHub no sirve para `push`. En Windows, Git abre el navegador para autorizar; en macOS y Linux usa tu token (Parte 4.4 del Lab 0) |
 
 ## Si te atoras y no sabes qué hiciste
