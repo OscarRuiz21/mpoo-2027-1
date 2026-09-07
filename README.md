@@ -13,7 +13,7 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | **Lab 0 · Entorno de trabajo y primer pull request** | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-00/Lab-00-Entorno-y-Git.html> |
 | **Guía de Git y GitHub** · la rutina de entrega, paso a paso | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/referencia/Guia-Git-GitHub.html> |
 | Cheatsheet de Git · la rutina en corto | [`GIT-CHEATSHEET.md`](GIT-CHEATSHEET.md) |
-| **Manual de prácticas (MADO-21)** · las 12 prácticas oficiales | [`guias-laboratorios/referencia/MADO-21_MPOO.pdf`](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/referencia/MADO-21_MPOO.pdf) |
+| **Manual de prácticas (MADO-21)** · las 12 prácticas oficiales | [`guias-laboratorios/MADO-21_MPOO.pdf`](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/MADO-21_MPOO.pdf) |
 | **Tarea 1 · Radiografías con contexto** (entrega lun 14-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/tareas/t01/T01-Radiografias-con-contexto.html> |
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |
 | Todas las guías de laboratorio · una carpeta por lab | [`guias-laboratorios/`](guias-laboratorios/) |

@@ -20,7 +20,8 @@ mpoo-2027-1/
 ├── guias-laboratorios/  ← las guías de laboratorio (las subo yo)
 │   ├── Lab-00/          ← Lab 0 · entorno y primer pull request
 │   ├── Lab-03/          ← Lab 3 · laboratorio de predicciones
-│   └── referencia/      ← MADO-21, guía de Git, instalación
+│   ├── referencia/      ← guía de Git, instalación
+│   └── MADO-21_MPOO.pdf ← el manual oficial de las 12 prácticas
 ├── material/            ← los decks de las clases de teoría (los subo yo)
 ├── apoyo/               ← código de ejemplo de cada tema (lo subo yo)
 ├── tareas/              ← los enunciados y esqueletos de tareas (los subo yo)

@@ -16,11 +16,17 @@ navegador (es la que conviene) y **`.pdf`** para imprimir o leer sin conexión.
 Los laboratorios que faltan se van agregando aquí, cada uno en su carpeta, conforme
 avanza el semestre.
 
+## El manual oficial
+
+**[`MADO-21_MPOO.pdf`](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/MADO-21_MPOO.pdf)**
+— el manual de la Facultad con las 12 prácticas del curso. Está aquí, junto a las guías,
+porque es el documento que acompaña a todo el laboratorio: mis guías dicen *cómo* trabajamos
+cada sesión, y el MADO dice *qué* pide oficialmente cada práctica.
+
 ## Referencia · se consulta todo el semestre
 
 | Qué es | Dónde |
 |---|---|
-| **Manual de prácticas (MADO-21)** · las 12 prácticas oficiales | [`referencia/MADO-21_MPOO.pdf`](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/referencia/MADO-21_MPOO.pdf) |
 | **Guía de Git y GitHub** · la rutina de entrega, paso a paso | [`referencia/Guia-Git-GitHub.html`](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/referencia/Guia-Git-GitHub.html) |
 | Instalación del entorno, versión texto | [`referencia/README-Instalacion.md`](referencia/README-Instalacion.md) |
 
