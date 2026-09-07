@@ -52,7 +52,7 @@ pull lista ramas de tus compañeros: es solo el índice, no toca tu trabajo.
 
 ## 1 · Trabaja
 
-Tu código va en `entregas/apellido_nombre/pNN/` (o `tareas/tN/` para las tareas). Nunca toques la
+Tu código va en `entregas/apellido_nombre/pNN/` (o `tareas/tNN/` para las tareas). Nunca toques la
 carpeta de otro, ni `guias/`, ni `apoyo/`.
 
 ## 2 · ¿Qué cambió?
@@ -66,7 +66,7 @@ Míralo siempre antes de guardar. Si aparece un archivo que no esperabas, ahí l
 ## 3 · Prepara lo que quieres guardar
 
 ```bash
-git add entregas/apellido_nombre/tareas/t1
+git add entregas/apellido_nombre/tareas/t01
 ```
 
 Nombra tu carpeta. No uses `git add .`: eso agarra todo lo que haya, incluida basura del
@@ -75,7 +75,7 @@ IDE. Cuando la entrega pida el `.class`, va junto con su `.java`.
 ## 4 · Guarda con un mensaje que explique
 
 ```bash
-git commit -m "T1: radiografias con contexto"
+git commit -m "T01: radiografias con contexto"
 ```
 
 Empieza con el número de práctica o tarea. Un mensaje como "cambios" no le sirve a nadie,
