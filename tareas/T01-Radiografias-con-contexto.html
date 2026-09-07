@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · Tarea 1 · Radiografías con contexto</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:62ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.83rem;color:#33465e;white-space:pre;overflow-x:auto}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+</style></head><body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · Tarea 1 · entrega lunes 14 de septiembre</div>
+  <h1>Radiografías<br>con <em style="color:#ffb340">contexto</em></h1>
+  <p>Tres objetos <strong style="color:#fff">de tu vida</strong>, modelados como clases de Java, con cada parte etiquetada y funcionando. No se trata de escribir mucho código: se trata de que puedas <strong style="color:#fff">justificar</strong> cada atributo y cada método, y de que uses de verdad los tipos y operadores de la clase del 7 de septiembre.</p>
+</div></header>
+
+<div class="wrap">
+
+<div class="box tip">
+  <h4>En una línea</h4>
+  <p>Tres clases, cada una con su comentario de modelado de 4 líneas, sus partes etiquetadas y su <code>main</code> que imprime la tarjeta del objeto. Entre las tres deben aparecer <strong>4 tipos distintos</strong> y <strong>todos los operadores</strong> que vimos. Se entrega el <code>.java</code> <strong>y</strong> el <code>.class</code>.</p>
+</div>
+
+<h2>Parte 0 · Qué se entrega y cómo se califica</h2>
+
+<table>
+  <tr><th>Qué</th><th>Detalle</th></tr>
+  <tr><td><b>Cuándo</b></td><td>Lunes <b>14 de septiembre</b>, antes de la clase.</td></tr>
+  <tr><td><b>Dónde</b></td><td>Su rama <code>entregas_apellido_nombre</code> · carpeta <code>entregas/apellido_nombre/tareas/t01/</code>. <b>Solo push. No se abre pull request.</b></td></tr>
+  <tr><td><b>Qué archivos</b></td><td>Por cada objeto: el <code>.java</code> <b>y</b> su <code>.class</code> (compilado con JDK 21), más <b>un</b> <code>QUIZ.md</code>. Son <b>7 archivos</b>, más nada.</td></tr>
+  <tr><td><b>Cómo se califica</b></td><td>Justificación del modelo 30 % · código completo y etiquetado 30 % · <b>que corra</b> 20 % · <b>quiz de vocabulario 20 %</b>.</td></tr>
+</table>
+
+<div class="box warn">
+  <h4>Lo que hace que la tarea valga la mitad</h4>
+  <p>Yo ejecuto <b>tu <code>.class</code></b>, no lo recompilo. Si no corre en mi máquina, la tarea está a la mitad aunque el <code>.java</code> esté perfecto. Antes de subirlo: borra el <code>.class</code>, vuelve a compilar con <code>javac</code> y córrelo con <code>java</code> una última vez.</p>
+</div>
+
+<h2>Parte 1 · Los tres objetos</h2>
+
+<p>Objetos <em>de tu vida</em>: cosas que usas, que tienes o que ves todos los días. La regla es que puedas contar en qué programa vivirían y para qué serviría ese programa.</p>
+
+<div class="box warn">
+  <h4>Prohibidos</h4>
+  <p><code>Circulo</code>, <code>Coche</code>, <code>CuentaBancaria</code>, <code>Cancion</code>, <code>Alumno</code>, <code>Termometro</code>, <code>Videojuego</code> y cualquiera de las prácticas. Ya los modelamos en clase; la tarea es que modeles tú.</p>
+</div>
+
+<h3>Menú de ideas, por si no se te ocurre nada</h3>
+
+<p>No es obligatorio usarlas: son para arrancar. La última columna dice qué operador practica cada una, para que armes tus tres cubriendo todo lo que se pide.</p>
+
+<table>
+  <tr><th>Objeto</th><th>Qué sabe</th><th>Qué sabe hacer</th><th>Practica</th></tr>
+  <tr><td><b>Mochila</b></td><td><code>double pesoKg</code> · <code>int objetos</code> · <code>boolean cerrada</code></td><td><code>meter(double kg)</code> void · <code>estaPesada()</code> boolean</td><td><code>+=</code> · <code>&gt;=</code></td></tr>
+  <tr><td><b>Celular</b></td><td><code>double bateria</code> · <code>int apps</code> · <code>boolean silencio</code></td><td><code>usar(double min)</code> void · <code>necesitaCarga()</code> boolean</td><td><code>-</code> · <code>&lt;</code> · <code>||</code></td></tr>
+  <tr><td><b>Cafetera</b></td><td><code>int mlAgua</code> · <code>int tazasServidas</code></td><td><code>servir()</code> void · <code>alcanzaPara(int tazas)</code> boolean</td><td><code>/</code> entera · <code>%</code></td></tr>
+  <tr><td><b>Serie</b></td><td><code>String titulo</code> · <code>int vistos</code> · <code>int total</code></td><td><code>ver(int caps)</code> void · <code>porcentajeVisto()</code> double</td><td>casting · división <code>double</code></td></tr>
+  <tr><td><b>Bicicleta</b></td><td><code>int cambio</code> · <code>double velocidad</code> · <code>boolean luz</code></td><td><code>subirCambio()</code> void · <code>vaSegura()</code> boolean</td><td><code>++</code> · <code>&lt;=</code> · <code>&amp;&amp;</code></td></tr>
+  <tr><td><b>Taquería</b></td><td><code>int tacos</code> · <code>double precio</code> · <code>char salsa</code></td><td><code>pedir(int n)</code> void · <code>cambioDe(double paga)</code> double</td><td><code>*</code> · <code>-</code> · <code>char</code></td></tr>
+  <tr><td><b>Ruta de camión</b></td><td><code>int pasajeros</code> · <code>double tarifa</code> · <code>boolean enParada</code></td><td><code>subir(int n)</code> void · <code>recaudado()</code> double</td><td><code>*</code> · <code>+=</code> · <code>==</code></td></tr>
+  <tr><td><b>Impresora</b></td><td><code>int hojas</code> · <code>int copiasHechas</code> · <code>char tinta</code></td><td><code>imprimir(int n)</code> void · <code>tieneHojas()</code> boolean</td><td><code>-</code> · <code>&gt;</code> · <code>%</code></td></tr>
+</table>
+
+<h2>Parte 2 · Qué debe traer cada clase</h2>
+
+<div class="cp">
+  <h4><span class="n">1</span>El comentario de modelado, 4 líneas, arriba de la clase</h4>
+  <p><b>CONTEXTO</b> (¿en qué programa vive este objeto?) · <b>QUÉ SABE Y POR QUÉ</b> (cada atributo con su razón) · <b>QUÉ SABE HACER Y POR QUÉ</b> (por qué <code>void</code> o por qué retorna, y por qué esos parámetros) · <b>QUÉ IGNORÉ</b> (1 o 2 cosas del objeto real que no modelaste, y por qué).</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">2</span>La clase, con cada parte etiquetada</h4>
+  <p>Mínimo <b>2 atributos</b> y <b>2 métodos</b>: uno <code>void</code> con parámetro y uno que retorne. Cada atributo con su comentario de tipo, nombre y valor inicial; cada método con su <b>firma</b> en comentario: <code>// firma: meter(double)</code>.</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">3</span>Un constructor, en <b>una</b> de las tres clases</h4>
+  <p>Elige la clase donde tenga más sentido: aquella que <b>no debería poder nacer vacía</b>. Mismo nombre que la clase, <b>sin</b> tipo de retorno, y adentro <code>this.atributo = parametro;</code>. En las otras dos no hace falta. Si te animas a poner un segundo constructor vacío en la misma clase, eso es <b>sobrecarga</b> y cuenta como punto extra.</p>
+<pre><code><span class="c">// firma: Mochila(double) · sin tipo de retorno</span>
+Mochila(<span class="o">double</span> pesoKg) {
+    <span class="v">this</span>.pesoKg = pesoKg;   <span class="c">// this.pesoKg = ATRIBUTO · pesoKg = PARAMETRO</span>
+}</code></pre>
+  <p><b>Ojo:</b> en cuanto escribes ese constructor, <code>new Mochila()</code> deja de existir. En tu <code>main</code> tienes que crear el objeto con sus datos: <code>new Mochila(3.5)</code>.</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">4</span>El <code>main</code> completado: la tarjeta del objeto</h4>
+  <p>Crear el objeto, imprimir el <b>estado inicial</b>, invocar los métodos diciendo su firma, y volver a imprimir el <b>estado final</b>. Eso demuestra que el objeto cambia como dijiste que iba a cambiar.</p>
+</div>
+
+<h3>Y entre los tres objetos, esta lista de tipos y operadores</h3>
+
+<p>No tienen que estar todos en la misma clase: repártelos entre los tres. Marca cada uno con un comentario corto donde lo uses, así: <code>// operador %</code>.</p>
+
+<table>
+  <tr><th>Debe aparecer</th><th>Cuántas veces</th><th>Ejemplo</th></tr>
+  <tr><td><b>Tipos distintos</b></td><td>al menos <b>4</b> de: <code>int</code>, <code>double</code>, <code>boolean</code>, <code>char</code>, <code>String</code></td><td><code>double bateria;</code> · <code>char salsa;</code></td></tr>
+  <tr><td><b>Aritméticos</b></td><td>los cinco: <code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code></td><td><code>total = tacos * precio;</code></td></tr>
+  <tr><td><b>Abreviado o contador</b></td><td>al menos uno: <code>++</code>, <code>--</code> o <code>+=</code></td><td><code>copiasHechas++;</code></td></tr>
+  <tr><td><b>Relacionales</b></td><td>al menos <b>dos distintos</b></td><td><code>return hojas &gt; 0;</code></td></tr>
+  <tr><td><b>Lógico</b></td><td>al menos uno: <code>&amp;&amp;</code>, <code>||</code> o <code>!</code></td><td><code>return vidas &gt; 0 &amp;&amp; !pausado;</code></td></tr>
+  <tr><td><b>Casting</b></td><td>uno explícito</td><td><code>int completas = (int) horas;</code></td></tr>
+  <tr><td><b>Constructor</b></td><td>uno, con parámetros, en <b>una</b> de las tres clases</td><td><code>Mochila(double pesoKg) { this.pesoKg = pesoKg; }</code></td></tr>
+  <tr><td><b>Punto extra</b></td><td>una constante <code>static final</code>, un contador <code>static</code> o un segundo constructor (sobrecarga)</td><td><code>static final int PUNTOS_POR_NIVEL = 1000;</code></td></tr>
+</table>
+
+<div class="box tip">
+  <h4>La trampa de la división</h4>
+  <p>Si divides <code>int</code> entre <code>int</code>, el resultado es <code>int</code> y los decimales se van sin avisar: <code>90 / 60</code> da <b>1</b>, no 1.5. Si quieres decimales, uno de los dos tiene que ser <code>double</code>: <code>90 / 60.0</code> da <b>1.5</b>. Es el error que más va a salir en esta tarea.</p>
+</div>
+
+<h2>Parte 3 · Un ejemplo resuelto, de principio a fin</h2>
+
+<p>Este es <code>Videojuego</code>, y por eso mismo <b>ya no lo puedes entregar</b>. Léelo como muestra de qué tan lejos hay que llegar, no como plantilla para rellenar.</p>
+
+<pre><code>// CONTEXTO: app que lleva el avance de una partida en mi consola.
+// QUE SABE Y POR QUE: titulo (para mostrarlo), puntos y vidas (definen si sigue vivo),
+//                     horasJugadas (para saber si rindo), pausado (no cuenta mientras esta en pausa),
+//                     dificultad (una sola letra: F, N o D).
+// QUE SABE HACER Y POR QUE: anotar(int) es void porque solo cambia el estado; nivel() retorna porque
+//                     la pantalla lo necesita; puedeSeguir() retorna boolean porque el juego decide con eso.
+// QUE IGNORE: los graficos y el nombre del jugador: no cambian nada de lo que este programa hace.
+// CONSTRUCTOR: titulo y dificultad se piden al crear la partida, porque una partida sin titulo no
+//              existe; los demas atributos si tienen valor por defecto razonable.
+public class Videojuego {
+
+    // ===== CONSTANTE (opcional, punto extra) =====
+    static final int PUNTOS_POR_NIVEL = 1000;   // tipo: int · nombre en MAYUSCULAS · no cambia nunca
+
+    // ===== ATRIBUTOS =====
+    String titulo = &quot;Sin nombre&quot;;   // tipo: String  · objeto, no primitivo
+    int puntos = 0;                 // tipo: int     · valor inicial: 0
+    int vidas = 3;                  // tipo: int     · valor inicial: 3
+    double horasJugadas = 0.0;      // tipo: double  · valor inicial: 0.0
+    boolean pausado = false;        // tipo: boolean · valor inicial: false
+    char dificultad = &#x27;N&#x27;;          // tipo: char    · N de normal
+
+    // ===== CONSTRUCTOR =====
+    // firma: Videojuego(String, char) · mismo nombre de la clase · SIN tipo de retorno
+    Videojuego(String titulo, char dificultad) {
+        this.titulo = titulo;           // this.titulo es el ATRIBUTO, titulo a secas el PARAMETRO
+        this.dificultad = dificultad;
+    }
+
+    // ===== METODOS =====
+    // firma: anotar(int) · retorno: void · parametro: int gana
+    void anotar(int gana) {
+        puntos += gana;             // operador +=
+    }
+
+    // firma: perderVida() · retorno: void · sin parametros
+    void perderVida() {
+        vidas--;                    // operador --
+    }
+
+    // firma: jugar(double) · retorno: void · parametro: double horas
+    void jugar(double horas) {
+        horasJugadas = horasJugadas + horas;   // operador +
+    }
+
+    // firma: nivel() · retorno: int · sin parametros
+    int nivel() {
+        return puntos / PUNTOS_POR_NIVEL;      // division ENTERA: 2500/1000 = 2
+    }
+
+    // firma: esNivelPar() · retorno: boolean · sin parametros
+    boolean esNivelPar() {
+        return nivel() % 2 == 0;               // operadores % y ==
+    }
+
+    // firma: puedeSeguir() · retorno: boolean · sin parametros
+    boolean puedeSeguir() {
+        return vidas &gt; 0 &amp;&amp; !pausado;          // operadores &gt;, &amp;&amp; y !
+    }
+
+    // firma: puntosPorHora() · retorno: double · sin parametros
+    double puntosPorHora() {
+        return puntos / horasJugadas;          // int entre double: da double
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;RADIOGRAFIA: Videojuego&quot;);
+
+        Videojuego v = new Videojuego(&quot;Metroid&quot;, &#x27;D&#x27;);   // el constructor los deja puestos
+
+        System.out.println(&quot;[estado inicial]&quot;);
+        System.out.println(&quot;titulo       = &quot; + v.titulo);
+        System.out.println(&quot;puntos       = &quot; + v.puntos);
+        System.out.println(&quot;vidas        = &quot; + v.vidas);
+        System.out.println(&quot;horasJugadas = &quot; + v.horasJugadas);
+        System.out.println(&quot;pausado      = &quot; + v.pausado);
+        System.out.println(&quot;dificultad   = &quot; + v.dificultad);
+
+        System.out.println(&quot;[invocando metodos]&quot;);
+        v.anotar(2500);
+        System.out.println(&quot;anotar(int) -&gt; void; puntos = &quot; + v.puntos);
+        v.jugar(3.5);
+        System.out.println(&quot;jugar(double) -&gt; void; horasJugadas = &quot; + v.horasJugadas);
+        v.perderVida();
+        System.out.println(&quot;perderVida() -&gt; void; vidas = &quot; + v.vidas);
+        System.out.println(&quot;nivel() -&gt; int; &quot; + v.nivel());
+        System.out.println(&quot;esNivelPar() -&gt; boolean; &quot; + v.esNivelPar());
+        System.out.println(&quot;puedeSeguir() -&gt; boolean; &quot; + v.puedeSeguir());
+        System.out.println(&quot;puntosPorHora() -&gt; double; &quot; + v.puntosPorHora());
+
+        int horasCompletas = (int) v.horasJugadas;   // casting: 3.5 -&gt; 3
+        System.out.println(&quot;casting (int) 3.5 = &quot; + horasCompletas);
+
+        System.out.println(&quot;[estado final]&quot;);
+        System.out.println(&quot;puntos = &quot; + v.puntos + &quot; | vidas = &quot; + v.vidas
+                         + &quot; | horasJugadas = &quot; + v.horasJugadas);
+    }
+}
+</code></pre>
+
+<p>Se compila y se corre así, y esto es lo que imprime de verdad:</p>
+
+<pre><code>javac Videojuego.java   <span class="c"># nace Videojuego.class</span>
+java Videojuego         <span class="c"># SIN el .class al final</span></code></pre>
+
+<div class="out"><b>Salida real</b>RADIOGRAFIA: Videojuego
+[estado inicial]
+titulo       = Metroid
+puntos       = 0
+vidas        = 3
+horasJugadas = 0.0
+pausado      = false
+dificultad   = D
+[invocando metodos]
+anotar(int) -&gt; void; puntos = 2500
+jugar(double) -&gt; void; horasJugadas = 3.5
+perderVida() -&gt; void; vidas = 2
+nivel() -&gt; int; 2
+esNivelPar() -&gt; boolean; true
+puedeSeguir() -&gt; boolean; true
+puntosPorHora() -&gt; double; 714.2857142857143
+casting (int) 3.5 = 3
+[estado final]
+puntos = 2500 | vidas = 2 | horasJugadas = 3.5</div>
+
+<div class="box tip">
+  <h4>Dónde quedó cada cosa de la lista, en este ejemplo</h4>
+  <p><b>Tipos:</b> <code>String</code>, <code>int</code>, <code>double</code>, <code>boolean</code> y <code>char</code>, cinco de cinco. <b>Aritméticos:</b> <code>+</code> en <code>jugar</code>, <code>-</code> escondido en <code>--</code>, <code>/</code> en <code>nivel</code> y en <code>puntosPorHora</code>, <code>%</code> en <code>esNivelPar</code>; el <code>*</code> es el único que este ejemplo no trae, y por eso tú sí lo necesitas en alguno de tus tres. <b>Abreviados:</b> <code>+=</code> y <code>--</code>. <b>Relacionales:</b> <code>==</code> y <code>&gt;</code>. <b>Lógicos:</b> <code>&amp;&amp;</code> y <code>!</code>. <b>Casting:</b> <code>(int) v.horasJugadas</code>. <b>Constructor:</b> <code>Videojuego(String, char)</code>, que es justamente el que se pide en una de tus tres. <b>Punto extra:</b> la constante <code>PUNTOS_POR_NIVEL</code>.</p>
+</div>
+
+<div class="box warn">
+  <h4>Dos detalles del ejemplo que valen tarea</h4>
+  <p><code>nivel()</code> usa división <b>entera</b> a propósito: con 2500 puntos y 1000 por nivel, el nivel es <b>2</b>, no 2.5. En cambio <code>puntosPorHora()</code> divide un <code>int</code> entre un <code>double</code> y por eso sí sale con decimales. Los dos son correctos porque cada uno responde una pregunta distinta; lo que se califica es que sepas cuál usaste y por qué.</p>
+</div>
+
+<h2>Parte 4 · El esqueleto del que partes</h2>
+
+<p>Está en el repo, en <code>plantillas/MiObjeto.java</code>. Cópialo tres veces, uno por objeto, y renombra la clase <b>y el archivo</b> cada vez. Al lado está <code>plantillas/QUIZ.md</code>, que es el de la Parte 5.</p>
+
+<pre><code>// CONTEXTO: (¿en que programa vive este objeto? una linea)
+// QUE SABE Y POR QUE: (cada atributo, con su razon)
+// QUE SABE HACER Y POR QUE: (cada metodo: por que void o por que retorna,
+//                            y por que esos parametros)
+// QUE IGNORE: (1 o 2 cosas del objeto real que no modelaste, y por que)
+public class MiObjeto {   // TODO: renombra la clase Y el archivo (PascalCase)
+
+    // ===== ATRIBUTOS (etiqueta cada parte) =====
+    // ej:  double saldo = 0;   // tipo: double · nombre: saldo · valor inicial: 0
+
+    // ===== CONSTRUCTOR (obligatorio en UNA de tus tres clases) =====
+    // Mismo nombre que la clase, SIN tipo de retorno (ni void).
+    // Pon aqui los datos sin los que el objeto no tiene sentido; el resto dejalos con su valor inicial.
+    // ej:  // firma: MiObjeto(double) · sin tipo de retorno
+    //      MiObjeto(double saldo) {
+    //          this.saldo = saldo;   // this.saldo = ATRIBUTO · saldo a secas = PARAMETRO
+    //      }
+    // OJO: si escribes este, new MiObjeto() deja de existir. O lo llamas con sus datos,
+    //      o escribes tambien el constructor vacio: MiObjeto() { }
+
+    // ===== METODOS (etiqueta cada parte y su firma) =====
+    // ej:  // firma: retirar(double) · retorno: void · parametro: double monto
+
+    public static void main(String[] args) {
+        System.out.println(&quot;RADIOGRAFIA: MiObjeto&quot;);
+        // 1: crea tu objeto (con new MiObjeto(...) si le pusiste constructor) y asigna lo que falte
+        System.out.println(&quot;[estado inicial]&quot;);    // 2: imprime cada atributo
+        System.out.println(&quot;[invocando metodos]&quot;); // 3: firma + invocacion + resultado
+        System.out.println(&quot;[estado final]&quot;);      // 4: imprime atributos otra vez
+    }
+}
+</code></pre>
+
+<h2>Parte 5 · El quiz de vocabulario</h2>
+
+<p>Un archivo <code>QUIZ.md</code>, en la misma carpeta que tus tres clases. Diez preguntas cortas sobre lo que vimos el lunes. Vale <b>20 % de la tarea</b>, y es la parte que más rápido se hace si de verdad entendiste, y la que más se nota si no.</p>
+
+<div class="box warn">
+  <h4>Las cuatro reglas</h4>
+  <p><b>1. Con tus palabras.</b> Si la respuesta es la definición de la slide copiada o una de internet pegada, esa pregunta vale cero. No busco la definición correcta, busco la tuya. <b>2. Máximo 3 renglones por respuesta.</b> Se califica que se entienda, no que sea larga. <b>3. Donde diga "de tu tarea", pega la línea real de tu código</b>, no un ejemplo inventado. <b>4. Una respuesta razonada pero equivocada da más puntos que una copiada perfecta</b>, porque la primera se corrige en clase y la segunda no me dice nada.</p>
+</div>
+
+<h3>Las diez preguntas</h3>
+
+<table>
+  <tr><th style="width:2.2em">#</th><th>Pregunta</th></tr>
+  <tr><td><b>1</b></td><td>¿Qué es un <b>atributo</b>? ¿En qué se diferencia de una variable cualquiera? Pon un ejemplo de cada uno <b>sacado de tu tarea</b>.</td></tr>
+  <tr><td><b>2</b></td><td>¿Qué es un <b>constructor</b>, en qué momento exacto se ejecuta y cuántas veces? Pega el tuyo y di qué habría pasado con ese objeto si no lo hubieras escrito.</td></tr>
+  <tr><td><b>3</b></td><td>¿Para qué sirve <code>this</code> adentro de un constructor? ¿Qué pasa si se te olvida: truena, o pasa algo peor?</td></tr>
+  <tr><td><b>4</b></td><td>¿Qué es la <b>firma</b> de un método? Escribe la firma de dos métodos tuyos, tal como se escriben.</td></tr>
+  <tr><td><b>5</b></td><td><b>Parámetro</b> y <b>argumento</b>: ¿cuál es cuál? Pon una línea de tu código donde se vea el parámetro y otra donde se vea el argumento.</td></tr>
+  <tr><td><b>6</b></td><td>¿Qué significa que un método sea <code>void</code>? Viendo tu propio código: ¿cómo decidiste cuál era <code>void</code> y cuál tenía que retornar?</td></tr>
+  <tr><td><b>7</b></td><td>¿Qué es un tipo <b>primitivo</b> y en qué se diferencia de una <b>referencia</b>? ¿Por qué un <code>int</code> nunca puede valer <code>null</code> y un <code>String</code> sí?</td></tr>
+  <tr><td><b>8</b></td><td>¿Por qué en Java <code>7 / 2</code> da <code>3</code> y no <code>3.5</code>? ¿Qué es lo mínimo que cambiarías para que diera <code>3.5</code>?</td></tr>
+  <tr><td><b>9</b></td><td>¿Qué hace un <b>casting</b> como <code>(int)</code> y qué se pierde al hacerlo? Pega la línea de tu tarea donde lo usaste y di qué se perdió ahí.</td></tr>
+  <tr><td><b>10</b></td><td>¿Qué hace <code>new</code>? ¿Cuál es la diferencia entre la <b>clase</b> y una <b>instancia</b>, dicha con uno de tus tres objetos?</td></tr>
+</table>
+
+<h3>El formato del archivo</h3>
+
+<p>Cópialo tal cual y contesta debajo de cada pregunta. Se llama <code>QUIZ.md</code>, con esas mayúsculas.</p>
+
+<pre><code><span class="c"># QUIZ T01 · Nombre Apellido</span>
+
+<span class="c">## 1. Atributo contra variable</span>
+(tu respuesta, maximo 3 renglones)
+
+<span class="c">## 2. Constructor: que es, cuando corre, cuantas veces</span>
+(tu respuesta)
+
+```java
+// pega aqui tu constructor
+```
+
+<span class="c">## 3. Para que sirve this</span>
+(tu respuesta)
+
+<span class="c">## 4. La firma de un metodo</span>
+(tu respuesta, con tus dos firmas)
+
+<span class="c">## 5. Parametro y argumento</span>
+(tu respuesta, con una linea de cada uno)
+
+<span class="c">## 6. Que significa void</span>
+(tu respuesta)
+
+<span class="c">## 7. Primitivo contra referencia, y el null</span>
+(tu respuesta)
+
+<span class="c">## 8. Por que 7 / 2 da 3</span>
+(tu respuesta)
+
+<span class="c">## 9. El casting y lo que se pierde</span>
+(tu respuesta, con tu linea)
+
+<span class="c">## 10. new, clase e instancia</span>
+(tu respuesta)</code></pre>
+
+<div class="box tip">
+  <h4>Cómo se ve una respuesta que sí cuenta</h4>
+  <p><b>Pregunta 1, mal:</b> "Un atributo es una variable declarada dentro de una clase que representa el estado del objeto." Eso está bien escrito y no me dice si entendiste.</p>
+  <p><b>Pregunta 1, bien:</b> "El atributo es lo que el objeto se acuerda aunque nadie lo esté usando. En mi <code>Mochila</code>, <code>pesoKg</code> es atributo porque la mochila sigue pesando lo mismo cuando termina el método. En cambio el <code>kg</code> de <code>meter(double kg)</code> es una variable que existe nada más mientras corre ese método y luego desaparece."</p>
+</div>
+
+<h2>Parte 6 · Cómo se entrega</h2>
+
+<div class="box tip">
+  <h4>Cambió respecto a la P0: ya no se abren pull requests</h4>
+  <p>Cada quien tiene <b>una sola rama para todo el semestre</b>: <code>entregas_apellido_nombre</code>. Todas las tareas del semestre viven ahí, cada una en su carpeta. <b>No se abre pull request</b>: con que tu <code>git push</code> llegue, está entregado. Yo leo tu rama directo.</p>
+</div>
+
+<div class="tree">entregas/
+└── <span class="d">apellido_nombre/</span>
+    └── <span class="d">tareas/</span>
+        └── <span class="d">t01/</span>
+            ├── Mochila.java      <span class="c"># tus nombres, no estos</span>
+            ├── Mochila.class
+            ├── Celular.java
+            ├── Celular.class
+            ├── Cafetera.java
+            ├── Cafetera.class
+            └── QUIZ.md
+</div>
+
+<pre><code><span class="c"># 1. parate en TU rama (la misma de todo el semestre)</span>
+git checkout entregas_apellido_nombre
+git pull
+
+<span class="c"># si es la primera vez y todavia no existe:</span>
+<span class="c"># git checkout -b entregas_apellido_nombre</span>
+
+<span class="c"># 2. la carpeta de esta tarea</span>
+mkdir -p entregas/apellido_nombre/tareas/t01
+<span class="c"># ahi van tus 3 .java, tus 3 .class y tu QUIZ.md</span>
+
+<span class="c"># 3. guarda y sube</span>
+git add entregas/apellido_nombre/tareas/t01
+git commit -m "T01: tres radiografias con contexto"
+git push -u origin entregas_apellido_nombre</code></pre>
+
+<div class="box warn">
+  <h4>Los tres errores de entrega que sí cuestan puntos</h4>
+  <p><b>1.</b> Subir a <code>main</code> en vez de a tu rama. Antes de hacer <code>git add</code>, corre <code>git branch</code> y confirma que el asterisco esté en <code>entregas_apellido_nombre</code>. <b>2.</b> Poner la carpeta en otro lado. Es <code>entregas/apellido_nombre/tareas/t01/</code>, exactamente así, en minúsculas. <b>3.</b> Hacer <code>commit</code> y no hacer <code>push</code>: si no está en GitHub, no existe. Ábrelo en el navegador y compruébalo tú.</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">✓</span>Checklist antes del último push</h4>
+  <p>□ Tres <code>.java</code>, tres <code>.class</code> y el <code>QUIZ.md</code>: siete archivos, nada más &nbsp; □ Todo dentro de <code>entregas/apellido_nombre/tareas/t01/</code> &nbsp; □ <code>git branch</code> muestra el asterisco en mi rama, no en <code>main</code> &nbsp; □ Cada clase con su comentario de modelado de 4 líneas &nbsp; □ Cada atributo y cada método etiquetados, con la firma en comentario &nbsp; □ Los tres <code>main</code> imprimen estado inicial, invocaciones y estado final &nbsp; □ Una de las tres clases tiene constructor con parámetros, y su <code>main</code> la crea con sus datos &nbsp; □ Entre los tres: 4 tipos, los cinco aritméticos, un abreviado, dos relacionales, un lógico y un casting &nbsp; □ Borré los <code>.class</code>, recompilé y corrí los tres una última vez &nbsp; □ Ningún objeto de la lista de prohibidos &nbsp; □ Hice <code>push</code> y lo verifiqué abriendo mi rama en GitHub</p>
+</div>
+
+<h2>Si algo falla</h2>
+
+<table>
+  <tr><th>Síntoma</th><th>Qué pasó</th></tr>
+  <tr><td><code>class X is public, should be declared in a file named X.java</code></td><td>Renombraste la clase pero no el archivo, o al revés. Los dos se llaman igual, con la misma mayúscula.</td></tr>
+  <tr><td><code>non-static variable x cannot be referenced from a static context</code></td><td>Usaste un atributo directo dentro de <code>main</code>. Primero crea el objeto: <code>Mochila m = new Mochila();</code> y luego <code>m.pesoKg</code>.</td></tr>
+  <tr><td><code>missing return statement</code></td><td>El método promete un tipo y no devuelve nada. Calcularlo no basta: falta el <code>return</code>.</td></tr>
+  <tr><td><code>incompatible types: possible lossy conversion from double to int</code></td><td>Le estás dando un decimal a un <code>int</code>. O cambias el tipo, o pones el casting: <code>(int)</code>.</td></tr>
+  <tr><td>La división te da <code>1</code> y esperabas <code>1.5</code></td><td><code>int</code> entre <code>int</code> da <code>int</code>. Haz que uno sea <code>double</code>: <code>90 / 60.0</code>.</td></tr>
+  <tr><td><code>constructor Mochila in class Mochila cannot be applied to given types;</code></td><td>Escribiste un constructor con parámetros y luego llamaste <code>new Mochila()</code>. El vacío ya no existe: llámalo con sus datos, o escribe también <code>Mochila() { }</code>.</td></tr>
+  <tr><td>El constructor corre pero el atributo se queda en <code>0.0</code></td><td>Te faltó el <code>this</code>: escribiste <code>pesoKg = pesoKg;</code> y se asignó a sí mismo. Compila sin quejarse. Va <code>this.pesoKg = pesoKg;</code>.</td></tr>
+  <tr><td>Tu constructor nunca corre</td><td>Le pusiste tipo de retorno: <code>void Mochila(double kg)</code>. Eso es un método, no un constructor. Quítale el <code>void</code>.</td></tr>
+  <tr><td><code>Error: Could not find or load main class X.class</code></td><td>Corriste <code>java X.class</code>. Es <code>java X</code>, sin el <code>.class</code>.</td></tr>
+</table>
+
+<footer>
+  <p><b>MPOO 2027-1 · Grupo 6 · Prof. Oscar Ruiz.</b> Tarea 1, entrega el lunes 14 de septiembre. Lo que se califica es que puedas justificar el modelo, que el código esté completo y etiquetado, y que corra. Si te atoras, escribe en la Discussion del repo: es mejor preguntar el miércoles que entregar a medias el lunes.</p>
+</footer>
+
+</div>
+</body></html>
