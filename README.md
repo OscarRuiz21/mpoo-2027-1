@@ -18,6 +18,7 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |
 | Todas las guías de laboratorio · una carpeta por lab | [`guias-laboratorios/`](guias-laboratorios/) |
 | Instalación del entorno, versión texto | [`guias-laboratorios/referencia/README-Instalacion.md`](guias-laboratorios/referencia/README-Instalacion.md) |
+| **Cómo va tu entrega** · cortes por número de cuenta | [`calificaciones/`](calificaciones/) |
 | Cómo entregar · carpetas y ramas | [`entregas/README.md`](entregas/README.md) |
 | Decks de las clases de teoría | [`material/`](material/) |
 | Código de ejemplo de cada tema | [`apoyo/`](apoyo/) |
