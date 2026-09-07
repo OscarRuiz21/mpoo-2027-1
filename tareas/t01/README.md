@@ -5,12 +5,12 @@
 **sin pull request**.
 
 > 📖 **La guía completa, con el ejemplo resuelto de principio a fin, está en
-> [T01-Radiografias-con-contexto.html](https://oscarruiz21.github.io/mpoo-2027-1/tareas/T01-Radiografias-con-contexto.html)**
-> (también en [PDF](https://oscarruiz21.github.io/mpoo-2027-1/tareas/T01-Radiografias-con-contexto.pdf)).
+> [T01-Radiografias-con-contexto.html](https://oscarruiz21.github.io/mpoo-2027-1/tareas/t01/T01-Radiografias-con-contexto.html)**
+> (también en [PDF](https://oscarruiz21.github.io/mpoo-2027-1/tareas/t01/T01-Radiografias-con-contexto.pdf)).
 > Este archivo es el resumen.
 
 Elige **3 objetos de tu vida** — prohibidos los de las prácticas y la clase. Por cada
-uno, **parte de la plantilla** [`plantillas/MiObjeto.java`](../plantillas/MiObjeto.java):
+uno, **parte de la plantilla** [`plantillas/MiObjeto.java`](plantillas/MiObjeto.java):
 
 1. **El comentario de modelado** (4 líneas): CONTEXTO · QUÉ SABE Y POR QUÉ · QUÉ SABE
    HACER Y POR QUÉ · QUÉ IGNORÉ.
@@ -41,7 +41,7 @@ tarea está a la mitad**. Antes de subir: borra el `.class`, recompila y córrel
 ## El quiz de vocabulario (20 %)
 
 Un archivo `QUIZ.md` en la misma carpeta, partiendo de la plantilla
-[`plantillas/QUIZ.md`](../plantillas/QUIZ.md): **diez preguntas cortas sobre lo visto el
+[`plantillas/QUIZ.md`](plantillas/QUIZ.md): **diez preguntas cortas sobre lo visto el
 lunes** (atributo vs variable, constructor, `this`, firma, parámetro vs argumento,
 `void`, primitivos vs referencias y `null`, división entera, casting, `new`/clase/
 instancia). Las cuatro reglas:

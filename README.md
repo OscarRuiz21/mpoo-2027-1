@@ -14,7 +14,7 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | **Guía de Git y GitHub** · la rutina de entrega, paso a paso | <https://oscarruiz21.github.io/mpoo-2027-1/guias/Guia-Git-GitHub.html> |
 | Cheatsheet de Git · la rutina en corto | [`GIT-CHEATSHEET.md`](GIT-CHEATSHEET.md) |
 | **Manual de prácticas (MADO-21)** · las 12 prácticas oficiales | [`guias/MADO-21_MPOO.pdf`](https://oscarruiz21.github.io/mpoo-2027-1/guias/MADO-21_MPOO.pdf) |
-| **Tarea 1 · Radiografías con contexto** (entrega lun 14-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/tareas/T01-Radiografias-con-contexto.html> |
+| **Tarea 1 · Radiografías con contexto** (entrega lun 14-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/tareas/t01/T01-Radiografias-con-contexto.html> |
 | **Lab P3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias/P3-Laboratorio-de-predicciones.html> |
 | Instalación del entorno, versión texto | [`guias/README-Instalacion.md`](guias/README-Instalacion.md) |
 | Cómo entregar · carpetas y ramas | [`entregas/README.md`](entregas/README.md) |
