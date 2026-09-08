@@ -8,7 +8,8 @@ public class PruebaPunto {
 
         Punto x = new Punto();
         x.x = 7;
-        x.y = 2; // Nota: en la imagen de tu guía dice x.x = 2 por error tipográfico, cámbialo a x.y para asignar la coordenada vertical
+        x.y = 2; 
         x.imprimePunto();
     }
 }
+
