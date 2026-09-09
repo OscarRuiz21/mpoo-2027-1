@@ -16,6 +16,7 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | **Manual de prácticas (MADO-21)** · las 12 prácticas oficiales | [`guias-laboratorios/MADO-21_MPOO.pdf`](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/MADO-21_MPOO.pdf) |
 | **Tarea 1 · Radiografías con contexto** (entrega lun 14-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/tareas/t01/T01-Radiografias-con-contexto.html> |
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |
+| ↳ el archivo del Lab 3 · `Laboratorio.java` | [`guias-laboratorios/Lab-03/Laboratorio.java`](guias-laboratorios/Lab-03/Laboratorio.java) |
 | Todas las guías de laboratorio · una carpeta por lab | [`guias-laboratorios/`](guias-laboratorios/) |
 | Instalación del entorno, versión texto | [`guias-laboratorios/referencia/README-Instalacion.md`](guias-laboratorios/referencia/README-Instalacion.md) |
 | **Cómo va tu entrega** · cortes por número de cuenta | [`calificaciones/`](calificaciones/) |
