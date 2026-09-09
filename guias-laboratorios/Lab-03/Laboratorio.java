@@ -11,6 +11,7 @@
 //
 // COMO SE TRABAJA
 //   1. Compila y corre:   javac Laboratorio.java    y luego    java Laboratorio
+//      Correlo desde la TERMINAL: necesita teclado para preguntarte.
 //   2. Contesta las 36 predicciones. Si no sabes, ADIVINA: equivocarte y
 //      entender por que es exactamente el ejercicio.
 //   3. Al final te imprime tu tabla completa y cuantas acertaste.
@@ -20,8 +21,17 @@
 //
 // COMO SE CALIFICA
 //   No se califica cuantas acertaste. Se califica que hayas contestado TODAS y
-//   que expliques con tus palabras por que fallaste las que fallaste. Una
-//   prediccion equivocada bien explicada vale mas que una tabla perfecta.
+//   que expliques con tus palabras por que fallaste las que fallaste.
+//
+// FIJATE EN COMO ESTAN ESCRITOS LOS NOMBRES DE ESTE PROGRAMA
+//   Es la convencion de Java, y la vamos a usar todo el semestre:
+//     · variables y metodos en camelCase, empezando en minuscula
+//         totalDePreguntas    mostrarBloque()    hayTeclado
+//     · constantes en MAYUSCULAS, separadas con guion bajo
+//         MAX_PREGUNTAS       INTENTOS_MAXIMOS
+//     · clases en PascalCase, empezando en mayuscula
+//         Laboratorio         String        Scanner
+//   El nombre dice QUE guarda o QUE hace. Nada de a, x, dato1 ni aux.
 //
 // NO cambies el codigo de los bloques 1 a 6. El bloque 7 si es tuyo.
 // ============================================================================
@@ -31,21 +41,27 @@ import java.io.PrintWriter;
 
 public class Laboratorio {
 
-    // ===== atributos sin valor inicial, para el bloque 1 =====
-    static int enteroSinValor;
-    static double decimalSinValor;
+    // ===== constantes: van en MAYUSCULAS porque su valor nunca cambia =====
+    static final int MAX_PREGUNTAS          = 40;
+    static final int INTENTOS_MAXIMOS       = 3;
+    static final int LARGO_MAXIMO_RESPUESTA = 40;
+    static final String ARCHIVO_DE_SALIDA   = "mis-resultados.txt";
+
+    // ===== atributos declarados pero SIN valor inicial, para el bloque 1 =====
+    static int     enteroSinValor;
+    static double  decimalSinValor;
     static boolean logicoSinValor;
-    static char letraSinValor;
-    static String textoSinValor;
+    static char    letraSinValor;
+    static String  textoSinValor;
 
-    // ===== memoria de tus respuestas =====
-    static String[] expresion  = new String[40];
-    static String[] prediccion = new String[40];
-    static String[] resultado  = new String[40];
-    static int[]    delBloque  = new int[40];
-    static int total = 0;
+    // ===== aqui se guardan tus respuestas mientras corre el programa =====
+    static String[] expresiones      = new String[MAX_PREGUNTAS];
+    static String[] predicciones     = new String[MAX_PREGUNTAS];
+    static String[] resultadosReales = new String[MAX_PREGUNTAS];
+    static int[]    numeroDeBloque   = new int[MAX_PREGUNTAS];
+    static int      totalDePreguntas = 0;
 
-    static Scanner sc = new Scanner(System.in);
+    static Scanner entrada    = new Scanner(System.in);
     static boolean hayTeclado = true;   // se apaga si el programa corre sin consola
 
     // ------------------------------------------------------------------------
@@ -53,150 +69,170 @@ public class Laboratorio {
     // larguisimas y que no haya teclado (por ejemplo si lo corres desde un IDE
     // mal configurado o desde un script).
     // ------------------------------------------------------------------------
-    static void predecir(int bloque, String expr) {
-        String r = "(sin contestar)";
+    static void predecir(int bloque, String expresion) {
+        String respuesta = "(sin contestar)";
         int intentos = 0;
+
         while (hayTeclado) {
-            System.out.print("   " + expr + "  =  ");
+            System.out.print("   " + expresion + "  =  ");
             System.out.flush();
+
             String linea;
             try {
-                if (!sc.hasNextLine()) { hayTeclado = false; System.out.println(); break; }
-                linea = sc.nextLine();
-            } catch (Exception e) {
+                if (!entrada.hasNextLine()) { hayTeclado = false; System.out.println(); break; }
+                linea = entrada.nextLine();
+            } catch (Exception error) {
                 hayTeclado = false; System.out.println(); break;
             }
+
             linea = linea.trim();
             intentos++;
+
             if (linea.isEmpty()) {
-                if (intentos >= 3) { r = "(la dejo en blanco)"; break; }
+                if (intentos >= INTENTOS_MAXIMOS) { respuesta = "(la dejo en blanco)"; break; }
                 System.out.println("      ^ no la dejes en blanco: si no sabes, adivina algo");
                 continue;
             }
-            if (linea.length() > 40) {
-                if (intentos >= 3) { r = linea.substring(0, 40); break; }
+            if (linea.length() > LARGO_MAXIMO_RESPUESTA) {
+                if (intentos >= INTENTOS_MAXIMOS) { respuesta = linea.substring(0, LARGO_MAXIMO_RESPUESTA); break; }
                 System.out.println("      ^ escribe solo el valor que crees que imprime, no la explicacion");
                 continue;
             }
-            r = linea;
+            respuesta = linea;
             break;
         }
-        expresion[total] = expr;
-        prediccion[total] = r;
-        delBloque[total] = bloque;
-        total++;
+
+        expresiones[totalDePreguntas]    = expresion;
+        predicciones[totalDePreguntas]   = respuesta;
+        numeroDeBloque[totalDePreguntas] = bloque;
+        totalDePreguntas++;
     }
 
     // guarda lo que de verdad imprimio, en el mismo orden en que se pregunto
-    static void real(int desde, String... valores) {
-        for (int i = 0; i < valores.length; i++) resultado[desde + i] = valores[i];
+    static void registrarResultados(int desde, String... valores) {
+        for (int i = 0; i < valores.length; i++) resultadosReales[desde + i] = valores[i];
     }
 
     // ------------------------------------------------------------------------
     // Compara tu prediccion con el resultado. Es tolerante a proposito: no te
     // penaliza por escribir "verdadero" en vez de "true" ni por poner comillas.
     // ------------------------------------------------------------------------
-    static String normalizar(String s) {
-        if (s == null) return "";
-        String x = s.trim().toLowerCase().replace(" ", "").replace("\"", "").replace("'", "");
-        if (x.equals("verdadero") || x.equals("v")) x = "true";
-        if (x.equals("falso") || x.equals("f")) x = "false";
-        if (x.equals("infinito")) x = "infinity";
-        if (x.equals("nulo") || x.equals("nada") || x.equals("vacio")) x = "null";
-        if (x.equals("noesnumero")) x = "nan";
-        if (x.endsWith(".0")) x = x.substring(0, x.length() - 2);   // 3.0 vale igual que 3
-        return x;
+    static String normalizar(String texto) {
+        if (texto == null) return "";
+        String limpio = texto.trim().toLowerCase().replace(" ", "").replace("\"", "").replace("'", "");
+        if (limpio.equals("verdadero") || limpio.equals("v")) limpio = "true";
+        if (limpio.equals("falso")     || limpio.equals("f")) limpio = "false";
+        if (limpio.equals("infinito"))                        limpio = "infinity";
+        if (limpio.equals("nulo") || limpio.equals("nada"))   limpio = "null";
+        if (limpio.equals("noesnumero"))                      limpio = "nan";
+        if (limpio.endsWith(".0")) limpio = limpio.substring(0, limpio.length() - 2);  // 3.0 vale igual que 3
+        return limpio;
     }
 
-    static boolean acerto(int i) {
-        return normalizar(prediccion[i]).equals(normalizar(resultado[i]));
+    static boolean leAtino(int indice) {
+        return normalizar(predicciones[indice]).equals(normalizar(resultadosReales[indice]));
     }
 
-    static String corta(String s, int n) {
-        if (s == null) return "";
-        return s.length() <= n ? s : s.substring(0, n - 1) + "~";
+    static String recortar(String texto, int largoMaximo) {
+        if (texto == null) return "";
+        return texto.length() <= largoMaximo ? texto : texto.substring(0, largoMaximo - 1) + "~";
     }
 
     // muestra la tabla de un bloque, ya con los resultados reales
-    static void mostrarBloque(int bloque, String titulo) {
+    static void mostrarBloque(int bloque) {
         System.out.println();
         System.out.println("   +--------------------------------+-----------------+-----------+-------+");
         System.out.printf ("   | RESULTADO DEL BLOQUE %-47d |%n", bloque);
         System.out.println("   +--------------------------------+-----------------+-----------+-------+");
         System.out.println("   | expresion                      | predijiste      | salio     |       |");
         System.out.println("   +--------------------------------+-----------------+-----------+-------+");
+
         int fallos = 0;
-        for (int i = 0; i < total; i++) {
-            if (delBloque[i] != bloque) continue;
-            boolean ok = acerto(i);
-            if (!ok) fallos++;
+        for (int i = 0; i < totalDePreguntas; i++) {
+            if (numeroDeBloque[i] != bloque) continue;
+            boolean atinada = leAtino(i);
+            if (!atinada) fallos++;
             System.out.printf("   | %-30s | %-15s | %-9s | %-5s |%n",
-                corta(expresion[i], 30), corta(prediccion[i], 15),
-                corta(resultado[i], 9), ok ? " ok" : "FALLO");
+                recortar(expresiones[i], 30), recortar(predicciones[i], 15),
+                recortar(resultadosReales[i], 9), atinada ? " ok" : "FALLO");
         }
         System.out.println("   +--------------------------------+-----------------+-----------+-------+");
         if (fallos == 0) System.out.println("   Sin fallos en este bloque.");
         else System.out.println("   Fallaste " + fallos + ". Anotalas: explicarlas es lo que se califica.");
     }
 
-    static void titulo(int bloque, String t, String explica) {
+    static void mostrarTitulo(int bloque, String tema, String explicacion) {
         System.out.println();
         System.out.println("========================================================================");
-        System.out.println(" BLOQUE " + bloque + " · " + t);
-        System.out.println(" " + explica);
+        System.out.println(" BLOQUE " + bloque + " · " + tema);
+        System.out.println(" " + explicacion);
         System.out.println("========================================================================");
-        System.out.println(" Escribe que crees que va a imprimir cada linea:");
     }
 
     // ------------------------------------------------------------------------
     static void bloque1() {
-        titulo(1, "Con que nace un atributo al que nadie le puso valor",
-                  "Estos atributos se declararon, pero nunca se les asigno nada.");
-        int d = total;
-        predecir(1, "int sin valor");
-        predecir(1, "double sin valor");
-        predecir(1, "boolean sin valor");
-        predecir(1, "char sin valor, como numero");
-        predecir(1, "String sin valor");
-        real(d, "" + enteroSinValor, "" + decimalSinValor, "" + logicoSinValor,
-                "" + (int) letraSinValor, "" + textoSinValor);
-        mostrarBloque(1, "Valores por defecto");
+        mostrarTitulo(1, "Con que nace un atributo al que nadie le puso valor",
+                         "Estos atributos se declararon, pero nunca se les asigno nada.");
+        System.out.println(" Asi estan declarados, fijate en el camelCase de cada nombre:");
+        System.out.println("     int     enteroSinValor;");
+        System.out.println("     double  decimalSinValor;");
+        System.out.println("     boolean logicoSinValor;");
+        System.out.println("     char    letraSinValor;");
+        System.out.println("     String  textoSinValor;");
+        System.out.println();
+        System.out.println(" Que imprime cada uno?");
+
+        int desde = totalDePreguntas;
+        predecir(1, "enteroSinValor");
+        predecir(1, "decimalSinValor");
+        predecir(1, "logicoSinValor");
+        predecir(1, "(int) letraSinValor");
+        predecir(1, "textoSinValor");
+        registrarResultados(desde, "" + enteroSinValor, "" + decimalSinValor, "" + logicoSinValor,
+                                   "" + (int) letraSinValor, "" + textoSinValor);
+        mostrarBloque(1);
     }
 
     static void bloque2() {
-        titulo(2, "La division que miente",
-                  "Fijate en el tipo de cada operando y en donde esta puesto el casting.");
-        int d = total;
+        mostrarTitulo(2, "La division que miente",
+                         "Fijate en el tipo de cada operando y en donde esta puesto el casting.");
+        System.out.println(" Que imprime cada expresion?");
+
+        int desde = totalDePreguntas;
         predecir(2, "7 / 2");
         predecir(2, "7.0 / 2");
         predecir(2, "(double) 7 / 2");
         predecir(2, "(double) (7 / 2)");
         predecir(2, "7.0 / 0");
         predecir(2, "0.0 / 0.0");
-        real(d, "" + (7 / 2), "" + (7.0 / 2), "" + ((double) 7 / 2),
-                "" + ((double) (7 / 2)), "" + (7.0 / 0), "" + (0.0 / 0.0));
-        mostrarBloque(2, "La division que miente");
+        registrarResultados(desde, "" + (7 / 2), "" + (7.0 / 2), "" + ((double) 7 / 2),
+                                   "" + ((double) (7 / 2)), "" + (7.0 / 0), "" + (0.0 / 0.0));
+        mostrarBloque(2);
     }
 
     static void bloque3() {
-        titulo(3, "El modulo, y para que sirve de verdad",
-                  "El % da el residuo: sirve para saber si algo es par y para sacar digitos.");
-        int d = total;
+        mostrarTitulo(3, "El modulo, y para que sirve de verdad",
+                         "El % da el residuo: sirve para saber si algo es par y para sacar digitos.");
+        System.out.println(" Que imprime cada expresion?");
+
+        int desde = totalDePreguntas;
         predecir(3, "7 % 2");
         predecir(3, "10 % 5");
         predecir(3, "-7 % 2");
         predecir(3, "7 % 2.5");
         predecir(3, "12345 % 10");
         predecir(3, "12345 / 10");
-        real(d, "" + (7 % 2), "" + (10 % 5), "" + (-7 % 2),
-                "" + (7 % 2.5), "" + (12345 % 10), "" + (12345 / 10));
-        mostrarBloque(3, "El modulo");
+        registrarResultados(desde, "" + (7 % 2), "" + (10 % 5), "" + (-7 % 2),
+                                   "" + (7 % 2.5), "" + (12345 % 10), "" + (12345 / 10));
+        mostrarBloque(3);
     }
 
     static void bloque4() {
-        titulo(4, "El casting y lo que se pierde",
-                  "Un casting no redondea: corta. Y un tipo chico no aguanta cualquier numero.");
-        int d = total;
+        mostrarTitulo(4, "El casting y lo que se pierde",
+                         "Un casting no redondea: corta. Y un tipo chico no aguanta cualquier numero.");
+        System.out.println(" Que imprime cada expresion?");
+
+        int desde = totalDePreguntas;
         predecir(4, "(int) 3.9");
         predecir(4, "(int) -3.9");
         predecir(4, "(char) 65");
@@ -204,40 +240,45 @@ public class Laboratorio {
         predecir(4, "'A' + 1");
         predecir(4, "(char) ('A' + 1)");
         predecir(4, "(byte) 200");
-        real(d, "" + (int) 3.9, "" + (int) -3.9, "" + (char) 65, "" + (int) 'A',
-                "" + ('A' + 1), "" + (char) ('A' + 1), "" + (byte) 200);
-        mostrarBloque(4, "Casting");
+        registrarResultados(desde, "" + (int) 3.9, "" + (int) -3.9, "" + (char) 65, "" + (int) 'A',
+                                   "" + ('A' + 1), "" + (char) ('A' + 1), "" + (byte) 200);
+        mostrarBloque(4);
     }
 
     static void bloque5() {
-        titulo(5, "Relacionales y logicos",
-                  "El && se detiene en cuanto ya sabe la respuesta: eso es el corto circuito.");
-        int d = total;
-        int vidas = 0;
+        mostrarTitulo(5, "Relacionales y logicos",
+                         "El && se detiene en cuanto ya sabe la respuesta: eso es el corto circuito.");
+        System.out.println(" Aqui  vidasRestantes  vale 0. Que imprime cada expresion?");
+
+        int vidasRestantes = 0;
+        int desde = totalDePreguntas;
         predecir(5, "5 > 3");
         predecir(5, "5 == 5.0");
         predecir(5, "0.1 + 0.2 == 0.3");
         predecir(5, "true && false");
         predecir(5, "true || false");
-        predecir(5, "vidas>0 && 10/vidas>1  (vidas=0)");
-        real(d, "" + (5 > 3), "" + (5 == 5.0), "" + (0.1 + 0.2 == 0.3),
-                "" + (true && false), "" + (true || false), "" + (vidas > 0 && 10 / vidas > 1));
-        mostrarBloque(5, "Relacionales y logicos");
+        predecir(5, "vidasRestantes > 0 && 10 / vidasRestantes > 1");
+        registrarResultados(desde, "" + (5 > 3), "" + (5 == 5.0), "" + (0.1 + 0.2 == 0.3),
+                                   "" + (true && false), "" + (true || false),
+                                   "" + (vidasRestantes > 0 && 10 / vidasRestantes > 1));
+        mostrarBloque(5);
     }
 
     static void bloque6() {
-        titulo(6, "Las sorpresas",
-                  "Aqui es donde casi todos fallan. Por eso existe este laboratorio.");
-        int d = total;
+        mostrarTitulo(6, "Las sorpresas",
+                         "Aqui es donde casi todos fallan. Por eso existe este laboratorio.");
+        System.out.println(" Que imprime cada expresion?");
+
+        int desde = totalDePreguntas;
         predecir(6, "0.1 + 0.2");
         predecir(6, "Integer.MAX_VALUE + 1");
         predecir(6, "5 + 3");
         predecir(6, "\"5\" + 3");
         predecir(6, "1 + 2 + \"3\"");
         predecir(6, "\"1\" + 2 + 3");
-        real(d, "" + (0.1 + 0.2), "" + (Integer.MAX_VALUE + 1), "" + (5 + 3),
-                "5" + 3, "" + (1 + 2 + "3"), "1" + 2 + 3);
-        mostrarBloque(6, "Las sorpresas");
+        registrarResultados(desde, "" + (0.1 + 0.2), "" + (Integer.MAX_VALUE + 1), "" + (5 + 3),
+                                   "5" + 3, "" + (1 + 2 + "3"), "1" + 2 + 3);
+        mostrarBloque(6);
     }
 
     // ------------------------------------------------------------------------
@@ -246,6 +287,9 @@ public class Laboratorio {
     // Descomenta cada linea y completa lo que falta dentro del parentesis.
     // Cada una tiene que ser una operacion de verdad: no vale escribir el
     // resultado a mano. Deja el comentario diciendo que operador usaste.
+    //
+    // Si necesitas una variable, ponle un nombre que diga que guarda, en
+    // camelCase, como los de arriba. Nada de n, x ni aux.
     // ------------------------------------------------------------------------
     static void bloque7() {
         System.out.println();
@@ -271,9 +315,10 @@ public class Laboratorio {
         //      Math.abs( ... ) , que devuelve el valor absoluto
         // System.out.println("7.4 = " + (            ));
 
-        // 7.5  Un && que aproveche el corto circuito para NO dividir entre cero,
-        //      con un int que valga 0. Que no truene
-        // int n = 0;
+        // 7.5  Un && que aproveche el corto circuito para NO dividir entre cero.
+        //      Declara un int en 0 con un nombre que diga que es, por ejemplo
+        //      divisor , y usalo en la condicion. Que no truene
+        // int divisor = 0;
         // System.out.println("7.5 = " + (            ));
 
         System.out.println(" (si todavia no escribes nada aqui, no se imprime nada: es normal)");
@@ -282,48 +327,52 @@ public class Laboratorio {
     // ------------------------------------------------------------------------
     static void reporteFinal() {
         int aciertos = 0;
-        for (int i = 0; i < total; i++) if (acerto(i)) aciertos++;
+        for (int i = 0; i < totalDePreguntas; i++) if (leAtino(i)) aciertos++;
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n\n");
-        sb.append("########################################################################\n");
-        sb.append("#   TU TABLA FINAL  ·  ESTA ES LA CAPTURA QUE TIENES QUE ENTREGAR      #\n");
-        sb.append("########################################################################\n");
-        sb.append(String.format("%-4s %-32s %-17s %-11s %s%n", "#", "expresion", "predijiste", "salio", ""));
-        sb.append("------------------------------------------------------------------------\n");
-        for (int i = 0; i < total; i++) {
-            sb.append(String.format("%-4d %-32s %-17s %-11s %s%n", i + 1,
-                corta(expresion[i], 32), corta(prediccion[i], 17),
-                corta(resultado[i], 11), acerto(i) ? "ok" : "FALLO"));
+        StringBuilder reporte = new StringBuilder();
+        reporte.append("\n\n");
+        reporte.append("########################################################################\n");
+        reporte.append("#   TU TABLA FINAL  ·  ESTA ES LA CAPTURA QUE TIENES QUE ENTREGAR      #\n");
+        reporte.append("########################################################################\n");
+        reporte.append(String.format("%-4s %-32s %-17s %-11s %s%n", "#", "expresion", "predijiste", "salio", ""));
+        reporte.append("------------------------------------------------------------------------\n");
+
+        for (int i = 0; i < totalDePreguntas; i++) {
+            reporte.append(String.format("%-4d %-32s %-17s %-11s %s%n", i + 1,
+                recortar(expresiones[i], 32), recortar(predicciones[i], 17),
+                recortar(resultadosReales[i], 11), leAtino(i) ? "ok" : "FALLO"));
         }
-        sb.append("------------------------------------------------------------------------\n");
-        sb.append("ACERTASTE " + aciertos + " DE " + total + "\n\n");
-        if (aciertos == total) {
-            sb.append("Acertaste todas. En tu documento explica, de las tres mas dificiles,\n");
-            sb.append("POR QUE dan ese resultado: no basta con haberle atinado.\n");
+
+        reporte.append("------------------------------------------------------------------------\n");
+        reporte.append("ACERTASTE " + aciertos + " DE " + totalDePreguntas + "\n\n");
+
+        if (aciertos == totalDePreguntas) {
+            reporte.append("Acertaste todas. En tu documento explica, de las tres mas dificiles,\n");
+            reporte.append("POR QUE dan ese resultado: no basta con haberle atinado.\n");
         } else {
-            sb.append("ESTAS SON LAS QUE TIENES QUE EXPLICAR EN TU DOCUMENTO:\n\n");
-            for (int i = 0; i < total; i++) {
-                if (!acerto(i)) {
-                    sb.append("   · " + expresion[i] + "\n");
-                    sb.append("       creiste que daba: " + prediccion[i] + "\n");
-                    sb.append("       en realidad da:   " + resultado[i] + "\n");
-                    sb.append("       por que me equivoque: __________________________________\n\n");
+            reporte.append("ESTAS SON LAS QUE TIENES QUE EXPLICAR EN TU DOCUMENTO:\n\n");
+            for (int i = 0; i < totalDePreguntas; i++) {
+                if (!leAtino(i)) {
+                    reporte.append("   · " + expresiones[i] + "\n");
+                    reporte.append("       creiste que daba: " + predicciones[i] + "\n");
+                    reporte.append("       en realidad da:   " + resultadosReales[i] + "\n");
+                    reporte.append("       por que me equivoque: __________________________________\n\n");
                 }
             }
         }
-        sb.append("########################################################################\n");
-        String texto = sb.toString();
+        reporte.append("########################################################################\n");
+
+        String texto = reporte.toString();
         System.out.print(texto);
 
         try {
-            PrintWriter pw = new PrintWriter("mis-resultados.txt");
-            pw.print(texto);
-            pw.close();
-            System.out.println("\n(Tambien lo guarde en el archivo  mis-resultados.txt , en esta misma carpeta,");
+            PrintWriter archivo = new PrintWriter(ARCHIVO_DE_SALIDA);
+            archivo.print(texto);
+            archivo.close();
+            System.out.println("\n(Tambien lo guarde en  " + ARCHIVO_DE_SALIDA + " , en esta misma carpeta,");
             System.out.println(" por si la captura te sale cortada.)");
-        } catch (Exception e) {
-            System.out.println("\n(No pude guardar mis-resultados.txt, pero la tabla de arriba es la que cuenta.)");
+        } catch (Exception error) {
+            System.out.println("\n(No pude guardar " + ARCHIVO_DE_SALIDA + ", pero la tabla de arriba es la que cuenta.)");
         }
     }
 
@@ -350,7 +399,7 @@ public class Laboratorio {
         if (!hayTeclado) {
             System.out.println();
             System.out.println("AVISO: no encontre teclado, asi que las respuestas quedaron en blanco.");
-            System.out.println("Corre el programa desde la terminal con:   java Laboratorio");
+            System.out.println("Correlo desde la terminal con:   java Laboratorio");
         }
     }
 }
