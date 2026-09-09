@@ -11,7 +11,7 @@ navegador (es la que conviene) y **`.pdf`** para imprimir o leer sin conexión.
 | Lab | Guía | Se entrega en |
 |---|---|---|
 | **Lab 0** · Entorno de trabajo y primer pull request | [`Lab-00/`](Lab-00/Lab-00-Entorno-y-Git.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-00/Lab-00-Entorno-y-Git.html) | `p00/` |
-| **Lab 3** · Laboratorio de predicciones | [`Lab-03/`](Lab-03/P03-Laboratorio-de-predicciones.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html) | `p03/` |
+| **Lab 3** · Laboratorio de predicciones | [`Lab-03/`](Lab-03/P03-Laboratorio-de-predicciones.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html) · [`Laboratorio.java`](Lab-03/Laboratorio.java) | `p03/` |
 
 Los laboratorios que faltan se van agregando aquí, cada uno en su carpeta, conforme
 avanza el semestre.

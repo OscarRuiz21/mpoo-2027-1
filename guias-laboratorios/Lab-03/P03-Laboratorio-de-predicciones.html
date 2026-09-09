@@ -64,7 +64,7 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
 
 <div class="box tip">
   <h4>En una línea</h4>
-  <p>Abres <code>Laboratorio.java</code>, llenas la columna <b>PREDIJE</b> de las seis tablas <b>sin correr nada</b>, luego corres, llenas la columna <b>SALIO</b>, explicas cada fallo, y al final escribes tú las cinco líneas del bloque 7. Se entrega el <code>.java</code> con todo eso escrito, más el <code>.class</code>.</p>
+  <p>Corres <code>Laboratorio.java</code> y el programa te pregunta, una por una, qué crees que imprime cada línea de código. Contestas las 36, él te dice cuáles fallaste, escribes las cinco líneas del bloque 7, y entregas una <b>captura de tu tabla final</b> más un <b>documento explicando por qué te equivocaste</b>.</p>
 </div>
 
 <div class="box warn">
@@ -78,35 +78,42 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
   <tr><th>Qué</th><th>Detalle</th></tr>
   <tr><td><b>Cuándo</b></td><td>Viernes <b>11 de septiembre</b>, 23:59. Se empieza en el laboratorio del miércoles y ahí mismo se resuelven las dudas.</td></tr>
   <tr><td><b>Dónde</b></td><td>Su rama <code>entregas_apellido_nombre</code> · carpeta <code>entregas/apellido_nombre/p03/</code>. <b>Solo push. No se abre pull request.</b></td></tr>
-  <tr><td><b>Qué archivos</b></td><td><code>Laboratorio.java</code> (con tus tablas llenas) y <code>Laboratorio.class</code>. Dos archivos, más nada.</td></tr>
-  <tr><td><b>Cómo se califica</b></td><td>Predicciones escritas antes de correr 30 % · explicación de tus fallos 30 % · las tres preguntas abiertas 20 % · bloque 7 corriendo 20 %.</td></tr>
+  <tr><td><b>Qué archivos</b></td><td><code>Laboratorio.java</code> (con tu bloque 7 escrito), <code>Laboratorio.class</code> y tu <b>documento con la captura y el análisis</b>. Tres archivos.</td></tr>
+  <tr><td><b>Cómo se califica</b></td><td>Las 36 predicciones contestadas 30 % · el análisis de tus fallos 30 % · bloque 7 corriendo 20 % · captura y documento bien armados 20 %. <b>No se califica cuántas acertaste</b>, sino que expliques las que fallaste.</td></tr>
 </table>
 
 <div class="box warn">
   <h4>Lo único que puede sacarte del 100</h4>
-  <p>Que las 36 predicciones coincidan exactamente con la salida y no haya ni una explicación escrita. Eso no es una tarea perfecta: es la salida copiada. Nadie acierta las 36 la primera vez, y no se espera que lo hagan. <b>Ocho o diez fallos bien explicados es una entrega excelente.</b></p>
+  <p>Entregar la captura sin el análisis. El programa ya te dice cuáles fallaste: lo que se califica es que expliques <b>por qué</b>. Nadie acierta las 36 la primera vez, y no se espera que lo hagan. <b>Ocho o diez fallos bien explicados es una entrega excelente</b>; 36 aciertos sin una sola explicación, no.</p>
 </div>
 
 <h2>Parte 1 · El orden exacto de trabajo</h2>
 
+<p>El programa te va preguntando. No llenas tablas a mano: <b>tecleas tu predicción y le das Enter</b>, y él te va diciendo si le atinaste.</p>
+
 <div class="cp">
-  <h4><span class="n">1</span>Antes de correr nada: predice</h4>
-  <p>Abre <code>Laboratorio.java</code> en tu editor. Cada bloque tiene una tabla en comentarios con dos columnas. Llena <b>solo la columna PREDIJE</b>, de los seis bloques, de corrido. Si no tienes idea, adivina algo: una predicción en blanco no vale, una equivocada sí.</p>
+  <h4><span class="n">1</span>Compila y corre</h4>
+  <p><code>javac Laboratorio.java</code> y luego <code>java Laboratorio</code>. <b>Córrelo desde la terminal</b>, no con el botón de "Run" del editor: necesita teclado para preguntarte. Si lo corres sin teclado te avisa y no te sirve de nada.</p>
 </div>
 
 <div class="cp">
-  <h4><span class="n">2</span>Ahora sí, corre</h4>
-  <p><code>javac Laboratorio.java</code> y luego <code>java Laboratorio</code>. Sale todo de un jalón. Copia cada resultado a la columna <b>SALIO</b>. Aquí no hay que pensar, es transcribir.</p>
+  <h4><span class="n">2</span>Contesta las 36 preguntas</h4>
+  <p>Por cada línea de código te pregunta qué crees que va a imprimir. Escribe el valor <b>como se vería en pantalla</b>: <code>3</code>, <code>3.5</code>, <code>true</code>, <code>A</code>, <code>null</code>, <code>Infinity</code>. Si no tienes idea, <b>adivina</b>: una predicción equivocada vale, una en blanco no. Al terminar cada bloque te muestra una tabla con lo que predijiste, lo que salió, y cuáles fallaste.</p>
 </div>
 
 <div class="cp">
-  <h4><span class="n">3</span>Lo que de verdad cuenta: explica tus fallos</h4>
-  <p>En cada bloque hay una línea <b>POR QUE ME EQUIVOQUE</b>. Escribe ahí, con tus palabras, por qué tu predicción no fue la que salió. Una línea por fallo. Si un bloque te salió completo, escribe "0 fallos" y sigue. Contesta también las tres preguntas abiertas que están dentro de los bloques 3, 4, 5 y 6.</p>
+  <h4><span class="n">3</span>El bloque 7: ahora el código es tuyo</h4>
+  <p>Cinco líneas comentadas que tienes que escribir y descomentar. Cada una con un comentario corto diciendo qué operador usaste y por qué. No vale escribir el resultado a mano: tiene que ser una operación que la máquina calcule. Cuando las tengas, <b>vuelve a correr el programa</b>.</p>
 </div>
 
 <div class="cp">
-  <h4><span class="n">4</span>El bloque 7: ahora el código es tuyo</h4>
-  <p>Cinco líneas comentadas que tienes que escribir y descomentar. Cada una con un comentario corto diciendo qué operador usaste y por qué. No vale escribir el resultado a mano: tiene que ser una operación de verdad que la máquina calcule.</p>
+  <h4><span class="n">4</span>Captura la tabla final</h4>
+  <p>Al final imprime <b>tu tabla completa</b> con las 36, cuántas acertaste, y la lista de las que fallaste. <b>Tómale captura de pantalla a esa tabla.</b> El programa además la deja escrita en <code>mis-resultados.txt</code>, en la misma carpeta, por si la captura te sale cortada.</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">5</span>Escribe tu análisis</h4>
+  <p>Un documento (Word, PDF, lo que uses) con dos cosas: <b>la captura</b> de tu tabla final, y <b>por qué te equivocaste</b> en cada una que fallaste. Una explicación por fallo, con tus palabras. El programa te deja la lista lista para que la copies.</p>
 </div>
 
 <h2>Parte 2 · Qué hay en cada bloque</h2>
@@ -148,8 +155,9 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
 <div class="tree">entregas/
 └── <span class="d">apellido_nombre/</span>      <span class="c"># TU carpeta, con tu apellido y tu nombre</span>
     ├── <span class="d">p03/</span>             <span class="c"># las practicas van aqui, directo en tu carpeta</span>
-    │   ├── Laboratorio.java
-    │   └── Laboratorio.class
+    │   ├── Laboratorio.java     <span class="c"># con tu bloque 7 escrito</span>
+    │   ├── Laboratorio.class
+    │   └── P3-analisis.docx     <span class="c"># tu captura + por que fallaste</span>
     └── <span class="d">tareas/</span>          <span class="c"># las tareas van aparte, dentro de tareas/</span>
         └── <span class="d">t01/</span>         <span class="c"># la tarea del lunes</span></div>
 
@@ -165,13 +173,13 @@ javac Laboratorio.java
 java Laboratorio
 
 <span class="c"># 4. guarda y sube</span>
-git add entregas/apellido_nombre/p03
+git add entregas/apellido_nombre/p03      # los 3: .java, .class y tu documento
 git commit -m "P3: laboratorio de predicciones"
 git push -u origin entregas_apellido_nombre</code></pre>
 
 <div class="cp">
   <h4><span class="n">✓</span>Checklist antes del último push</h4>
-  <p>□ Las 36 predicciones tienen algo escrito, ninguna en blanco &nbsp; □ Las 36 casillas de SALIO están llenas &nbsp; □ Cada bloque tiene su línea de POR QUE ME EQUIVOQUE, o dice "0 fallos" &nbsp; □ Contesté las preguntas abiertas de los bloques 3, 4, 5 y 6 &nbsp; □ Las cinco líneas del bloque 7 están descomentadas, corren y tienen su comentario &nbsp; □ Escribí mi nombre hasta arriba del archivo &nbsp; □ <code>git branch</code> muestra el asterisco en mi rama, no en <code>main</code> &nbsp; □ Hice <code>push</code> y lo verifiqué abriendo mi rama en GitHub</p>
+  <p>□ Contesté las 36 preguntas, ninguna en blanco &nbsp; □ Las cinco líneas del bloque 7 están escritas, descomentadas y corriendo &nbsp; □ Escribí mi nombre hasta arriba del archivo &nbsp; □ Le tomé captura a la tabla final, y se lee &nbsp; □ Mi documento explica <b>cada</b> fallo con mis palabras, no copiadas &nbsp; □ Subí los tres archivos: <code>.java</code>, <code>.class</code> y el documento &nbsp; □ <code>git branch</code> muestra el asterisco en mi rama, no en <code>main</code> &nbsp; □ Hice <code>push</code> y lo verifiqué abriendo mi rama en GitHub</p>
 </div>
 
 <h2>Si algo falla</h2>
