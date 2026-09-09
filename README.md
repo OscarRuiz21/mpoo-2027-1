@@ -9,6 +9,7 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 
 | Qué es | Dónde |
 |---|---|
+| **Clase de teoría · lunes 15:00–17:00** | [Entrar por Zoom](https://cuaed-unam-mx.zoom.us/j/88126568099) · ID `881 2656 8099` |
 | **Página del curso** | <https://oscarruiz21.github.io/mpoo-2027-1/> |
 | **Lab 0 · Entorno de trabajo y primer pull request** | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-00/Lab-00-Entorno-y-Git.html> |
 | **Guía de Git y GitHub** · la rutina de entrega, paso a paso | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/referencia/Guia-Git-GitHub.html> |
