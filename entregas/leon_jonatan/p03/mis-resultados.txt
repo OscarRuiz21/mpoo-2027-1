@@ -1,0 +1,144 @@
+
+
+########################################################################
+#   TU TABLA FINAL  ·  ESTA ES LA CAPTURA QUE TIENES QUE ENTREGAR      #
+########################################################################
+#    expresion                        predijiste        salio       
+------------------------------------------------------------------------
+1    enteroSinValor                   0                 0           ok
+2    decimalSinValor                  0.0               0.0         ok
+3    logicoSinValor                   false             false       ok
+4    (int) letraSinValor              0                 0           ok
+5    textoSinValor                    null              null        ok
+6    7 / 2                            3.5               3           FALLO
+7    7.0 / 2                          3.5               3.5         ok
+8    (double) 7 / 2                   3                 3.5         FALLO
+9    (double) (7 / 2)                 3                 3.0         ok
+10   7.0 / 0                          infinity          Infinity    ok
+11   0.0 / 0.0                        0                 NaN         FALLO
+12   7 % 2                            1                 1           ok
+13   10 % 5                           0                 0           ok
+14   -7 % 2                           1                 -1          FALLO
+15   7 % 2.5                          1                 2.0         FALLO
+16   12345 % 10                       0                 5           FALLO
+17   12345 / 10                       0                 1234        FALLO
+18   (int) 3.9                        3                 3           ok
+19   (int) -3.9                       -3                -3          ok
+20   (char) 65                        65                A           FALLO
+21   (int) 'A'                        A                 65          FALLO
+22   'A' + 1                          B                 66          FALLO
+23   (char) ('A' + 1)                 A+1               B           FALLO
+24   (byte) 200                       56                -56         FALLO
+25   5 > 3                            0                 true        FALLO
+26   5 == 5.0                         1                 true        FALLO
+27   0.1 + 0.2 == 0.3                 1                 false       FALLO
+28   true && false                    true              false       FALLO
+29   true || false                    true              true        ok
+30   vidasRestantes > 0 && 10 / vida~ false             false       ok
+31   0.1 + 0.2                        0.3               0.30000000~ FALLO
+32   Integer.MAX_VALUE + 1            -2147483648       -2147483648 ok
+33   5 + 3                            8                 8           ok
+34   "5" + 3                          null              53          FALLO
+35   1 + 2 + "3"                      33                33          ok
+36   "1" + 2 + 3                      15                123         FALLO
+------------------------------------------------------------------------
+ACERTASTE 17 DE 36
+
+ESTAS SON LAS QUE TIENES QUE EXPLICAR EN TU DOCUMENTO:
+
+   · 7 / 2
+       creiste que daba: 3.5
+       en realidad da:   3
+       por que me equivoque: __________________________________
+
+   · (double) 7 / 2
+       creiste que daba: 3
+       en realidad da:   3.5
+       por que me equivoque: __________________________________
+
+   · 0.0 / 0.0
+       creiste que daba: 0
+       en realidad da:   NaN
+       por que me equivoque: __________________________________
+
+   · -7 % 2
+       creiste que daba: 1
+       en realidad da:   -1
+       por que me equivoque: __________________________________
+
+   · 7 % 2.5
+       creiste que daba: 1
+       en realidad da:   2.0
+       por que me equivoque: __________________________________
+
+   · 12345 % 10
+       creiste que daba: 0
+       en realidad da:   5
+       por que me equivoque: __________________________________
+
+   · 12345 / 10
+       creiste que daba: 0
+       en realidad da:   1234
+       por que me equivoque: __________________________________
+
+   · (char) 65
+       creiste que daba: 65
+       en realidad da:   A
+       por que me equivoque: __________________________________
+
+   · (int) 'A'
+       creiste que daba: A
+       en realidad da:   65
+       por que me equivoque: __________________________________
+
+   · 'A' + 1
+       creiste que daba: B
+       en realidad da:   66
+       por que me equivoque: __________________________________
+
+   · (char) ('A' + 1)
+       creiste que daba: A+1
+       en realidad da:   B
+       por que me equivoque: __________________________________
+
+   · (byte) 200
+       creiste que daba: 56
+       en realidad da:   -56
+       por que me equivoque: __________________________________
+
+   · 5 > 3
+       creiste que daba: 0
+       en realidad da:   true
+       por que me equivoque: __________________________________
+
+   · 5 == 5.0
+       creiste que daba: 1
+       en realidad da:   true
+       por que me equivoque: __________________________________
+
+   · 0.1 + 0.2 == 0.3
+       creiste que daba: 1
+       en realidad da:   false
+       por que me equivoque: __________________________________
+
+   · true && false
+       creiste que daba: true
+       en realidad da:   false
+       por que me equivoque: __________________________________
+
+   · 0.1 + 0.2
+       creiste que daba: 0.3
+       en realidad da:   0.30000000000000004
+       por que me equivoque: __________________________________
+
+   · "5" + 3
+       creiste que daba: null
+       en realidad da:   53
+       por que me equivoque: __________________________________
+
+   · "1" + 2 + 3
+       creiste que daba: 15
+       en realidad da:   123
+       por que me equivoque: __________________________________
+
+########################################################################
