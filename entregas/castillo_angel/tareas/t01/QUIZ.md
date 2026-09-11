@@ -1,4 +1,4 @@
-# QUIZ T01 · Nombre Apellido
+# QUIZ T01 · ANGEL CASTILLO
 
 > Reglas: con tus palabras (copiar la slide o internet vale 0), maximo 3 renglones por
 > respuesta, y donde diga "de tu tarea" pega la linea real de tu codigo.
