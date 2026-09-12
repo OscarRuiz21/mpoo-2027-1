@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO 2027-1 · Clase 4 · Tipos, variables y la radiografía de una clase</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#ffffff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--code:#eef3f9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);height:100vh;overflow:hidden;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+section{position:absolute;inset:0;display:none;flex-direction:column;padding:3.2vh 4.5vw 4.5vh;animation:f .3s ease both}
+section.on{display:flex}
+@keyframes f{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--am);font-size:clamp(.7rem,1.05vw,1rem);font-weight:800;
+letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5em}
+h1{font-size:clamp(2.1rem,3.9vw,3.5rem);line-height:1.06;letter-spacing:-.02em;font-weight:800;margin-bottom:.5em}
+h2{font-size:clamp(1.3rem,2.1vw,2.1rem);line-height:1.15;font-weight:750;margin-bottom:.45em}
+p{font-size:clamp(.92rem,1.3vw,1.32rem);line-height:1.5;color:var(--dim)}
+strong{color:var(--ink);font-weight:700}
+em{color:var(--am);font-style:normal;font-weight:700}
+.body{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;justify-content:center;gap:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.1em}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9em}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75em}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:.95em 1.1em;
+box-shadow:0 1px 2px rgba(18,37,61,.05),0 4px 14px rgba(18,37,61,.045)}
+.card h3{font-size:clamp(.96rem,1.34vw,1.34rem);color:var(--ink);font-weight:750;margin-bottom:.3em;display:flex;align-items:center;gap:.5em}
+.card p{font-size:clamp(.82rem,1.12vw,1.14rem);line-height:1.45}
+.num{color:var(--am);font-weight:900;font-size:1.15em;min-width:1.1em}
+ul{list-style:none}
+li{font-size:clamp(.88rem,1.22vw,1.24rem);line-height:1.45;color:var(--dim);margin:.42em 0;padding-left:1.25em;position:relative}
+li::before{content:"";position:absolute;left:0;top:.55em;width:.42em;height:.42em;border-radius:50%;background:var(--am)}
+li b{color:var(--ink)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:11px;padding:.8em 1em;overflow:auto}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:clamp(.9rem,1.38vw,1.4rem);line-height:1.6;color:#1e293b}
+.k{color:#0369a1}.t{color:#b45309}.n{color:#64748b}.s{color:#15803d}
+table{border-collapse:collapse;width:100%;font-size:clamp(.85rem,1.16vw,1.18rem)}
+td,th{padding:.42em .7em;border-bottom:1px solid var(--line);text-align:left;color:var(--dim)}
+th{color:var(--am);font-size:.8em;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+td code{font-size:clamp(.78rem,1.08vw,1.1rem)}
+.quote{border-left:4px solid var(--am);padding-left:.9em;font-size:clamp(1.06rem,1.62vw,1.58rem);
+line-height:1.35;color:var(--ink);font-weight:700}
+.chip{display:inline-block;background:#edf3fa;border:1px solid var(--line);border-radius:999px;
+padding:.2em .7em;font-size:clamp(.74rem,1.02vw,1rem);color:var(--dim);margin:.16em .22em .16em 0}
+.chip b{color:var(--am)}
+.uml{background:var(--panel);border:2px solid var(--ink);border-radius:5px;overflow:hidden;
+box-shadow:0 2px 6px rgba(18,37,61,.08);align-self:center;min-width:min(100%,15em)}
+.uml .un{padding:.4em .9em;text-align:center;font-weight:800;border-bottom:2px solid var(--ink);
+font-size:clamp(.95rem,1.35vw,1.38rem);letter-spacing:.01em}
+.uml .ua{border-bottom:2px solid var(--ink)}
+.uml .ua,.uml .um{padding:.45em .9em}
+.uml .ua div,.uml .um div{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+font-size:clamp(.8rem,1.16vw,1.18rem);line-height:1.65;color:var(--dim);white-space:nowrap}
+.uml .ua div b,.uml .um div b{color:var(--ink);font-weight:600}
+.uml .vac{color:#9db0c6;font-style:italic}
+.lbl{font-size:clamp(.68rem,.95vw,.95rem);font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+color:var(--am);margin:.2em 0 .35em;text-align:center}
+#bar{position:fixed;left:0;bottom:0;height:3px;background:var(--am);transition:width .3s}
+#num{position:fixed;right:1vw;bottom:.7vh;font-size:.72rem;color:#9db0c6;font-variant-numeric:tabular-nums}
+#hint{position:fixed;left:1.2vw;bottom:.7vh;font-size:.72rem;color:#9db0c6}
+body:fullscreen #hint{display:none}
+
+.rev{visibility:hidden}
+body.reveal .rev{visibility:visible}
+.tag{display:inline-block;font-size:clamp(.62rem,.85vw,.85rem);font-weight:800;letter-spacing:.1em;
+text-transform:uppercase;padding:.12em .5em;border-radius:5px;background:#e8eef7;color:var(--dim)}
+.tag.am{background:#fdebd0;color:var(--am)}.tag.gr{background:#d9f2e2;color:var(--gr)}
+.tag.rd{background:#fadddd;color:var(--rd)}.tag.bl{background:#dbeafe;color:#1d4ed8}
+.body :not(pre):not(.term) > code{font-size:.94em}
+.mono-s code{font-size:clamp(.7rem,1.02vw,1.04rem);line-height:1.5}
+.mono-xs code{font-size:clamp(.66rem,.94vw,.96rem);line-height:1.45}
+.err{background:#fef2f2;border:1px solid #f2c4c4;border-radius:11px;padding:.7em .9em}
+.err .msg{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(.72rem,1vw,1rem);color:var(--rd);line-height:1.4}
+.ok{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:11px;padding:.7em .9em}
+.mini{font-size:clamp(.74rem,1.02vw,1.02rem);line-height:1.4;color:var(--dim)}
+.firma{background:#fff8ef;border:1px dashed var(--am);border-radius:8px;padding:.15em .55em;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;color:var(--am);font-weight:700;white-space:nowrap}
+.term{background:#0f1e33;border-radius:11px;padding:.75em 1em;overflow:auto}
+.term code{white-space:pre;display:block;color:#dbe7f7;font-size:clamp(.76rem,1.06vw,1.06rem);line-height:1.55}
+.term .p{color:#7dd3fc}.term .c2{color:#7d93b0}
+
+.trivia{flex:none;margin-top:.5em;border-top:2px dashed var(--am);padding-top:.45em;
+display:flex;align-items:baseline;gap:.7em;flex-wrap:wrap}
+.trivia .tq{flex:none;font-size:clamp(.62rem,.86vw,.86rem);font-weight:900;letter-spacing:.14em;
+text-transform:uppercase;color:#fff;background:var(--am);border-radius:5px;padding:.18em .55em}
+.trivia .pregunta{font-size:clamp(.82rem,1.12vw,1.14rem);color:var(--ink);font-weight:700;flex:1;min-width:14em}
+.trivia .pregunta code{font-size:.92em}
+.trivia .resp{font-size:clamp(.78rem,1.06vw,1.06rem);color:var(--gr);font-weight:700;background:var(--grsoft);
+border:1px solid #bbe6c8;border-radius:8px;padding:.15em .6em}
+.trivia .chat{flex:none;font-size:clamp(.66rem,.9vw,.9rem);color:var(--dim);white-space:nowrap}
+</style></head><body>
+
+<!-- 1 · PORTADA -->
+<section>
+ <div class="body" style="align-items:center;text-align:center;gap:.5em">
+  <div class="eyebrow" style="margin-bottom:0">MPOO 2027-1 · Grupo 6 · Clase 4 · Lunes 7 de septiembre</div>
+  <h1>Tipos, variables<br>y la <em>radiografía</em> de una clase</h1>
+  <p style="max-width:36em">La P2 dejó claro que falta afinar la <strong>anatomía</strong>. Hoy le ponemos nombre a cada parte, en orden: variable, atributo, método y constructor. Después, los tipos y operadores que necesitan el miércoles en la <strong>P3</strong>.</p>
+  <div style="margin-top:1em">
+    <span class="chip"><b>1</b> Anatomía: variable, atributo, método, constructor</span>
+    <span class="chip"><b>2</b> La radiografía con contexto</span>
+    <span class="chip"><b>3</b> Tipos y operadores</span>
+    <span class="chip"><b>4</b> Demo: del .java al .class</span>
+    <span class="chip"><b>5</b> UML exprés</span>
+  </div>
+ </div>
+</section>
+
+<!-- 2 · DÓNDE VAMOS -->
+<section>
+ <div class="eyebrow">Retomamos · dónde estamos parados</div>
+ <div class="body">
+  <div class="g3" style="margin-bottom:1em">
+   <div class="card"><h3><span class="num">✓</span>Ya está en main</h3><p><b>P00</b> (entorno y Git), <b>P01</b> y <b>P02</b> (abstracción y modelado) ya se integraron. Lo que entregaron vive en el repo del curso, no en su máquina.</p></div>
+   <div class="card" style="border-color:var(--am)"><h3 style="color:var(--am)"><span class="num">→</span>Hoy, lunes</h3><p>Primero la <b>anatomía</b> completa: variable, atributo, método y <b>constructor</b>. Luego la radiografía con contexto, y al final los tipos y operadores que usan el miércoles.</p></div>
+   <div class="card"><h3><span class="num">3</span>Esta semana</h3><p><b>Miércoles 9:</b> laboratorio, solo la <b>P3</b> (tipos de datos y expresiones con operadores). <b>Lunes 14:</b> entrega de la <b>Tarea 1</b> y seguimos con selección.</p></div>
+  </div>
+  <div class="quote">Lo de hoy no es cultura general: la mitad de la teoría de esta sesión es exactamente lo que van a teclear el miércoles.</div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Qué se entrega el <b>miércoles</b> y qué el <b>lunes 14</b>?</span><span class="resp rev">Miércoles: la P3 del lab. Lunes 14: la Tarea 1.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 3 · QUÉ ES UNA VARIABLE (antes de los tipos) -->
+<section>
+ <div class="eyebrow">Anatomía · 1 · la variable, por partes</div>
+ <div class="body">
+  <div style="text-align:center;margin-bottom:.8em">
+   <div style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(1.1rem,2.2vw,2.2rem);font-weight:700;color:var(--ink)">
+     <span style="color:var(--am)">double</span>&nbsp; saldo &nbsp;<span style="color:var(--gr)">= 1500.75</span>;
+   </div>
+   <div style="display:flex;justify-content:center;gap:1.4em;margin-top:.45em;flex-wrap:wrap">
+     <span class="tag am">tipo: qué cabe adentro</span>
+     <span class="tag">nombre: cómo la llamo</span>
+     <span class="tag gr">valor: qué tiene ahora</span>
+   </div>
+  </div>
+  <div class="g2" style="grid-template-columns:1fr 1.15fr;gap:1.2em;align-items:start">
+   <div>
+    <ul>
+      <li><b>Declarar</b> es crear la cajita: <code>double saldo;</code></li>
+      <li><b>Inicializar</b> es darle su primer valor: <code>saldo = 0;</code></li>
+      <li><b>Asignar</b> es cambiarlo después: <code>saldo = 900;</code></li>
+      <li>El <b>tipo se elige una vez y no cambia</b>. Java es de tipado estático: si la declaraste <code>double</code>, <code>double</code> se queda toda su vida.</li>
+    </ul>
+   </div>
+   <div>
+    <div class="lbl" style="text-align:left">Y una variable puede vivir en tres lugares</div>
+    <pre style="font-size:.86em"><code><span class="k">public class</span> <span class="t">Cuenta</span> {
+    <span class="t">double</span> saldo;                <span class="n">// ATRIBUTO: lo que el objeto sabe</span>
+
+    <span class="k">void</span> abonar(<span class="t">double</span> monto) {   <span class="n">// PARAMETRO: llega de fuera</span>
+        <span class="t">double</span> nuevo = saldo + monto;  <span class="n">// LOCAL: solo aqui</span>
+        saldo = nuevo;
+    }
+}</code></pre>
+    <p class="mini" style="margin-top:.4em"><b>Todo atributo es una variable, pero no toda variable es atributo:</b> las locales y los parámetros también lo son. Hoy nada más los nombramos; cuánto vive cada uno lo vemos en la segunda mitad, en <b>ámbito</b>.</p>
+   </div>
+  </div>
+  <div class="card" style="border-color:var(--am);background:var(--amsoft);margin-top:.8em">
+   <p><b style="color:var(--am)">Y todos los tipos caen en una de dos familias.</b> <b>Primitivos:</b> la cajita guarda el valor mismo. <b>Referencias:</b> la cajita guarda a cuál objeto apunta, y si no apunta a ninguno vale <code>null</code>. Los ocho primitivos y las referencias los vemos en la segunda mitad; por ahora quédense con que la cajita puede guardar un valor o una dirección.</p>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">En <code>void abonar(double monto)</code>, ¿<code>monto</code> es atributo, local o parámetro?</span><span class="resp rev">Parámetro. Y por eso también es local: solo existe dentro de abonar.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 4 · ANATOMÍA DEL ATRIBUTO -->
+<section>
+ <div class="eyebrow">Anatomía · 2 · el atributo, por partes</div>
+ <div class="body">
+  <div style="text-align:center;margin-bottom:.7em">
+   <div style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(1.05rem,2.05vw,2.05rem);font-weight:700;color:var(--ink)">
+     <span style="color:#0369a1">private</span> &nbsp;<span style="color:var(--am)">double</span>&nbsp; saldo &nbsp;<span style="color:var(--gr)">= 0</span>;
+   </div>
+   <div style="display:flex;justify-content:center;gap:1.2em;margin-top:.45em;flex-wrap:wrap">
+     <span class="tag bl">modificador (opcional): lo nuevo, llega con encapsulamiento</span>
+     <span class="tag am">tipo</span>
+     <span class="tag">nombre</span>
+     <span class="tag gr">valor inicial (opcional)</span>
+   </div>
+   <p class="mini" style="margin-top:.4em">Es el mismo despiece de la slide anterior, con una parte más. El atributo es la variable que va <b>en la clase</b>: por eso admite modificador y por eso nace con valor por defecto. Nombre en <code>camelCase</code>, sustantivo y sin abreviar: <code>velocidad</code>, no <code>vel</code> ni <code>v1</code>.</p>
+  </div>
+  <div class="g2" style="gap:1em;align-items:start">
+   <div>
+    <div class="lbl" style="text-align:left">¿Y si el tipo no es primitivo? Entonces el atributo es un objeto</div>
+    <pre style="font-size:.86em"><code><span class="k">public class</span> <span class="t">Alumno</span> {
+    <span class="t">double</span> promedio;   <span class="n">// primitivo: nace en 0.0</span>
+    <span class="t">String</span> nombre;     <span class="n">// objeto: nace en null</span>
+    <span class="t">Materia</span> favorita;  <span class="n">// otro objeto tuyo: null</span>
+}</code></pre>
+   </div>
+   <div>
+    <p class="mini" style="margin-bottom:.5em"><b><code>null</code> no es cero ni cadena vacía:</b> es "todavía no apunta a ningún objeto". El atributo existe; lo que no existe es el objeto del otro lado. Por eso, antes de usarlo, hay que crearlo: <code>a.nombre = "Ana";</code> o <code>a.favorita = new Materia();</code></p>
+    <div class="err"><div class="msg">Exception in thread "main" java.lang.NullPointerException:<br>Cannot invoke "String.length()" because "&lt;local1&gt;.nombre" is null</div>
+      <p class="mini" style="margin-top:.3em">Este <b>no</b> lo caza el compilador: truena al correr. Es el precio de que el atributo sea una referencia.</p></div>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">Un atributo <code>String correo;</code> sin valor. ¿Qué imprime <code>System.out.println(a.correo);</code>?</span><span class="resp rev">null. Es objeto, no primitivo: no nace en 0 ni en "".</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 5 · ANATOMÍA DEL MÉTODO -->
+<section>
+ <div class="eyebrow">Anatomía · 3 · el método, por partes</div>
+ <div class="body">
+  <div style="text-align:center;margin-bottom:.7em">
+   <div style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(1rem,2vw,2rem);font-weight:700;color:var(--ink)">
+     <span style="color:#0369a1">public</span> <span style="color:var(--am)">void</span> <span style="text-decoration:underline;text-decoration-color:var(--am);text-underline-offset:.25em">retirar</span>(<span style="color:var(--am)">double</span> monto) <span style="color:#9db0c6">{ ... }</span>
+   </div>
+   <div style="display:flex;justify-content:center;gap:1.2em;margin-top:.5em;flex-wrap:wrap">
+     <span class="tag bl">cabecera: todo lo de antes de las llaves</span>
+     <span class="tag am">firma: nombre + TIPOS de los parámetros</span>
+     <span class="tag">cuerpo: lo que va entre llaves</span>
+   </div>
+  </div>
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div class="card" style="border-color:var(--am);background:var(--amsoft)">
+    <h3 style="color:var(--am)">La firma es <span class="firma">retirar(double)</span></h3>
+    <p>Y nada más. <b>El tipo de retorno NO es parte de la firma en Java.</b> Tampoco el nombre del parámetro ni los modificadores.</p>
+   </div>
+   <div class="err">
+    <h3 style="color:var(--rd);font-size:1em;font-weight:750;margin-bottom:.3em">Por eso esto no compila</h3>
+    <pre style="margin:.2em 0;background:#fff"><code><span class="t">double</span> area() { <span class="k">return</span> ...; }
+<span class="k">void</span> area() { ... }   <span class="n">// misma firma: area()</span></code></pre>
+    <div class="msg">error: method area() is already defined in class Circulo</div>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Cuál es la firma de <code>public double enFahrenheit()</code>?</span><span class="resp rev">enFahrenheit(). Sin parámetros, y el double NO cuenta.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 6 · PARÁMETRO, ARGUMENTO, INVOCACIÓN, RETORNO -->
+<section>
+ <div class="eyebrow">Anatomía · 3 · el vocabulario que se les va a pedir</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start;margin-bottom:.7em">
+   <div>
+    <pre style="margin-bottom:.6em"><code><span class="n">// en la clase (la cabecera):</span>
+<span class="k">void</span> retirar(<span class="t">double</span> monto) { ... }
+              <span class="n">↑ PARAMETRO (formal)</span>
+
+<span class="n">// en el main (la invocacion):</span>
+cuenta.retirar(<span class="s">500.0</span>);
+               <span class="n">↑ ARGUMENTO (el valor real)</span></code></pre>
+    <p class="mini"><b>Invocación:</b> <code>objeto.metodo(argumentos)</code>. El objeto va primero porque el método le pertenece a él.</p>
+   </div>
+   <div>
+    <div class="card" style="margin-bottom:.6em"><h3>Valor de retorno</h3>
+      <p><code>void</code> significa que no devuelve nada: cambia el estado y ya. Si el método declara cualquier otro tipo, <b>tiene</b> que haber un <code>return</code> de ese tipo en todos los caminos.</p></div>
+    <div class="ok"><p class="mini"><b>Regla práctica para decidir:</b> si quien llama necesita un dato de vuelta, el método <b>retorna</b>. Si solo debe cambiar el objeto, es <b>void</b>.</p></div>
+   </div>
+  </div>
+  <div class="quote">Mismo nombre y firma distinta se llama <em>sobrecarga</em>, y es legal. En la siguiente slide la van a ver trabajando, con los constructores.</div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">En <code>t.medir(38.7);</code> ¿el <code>38.7</code> es parámetro o argumento?</span><span class="resp rev">Argumento. El parámetro es el <code>double nuevaTemp</code> de la cabecera.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 7 · ANATOMÍA 4 · EL CONSTRUCTOR -->
+<section>
+ <div class="eyebrow">Anatomía · 4 · el constructor, por partes</div>
+ <div class="body">
+  <div style="text-align:center;margin-bottom:.6em">
+   <div style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(1rem,1.95vw,1.95rem);font-weight:700;color:var(--ink)">
+     <span style="color:#0369a1">public</span> <span style="color:var(--am);text-decoration:underline;text-decoration-color:var(--am);text-underline-offset:.25em">Coche</span>(<span style="color:var(--am)">double</span> velocidad, <span style="color:var(--am)">double</span> gasolina) <span style="color:#9db0c6">{ ... }</span>
+   </div>
+   <div style="display:flex;justify-content:center;gap:1.1em;margin-top:.45em;flex-wrap:wrap">
+     <span class="tag am">el MISMO nombre de la clase, con la misma mayúscula</span>
+     <span class="tag rd">SIN tipo de retorno, ni siquiera void</span>
+     <span class="tag">parámetros, como cualquier método</span>
+   </div>
+  </div>
+  <div class="g2" style="grid-template-columns:1.2fr 1fr;gap:1.1em;align-items:start">
+   <pre style="font-size:.86em"><code><span class="k">public class</span> <span class="t">Coche</span> {
+    <span class="t">double</span> velocidad;
+    <span class="t">double</span> gasolina;
+
+    <span class="n">// firma: Coche(double, double)</span>
+    <span class="t">Coche</span>(<span class="t">double</span> velocidad, <span class="t">double</span> gasolina) {
+        <span class="k">this</span>.velocidad = velocidad;
+        <span class="k">this</span>.gasolina = gasolina;
+    }
+
+    <span class="n">// firma: Coche()  ·  otra firma = sobrecarga</span>
+    <span class="t">Coche</span>() {
+        <span class="k">this</span>.velocidad = <span class="s">0</span>;
+        <span class="k">this</span>.gasolina = <span class="s">40</span>;
+    }
+}</code></pre>
+   <div>
+    <ul style="margin-bottom:.6em">
+      <li><b>Para qué existe:</b> para que el objeto <b>nazca completo</b>. Sin él, nace con los valores por defecto y hay que irle poniendo atributo por atributo.</li>
+      <li><b>Cuándo corre:</b> una sola vez, en el instante del <code>new</code>. No se invoca a mano.</li>
+      <li><b>Qué es <code>this</code>:</b> "este objeto". <code>this.velocidad</code> es el <b>atributo</b>; <code>velocidad</code> a secas es el <b>parámetro</b>. Se usa cuando los dos se llaman igual.</li>
+      <li><b>Sobrecarga, ahora sí:</b> dos constructores pueden convivir porque tienen <b>firmas distintas</b>: <span class="firma">Coche(double, double)</span> y <span class="firma">Coche()</span>.</li>
+    </ul>
+    <div class="ok"><p class="mini">Si <b>no escribes ninguno</b>, Java te regala uno vacío y por eso <code>new Coche()</code> funciona desde el día uno. En cuanto escribes el tuyo, ese regalo desaparece.</p></div>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Cuál es la firma del primer constructor, y qué tipo de retorno tiene?</span><span class="resp rev">Coche(double, double), y ninguno: un constructor no declara retorno.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 8 · EL CONSTRUCTOR EN ACCIÓN -->
+<section>
+ <div class="eyebrow">Anatomía · 4 · el constructor en acción, y sus tres trampas</div>
+ <div class="body">
+  <div class="g2" style="gap:1.1em;align-items:start;margin-bottom:.6em">
+   <div style="min-width:0">
+    <div class="lbl" style="text-align:left">Sin constructor: el objeto nace vacío y tú lo llenas</div>
+    <pre class="mono-s"><code><span class="t">Coche</span> c = <span class="k">new</span> <span class="t">Coche</span>();
+c.velocidad = <span class="s">30.5</span>;
+c.gasolina  = <span class="s">12.0</span>;   <span class="n">// si la olvidas: 0.0</span></code></pre>
+    <div class="lbl" style="text-align:left;margin-top:.5em">Con constructor: nace completo, en una línea</div>
+    <pre class="mono-s"><code><span class="t">Coche</span> a = <span class="k">new</span> <span class="t">Coche</span>(<span class="s">30.5</span>, <span class="s">12.0</span>);
+<span class="t">Coche</span> b = <span class="k">new</span> <span class="t">Coche</span>();      <span class="n">// el otro</span></code></pre>
+    <div class="term" style="margin-top:.5em"><code>a: velocidad=30.5 gasolina=12.0
+b: velocidad=0.0 gasolina=40.0</code></div>
+    <div class="ok" style="margin-top:.7em">
+      <p class="mini" style="color:var(--ink)"><b>Tres cosas que definen a un constructor:</b> se llama <b>exactamente</b> como la clase, <b>no</b> lleva tipo de retorno (ni <code>void</code>), y corre <b>una sola vez</b>, en el instante del <code>new</code>. Después ya nadie lo vuelve a llamar.</p>
+    </div>
+   </div>
+   <div style="min-width:0">
+    <div class="err" style="margin-bottom:.45em">
+      <h3 style="color:var(--rd);font-size:.96em;font-weight:750;margin-bottom:.2em">1 · Olvidar el <code>this</code></h3>
+      <pre class="mono-xs" style="margin:.15em 0;background:#fff"><code><span class="t">Coche</span>(<span class="t">double</span> velocidad) {
+    velocidad = velocidad;  <span class="n">// a si mismo</span>
+}</code></pre>
+      <p class="mini">Compila sin una queja y el atributo se queda en <b>0.0</b>. Con <code>this.velocidad = velocidad;</code> sí funciona.</p>
+    </div>
+    <div class="err" style="margin-bottom:.45em">
+      <h3 style="color:var(--rd);font-size:.96em;font-weight:750;margin-bottom:.2em">2 · Escribir uno y seguir usando el vacío</h3>
+      <div class="msg">error: constructor Vacio in class Vacio<br>cannot be applied to given types;<br>required: double · found: no arguments</div>
+      <p class="mini">Si escribes un constructor con parámetros, el vacío ya no existe: o lo llamas con sus datos, o escribes también el vacío.</p>
+    </div>
+    <div class="err">
+      <h3 style="color:var(--rd);font-size:.96em;font-weight:750;margin-bottom:.2em">3 · Ponerle tipo de retorno</h3>
+      <pre class="mono-xs" style="margin:.15em 0;background:#fff"><code><span class="k">void</span> <span class="t">Coche</span>(<span class="t">double</span> v) { ... }</code></pre>
+      <p class="mini">Eso <b>no es</b> un constructor: es un método que se llama igual que la clase. Compila, nunca corre con <code>new</code>, y los atributos quedan en cero.</p>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">Escribí <code>Mochila(double kg)</code> y luego <code>new Mochila()</code>. ¿Compila?</span><span class="resp rev">No. Al escribir el tuyo, el constructor vacío deja de existir.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 9 · RADIOGRAFÍA: EL TEMPLATE DE MODELADO -->
+<section>
+ <div class="eyebrow">La radiografía · el modelo en 4 líneas, antes de teclear</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1fr 1.05fr;gap:1.2em;align-items:start">
+   <div>
+    <p style="margin-bottom:.6em">Cuatro líneas de comentario arriba de cada clase. No son adorno: es la parte que la P2 dejó ver que falta.</p>
+    <ul>
+      <li><b>CONTEXTO:</b> ¿en qué programa vive este objeto?</li>
+      <li><b>QUÉ SABE Y POR QUÉ:</b> cada atributo, con su razón.</li>
+      <li><b>QUÉ SABE HACER Y POR QUÉ:</b> cada método: por qué <code>void</code> o por qué retorna, y por qué esos parámetros.</li>
+      <li><b>QUÉ IGNORÉ:</b> una o dos cosas del objeto real que no modelé, y por qué.</li>
+    </ul>
+    <div class="card" style="border-color:var(--am);background:var(--amsoft);margin-top:.6em">
+      <p style="color:var(--am);font-weight:700">Si no pueden llenar la línea 1, no pueden llenar las otras tres. Todo sale del contexto.</p>
+    </div>
+   </div>
+   <pre><code><span class="n">// CONTEXTO: simulador de trafico; cada coche
+//   avanza y gasta gasolina.
+// QUE SABE Y POR QUE: velocidad (el simulador
+//   la usa para moverlo cada segundo), gasolina
+//   (en 0 se detiene y estorba).
+// QUE SABE HACER Y POR QUE: acelerar(double kmh)
+//   es void porque solo cambia su estado; kmh es
+//   parametro porque lo decide el conductor.
+// QUE IGNORE: marca y color, no cambian nada en
+//   un simulador de trafico.</span>
+<span class="k">public class</span> <span class="t">Coche</span> { ... }</code></pre>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">Modelan un <b>Perro</b> para una veterinaria. Digan <b>un</b> atributo y <b>una</b> cosa que ignorarían.</span><span class="resp rev">Vale peso o vacunas; se ignora el color del collar (no cambia el tratamiento).</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 10 · EJEMPLOS 1 Y 2 -->
+<section>
+ <div class="eyebrow">La radiografía · el contexto decide el modelo (1 de 3)</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div class="card">
+    <h3><span class="num">1</span>Circulo · programa de geometría para cortar tapas</h3>
+    <pre style="margin:.4em 0"><code><span class="t">double</span> radio;
+<span class="t">double</span> area() {
+    <span class="k">return</span> Math.PI * radio * radio;
+}</code></pre>
+    <p class="mini"><b>Sabe:</b> radio, porque de ahí sale todo. <b>Sabe hacer:</b> <code>area()</code> <b>retorna</b> porque quien pregunta necesita el número para decidir cuánto material comprar. <b>Ignoré:</b> color y posición: no cortan mejor la tapa.</p>
+    <p style="margin-top:.4em">Firma: <span class="firma">area()</span></p>
+   </div>
+   <div class="card">
+    <h3><span class="num">2</span>Coche · simulador de tráfico</h3>
+    <pre style="margin:.4em 0"><code><span class="t">double</span> velocidad, gasolina;
+<span class="k">void</span> acelerar(<span class="t">double</span> kmh) { velocidad += kmh; }</code></pre>
+    <p class="mini"><b>void</b> porque solo cambia su estado. <b>kmh es parámetro</b> porque no vive en el objeto: lo decide quien maneja, en el momento. <b>Ignoré:</b> marca y color.</p>
+    <p style="margin-top:.4em">Firma: <span class="firma">acelerar(double)</span></p>
+   </div>
+  </div>
+  <div class="card" style="border-color:var(--am);background:var(--amsoft);margin-top:.8em">
+    <p><b style="color:var(--am)">El mismo coche, otro programa:</b> en el sistema de una agencia de autos, <b>color</b> y <b>precio</b> sí serían atributos, y <b>velocidad</b> no le importaría a nadie. No hay un modelo correcto del coche: hay un modelo correcto <b>para este programa</b>.</p>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">Mismo Coche, pero el programa es un <b>taller mecánico</b>. ¿Qué atributo aparece que hoy no está?</span><span class="resp rev">Cosas como kilometraje o fecha del último servicio; la velocidad deja de importar.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 11 · EJEMPLOS 3 Y 4 -->
+<section>
+ <div class="eyebrow">La radiografía · el contexto decide el modelo (2 de 3)</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div class="card">
+    <h3><span class="num">3</span>CuentaBancaria · el software de un cajero</h3>
+    <pre style="margin:.4em 0"><code><span class="t">double</span> saldo;
+<span class="k">void</span> retirar(<span class="t">double</span> monto) {
+    <span class="k">if</span> (monto &lt;= saldo) saldo -= monto;
+}
+<span class="t">double</span> consultar() { <span class="k">return</span> saldo; }</code></pre>
+    <p class="mini"><code>retirar</code> es <b>void</b>: la regla de no sobregirarse vive <b>dentro</b> del objeto, no en quien lo llama. <code>consultar</code> <b>retorna</b>: la pantalla necesita el número.</p>
+    <p style="margin-top:.4em">Firmas: <span class="firma">retirar(double)</span> <span class="firma">consultar()</span></p>
+   </div>
+   <div class="card">
+    <h3><span class="num">4</span>Cancion · un reproductor de música</h3>
+    <pre style="margin:.4em 0"><code><span class="t">int</span> duracionEnSegundos;
+<span class="t">double</span> duracionEnMinutos() {
+    <span class="k">return</span> duracionEnSegundos / <span class="s">60.0</span>;
+}</code></pre>
+    <p class="mini"><b>Retorna y no lleva parámetros:</b> todo lo que necesita ya lo sabe el objeto. Fíjense en el <code>60.0</code>: con <code>60</code> sería división entera y una canción de 90 segundos daría 1.0 minutos.</p>
+    <p style="margin-top:.4em">Firma: <span class="firma">duracionEnMinutos()</span></p>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Por qué <code>retirar</code> es <code>void</code> y <code>consultar</code> sí retorna?</span><span class="resp rev">retirar solo cambia el estado; consultar entrega un dato que la pantalla necesita.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 12 · EJEMPLO 5 -->
+<section>
+ <div class="eyebrow">La radiografía · el contexto decide el modelo (3 de 3)</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1.1fr 1fr;gap:1.2em;align-items:start">
+   <div class="card">
+    <h3><span class="num">5</span>Alumno · sistema de calificaciones</h3>
+    <pre style="margin:.4em 0"><code><span class="t">String</span> nombre;
+<span class="t">double</span> promedio;
+
+<span class="t">boolean</span> aprobo(<span class="t">double</span> minima) {
+    <span class="k">return</span> promedio &gt;= minima;
+}</code></pre>
+    <p class="mini">Retorna <b>boolean</b> porque quien pregunta necesita un sí o un no para decidir. Y <b>minima es parámetro</b>: la calificación mínima <b>no es del alumno</b>, es de la materia, del semestre, del reglamento. El contexto la pone.</p>
+    <p style="margin-top:.4em">Firma: <span class="firma">aprobo(double)</span></p>
+   </div>
+   <div>
+    <div class="card" style="border-color:var(--am);background:var(--amsoft);margin-bottom:.7em">
+     <h3 style="color:var(--am)">¿Atributo o parámetro?</h3>
+     <p>Una sola pregunta: <b>¿el dato le pertenece al objeto o se lo dan en el momento?</b></p>
+     <p style="margin-top:.35em">Le pertenece y lo carga siempre → <b>atributo</b>. Cambia en cada llamada o viene de fuera → <b>parámetro</b>.</p>
+    </div>
+    <p class="mini">Si <code>minima</code> fuera atributo, cada alumno cargaría su propia calificación mínima. Eso no es un sistema de calificaciones: eso es hacer trampa.</p>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">En el reproductor, ¿el <b>volumen</b> del celular es atributo de <code>Cancion</code>?</span><span class="resp rev">No. Es del reproductor, no de la canción. Contexto.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 13 · CONTRAEJEMPLOS -->
+<section>
+ <div class="eyebrow">La radiografía · lo que sale mal (mensajes reales de javac)</div>
+ <div class="body">
+  <div class="g2" style="gap:.9em">
+   <div class="err">
+    <pre style="margin:0 0 .4em;background:#fff"><code>acelerar(<span class="t">double</span> kmh) { ... }</code></pre>
+    <div class="msg">error: invalid method declaration; return type required</div>
+    <p class="mini" style="margin-top:.3em">Falta el tipo de retorno. Si no devuelve nada, se escribe <code>void</code>: no se omite.</p>
+   </div>
+   <div class="err">
+    <pre style="margin:0 0 .4em;background:#fff"><code><span class="k">void</span> retirar(monto) { ... }</code></pre>
+    <div class="msg">error: &lt;identifier&gt; expected</div>
+    <p class="mini" style="margin-top:.3em">El parámetro va con su tipo: <code>double monto</code>. En la cabecera siempre son tipo y nombre.</p>
+   </div>
+   <div class="err">
+    <pre style="margin:0 0 .4em;background:#fff"><code><span class="t">double</span> area() { <span class="t">double</span> a = ...; }</code></pre>
+    <div class="msg">error: missing return statement</div>
+    <p class="mini" style="margin-top:.3em">Prometió un <code>double</code> y no lo entregó. Calcularlo no basta: hay que devolverlo.</p>
+   </div>
+   <div class="err" style="border-color:var(--am);background:var(--amsoft)">
+    <pre style="margin:0 0 .4em;background:#fff"><code><span class="k">void</span> acelerar(<span class="t">double</span> velocidad) { ... }</code></pre>
+    <div class="msg" style="color:var(--am)">compila, y aun así está mal</div>
+    <p class="mini" style="margin-top:.3em">Pide como parámetro algo que el objeto <b>ya es</b>. No es error de sintaxis: es <b>error de modelado</b>, y esos el compilador no los caza.</p>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Cuál de los cuatro errores <b>sí compila</b> y aun así está mal?</span><span class="resp rev">El cuarto: pedir como parámetro un dato que ya es atributo.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 14 · QUIZ DE FIRMAS -->
+<section>
+ <div class="eyebrow">Quiz de firmas · contesten en el chat (tecla V para revelar)</div>
+ <div class="body">
+  <div class="g3" style="gap:1em">
+   <div class="card">
+    <h3><span class="num">1</span></h3>
+    <pre style="margin:.3em 0"><code><span class="k">void</span> retirar(<span class="t">double</span> m)
+<span class="k">void</span> retirar(<span class="t">int</span> m)</code></pre>
+    <p>¿Misma firma?</p>
+    <div class="rev ok" style="margin-top:.5em"><p class="mini"><b>NO.</b> <span class="firma">retirar(double)</span> y <span class="firma">retirar(int)</span> son distintas: cambia el tipo. Compila: es <b>sobrecarga</b>.</p></div>
+   </div>
+   <div class="card">
+    <h3><span class="num">2</span></h3>
+    <pre style="margin:.3em 0"><code><span class="t">double</span> area()
+<span class="k">void</span> area()</code></pre>
+    <p>¿Misma firma?</p>
+    <div class="rev err" style="margin-top:.5em"><p class="mini"><b>SÍ, la misma:</b> <span class="firma">area()</span>. El tipo de retorno no cuenta, así que <b>no pueden convivir</b>: <code>already defined</code>.</p></div>
+   </div>
+   <div class="card">
+    <h3><span class="num">3</span></h3>
+    <pre style="margin:.3em 0"><code><span class="k">void</span> acelerar(<span class="t">double</span> kmh)
+<span class="k">void</span> acelerar(<span class="t">double</span> vel)</code></pre>
+    <p>¿Misma firma?</p>
+    <div class="rev err" style="margin-top:.5em"><p class="mini"><b>SÍ.</b> El <b>nombre</b> del parámetro no es parte de la firma, solo el tipo. Las dos son <span class="firma">acelerar(double)</span>.</p></div>
+   </div>
+  </div>
+  <div class="quote" style="margin-top:.9em">Firma = nombre + los tipos de los parámetros, en orden. Ni retorno, ni nombres de parámetros, ni modificadores.</div>
+ </div>
+</section>
+
+<!-- 15 · LOS 8 PRIMITIVOS -->
+<section>
+ <div class="eyebrow">1.2 Tipos de datos · los ocho primitivos</div>
+ <div class="body">
+  <div class="card" style="border-color:var(--am);background:var(--amsoft);margin-bottom:.8em">
+   <p style="color:var(--ink)"><b style="color:var(--am)">Primitivo:</b> uno de los <b>ocho tipos que ya trae el lenguaje</b>. Su variable <b>guarda el valor mismo</b>, no la dirección de un objeto que vive en otro lado. Se escriben en minúscula porque <b>no son clases</b>: son palabras reservadas de Java.</p>
+   <div style="margin-top:.4em">
+     <span class="chip"><b>guarda el valor</b>, no una referencia</span>
+     <span class="chip"><b>tamaño fijo</b> y conocido</span>
+     <span class="chip"><b>no tiene métodos</b>: nada de <code style="font-size:.9em">edad.algo()</code></span>
+     <span class="chip"><b>nunca vale null</b></span>
+     <span class="chip">son <b>ocho</b>, ni uno más</span>
+   </div>
+  </div>
+  <div class="g2" style="grid-template-columns:1.35fr 1fr;gap:1.3em;align-items:start">
+   <table>
+     <tr><th>Tipo</th><th>Bits</th><th>Guarda</th><th>Ejemplo</th></tr>
+     <tr><td><code>byte</code></td><td>8</td><td>−128 a 127</td><td><code>byte edad = 20;</code></td></tr>
+     <tr><td><code>short</code></td><td>16</td><td>−32 768 a 32 767</td><td><code>short anio = 2026;</code></td></tr>
+     <tr><td><b><code>int</code></b></td><td>32</td><td>±2 147 483 647</td><td><code>int alumnos = 29;</code></td></tr>
+     <tr><td><code>long</code></td><td>64</td><td>±9.2 · 10<sup>18</sup></td><td><code>long ns = 900000L;</code></td></tr>
+     <tr><td><code>float</code></td><td>32</td><td>decimal corto</td><td><code>float t = 36.5f;</code></td></tr>
+     <tr><td><b><code>double</code></b></td><td>64</td><td>decimal normal</td><td><code>double saldo = 1500.75;</code></td></tr>
+     <tr><td><code>char</code></td><td>16</td><td>UN carácter</td><td><code>char letra = 'A';</code></td></tr>
+     <tr><td><code>boolean</code></td><td>1</td><td><code>true</code> o <code>false</code></td><td><code>boolean activa = true;</code></td></tr>
+   </table>
+   <div>
+    <div class="card" style="border-color:var(--am);background:var(--amsoft);margin-bottom:.7em">
+      <h3 style="color:var(--am)">La regla del curso</h3>
+      <p>Usen <b>int</b> para enteros y <b>double</b> para decimales, <b>boolean</b> para sí o no y <b>char</b> para un carácter. Los otros cuatro existen y hay que saber que existen; se usan cuando hay una razón (memoria, precisión, una API que los pide).</p>
+    </div>
+    <div class="lbl" style="text-align:left;margin-top:.2em">Y así se ven dentro de una clase</div>
+    <pre style="font-size:.88em"><code><span class="k">public class</span> <span class="t">Alumno</span> {
+    <span class="t">int</span> numeroDeCuenta = <span class="s">320123456</span>;
+    <span class="t">double</span> promedio = <span class="s">8.75</span>;
+    <span class="t">boolean</span> inscrito = <span class="k">true</span>;
+    <span class="t">char</span> grupo = <span class="s">'6'</span>;
+}</code></pre>
+    <p class="mini" style="margin-top:.4em"><code>'6'</code> con comillas simples es <b>char</b>; <code>"6"</code> con dobles sería <b>String</b>, que ya no es primitivo. Y un <code>int</code> que se pasa de 2 147 483 647 no truena: da la vuelta a <b>−2147483648</b>.</p>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">El saldo de una cuenta, ¿<code>int</code> o <code>double</code>? ¿Y el número de alumnos?</span><span class="resp rev">double el saldo (lleva centavos), int los alumnos (no hay medio alumno).</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 16 · PRIMITIVOS VS REFERENCIAS -->
+<section>
+ <div class="eyebrow">Tipos de datos · primitivo contra referencia</div>
+ <div class="body">
+  <div class="g2" style="gap:1.3em;align-items:start">
+   <div>
+    <pre style="margin-bottom:.7em"><code><span class="t">double</span> saldo = <span class="s">1500.75</span>;   <span class="n">// la variable ES el valor</span>
+<span class="t">Coche</span> c = <span class="k">new</span> <span class="t">Coche</span>();     <span class="n">// la variable es la ETIQUETA</span></code></pre>
+    <ul>
+      <li><b>Primitivo:</b> la cajita guarda el dato. Copiarla copia el valor.</li>
+      <li><b>Referencia:</b> el objeto vive aparte, en el montón; la variable solo sabe dónde está. Dos variables pueden apuntar al <b>mismo</b> objeto.</li>
+      <li><b>String</b> es referencia, no primitivo: por eso su contenido se compara con <code>equals()</code>. Lo vemos a fondo más adelante.</li>
+    </ul>
+   </div>
+   <div>
+    <div class="card" style="margin-bottom:.7em">
+      <h3>Valores por defecto (solo atributos)</h3>
+      <table style="margin-top:.3em">
+        <tr><td><code>int</code>, <code>byte</code>, <code>short</code>, <code>long</code></td><td><b>0</b></td></tr>
+        <tr><td><code>double</code>, <code>float</code></td><td><b>0.0</b></td></tr>
+        <tr><td><code>boolean</code></td><td><b>false</b></td></tr>
+        <tr><td><code>char</code></td><td>carácter vacío</td></tr>
+        <tr><td>cualquier referencia</td><td><b>null</b></td></tr>
+      </table>
+    </div>
+    <div class="card" style="border-color:var(--rd)">
+      <h3 style="color:var(--rd)">Ojo, esto es solo para atributos</h3>
+      <p>Las <b>locales</b> y los <b>parámetros</b> que acabamos de ver no tienen valor por defecto. Si usan una local sin darle valor, el compilador se planta: <code style="font-size:.85em">variable x might not have been initialized</code>.</p>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta"><code>boolean activa;</code> como atributo, sin darle valor. ¿Vale <code>true</code>, <code>false</code> o basura?</span><span class="resp rev">false. Los atributos nacen con valor por defecto.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 17 · CONVERSIONES -->
+<section>
+ <div class="eyebrow">Tipos de datos · conversiones y casting</div>
+ <div class="body">
+  <div class="g2" style="gap:1.3em;align-items:start;margin-bottom:.7em">
+   <div>
+    <div class="lbl" style="text-align:left">Hacia arriba: automático (cabe, no se pierde nada)</div>
+    <div style="text-align:center;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(.78rem,1.1vw,1.1rem);color:var(--dim);background:var(--code);border:1px solid var(--line);border-radius:11px;padding:.6em .4em;margin-bottom:.7em">
+      byte → short → int → long → float → double
+    </div>
+    <pre><code><span class="t">int</span> i = <span class="s">5</span>;
+<span class="t">double</span> d = i;        <span class="n">// 5.0, sin pedir permiso</span>
+c.acelerar(<span class="s">20</span>);      <span class="n">// el 20 entra como 20.0</span></code></pre>
+   </div>
+   <div>
+    <div class="lbl" style="text-align:left">Hacia abajo: explícito, y con pérdida</div>
+    <pre style="margin-bottom:.7em"><code><span class="t">int</span> x = <span class="s">3.9</span>;        <span class="n">// ERROR de compilación</span>
+<span class="t">int</span> y = (<span class="t">int</span>) <span class="s">3.9</span>;  <span class="n">// 3   (trunca, NO redondea)</span>
+<span class="t">int</span> z = (<span class="t">int</span>) -<span class="s">3.9</span>; <span class="n">// -3  (corta hacia cero)</span></code></pre>
+    <div class="err"><div class="msg">error: incompatible types: possible lossy conversion from double to int</div></div>
+   </div>
+  </div>
+  <div class="quote">El cast es ustedes firmando: "sé que se pierde algo y lo acepto". Por eso Java los obliga a escribirlo.</div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Qué imprime <code>System.out.println((int) 9.99);</code>?</span><span class="resp rev">9. El cast trunca, no redondea.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 18 · OPERADORES ARITMÉTICOS -->
+<section>
+ <div class="eyebrow">Operadores · aritméticos</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1fr 1.1fr;gap:1.3em;align-items:start">
+   <table>
+     <tr><th>Operador</th><th>Qué hace</th><th>Ejemplo</th></tr>
+     <tr><td><code>+ - * /</code></td><td>lo de siempre</td><td><code>3 * 4</code> → 12</td></tr>
+     <tr><td><code>%</code></td><td><b>residuo</b> de la división</td><td><code>7 % 2</code> → 1</td></tr>
+     <tr><td><code>++ --</code></td><td>suma o resta 1</td><td><code>i++</code></td></tr>
+     <tr><td><code>+= -= *= /=</code></td><td>abreviatura</td><td><code>saldo += 100;</code></td></tr>
+     <tr><td><code>+</code> con texto</td><td>pega cadenas</td><td><code>"v = " + 30.5</code></td></tr>
+   </table>
+   <div>
+    <div class="card" style="border-color:var(--rd);margin-bottom:.7em">
+      <h3 style="color:var(--rd)">La trampa número uno: división entera</h3>
+      <pre style="margin:.4em 0"><code><span class="s">7</span> / <span class="s">2</span>      <span class="n">// 3    (int entre int da int)</span>
+<span class="s">7.0</span> / <span class="s">2</span>    <span class="n">// 3.5  (si uno es double, todo es double)</span></code></pre>
+      <p class="mini">Promedio de calificaciones con <code>int</code> y se les van los decimales sin un solo mensaje de error. Es el bug clásico de la P3.</p>
+    </div>
+    <div class="lbl" style="text-align:left">Los mismos operadores, dentro de un método</div>
+    <pre style="font-size:.88em"><code><span class="k">public class</span> <span class="t">Boleta</span> {
+    <span class="t">double</span> suma = <span class="s">0</span>;
+    <span class="t">int</span> materias = <span class="s">0</span>;
+
+    <span class="t">double</span> promedio() {
+        <span class="k">return</span> suma / materias;   <span class="n">// double entre int: da double</span>
+    }
+    <span class="t">boolean</span> esPar(<span class="t">int</span> n) { <span class="k">return</span> n % <span class="s">2</span> == <span class="s">0</span>; }
+}</code></pre>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Qué imprime <code>System.out.println(9 / 4);</code> y qué <code>9 % 4</code>?</span><span class="resp rev">2 y 1. División entera y residuo.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 19 · RELACIONALES Y LÓGICOS -->
+<section>
+ <div class="eyebrow">Operadores · relacionales y lógicos</div>
+ <div class="body">
+  <div class="g3" style="gap:1em;margin-bottom:.8em">
+   <div class="card"><h3>Relacionales</h3><p class="mini">Comparan y devuelven <b>boolean</b>.</p>
+     <pre style="margin-top:.4em"><code>&gt;  &lt;  &gt;=  &lt;=
+==  !=</code></pre></div>
+   <div class="card"><h3>Lógicos</h3><p class="mini">Combinan condiciones.</p>
+     <pre style="margin-top:.4em"><code>&amp;&amp;  y
+||  o
+!   no</code></pre></div>
+   <div style="grid-column:span 1">
+     <div class="lbl" style="text-align:left;margin:0 0 .3em">Así se aplica en una clase</div>
+     <pre style="font-size:.84em"><code><span class="k">public class</span> <span class="t">Alumno</span> {
+    <span class="t">double</span> promedio = <span class="s">8.75</span>;
+    <span class="t">int</span> faltas = <span class="s">3</span>;
+
+    <span class="t">boolean</span> aprobo() {
+        <span class="k">return</span> promedio &gt;= <span class="s">6.0</span> &amp;&amp; faltas &lt; <span class="s">5</span>;
+    }
+}</code></pre>
+   </div>
+  </div>
+  <div class="g2" style="gap:1.1em">
+   <div class="err"><h3 style="color:var(--rd);font-size:1em;font-weight:750;margin-bottom:.25em"><code>=</code> no es <code>==</code></h3>
+     <p class="mini"><code>=</code> asigna, <code>==</code> pregunta. <code>if (x = 5)</code> ni siquiera compila en Java, y eso es una suerte: en C compila y arruina la tarde. Y el <b>corto circuito</b>: si <code>promedio &gt;= 6.0</code> es falso, Java ya ni mira las faltas.</p></div>
+   <div class="err"><h3 style="color:var(--rd);font-size:1em;font-weight:750;margin-bottom:.25em">Nunca comparen <code>double</code> con <code>==</code></h3>
+     <p class="mini"><code>0.1 + 0.2</code> imprime <b>0.30000000000000004</b>. No es un error de Java: es cómo se guardan los decimales en binario. Se compara con una tolerancia, no con <code>==</code>.</p></div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">Con <code>edad = 20</code>: ¿qué vale <code>edad &gt; 18 &amp;&amp; edad &lt; 18</code>?</span><span class="resp rev">false. El && exige que las dos sean verdaderas.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 20 · VARIABLES Y ÁMBITO -->
+<section>
+ <div class="eyebrow">1.3 y 1.4 · variables y ámbito · ahora el detalle</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1.05fr 1fr;gap:1.2em;align-items:start">
+   <pre><code><span class="k">public class</span> <span class="t">Coche</span> {
+
+    <span class="n">// de CLASE: una sola para todos</span>
+    <span class="k">static int</span> totalCoches;
+
+    <span class="n">// de INSTANCIA: una por objeto</span>
+    <span class="t">double</span> velocidad;
+
+    <span class="k">void</span> acelerar(<span class="t">double</span> kmh) {
+        <span class="n">// LOCAL: nace y muere aqui</span>
+        <span class="t">double</span> extra = kmh * <span class="s">1.0</span>;
+        velocidad = velocidad + extra;
+    }
+}</code></pre>
+   <table>
+     <tr><th></th><th>Local</th><th>Instancia</th><th>Clase</th></tr>
+     <tr><td><b>Dónde</b></td><td>dentro de un método</td><td>en la clase, sin <code>static</code></td><td>en la clase, con <code>static</code></td></tr>
+     <tr><td><b>Cuántas</b></td><td>una por llamada</td><td>una por objeto</td><td>una en total</td></tr>
+     <tr><td><b>Vive</b></td><td>lo que dura el método</td><td>lo que dura el objeto</td><td>todo el programa</td></tr>
+     <tr><td><b>Por defecto</b></td><td><b>ninguno</b></td><td>0 / false / null</td><td>0 / false / null</td></tr>
+   </table>
+  </div>
+  <div class="g2" style="gap:.9em;margin-top:.7em">
+    <div class="card" style="border-color:var(--am);background:var(--amsoft)"><h3 style="color:var(--am)">En Java no hay variables globales</h3>
+      <p class="mini">Vienen de C buscando ese lugar y no existe. Lo más parecido es un atributo <code>static</code>, que pertenece a la clase y se llama por su nombre: <code>Coche.totalCoches</code>. Toda variable vive dentro de una clase.</p></div>
+    <div class="err"><h3 style="color:var(--rd);font-size:1em;font-weight:750;margin-bottom:.25em">El error que van a ver el miércoles</h3>
+      <div class="msg">error: non-static variable velocidad<br>cannot be referenced from a static context</div>
+      <p class="mini" style="margin-top:.3em">Quisieron usar un atributo de instancia dentro de <code>main</code>, que es <code>static</code>. Primero se crea el objeto: <code>Coche c = new Coche();</code> y luego <code>c.velocidad</code>.</p></div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">El <code>extra</code> que se declaró dentro de <code>acelerar</code>, ¿existe en <code>frenar</code>?</span><span class="resp rev">No. Es local: nace y muere dentro de su método.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 21 · STATIC Y FINAL -->
+<section>
+ <div class="eyebrow">Variables · <code>static</code> y <code>final</code>, exprés</div>
+ <div class="body">
+  <div class="g2" style="gap:1.3em;align-items:start">
+   <div>
+    <div class="card" style="margin-bottom:.7em"><h3><code>static</code> · de la clase, no del objeto</h3>
+      <p>El dato es uno solo y lo comparten todos los objetos. Se accede por el nombre de la clase.</p></div>
+    <pre><code><span class="k">static int</span> totalCoches = <span class="s">0</span>;
+<span class="n">// dentro del constructor o de un metodo:</span>
+totalCoches++;
+<span class="n">// desde fuera:</span>
+<span class="t">Coche</span>.totalCoches</code></pre>
+   </div>
+   <div>
+    <div class="card" style="margin-bottom:.7em"><h3><code>final</code> · se asigna una vez</h3>
+      <p>Es una constante. Por convención va en MAYÚSCULAS con guion bajo. Si intentan reasignarla, el compilador los detiene.</p></div>
+    <pre><code><span class="k">static final double</span> IVA = <span class="s">0.16</span>;
+<span class="k">final int</span> RUEDAS = <span class="s">4</span>;</code></pre>
+    <p class="mini" style="margin-top:.5em">Los dos juntos, <code>static final</code>, son la forma normal de escribir una constante en Java: <code>Math.PI</code> es exactamente eso.</p>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">Si <code>totalCoches</code> es <code>static</code> y creo 3 coches que la suman, ¿cuánto vale?</span><span class="resp rev">3. Es una sola variable para todos los objetos.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 22 · TODO JUNTO EN UNA CLASE REAL -->
+<section>
+ <div class="eyebrow">Todo junto · así se ve dentro de una clase de verdad</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1.35fr 1fr;gap:1.1em;align-items:start">
+   <pre style="font-size:.78em"><code><span class="k">public class</span> <span class="t">Termometro</span> {
+    <span class="k">static final double</span> LIMITE_FIEBRE = <span class="s">38.0</span>;  <span class="n">// constante</span>
+    <span class="k">static int</span> medicionesTotales = <span class="s">0</span>;          <span class="n">// de CLASE</span>
+
+    <span class="t">double</span> celsius = <span class="s">36.5</span>;   <span class="n">// de INSTANCIA</span>
+    <span class="t">int</span> lecturas = <span class="s">0</span>;
+    <span class="n">// firma: medir(double) · retorno: void</span>
+    <span class="k">void</span> medir(<span class="t">double</span> nuevaTemp) {
+        celsius = nuevaTemp;
+        lecturas++;
+        medicionesTotales++;
+    }
+    <span class="n">// firma: enFahrenheit() · retorno: double</span>
+    <span class="t">double</span> enFahrenheit() {
+        <span class="k">return</span> celsius * <span class="s">9</span> / <span class="s">5.0</span> + <span class="s">32</span>;   <span class="n">// 5.0, no 5</span>
+    }
+    <span class="n">// firma: hayFiebre(double) · retorno: boolean</span>
+    <span class="t">boolean</span> hayFiebre(<span class="t">double</span> limite) {
+        <span class="k">return</span> celsius &gt;= limite &amp;&amp; lecturas &gt; <span class="s">0</span>;
+    }
+}</code></pre>
+   <div>
+    <div class="lbl" style="text-align:left">Dónde quedó cada cosa de hoy</div>
+    <ul style="margin-bottom:.6em">
+      <li><b>Tipos:</b> <code>double</code> para la temperatura, <code>int</code> para contar, <code>boolean</code> para el sí o no.</li>
+      <li><b>Constante:</b> <code>static final</code> en MAYÚSCULAS.</li>
+      <li><b>Ámbito:</b> <code>medicionesTotales</code> es de la clase; <code>celsius</code> y <code>lecturas</code>, de cada objeto.</li>
+      <li><b>Operadores:</b> aritméticos en <code>enFahrenheit</code>, relacional y lógico en <code>hayFiebre</code>. El casting va en el <code>main</code>.</li>
+    </ul>
+    <div class="lbl" style="text-align:left">Y esto imprime, de verdad</div>
+    <div class="term"><code>celsius inicial = 36.5
+celsius = 38.7 | F = 101.66
+redondeado hacia abajo = 38
+hayFiebre(38.0) = true
+lecturas de este termometro = 1
+mediciones de TODOS = 1</code></div>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">En esa clase, ¿cuántas variables <code>celsius</code> existen si creo <b>dos</b> termómetros?</span><span class="resp rev">Dos, una por objeto. De LIMITE_FIEBRE hay una sola.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 23 · EL ESQUELETO -->
+<section>
+ <div class="eyebrow">Demo · el esqueleto que van a usar en la Tarea 1</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1.25fr 1fr;gap:1.2em;align-items:start">
+   <pre style="font-size:.78em"><code><span class="k">public class</span> <span class="t">MiObjeto</span> {
+    <span class="n">// TODO: renombra la clase Y el archivo (PascalCase)
+
+    // ===== ATRIBUTOS =====
+    // ej: double saldo = 0;
+    //     tipo: double · nombre: saldo · inicial: 0
+    // ===== METODOS =====
+    // ej: // firma: retirar(double) · retorno: void
+    //     // parametro: double monto</span>
+    <span class="k">public static void</span> main(<span class="t">String</span>[] args) {
+        <span class="n">// 1: crea tu objeto y asigna atributos</span>
+        System.out.println(<span class="s">"RADIOGRAFIA: MiObjeto"</span>);
+        <span class="n">// 2: imprime cada atributo</span>
+        System.out.println(<span class="s">"[estado inicial]"</span>);
+        <span class="n">// 3: firma + invocacion + resultado</span>
+        System.out.println(<span class="s">"[invocando metodos]"</span>);
+        <span class="n">// 4: imprime los atributos otra vez</span>
+        System.out.println(<span class="s">"[estado final]"</span>);
+    }
+}</code></pre>
+   <div>
+    <ul style="font-size:.92em">
+      <li>Arriba de la clase van las <b>4 líneas del modelo</b> que vimos hace rato.</li>
+      <li>El <code>main</code> es la <b>tarjeta del objeto</b>: estado inicial, qué le hice, estado final. Con eso se ve si el objeto cambia como dijeron que iba a cambiar.</li>
+    </ul>
+    <div class="card" style="border-color:var(--am);background:var(--amsoft);margin-top:.6em">
+      <p class="mini" style="color:var(--am)"><b>Lo llenamos ahora mismo, juntos, con la clase Coche.</b> Lo que salga en pantalla es literalmente el ejemplo de su tarea.</p>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">Si mi clase se llama <code>Perro</code>, ¿cómo se debe llamar el archivo?</span><span class="resp rev">Perro.java, con la misma mayúscula.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 24 · JAVAC, .CLASS, JAVA -->
+<section>
+ <div class="eyebrow">Demo · del <code>.java</code> al <code>.class</code>, y la tarjeta del objeto</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:1fr 1.15fr;gap:1.2em;align-items:start">
+   <div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:.5em;flex-wrap:wrap;background:var(--code);border:1px solid var(--line);border-radius:11px;padding:.7em .5em;margin-bottom:.7em">
+      <span class="tag">Coche.java</span><span style="color:var(--am);font-weight:800">→ javac →</span>
+      <span class="tag am">Coche.class</span><span style="color:var(--am);font-weight:800">→ java →</span>
+      <span class="tag gr">salida</span>
+    </div>
+    <pre style="margin-bottom:.6em"><code>javac Coche.java   <span class="n">// nace Coche.class</span>
+java Coche         <span class="n">// SIN el .class al final</span></code></pre>
+    <ul>
+      <li><code>javac</code> traduce su texto a <b>bytecode</b>: el <code>.class</code> ya no es para ustedes, es para la JVM.</li>
+      <li>Si el <code>.class</code> no está, no hay programa: por eso la Tarea 1 pide <b>subir los dos archivos</b>.</li>
+      <li>Un <code>.class</code> compilado con JDK 21 corre en cualquier máquina con JDK 21, sin recompilar. Esa es la promesa de Java.</li>
+    </ul>
+   </div>
+   <div>
+    <div class="lbl" style="text-align:left">La corrida real de hoy</div>
+    <div class="term"><code>RADIOGRAFIA: Coche
+<span class="c2">[estado inicial]</span>
+velocidad = 0.0
+gasolina  = 40.0
+<span class="c2">[invocando metodos]</span>
+acelerar(double) -&gt; void; velocidad = 30.5
+acelerar(double) -&gt; void; velocidad = 50.5
+puedeSeguir() -&gt; boolean; true
+<span class="c2">[estado final]</span>
+velocidad = 50.5
+gasolina  = 39.0</code></div>
+    <p class="mini" style="margin-top:.5em">Tres cosas que se ven aquí: los atributos nacieron en <b>0.0</b> sin que nadie los tocara, <code>acelerar</code> no devolvió nada pero <b>cambió el objeto</b>, y al segundo llamado le pasé un <code>20</code> entero que Java convirtió solo a <code>20.0</code>.</p>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Qué comando <b>crea</b> el <code>.class</code> y cuál lo <b>corre</b>?</span><span class="resp rev">javac Coche.java lo crea; java Coche lo corre.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 25 · UML EXPRÉS -->
+<section>
+ <div class="eyebrow">UML exprés · lo mismo de hoy, dibujado</div>
+ <div class="body">
+  <div class="g2" style="grid-template-columns:.85fr 1.15fr;gap:1.4em;align-items:center">
+   <div style="display:flex;flex-direction:column">
+    <div class="lbl">El Coche de la demo</div>
+    <div class="uml">
+     <div class="un">Coche</div>
+     <div class="ua">
+      <div>velocidad: <b>double</b></div>
+      <div>gasolina: <b>double</b></div>
+     </div>
+     <div class="um">
+      <div><b>acelerar</b>(kmh: double)</div>
+      <div><b>frenar</b>()</div>
+      <div><b>puedeSeguir</b>(): boolean</div>
+     </div>
+    </div>
+   </div>
+   <div>
+    <table style="margin-bottom:.7em">
+      <tr><th>En el diagrama</th><th>En Java</th></tr>
+      <tr><td><code>velocidad: double</code></td><td><code>double velocidad;</code></td></tr>
+      <tr><td><code>puedeSeguir(): boolean</code></td><td><code>boolean puedeSeguir() {…}</code></td></tr>
+      <tr><td><code>acelerar(kmh: double)</code></td><td><code>void acelerar(double kmh) {…}</code></td></tr>
+    </table>
+    <div class="card" style="border-color:var(--rd)">
+      <h3 style="color:var(--rd)">La trampa de siempre</h3>
+      <p>En UML el <b>tipo va después del nombre</b>, con dos puntos: al revés que Java. Y si el método no devuelve nada, el <code>: void</code> se puede omitir.</p>
+    </div>
+    <p class="mini" style="margin-top:.5em">Tres pisos: nombre, atributos, métodos. Nada de cuerpos ni de <code>if</code>: el diagrama dice <b>qué</b>, el código dice <b>cómo</b>.</p>
+   </div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">¿Cómo se escribe <code>double celsius;</code> en UML?</span><span class="resp rev">celsius: double. El tipo va después, con dos puntos.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 26 · IDEAS PARA LA TAREA -->
+<section>
+ <div class="eyebrow">Tarea 1 · de qué objeto la hago (y qué practica cada uno)</div>
+ <div class="body">
+  <table style="margin-bottom:.7em">
+    <tr><th>Objeto</th><th>Qué sabe</th><th>Qué sabe hacer</th><th>Qué operador practica</th></tr>
+    <tr><td><b>Mochila</b></td><td><code>double pesoKg</code>, <code>int objetos</code>, <code>boolean cerrada</code></td><td><code>meter(double kg)</code> void · <code>estaPesada()</code></td><td><code>+=</code> y <code>&gt;=</code></td></tr>
+    <tr><td><b>Celular</b></td><td><code>double bateria</code>, <code>int apps</code>, <code>boolean silencio</code></td><td><code>usar(double min)</code> void · <code>necesitaCarga()</code></td><td><code>-</code>, <code>&lt;</code> y <code>||</code></td></tr>
+    <tr><td><b>Cafetera</b></td><td><code>int mlAgua</code>, <code>int tazasServidas</code></td><td><code>servir()</code> void · <code>alcanzaPara(int tazas)</code></td><td><code>/</code> entera y <code>%</code></td></tr>
+    <tr><td><b>Serie</b></td><td><code>String titulo</code>, <code>int vistos</code>, <code>int total</code></td><td><code>ver(int caps)</code> void · <code>porcentajeVisto()</code></td><td>casting y división <code>double</code></td></tr>
+    <tr><td><b>Bicicleta</b></td><td><code>int cambio</code>, <code>double velocidad</code>, <code>boolean luz</code></td><td><code>subirCambio()</code> void · <code>vaSegura()</code></td><td><code>++</code>, <code>&lt;=</code> y <code>&amp;&amp;</code></td></tr>
+    <tr><td><b>Taquería</b></td><td><code>int tacos</code>, <code>double precio</code>, <code>char salsa</code></td><td><code>pedir(int n)</code> void · <code>cambioDe(double paga)</code></td><td><code>*</code>, <code>-</code> y <code>char</code></td></tr>
+  </table>
+  <div class="g2" style="gap:1em;align-items:start">
+   <div class="ok"><p class="mini"><b>Sirve cualquier objeto de su día:</b> el refri, la ruta del camión, su rutina del gimnasio, un examen, su moto, la impresora de la facultad. La regla es que <b>ustedes</b> puedan explicar el contexto: en qué programa vive y para qué sirve.</p></div>
+   <div class="err"><p class="mini"><b>No valen:</b> <code>Circulo</code>, <code>Coche</code>, <code>CuentaBancaria</code>, <code>Cancion</code>, <code>Alumno</code>, <code>Termometro</code>, <code>Videojuego</code> ni los de las prácticas. Ya están modelados aquí; la tarea es que modelen ustedes.</p></div>
+  </div>
+ </div>
+ <div class="trivia"><span class="tq">Trivia</span><span class="pregunta">Digan en el chat <b>el objeto</b> que van a modelar. Uno por persona, sin repetir el del de arriba.</span><span class="resp rev">Si dos escriben lo mismo, el segundo cambia. Así nadie se queda sin idea.</span><span class="chat">responde en el chat</span></div>
+</section>
+
+<!-- 27 · CIERRE -->
+<section>
+ <div class="eyebrow">Cierre · lo que sigue</div>
+ <div class="body">
+  <div class="g2" style="gap:1.2em;align-items:start">
+   <div class="card" style="border-color:var(--am)">
+    <h3 style="color:var(--am)">Tarea 1 · Radiografías con contexto</h3>
+    <p><b>Entrega: lunes 14 de septiembre.</b> Tres objetos <b>de su vida</b> (prohibidos los de las prácticas y los de hoy), desde el esqueleto del repo.</p>
+    <ul style="margin-top:.35em">
+      <li>Comentario de modelado de <b>4 líneas</b> por clase.</li>
+      <li>2 o más atributos y 2 o más métodos: uno <code>void</code> con parámetro, uno que retorne. Cada parte etiquetada y la <b>firma en comentario</b>.</li>
+      <li><b>Nuevo:</b> entre los tres objetos deben aparecer <b>4 tipos distintos</b> y <b>todos los operadores de hoy</b>: <code>+ - * / %</code>, uno de <code>++ -- +=</code>, dos relacionales, un lógico y un <b>casting</b>.</li>
+      <li><b>Un constructor</b> con parámetros, en <b>una</b> de las tres clases: la que no debería poder nacer vacía.</li>
+      <li>El <code>main</code> completado y el <code>.java</code> <b>más</b> el <code>.class</code>. Yo ejecuto el <code>.class</code>.</li>
+      <li><b>Nuevo: un <code>QUIZ.md</code></b> con diez preguntas de vocabulario, contestadas <b>con sus palabras</b>. Vale 20 %.</li>
+    </ul>
+    <div class="err" style="margin-top:.5em"><p class="mini"><b>Cambia cómo se entrega:</b> una sola rama para todo el semestre, <code>entregas_apellido_nombre</code>, y esta tarea vive en <code>entregas/apellido_nombre/tareas/t01/</code>. <b>Ya no se abren pull requests: solo <code>push</code>.</b></p></div>
+    <p class="mini" style="margin-top:.35em">Se califica justificación 30 %, código 30 %, que <b>corra</b> 20 % y el quiz 20 %. Instrucciones, ejemplo resuelto y menú de ideas: en el repo.</p>
+   </div>
+   <div>
+    <div class="card" style="margin-bottom:.7em">
+      <h3>Miércoles 9 · laboratorio P3</h3>
+      <p><b>Laboratorio de predicciones</b>, y sí tiene entregable. El programa ya está escrito: antes de correrlo escriben qué creen que va a imprimir cada línea, luego corren y explican en qué fallaron.</p>
+      <p class="mini" style="margin-top:.3em"><b>Entrega: viernes 11.</b> <code>entregas/apellido_nombre/p03/</code>. Se empieza en el laboratorio. Equivocarse no baja la calificación; no haber predicho, sí.</p>
+    </div>
+    <div class="ok">
+      <p class="mini"><b>Lleguen con:</b> el JDK 21 respondiendo (<code>java -version</code>), su rama del semestre y el esqueleto ya clonado.</p>
+    </div>
+    <div class="quote" style="margin-top:.8em">Si hoy solo se llevan una frase: un método no es "código que hace algo", es una <em>firma</em> que promete algo. El contexto decide qué prometer.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<div id="bar"></div><div id="num"></div>
+<div id="hint">← → para navegar · <b>V</b> revela · <b>F</b> pantalla completa</div>
+
+<script>
+const S=[...document.querySelectorAll('section')];let i=0;
+const bar=document.getElementById('bar'),num=document.getElementById('num');
+function show(n){i=Math.max(0,Math.min(S.length-1,n));
+ document.body.classList.remove('reveal');
+ S.forEach((s,k)=>s.classList.toggle('on',k===i));
+ bar.style.width=((i+1)/S.length*100)+'%';num.textContent=(i+1)+' / '+S.length;}
+addEventListener('keydown',e=>{
+ if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(i+1)}
+ else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}
+ else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1);
+ else if(e.key.toLowerCase()==='r')show(0);
+ else if(e.key.toLowerCase()==='v'){e.preventDefault();document.body.classList.toggle('reveal');}
+ else if(e.key.toLowerCase()==='f'||e.key==='F11'){e.preventDefault();fs();}});
+function fs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+addEventListener('dblclick',fs);
+show(0);
+</script></body></html>

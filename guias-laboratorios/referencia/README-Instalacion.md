@@ -7,7 +7,7 @@ funcione. Si haces esto, la verificación te toma cinco minutos; si no lo haces,
 sesión completa y no alcanzas a hacer la práctica.
 
 > **La guía completa, con los comandos de tu sistema operativo, está en
-> [`Lab-00-Entorno-y-Git.html`](Lab-00-Entorno-y-Git.html).** Ábrela, elige arriba tu sistema
+> [`Lab-00-Entorno-y-Git.html`](../Lab-00/Lab-00-Entorno-y-Git.html).** Ábrela, elige arriba tu sistema
 > (Windows, macOS o Linux) y sigue la **Parte 0**.
 
 ---

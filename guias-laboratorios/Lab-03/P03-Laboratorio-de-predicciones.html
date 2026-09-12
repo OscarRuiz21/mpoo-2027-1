@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · P3 · Laboratorio de predicciones</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:62ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.83rem;color:#33465e;white-space:pre;overflow-x:auto}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+</style></head><body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · P3 · miércoles 9 de septiembre</div>
+  <h1>Laboratorio de<br><em style="color:#ffb340">predicciones</em></h1>
+  <p>El programa ya está escrito y ya funciona. Lo que se califica no es que corra: es <strong style="color:#fff">qué creías tú que iba a imprimir antes de correrlo</strong>, y qué entendiste de las veces que te equivocaste. Es la práctica de tipos de datos y expresiones con operadores, hecha al revés.</p>
+</div></header>
+
+<div class="wrap">
+
+<div class="box tip">
+  <h4>En una línea</h4>
+  <p>Abres <code>Laboratorio.java</code>, llenas la columna <b>PREDIJE</b> de las seis tablas <b>sin correr nada</b>, luego corres, llenas la columna <b>SALIO</b>, explicas cada fallo, y al final escribes tú las cinco líneas del bloque 7. Se entrega el <code>.java</code> con todo eso escrito, más el <code>.class</code>.</p>
+</div>
+
+<div class="box warn">
+  <h4>Por qué esta práctica es así</h4>
+  <p>Copiar la salida de la pantalla no cuesta nada y no enseña nada. Predecir sí: en el momento en que escribes "7 / 2 da 3.5" y la máquina te contesta <code>3</code>, aprendiste algo que ya no se te va a olvidar en el examen ni en la Tarea 1. <b>Equivocarse aquí no baja la calificación.</b> Lo que la baja es no haber predicho, o no poder explicar el fallo.</p>
+</div>
+
+<h2>Parte 0 · Qué se entrega y cómo se califica</h2>
+
+<table>
+  <tr><th>Qué</th><th>Detalle</th></tr>
+  <tr><td><b>Cuándo</b></td><td>Viernes <b>11 de septiembre</b>, 23:59. Se empieza en el laboratorio del miércoles y ahí mismo se resuelven las dudas.</td></tr>
+  <tr><td><b>Dónde</b></td><td>Su rama <code>entregas_apellido_nombre</code> · carpeta <code>entregas/apellido_nombre/p03/</code>. <b>Solo push. No se abre pull request.</b></td></tr>
+  <tr><td><b>Qué archivos</b></td><td><code>Laboratorio.java</code> (con tus tablas llenas) y <code>Laboratorio.class</code>. Dos archivos, más nada.</td></tr>
+  <tr><td><b>Cómo se califica</b></td><td>Predicciones escritas antes de correr 30 % · explicación de tus fallos 30 % · las tres preguntas abiertas 20 % · bloque 7 corriendo 20 %.</td></tr>
+</table>
+
+<div class="box warn">
+  <h4>Lo único que puede sacarte del 100</h4>
+  <p>Que las 36 predicciones coincidan exactamente con la salida y no haya ni una explicación escrita. Eso no es una tarea perfecta: es la salida copiada. Nadie acierta las 36 la primera vez, y no se espera que lo hagan. <b>Ocho o diez fallos bien explicados es una entrega excelente.</b></p>
+</div>
+
+<h2>Parte 1 · El orden exacto de trabajo</h2>
+
+<div class="cp">
+  <h4><span class="n">1</span>Antes de correr nada: predice</h4>
+  <p>Abre <code>Laboratorio.java</code> en tu editor. Cada bloque tiene una tabla en comentarios con dos columnas. Llena <b>solo la columna PREDIJE</b>, de los seis bloques, de corrido. Si no tienes idea, adivina algo: una predicción en blanco no vale, una equivocada sí.</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">2</span>Ahora sí, corre</h4>
+  <p><code>javac Laboratorio.java</code> y luego <code>java Laboratorio</code>. Sale todo de un jalón. Copia cada resultado a la columna <b>SALIO</b>. Aquí no hay que pensar, es transcribir.</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">3</span>Lo que de verdad cuenta: explica tus fallos</h4>
+  <p>En cada bloque hay una línea <b>POR QUE ME EQUIVOQUE</b>. Escribe ahí, con tus palabras, por qué tu predicción no fue la que salió. Una línea por fallo. Si un bloque te salió completo, escribe "0 fallos" y sigue. Contesta también las tres preguntas abiertas que están dentro de los bloques 3, 4, 5 y 6.</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">4</span>El bloque 7: ahora el código es tuyo</h4>
+  <p>Cinco líneas comentadas que tienes que escribir y descomentar. Cada una con un comentario corto diciendo qué operador usaste y por qué. No vale escribir el resultado a mano: tiene que ser una operación de verdad que la máquina calcule.</p>
+</div>
+
+<h2>Parte 2 · Qué hay en cada bloque</h2>
+
+<table>
+  <tr><th>Bloque</th><th>De qué va</th><th>Renglones</th></tr>
+  <tr><td><b>1</b></td><td>Con qué nace un atributo al que nadie le puso valor</td><td>5</td></tr>
+  <tr><td><b>2</b></td><td>La división que miente: entera contra decimal, y qué pasa al dividir entre cero</td><td>6</td></tr>
+  <tr><td><b>3</b></td><td>El módulo <code>%</code>, incluyendo con negativos y con decimales</td><td>6</td></tr>
+  <tr><td><b>4</b></td><td>El casting y lo que se pierde: decimales, letras y números que no caben</td><td>7</td></tr>
+  <tr><td><b>5</b></td><td>Relacionales y lógicos, y por qué una división entre cero a veces no truena</td><td>6</td></tr>
+  <tr><td><b>6</b></td><td>Las sorpresas: <code>0.1 + 0.2</code>, el entero que se da la vuelta, y el <code>+</code> que pega texto</td><td>6</td></tr>
+  <tr><td><b>7</b></td><td><b>Tuyo:</b> cinco expresiones que tienes que escribir</td><td>5</td></tr>
+</table>
+
+<div class="box tip">
+  <h4>Las que casi nadie acierta, para que no te asustes</h4>
+  <p>Hay siete renglones diseñados para que falles: <code>(double) (7 / 2)</code>, <code>7.0 / 0</code>, <code>-7 % 2</code>, <code>(int) -3.9</code>, <code>(byte) 200</code>, <code>0.1 + 0.2 == 0.3</code>, y el par <code>1 + 2 + "3"</code> contra <code>"1" + 2 + 3</code>. Si fallas esos siete y los explicas bien, tu entrega está mejor que una donde nadie falló nada.</p>
+</div>
+
+<h2>Parte 3 · Cómo se ve una respuesta que sí cuenta</h2>
+
+<p>El renglón <code>(int) -3.9</code>. Casi todos predicen <code>-4</code> y sale <code>-3</code>.</p>
+
+<div class="box warn">
+  <h4>Explicación que no cuenta</h4>
+  <p>"Me equivoqué porque pensé que era -4 pero es -3."</p>
+</div>
+
+<div class="cp">
+  <h4><span class="n">✓</span>Explicación que sí cuenta</h4>
+  <p>"Pensé que el casting redondeaba, y no: corta la parte decimal y ya. Como corta hacia el cero, <code>-3.9</code> se queda en <code>-3</code>, no en <code>-4</code>. Si de verdad quisiera el <code>-4</code> tendría que usar otra cosa, no un casting."</p>
+</div>
+
+<p>La diferencia es que la segunda dice <b>qué creías que hacía el lenguaje</b> y <b>qué hace en realidad</b>. Ese es el ejercicio completo.</p>
+
+<h2>Parte 4 · Cómo se entrega</h2>
+
+<div class="tree">entregas/
+└── <span class="d">apellido_nombre/</span>      <span class="c"># TU carpeta, con tu apellido y tu nombre</span>
+    ├── <span class="d">p03/</span>             <span class="c"># las practicas van aqui, directo en tu carpeta</span>
+    │   ├── Laboratorio.java
+    │   └── Laboratorio.class
+    └── <span class="d">tareas/</span>          <span class="c"># las tareas van aparte, dentro de tareas/</span>
+        └── <span class="d">t01/</span>         <span class="c"># la tarea del lunes</span></div>
+
+<pre><code><span class="c"># 1. parate en TU rama (la misma de todo el semestre)</span>
+git checkout entregas_apellido_nombre
+git pull
+
+<span class="c"># 2. la carpeta de esta practica</span>
+mkdir -p entregas/apellido_nombre/p03
+
+<span class="c"># 3. compila y corre una ultima vez antes de subir</span>
+javac Laboratorio.java
+java Laboratorio
+
+<span class="c"># 4. guarda y sube</span>
+git add entregas/apellido_nombre/p03
+git commit -m "P3: laboratorio de predicciones"
+git push -u origin entregas_apellido_nombre</code></pre>
+
+<div class="cp">
+  <h4><span class="n">✓</span>Checklist antes del último push</h4>
+  <p>□ Las 36 predicciones tienen algo escrito, ninguna en blanco &nbsp; □ Las 36 casillas de SALIO están llenas &nbsp; □ Cada bloque tiene su línea de POR QUE ME EQUIVOQUE, o dice "0 fallos" &nbsp; □ Contesté las preguntas abiertas de los bloques 3, 4, 5 y 6 &nbsp; □ Las cinco líneas del bloque 7 están descomentadas, corren y tienen su comentario &nbsp; □ Escribí mi nombre hasta arriba del archivo &nbsp; □ <code>git branch</code> muestra el asterisco en mi rama, no en <code>main</code> &nbsp; □ Hice <code>push</code> y lo verifiqué abriendo mi rama en GitHub</p>
+</div>
+
+<h2>Si algo falla</h2>
+
+<table>
+  <tr><th>Síntoma</th><th>Qué pasó</th></tr>
+  <tr><td><code>class Laboratorio is public, should be declared in a file named Laboratorio.java</code></td><td>Le cambiaste el nombre al archivo. Este no se renombra: se queda <code>Laboratorio.java</code>.</td></tr>
+  <tr><td>El programa corre pero el bloque 7 no imprime nada</td><td>Sus cinco líneas siguen comentadas. Quítales el <code>//</code> de adelante.</td></tr>
+  <tr><td><code>Exception in thread "main" java.lang.ArithmeticException: / by zero</code></td><td>En tu 7.5 usaste <code>&amp;</code> en vez de <code>&amp;&amp;</code>, o pusiste la división del lado izquierdo. El corto circuito solo protege lo que está a la <b>derecha</b> de un <code>&amp;&amp;</code>.</td></tr>
+  <tr><td><code>error: ';' expected</code> en el bloque 7</td><td>Descomentaste la línea pero dejaste los tres puntos <code>...</code> adentro del paréntesis. Ahí va tu expresión.</td></tr>
+  <tr><td><code>incompatible types: possible lossy conversion from double to int</code></td><td>Le estás dando un decimal a un <code>int</code> sin casting. Es justo lo del bloque 4.</td></tr>
+  <tr><td><code>Error: Could not find or load main class Laboratorio.class</code></td><td>Corriste <code>java Laboratorio.class</code>. Es <code>java Laboratorio</code>, sin el <code>.class</code>.</td></tr>
+</table>
+
+<div class="box tip">
+  <h4>Una cosa más</h4>
+  <p>Esta práctica y la Tarea 1 son cosas distintas y van en carpetas distintas. La práctica es de aquí al viernes; la tarea es del lunes 14. Los siete renglones que fallaste en esta práctica son exactamente los errores que te van a salir en la tarea, así que hacerla primero te ahorra tiempo después.</p>
+</div>
+
+</div>
+</body></html>
