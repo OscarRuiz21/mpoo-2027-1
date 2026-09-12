@@ -5,6 +5,8 @@ out/
 .vscode/
 # compilados de Java
 *.class
+# ... PERO los .class de las entregas SI se suben: el curso los pide junto al .java
+!entregas/**/*.class
 target/
 # sistema
 .DS_Store
