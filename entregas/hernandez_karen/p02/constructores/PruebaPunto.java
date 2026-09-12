@@ -5,5 +5,5 @@ public class PruebaPunto{
 
         Punto x=new Punto(7,2);
         x.imprimePunto();
-    }  
+    }
 }
