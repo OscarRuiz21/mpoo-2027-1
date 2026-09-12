@@ -28,4 +28,6 @@ observación— **abre un Issue** en este repositorio con tu número de cuenta y
 Casi siempre es que la entrega quedó en una rama o carpeta distinta a la tuya, y se
 resuelve rápido.
 
-El corte más reciente es el del **7 de septiembre**.
+El corte más reciente es el del **11 de septiembre**, e incluye la **P03**.
+
+En la columna de la **T01** el guion (—) significa que aún no vence: la fecha es el lunes 14 de septiembre.
