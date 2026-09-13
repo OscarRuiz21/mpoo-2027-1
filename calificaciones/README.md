@@ -24,7 +24,7 @@ corrección.
 ## Si algo no coincide
 
 Si crees que hay un error —entregaste algo que aparece como NP, o no reconoces una
-observación— **abre un Issue** en este repositorio con tu número de cuenta y qué esperabas.
+observación— **escríbeme por el grupo** con tu número de cuenta y qué esperabas.
 Casi siempre es que la entrega quedó en una rama o carpeta distinta a la tuya, y se
 resuelve rápido.
 
