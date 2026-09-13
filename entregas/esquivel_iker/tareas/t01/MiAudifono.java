@@ -53,8 +53,8 @@ public class MiAudifono {
     // Recibe la cantidad porque indica cuanto aumentar el volumen y es void porque solo modifica el volumen.
 
     public void subirVolumen(double cantidad) {
-        volumen = volumen + cantidad;    
-        if (volumen > 100) {                
+        volumen = volumen + cantidad; //Operador +   
+        if (volumen > 100) {          //Operaador >
             volumen = 100;
         }
 
@@ -66,8 +66,8 @@ public class MiAudifono {
     // Recibe la cantidad porque indica cuanto disminuir el volumen y es void porque solo modifica el volumen.
 
     public void bajarVolumen(double cantidad) {
-        volumen = volumen - cantidad;       
-        if (volumen < 0) {                  
+        volumen = volumen - cantidad;    //Operador -
+        if (volumen < 0) {               //Operador <
             volumen = 0;
         }
 

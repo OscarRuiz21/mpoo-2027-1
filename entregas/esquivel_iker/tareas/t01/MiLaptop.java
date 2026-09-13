@@ -64,10 +64,10 @@ public class MiLaptop {
     // Recibe minutos porque necesita saber cuanto tiempo fue utilizada.
     // No retorna nada porque modifica el estado de la laptop.
     public void usar(double minutos) {
-        double consumo = minutos * 0.5;  
-        bateria = bateria - consumo;     
-        horasUso += (int)(minutos / 60);  
-        if (bateria < 0) {                
+        double consumo = minutos * 0.5;  //Operador *
+        bateria = bateria - consumo;     //Operador -
+        horasUso += (int)(minutos / 60);  //Operadores += / y casting
+        if (bateria < 0) {                //Operador <
             bateria = 0;
         }
     }
