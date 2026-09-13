@@ -6,10 +6,9 @@ acentos, unidos por un guion bajo** (así dos personas con el mismo apellido no 
 ```
 entregas/
 └── ramirez_ana/
-    ├── p01/ … p12/
-    └── tareas/t01/ …
+    ├── p01/
+    └── p02/ … p12/
 ```
 
-Todo se entrega con **push a tu rama** `entregas_apellido_nombre` (ya existe: te la
-creamos) — **sin pull request** hasta el final del semestre. La rutina completa está en el
-[`GIT-CHEATSHEET.md`](../GIT-CHEATSHEET.md). Cada quien toca solo su carpeta.
+Cada práctica se entrega desde una rama `pNN-apellido` como **pull request** al
+repositorio. Tu carpeta la creas en el Lab 0. Cada quien toca solo la suya.
