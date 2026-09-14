@@ -1,7 +1,11 @@
 # QUIZ T01 · Emilio Hernández
 
 ## 1. Atributo contra variable
-Un atributo guarda un dato del objeto que se mantiene vivo en toda la clase (`marca`), mientras que una variable normal solo vive dentro de su método (`incrementoKm`).
+Un atributo guarda el estado persistente del objeto en la clase, mientras que una variable local solo vive dentro del método donde se declara.
+Ejemplos de mi tarea:
+- Bicicleta: atributo `marca`, variable local `incrementoKm` en `acelerar()`.
+- Taqueria: atributo `nombre`, variable local `subtotal` en `calcularTotal()`.
+- Lavadora: atributo `capacidadKg`, variable local `tiempoRestante` en `iniciarCiclo()`.
 
 ## 2. Constructor: que es, cuando corre, cuantas veces
 Es el método que inicializa el objeto cuando usas `new` y solo corre una vez por objeto. Si no lo escribo Java pone uno vacío y mis atributos se quedan en `0` o `null`.
