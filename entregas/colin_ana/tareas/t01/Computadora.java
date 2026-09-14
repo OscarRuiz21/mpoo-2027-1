@@ -1,63 +1,63 @@
 // CONTEXTO: Vive en un sistema de gestión personal.
-// QUE SABE Y POR QUE: capacidadRamGB (int) para identificar la memoria total disponible y estaConectadaRed (boolean) para saber si tiene acceso a internet.
-// QUE SABE HACER Y POR QUE: conectarRed (void, sin parámetros) porque cambia el estado de conexión a verdadero sin devolver un valor; ejecutarPrograma (retorna boolean, recibe int) para verificar si hay suficiente memoria RAM libre para abrir una aplicación y devolver true si se logró ejecutar.
-// QUE IGNORE: Ignoré el color del chasis/gabinete y el tipo de teclado porque no afectan el rendimiento del sistema.
+// QUE SABE Y POR QUE: nombreEquipo (String), capacidadRamGB (int), almacenamientoLibreGB (double) y estaConectadaRed (boolean).
+// QUE SABE HACER Y POR QUE: conectarRed (void, CON parámetros) para conectar a WiFi; calcularEspacioRestante (retorna double) tras descargar archivos.
+// QUE IGNORE: Ignoré el color del chasis y las luces RGB.
+
 public class Computadora {
 
-    // ===== ATRIBUTOS =====
-    int capacidadRamGB = 16;           // tipo: int · nombre: capacidadRamGB · valor inicial: 16
-    boolean estaConectadaRed = false;  // tipo: boolean · nombre: estaConectadaRed · valor inicial: false
-    int ramEnUsoGB = 0;                // tipo: int · nombre: ramEnUsoGB · valor inicial: 0
+    // ===== ATRIBUTOS (4 tipos de datos distintos) =====
+    String nombreEquipo = "ASUS-TUF";        // tipo: String
+    int capacidadRamGB = 16;                 // tipo: int
+    double almacenamientoLibreGB = 450.5;    // tipo: double
+    boolean estaConectadaRed = false;        // tipo: boolean
 
     // ===== CONSTRUCTOR =====
-    // firma: Computadora(int) · sin tipo de retorno
-    Computadora(int capacidadRamGB) {
-        this.capacidadRamGB = capacidadRamGB; // this.capacidadRamGB = ATRIBUTO · capacidadRamGB = PARAMETRO
+    Computadora(String nombreEquipo, int capacidadRamGB, double almacenamientoLibreGB) {
+        this.nombreEquipo = nombreEquipo;
+        this.capacidadRamGB = capacidadRamGB;
+        this.almacenamientoLibreGB = almacenamientoLibreGB;
     }
 
     // ===== METODOS =====
 
-    // firma: conectarRed() · retorno: void · parametro: ninguno
-    void conectarRed() {
+    // Método void CON parámetros
+    void conectarRed(String nombreRed, int velocidadMbps) {
         this.estaConectadaRed = true;
+        // Uso de suma (+) y módulo (%)
+        int canalAsignado = (velocidadMbps + 5) % 12;
+        System.out.println("Conectado a: " + nombreRed + " en el canal " + canalAsignado + " del equipo " + this.nombreEquipo);
     }
 
-    // firma: ejecutarPrograma(int) · retorno: boolean · parametro: int ramRequerida
-    boolean ejecutarPrograma(int ramRequerida) {
-        if (this.ramEnUsoGB + ramRequerida <= this.capacidadRamGB) {
-            this.ramEnUsoGB += ramRequerida;
-            return true;
-        }
-        return false;
+    // Método con retorno
+    double calcularEspacioRestante(double tamaArchivoGB, int cantidad) {
+        // Uso de multiplicación (*), división (/), resta (-)
+        double totalDescargado = tamaArchivoGB * cantidad;
+        double reservaSistema = (totalDescargado / 100.0);
+        double espacioFinal = (this.almacenamientoLibreGB - totalDescargado) - reservaSistema;
+        return espacioFinal;
     }
 
     public static void main(String[] args) {
         System.out.println("RADIOGRAFIA: Computadora");
 
-        // 1. Instanciación usando el constructor (Computadora de 16 GB de RAM para tareas y juegos)
-        Computadora miPC = new Computadora(16);
+        Computadora miPC = new Computadora("RogStrix", 32, 500.0);
 
-        // 2. Estado inicial
         System.out.println("[estado inicial]");
-        System.out.println("Capacidad de RAM total: " + miPC.capacidadRamGB + " GB");
-        System.out.println("¿Está conectada a internet?: " + miPC.estaConectadaRed);
-        System.out.println("RAM en uso: " + miPC.ramEnUsoGB + " GB");
+        System.out.println("Equipo: " + miPC.nombreEquipo);
+        System.out.println("RAM Total: " + miPC.capacidadRamGB + " GB");
+        System.out.println("Almacenamiento Libre: " + miPC.almacenamientoLibreGB + " GB");
+        System.out.println("¿Conectada a red?: " + miPC.estaConectadaRed);
 
-        // 3. Invocando métodos
         System.out.println("\n[invocando metodos]");
 
-        System.out.println("Invocando: conectarRed()");
-        miPC.conectarRed();
-        System.out.println("Efecto: La computadora se ha conectado a internet.");
+        System.out.println("Invocando: conectarRed(\"Infinitum_5G\", 100)");
+        miPC.conectarRed("Infinitum_5G", 100);
 
-        System.out.println("Invocando: ejecutarPrograma(6)");
-        boolean seEjecuto = miPC.ejecutarPrograma(6);
-        System.out.println("Resultado: ¿Se pudo abrir el juego/programa de 6 GB de RAM? " + seEjecuto);
+        System.out.println("Invocando: calcularEspacioRestante(45.0, 2)");
+        double espacio = miPC.calcularEspacioRestante(45.0, 2);
+        System.out.println("Resultado: Almacenamiento libre restante = " + espacio + " GB");
 
-        // 4. Estado final
         System.out.println("\n[estado final]");
-        System.out.println("Capacidad de RAM total: " + miPC.capacidadRamGB + " GB");
-        System.out.println("¿Está conectada a internet?: " + miPC.estaConectadaRed);
-        System.out.println("RAM en uso: " + miPC.ramEnUsoGB + " GB");
+        System.out.println("¿Conectada a red?: " + miPC.estaConectadaRed);
     }
 }

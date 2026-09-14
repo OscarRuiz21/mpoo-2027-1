@@ -10,8 +10,10 @@ Un atributo es una característica del objeto que no cambia, mientras una variab
 Es un método que inicializa un objeto, corre automáticamente al usar la palabra new y se ejecuta una sola vez por objeto.
 
 ```java
-Television(int resolucionVertical) {
-        this.resolucionVertical = resolucionVertical; // this.resolucionVertical = ATRIBUTO · resolucionVertical = PARAMETRO
+Television(String marca, int resolucionVertical, double tamanoPulgadas) {
+        this.marca = marca;
+        this.resolucionVertical = resolucionVertical;
+        this.tamanoPulgadas = tamanoPulgadas;
     }
 ```
 
@@ -25,20 +27,20 @@ Para diferenciar el atributo del objeto de parámetro que recibe el constructor,
 Es el nombre del método junto con los tipos de parámetros y su orden.
 
 Mis dos firmas:
-- encender()
-- cambiarCanal(int)
+- ajustarConfiguracion()
+- calcularPrecioPulgada()
 
 ## 5. Parametro y argumento
 El parámetro es la variable declarada, en el método, que recibe los datos. El argumento es un valor real que enviás al ejecutarlo.
 
 Parametro, en mi codigo:
 ```java
-boolean cambiarCanal(int nuevoCanal)
+void ajustarConfiguracion(int nuevoVolumen, String modoImagen)
 ```
 
 Argumento, en mi codigo:
 ```java
-boolean seCambio = miTV.cambiarCanal(7);
+miTV.ajustarConfiguracion(15, "Cine");
 ```
 
 ## 6. Que significa void
@@ -55,7 +57,7 @@ Es forzar la conversión de un tipo de dato a otro. Se pierden los decimales y s
 
 Mi linea:
 ```java
-int resolucionAproximada = (int) 1079.9;
+double precioPorPulgada = (precioConDescuento * 1.16) / this.tamanoPulgadas;
 ```
 
 ## 10. new, clase e instancia
