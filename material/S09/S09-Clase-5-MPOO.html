@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO 2027-1 · Clase 5 · Variables de referencia y arreglos</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#ffffff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--code:#eef3f9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);height:100vh;overflow:hidden;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+section{position:absolute;inset:0;display:none;flex-direction:column;padding:3.2vh 4.5vw 4.5vh;animation:f .3s ease both}
+section.on{display:flex}
+@keyframes f{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--am);font-size:clamp(.7rem,1.05vw,1rem);font-weight:800;
+letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5em}
+h1{font-size:clamp(2.1rem,3.9vw,3.5rem);line-height:1.06;letter-spacing:-.02em;font-weight:800;margin-bottom:.5em}
+h2{font-size:clamp(1.3rem,2.1vw,2.1rem);line-height:1.15;font-weight:750;margin-bottom:.45em}
+p{font-size:clamp(.92rem,1.3vw,1.32rem);line-height:1.5;color:var(--dim)}
+strong{color:var(--ink);font-weight:700}
+em{color:var(--am);font-style:normal;font-weight:700}
+.body{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;justify-content:center;gap:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.1em}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9em}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75em}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:.95em 1.1em;
+box-shadow:0 1px 2px rgba(18,37,61,.05),0 4px 14px rgba(18,37,61,.045)}
+.card h3{font-size:clamp(.96rem,1.34vw,1.34rem);color:var(--ink);font-weight:750;margin-bottom:.3em;display:flex;align-items:center;gap:.5em}
+.card p{font-size:clamp(.82rem,1.12vw,1.14rem);line-height:1.45}
+.num{color:var(--am);font-weight:900;font-size:1.15em;min-width:1.1em}
+ul{list-style:none}
+li{font-size:clamp(.88rem,1.22vw,1.24rem);line-height:1.45;color:var(--dim);margin:.42em 0;padding-left:1.25em;position:relative}
+li::before{content:"";position:absolute;left:0;top:.55em;width:.42em;height:.42em;border-radius:50%;background:var(--am)}
+li b{color:var(--ink)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:11px;padding:.8em 1em;overflow:auto}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:clamp(.9rem,1.38vw,1.4rem);line-height:1.6;color:#1e293b}
+.k{color:#0369a1}.t{color:#b45309}.n{color:#64748b}.s{color:#15803d}
+table{border-collapse:collapse;width:100%;font-size:clamp(.85rem,1.16vw,1.18rem)}
+td,th{padding:.42em .7em;border-bottom:1px solid var(--line);text-align:left;color:var(--dim)}
+th{color:var(--am);font-size:.8em;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+td code{font-size:clamp(.78rem,1.08vw,1.1rem)}
+.quote{border-left:4px solid var(--am);padding-left:.9em;font-size:clamp(1.06rem,1.62vw,1.58rem);
+line-height:1.35;color:var(--ink);font-weight:700}
+.chip{display:inline-block;background:#edf3fa;border:1px solid var(--line);border-radius:999px;
+padding:.2em .7em;font-size:clamp(.74rem,1.02vw,1rem);color:var(--dim);margin:.16em .22em .16em 0}
+.chip b{color:var(--am)}
+.lbl{font-size:clamp(.68rem,.95vw,.95rem);font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+color:var(--am);margin:.2em 0 .35em;text-align:center}
+#bar{position:fixed;left:0;bottom:0;height:3px;background:var(--am);transition:width .3s}
+#num{position:fixed;right:1vw;bottom:.7vh;font-size:.72rem;color:#9db0c6;font-variant-numeric:tabular-nums}
+#hint{position:fixed;left:1.2vw;bottom:.7vh;font-size:.72rem;color:#9db0c6}
+body:fullscreen #hint{display:none}
+
+.rev{visibility:hidden}
+body.reveal .rev{visibility:visible}
+.tag{display:inline-block;font-size:clamp(.62rem,.85vw,.85rem);font-weight:800;letter-spacing:.1em;
+text-transform:uppercase;padding:.12em .5em;border-radius:5px;background:#e8eef7;color:var(--dim)}
+.tag.am{background:#fdebd0;color:var(--am)}.tag.gr{background:#d9f2e2;color:var(--gr)}
+.tag.rd{background:#fadddd;color:var(--rd)}.tag.bl{background:#dbeafe;color:#1d4ed8}
+.body :not(pre):not(.term) > code{font-size:.94em}
+.mono-s code{font-size:clamp(.7rem,1.02vw,1.04rem);line-height:1.5}
+.mono-xs code{font-size:clamp(.66rem,.94vw,.96rem);line-height:1.45}
+.err{background:#fef2f2;border:1px solid #f2c4c4;border-radius:11px;padding:.7em .9em}
+.err .msg{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(.72rem,1vw,1rem);color:var(--rd);line-height:1.4}
+.ok{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:11px;padding:.7em .9em}
+.mini{font-size:clamp(.74rem,1.02vw,1.02rem);line-height:1.4;color:var(--dim)}
+.firma{background:#fff8ef;border:1px dashed var(--am);border-radius:8px;padding:.15em .55em;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;color:var(--am);font-weight:700;white-space:nowrap}
+.term{background:#0f1e33;border-radius:11px;padding:.75em 1em;overflow:auto}
+.term code{white-space:pre;display:block;color:#dbe7f7;font-size:clamp(.76rem,1.06vw,1.06rem);line-height:1.55}
+.term .p{color:#7dd3fc}.term .c2{color:#7d93b0}
+
+.trivia{flex:none;margin-top:.5em;border-top:2px dashed var(--am);padding-top:.45em;
+display:flex;align-items:baseline;gap:.7em;flex-wrap:wrap}
+.trivia .tq{flex:none;font-size:clamp(.62rem,.86vw,.86rem);font-weight:900;letter-spacing:.14em;
+text-transform:uppercase;color:#fff;background:var(--am);border-radius:5px;padding:.18em .55em}
+.trivia .pregunta{font-size:clamp(.82rem,1.12vw,1.14rem);color:var(--ink);font-weight:700;flex:1;min-width:14em}
+.trivia .pregunta code{font-size:.92em}
+.trivia .resp{font-size:clamp(.78rem,1.06vw,1.06rem);color:var(--gr);font-weight:700;background:var(--grsoft);
+border:1px solid #bbe6c8;border-radius:8px;padding:.15em .6em}
+.trivia .chat{flex:none;font-size:clamp(.66rem,.9vw,.9rem);color:var(--dim);white-space:nowrap}
+
+/* ── DEFINICIÓN ENMARCADA ─────────────────────────────────────── */
+.def{background:var(--panel);border:2.5px solid var(--am);border-radius:14px;
+padding:1.15em 1.25em 1em;position:relative;box-shadow:0 3px 14px rgba(180,83,9,.12);
+margin:.55em auto .35em;max-width:46em;width:100%}
+.def::before{content:"DEFINICIÓN";position:absolute;top:-.75em;left:1.1em;background:var(--am);color:#fff;
+font-size:clamp(.6rem,.82vw,.82rem);font-weight:900;letter-spacing:.16em;padding:.2em .7em;border-radius:5px}
+.def .dt{font-size:clamp(1.12rem,1.75vw,1.78rem);font-weight:800;color:var(--ink);
+line-height:1.2;margin-bottom:.3em;letter-spacing:-.01em}
+.def .dd{font-size:clamp(.95rem,1.34vw,1.36rem);line-height:1.5;color:var(--ink)}
+.def .dd code{font-size:.92em}
+.def .clave{margin-top:.6em;padding-top:.5em;border-top:1.5px dashed #f0cc9a;
+font-size:clamp(.82rem,1.1vw,1.12rem);color:var(--am);font-weight:750}
+.def.dos{border-color:var(--ink);box-shadow:0 3px 14px rgba(18,37,61,.12)}
+.def.dos::before{content:"REGLA";background:var(--ink)}
+.def.dos .clave{border-top-color:#c3cfdd;color:var(--ink)}
+
+/* ── DIAGRAMA DE MEMORIA: stack / heap ────────────────────────── */
+.mem{display:grid;grid-template-columns:1fr 1.35fr;gap:1em;align-items:stretch}
+.zona{border:2px solid var(--line);border-radius:12px;padding:.7em .8em;background:var(--panel)}
+.zona.heap{background:#fbfcff;border-color:#c9d7e8}
+.zt{font-size:clamp(.62rem,.88vw,.88rem);font-weight:900;letter-spacing:.15em;text-transform:uppercase;
+color:var(--dim);margin-bottom:.55em;text-align:center}
+.zt span{color:var(--am)}
+.slot{display:flex;align-items:center;gap:.55em;border:1.5px solid var(--line);border-radius:8px;
+padding:.38em .65em;margin:.34em 0;background:var(--bg)}
+.slot .sn{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;color:var(--ink);
+font-size:clamp(.8rem,1.1vw,1.12rem)}
+.slot .sv{margin-left:auto;font-family:ui-monospace,Menlo,Consolas,monospace;
+font-size:clamp(.8rem,1.1vw,1.12rem);color:var(--dim);font-weight:700}
+.slot .sv{display:flex;align-items:center;gap:.15em}
+.fl{flex:none;vertical-align:middle;margin-left:.1em}
+.addr{background:#fdebd0;color:var(--am);border:1.5px solid #f0cc9a;border-radius:5px;
+padding:.06em .45em;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;
+font-size:clamp(.76rem,1.04vw,1.06rem)}
+.obj{border:2.5px solid var(--am);border-radius:9px;background:var(--panel);overflow:hidden;margin:.34em 0}
+.obj .oh{background:var(--amsoft);padding:.32em .7em;font-weight:800;color:var(--ink);
+display:flex;justify-content:space-between;align-items:center;gap:.6em;
+font-size:clamp(.82rem,1.12vw,1.14rem);border-bottom:1.5px solid #f0cc9a}
+.obj .ob{padding:.42em .7em}
+.obj .ob div{font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.65;color:var(--dim);
+font-size:clamp(.78rem,1.06vw,1.08rem)}
+.obj .ob div b{color:var(--ink);font-weight:700}
+.vacio{color:#9db0c6;font-style:italic}
+</style></head><body>
+
+<!-- 1 · PORTADA -->
+<section>
+ <div class="body" style="align-items:center;text-align:center;gap:.5em">
+  <div class="eyebrow" style="margin-bottom:0">MPOO 2027-1 · Grupo 6 · Clase 5 · Lunes 14 de septiembre</div>
+  <h1>Variables de <em>referencia</em><br>y <em>arreglos</em></h1>
+  <p style="max-width:38em">Hasta hoy una variable guardaba un valor. A partir de hoy hay otras que guardan una <strong>dirección</strong>. Esa diferencia explica los errores que más van a ver este semestre — y <strong>es la P4 completa</strong>, la del miércoles 23.</p>
+  <div style="margin-top:1em">
+    <span class="chip"><b>1</b> Repaso: primitivas</span>
+    <span class="chip"><b>2</b> Variables de referencia</span>
+    <span class="chip"><b>3</b> Arreglos</span>
+    <span class="chip"><b>4</b> Cadenas</span>
+    <span class="chip"><b>5</b> Wrappers</span>
+  </div>
+ </div>
+</section>
+
+<!-- 2 · DÓNDE VAMOS -->
+<section>
+ <div class="eyebrow">Retomamos · dónde estamos parados</div>
+ <div class="body">
+  <div class="g3" style="margin-bottom:1em">
+   <div class="card"><h3><span class="num">✓</span>Ya entregado</h3><p><b>P00</b>, <b>P01</b>, <b>P02</b> y <b>P03</b>. El laboratorio de predicciones cerró el viernes 11.</p></div>
+   <div class="card" style="border-color:var(--am)"><h3 style="color:var(--am)"><span class="num">→</span>Hoy vence la T01</h3><p><b>Radiografías con contexto</b>, hoy a las 23:59, en <code>entregas/apellido_nombre/tareas/t01/</code>. Un <code>push</code>, sin pull request.</p></div>
+   <div class="card"><h3><span class="num">3</span>Miércoles 16</h3><p><b>Asueto.</b> No hay laboratorio. El siguiente es el <b>23 de septiembre</b>, con la <b>P4</b>.</p></div>
+  </div>
+  <div class="g2">
+   <div class="ok"><p class="mini"><b>Miércoles 23 · <b>P4</b> Variables y arreglos.</b> Esa práctica se cubre <b>hoy, completa</b>: variables de referencia, <b>arreglos</b>, cadenas, wrappers y argumentos por línea de comandos.</p></div>
+   <div class="card"><p class="mini"><b>Y la que sigue:</b> el <b>30 de septiembre</b>, la <b>P5</b> de estructuras de selección. Esa se prepara el <b>lunes 21</b>, completa: <code class="k">if</code>, <code class="k">switch</code>, <code class="k">enum</code> y <code class="t">Math</code>.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- 3 · REPASO · LOS OCHO PRIMITIVOS -->
+<section>
+ <div class="eyebrow">Repaso exprés · 1 de 3</div>
+ <h2>Los ocho tipos primitivos, en una lámina</h2>
+ <div class="body">
+  <div class="g2">
+   <table>
+    <tr><th>Tipo</th><th>Guarda</th><th>Por defecto</th></tr>
+    <tr><td><code class="t">byte</code></td><td>entero, 8 bits</td><td><code>0</code></td></tr>
+    <tr><td><code class="t">short</code></td><td>entero, 16 bits</td><td><code>0</code></td></tr>
+    <tr><td><code class="t">int</code></td><td><b>entero, 32 bits</b></td><td><code>0</code></td></tr>
+    <tr><td><code class="t">long</code></td><td>entero, 64 bits</td><td><code>0L</code></td></tr>
+   </table>
+   <table>
+    <tr><th>Tipo</th><th>Guarda</th><th>Por defecto</th></tr>
+    <tr><td><code class="t">float</code></td><td>decimal, 32 bits</td><td><code>0.0f</code></td></tr>
+    <tr><td><code class="t">double</code></td><td><b>decimal, 64 bits</b></td><td><code>0.0</code></td></tr>
+    <tr><td><code class="t">char</code></td><td>un carácter</td><td><code>' '</code></td></tr>
+    <tr><td><code class="t">boolean</code></td><td><code>true</code> o <code>false</code></td><td><code>false</code></td></tr>
+   </table>
+  </div>
+  <div class="def dos" style="margin-top:.9em">
+   <div class="dt">Los valores por defecto son solo para atributos</div>
+   <div class="dd">Un <strong>atributo</strong> sin inicializar arranca con el valor de la tabla. Una <strong>variable local</strong> sin inicializar <em>no compila</em>: el compilador exige que le des un valor antes de usarla.</div>
+  </div>
+ </div>
+</section>
+
+<!-- 4 · REPASO · CASTING Y DIVISIÓN ENTERA -->
+<section>
+ <div class="eyebrow">Repaso exprés · 2 de 3</div>
+ <h2>Conversión de tipos y la trampa de siempre</h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <p class="lbl" style="text-align:left">Ensancha solo · automático</p>
+    <pre class="mono-s"><code><span class="t">int</span> pesos = <span class="n">150</span>;
+<span class="t">double</span> conIva = pesos;  <span class="n">// 150.0 · cabe, Java lo hace solo</span></code></pre>
+    <p class="lbl" style="text-align:left;margin-top:.7em">Angosta · lo pides tú y pierdes</p>
+    <pre class="mono-s"><code><span class="t">double</span> precio = <span class="n">99.87</span>;
+<span class="t">int</span> entero = (<span class="t">int</span>) precio;  <span class="n">// 99 · trunca, no redondea</span></code></pre>
+   </div>
+   <div>
+    <div class="err">
+     <p class="mini" style="margin-bottom:.4em"><b>La trampa número uno: división entera.</b></p>
+     <pre class="mono-s" style="background:#fff;border-color:#f2c4c4"><code><span class="t">int</span> a = <span class="n">7</span>, b = <span class="n">2</span>;
+System.out.println(a / b);       <span class="n">// 3   ¿y el .5?</span>
+System.out.println(a / (<span class="t">double</span>) b); <span class="n">// 3.5 </span></code></pre>
+    </div>
+    <p class="mini" style="margin-top:.6em"><b>Si los dos operandos son enteros, el resultado es entero.</b> Java no te avisa: te da 3 y sigue. Basta con que <em>uno</em> de los dos sea <code>double</code>.</p>
+   </div>
+  </div>
+  <div class="trivia">
+   <span class="tq">Al chat</span>
+   <span class="pregunta">¿Cuánto imprime <code>System.out.println(5 / 2 * 2.0);</code>?</span>
+   <span class="resp rev">4.0 — primero <code>5/2</code> da <code>2</code></span>
+   <span class="chat">V para revelar</span>
+  </div>
+ </div>
+</section>
+
+<!-- 5 · REPASO · ÁMBITO, STATIC, FINAL -->
+<section>
+ <div class="eyebrow">Repaso exprés · 3 de 3</div>
+ <h2>Dónde vive cada variable</h2>
+ <div class="body">
+  <div class="g3">
+   <div class="card"><h3><span class="tag bl">de instancia</span></h3><p>Declarada en la clase, <b>fuera</b> de todo método. Una copia <b>por cada objeto</b>. Vive mientras viva el objeto.</p></div>
+   <div class="card"><h3><span class="tag am">de clase</span></h3><p>Lleva <code class="k">static</code>. <b>Una sola</b> para todos los objetos. Existe aunque no crees ninguno.</p></div>
+   <div class="card"><h3><span class="tag">local</span></h3><p>Declarada dentro de un método o de un bloque <code>{ }</code>. <b>Nace y muere</b> con el bloque.</p></div>
+  </div>
+  <div class="g2" style="margin-top:.9em">
+   <pre class="mono-s"><code><span class="k">public class</span> <span class="t">Cuenta</span> {
+  <span class="k">static int</span> total = <span class="n">0</span>;      <span class="n">// de clase</span>
+  <span class="k">double</span> saldo;             <span class="n">// de instancia</span>
+  <span class="k">final double</span> IVA = <span class="n">0.16</span>;  <span class="n">// constante</span>
+
+  <span class="k">void</span> abonar(<span class="k">double</span> monto) {
+    <span class="k">double</span> nuevo = saldo + monto;  <span class="n">// local</span>
+    saldo = nuevo;
+  }
+}</code></pre>
+   <div class="def dos" style="align-self:center">
+    <div class="dt"><code class="k">final</code> = constante</div>
+    <div class="dd">Se le asigna un valor <em>una sola vez</em> y ya no se puede cambiar. Por convención se escribe en <code>MAYÚSCULAS</code>. La P4 del MADO la pide.</div>
+    <div class="clave">Si intentas reasignarla, no compila.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 6 · DEF · LOS DOS TIPOS DE VARIABLE -->
+<section>
+ <div class="eyebrow">Bloque 2 · Variables de referencia</div>
+ <div class="body">
+  <div class="def">
+   <div class="dt">En Java hay dos tipos de variables</div>
+   <div class="dd">
+     <b>1 · De tipo primitivo.</b> La variable <em>guarda el valor</em>.<br>
+     <b>2 · De referencia.</b> La variable <em>guarda la dirección</em> de un objeto que vive en otro lado.
+   </div>
+   <div class="clave">Es la clasificación que usa el manual de prácticas en la guía 04. No es un detalle: cambia qué pasa cuando asignas, cuando comparas y cuando pasas una variable a un método.</div>
+  </div>
+  <div class="g2" style="margin-top:1em">
+   <pre class="mono-s"><code><span class="n">// primitiva: el valor está aquí</span>
+<span class="t">int</span> edad = <span class="n">20</span>;
+<span class="t">double</span> altura = <span class="n">1.75</span>;</code></pre>
+   <pre class="mono-s"><code><span class="n">// de referencia: el objeto está en otro lado</span>
+<span class="t">String</span> nombre = <span class="s">"Ana"</span>;
+<span class="t">Coche</span> mio = <span class="k">new</span> <span class="t">Coche</span>();
+<span class="t">int</span>[] notas = <span class="k">new int</span>[<span class="n">5</span>];</code></pre>
+  </div>
+  <p style="margin-top:.8em;text-align:center"><strong>Los arreglos y todos los objetos son referencias.</strong> Solo esos ocho tipos de la lámina anterior son primitivos.</p>
+ </div>
+</section>
+
+<!-- 7 · ¿DÓNDE VIVE EL VALOR? PRIMITIVAS -->
+<section>
+ <div class="eyebrow">Variables de referencia · el mapa de la memoria</div>
+ <h2>Una primitiva guarda el valor, ahí mismo</h2>
+ <div class="body">
+  <pre class="mono-s" style="margin-bottom:.9em"><code><span class="t">int</span> a = <span class="n">7</span>;
+<span class="t">int</span> b = a;   <span class="n">// se copia el VALOR</span>
+b = <span class="n">99</span>;      <span class="n">// ¿cuánto vale a?</span></code></pre>
+  <div class="mem">
+   <div class="zona">
+    <div class="zt">Stack · <span>variables</span></div>
+    <div class="slot"><span class="sn">a</span><span class="sv">7</span></div>
+    <div class="slot"><span class="sn">b</span><span class="sv">99</span></div>
+   </div>
+   <div class="zona heap">
+    <div class="zt">Heap · <span>objetos</span></div>
+    <p class="mini vacio" style="text-align:center;padding:1.2em 0">Vacío. Aquí no hay objetos:<br>ningún <code>new</code> se ejecutó.</p>
+   </div>
+  </div>
+  <div class="ok" style="margin-top:.9em"><p class="mini"><b><code>a</code> sigue valiendo 7.</b> Son dos cajas independientes: al copiar <code>a</code> en <code>b</code> se copió el número, no la caja. Cambiar una no toca a la otra.</p></div>
+ </div>
+</section>
+
+<!-- 8 · UNA REFERENCIA GUARDA UNA DIRECCIÓN -->
+<section>
+ <div class="eyebrow">Variables de referencia · el mapa de la memoria</div>
+ <h2>Una referencia guarda una dirección</h2>
+ <div class="body">
+  <pre class="mono-s" style="margin-bottom:.9em"><code><span class="t">Coche</span> mio = <span class="k">new</span> <span class="t">Coche</span>(<span class="s">"Tsuru"</span>, <span class="n">1998</span>);</code></pre>
+  <div class="mem">
+   <div class="zona">
+    <div class="zt">Stack · <span>variables</span></div>
+    <div class="slot"><span class="sn">mio</span><span class="sv"><span class="addr">#A12F</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+    <p class="mini" style="margin-top:.7em"><code>mio</code> <b>no</b> contiene el coche. Contiene dónde está.</p>
+   </div>
+   <div class="zona heap">
+    <div class="zt">Heap · <span>objetos</span></div>
+    <div class="obj">
+     <div class="oh"><span>Coche</span><span class="addr">#A12F</span></div>
+     <div class="ob">
+      <div>modelo = <b>"Tsuru"</b></div>
+      <div>anio = <b>1998</b></div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="g2" style="margin-top:.9em">
+   <p class="mini"><b>El <code class="k">new</code> hace dos cosas:</b> construye el objeto en el <b>heap</b> y devuelve su dirección. El <code>=</code> guarda esa dirección en la variable.</p>
+   <p class="mini"><b><code>#A12F</code> es inventado.</b> La dirección real nunca la ves ni te sirve — lo que importa es que <em>es un dato, y se puede copiar</em>.</p>
+  </div>
+ </div>
+</section>
+
+<!-- 9 · DEF · VARIABLE DE REFERENCIA -->
+<section>
+ <div class="eyebrow">Variables de referencia · la definición</div>
+ <div class="body">
+  <div class="def">
+   <div class="dt">Variable de referencia</div>
+   <div class="dd">Variable que no contiene un objeto, sino la <em>dirección</em> del objeto. Se declara con el nombre de una clase como tipo, y solo apunta a algo después de un <code class="k">new</code> (o de recibir otra referencia).</div>
+   <div class="clave">La variable es la etiqueta; el objeto es la caja. La etiqueta se puede copiar sin copiar la caja.</div>
+  </div>
+  <div class="quote" style="margin-top:1.1em">Todo lo raro que verán hoy sale de aquí: cuando copias una referencia, copias la etiqueta — <em>no</em> la caja.</div>
+ </div>
+</section>
+
+<!-- 10 · EL PUNTO · SEGUIR LA FLECHA -->
+<section>
+ <div class="eyebrow">Variables de referencia · llegar a lo de adentro</div>
+ <h2>El punto: <em>seguir la flecha</em></h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <pre class="mono-s"><code><span class="t">Coche</span> mio = <span class="k">new</span> <span class="t">Coche</span>(<span class="s">"Tsuru"</span>, <span class="n">1998</span>);
+
+mio.modelo          <span class="n">// leer un atributo</span>
+mio.anio = <span class="n">2020</span>;    <span class="n">// escribir un atributo</span>
+mio.arrancar();     <span class="n">// llamar un método</span></code></pre>
+    <p class="mini" style="margin-top:.6em">La variable <code>mio</code> no tiene <code>anio</code>. El objeto sí. El punto es el paso de una a otro.</p>
+   </div>
+   <div class="mem" style="grid-template-columns:1fr 1.15fr">
+    <div class="zona">
+     <div class="zt">Stack</div>
+     <div class="slot"><span class="sn">mio</span><span class="sv"><span class="addr">#A12F</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+    </div>
+    <div class="zona heap">
+     <div class="zt">Heap</div>
+     <div class="obj"><div class="oh"><span>Coche</span><span class="addr">#A12F</span></div>
+      <div class="ob"><div>modelo = <b>"Tsuru"</b></div><div>anio = <b>1998</b></div></div></div>
+    </div>
+   </div>
+  </div>
+  <div class="def dos" style="margin-top:.9em">
+   <div class="dt">El punto no es decoración: es una instrucción</div>
+   <div class="dd"><code>mio.anio</code> se lee <em>"ve a la dirección que guarda <code>mio</code>, y ahí adentro busca <code>anio</code>"</em>. Por eso solo se le puede poner punto a una <b>referencia</b>: un <code class="t">int</code> no tiene a dónde mandarte.</div>
+   <div class="clave">Y por eso, si la referencia vale <code class="k">null</code>, el punto no tiene a dónde ir. Eso es lo que sigue.</div>
+  </div>
+ </div>
+</section>
+
+<!-- 11 · ASIGNAR COPIA LA REFERENCIA -->
+<section>
+ <div class="eyebrow">Variables de referencia · el caso del manual</div>
+ <h2>Asignar copia la dirección, no el objeto</h2>
+ <div class="body">
+  <pre class="mono-s" style="margin-bottom:.8em"><code><span class="t">MiClase</span> unaRef = <span class="k">new</span> <span class="t">MiClase</span>();
+<span class="t">MiClase</span> segundaRef = unaRef;   <span class="n">// ¿cuántos objetos hay ahora?</span></code></pre>
+  <div class="mem">
+   <div class="zona">
+    <div class="zt">Stack</div>
+    <div class="slot"><span class="sn">unaRef</span><span class="sv"><span class="addr">#B740</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+    <div class="slot"><span class="sn">segundaRef</span><span class="sv"><span class="addr">#B740</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+    <p class="mini" style="margin-top:.7em"><b>La misma dirección</b> en las dos.</p>
+   </div>
+   <div class="zona heap">
+    <div class="zt">Heap</div>
+    <div class="obj">
+     <div class="oh"><span>MiClase</span><span class="addr">#B740</span></div>
+     <div class="ob"><div class="vacio">un solo objeto</div></div>
+    </div>
+   </div>
+  </div>
+  <div class="err" style="margin-top:.9em"><p class="mini"><b>Un objeto, dos nombres.</b> Este ejemplo viene tal cual en la guía 04 del manual. La respuesta a "¿cuántos objetos hay?" es <b>uno</b> — la mayoría contesta dos.</p></div>
+ </div>
+</section>
+
+<!-- 12 · ALIASING EN VIVO -->
+<section>
+ <div class="eyebrow">Variables de referencia · qué se rompe</div>
+ <h2>Si toco por un nombre, se ve por el otro</h2>
+ <div class="body">
+  <div class="g2">
+   <pre class="mono-s"><code><span class="t">Coche</span> mio = <span class="k">new</span> <span class="t">Coche</span>(<span class="s">"Tsuru"</span>, <span class="n">1998</span>);
+<span class="t">Coche</span> prestado = mio;
+
+prestado.anio = <span class="n">2020</span>;
+
+System.out.println(mio.anio);</code></pre>
+   <div>
+    <div class="term">
+     <code><span class="c2">$</span> java Taller
+2020</code>
+    </div>
+    <p class="mini" style="margin-top:.6em">Nunca tocamos <code>mio</code>. Pero <code>mio</code> y <code>prestado</code> son <b>la misma etiqueta pegada a la misma caja</b>.</p>
+   </div>
+  </div>
+  <div class="def dos" style="margin-top:.9em">
+   <div class="dt">Copiar una referencia no copia el objeto</div>
+   <div class="dd">Para tener <em>dos objetos distintos</em> necesitas <em>dos</em> <code class="k">new</code>. No hay otra forma.</div>
+  </div>
+  <div class="trivia">
+   <span class="tq">Al chat</span>
+   <span class="pregunta">¿Y si en vez de <code>prestado.anio = 2020</code> escribo <code>prestado = new Coche(...)</code>?</span>
+   <span class="resp rev">Ahí sí: <code>mio</code> no cambia, <code>prestado</code> apunta a otra caja</span>
+   <span class="chat">V para revelar</span>
+  </div>
+ </div>
+</section>
+
+<!-- 13 · NULL Y NULLPOINTEREXCEPTION -->
+<section>
+ <div class="eyebrow">Variables de referencia · qué se rompe</div>
+ <h2>Una etiqueta pegada a nada: <code class="k">null</code></h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <pre class="mono-s"><code><span class="t">Coche</span> mio;              <span class="n">// atributo: vale null</span>
+System.out.println(mio.modelo);</code></pre>
+    <div class="err" style="margin-top:.6em">
+     <div class="msg">Exception in thread "main"
+java.lang.NullPointerException:
+  Cannot read field "modelo"
+  because "mio" is null</div>
+    </div>
+   </div>
+   <div>
+    <div class="mem" style="grid-template-columns:1fr 1fr">
+     <div class="zona">
+      <div class="zt">Stack</div>
+      <div class="slot"><span class="sn">mio</span><span class="sv vacio">null</span></div>
+     </div>
+     <div class="zona heap">
+      <div class="zt">Heap</div>
+      <p class="mini vacio" style="text-align:center;padding:.9em 0">Sin objeto.<br>Nunca hubo <code>new</code>.</p>
+     </div>
+    </div>
+    <p class="mini" style="margin-top:.7em"><code class="k">null</code> es el valor por defecto de <b>toda</b> variable de referencia que sea atributo. Significa: <em>no apunto a ningún objeto</em>.</p>
+   </div>
+  </div>
+  <div class="ok" style="margin-top:.8em"><p class="mini"><b>El error más común del semestre, y siempre es lo mismo:</b> declaraste la variable pero nunca ejecutaste el <code class="k">new</code>, o el método del que la recibiste te devolvió <code class="k">null</code>.</p></div>
+ </div>
+</section>
+
+<!-- 14 · DEF · == VS EQUALS -->
+<section>
+ <div class="eyebrow">Variables de referencia · comparar</div>
+ <div class="body">
+  <div class="def">
+   <div class="dt"><code>==</code> compara direcciones · <code>.equals()</code> compara contenido</div>
+   <div class="dd">
+     Con <b>primitivas</b>, <code>==</code> compara valores y es lo correcto.<br>
+     Con <b>referencias</b>, <code>==</code> pregunta <em>"¿son la misma caja?"</em>, no <em>"¿dicen lo mismo?"</em>.
+   </div>
+   <div class="clave">Regla del curso: si el tipo empieza con mayúscula, se compara con <code>.equals()</code>.</div>
+  </div>
+  <p style="margin-top:1em;text-align:center">Junto con <code class="k">null</code>, esto explica la mitad de los errores que van a traer al laboratorio.</p>
+ </div>
+</section>
+
+<!-- 15 · == COMPARA DIRECCIONES -->
+<section>
+ <div class="eyebrow">Variables de referencia · comparar</div>
+ <h2>Dos objetos idénticos no son el mismo objeto</h2>
+ <div class="body">
+  <div class="g2">
+   <pre class="mono-s"><code><span class="t">Coche</span> a = <span class="k">new</span> <span class="t">Coche</span>(<span class="s">"Tsuru"</span>, <span class="n">1998</span>);
+<span class="t">Coche</span> b = <span class="k">new</span> <span class="t">Coche</span>(<span class="s">"Tsuru"</span>, <span class="n">1998</span>);
+
+System.out.println(a == b);      <span class="n">// false</span>
+System.out.println(a.equals(b)); <span class="n">// depende</span></code></pre>
+   <div class="mem" style="grid-template-columns:1fr 1.2fr">
+    <div class="zona">
+     <div class="zt">Stack</div>
+     <div class="slot"><span class="sn">a</span><span class="sv"><span class="addr">#C001</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+     <div class="slot"><span class="sn">b</span><span class="sv"><span class="addr">#C002</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+    </div>
+    <div class="zona heap">
+     <div class="zt">Heap</div>
+     <div class="obj"><div class="oh"><span>Coche</span><span class="addr">#C001</span></div><div class="ob"><div><b>"Tsuru"</b>, <b>1998</b></div></div></div>
+     <div class="obj"><div class="oh"><span>Coche</span><span class="addr">#C002</span></div><div class="ob"><div><b>"Tsuru"</b>, <b>1998</b></div></div></div>
+    </div>
+   </div>
+  </div>
+  <div class="err" style="margin-top:.8em"><p class="mini"><b>"Depende" no es una respuesta cómoda, pero es la verdad:</b> <code>.equals()</code> heredado compara direcciones igual que <code>==</code>. Solo compara contenido si <em>alguien lo escribió</em> en la clase. <code>String</code> ya lo trae escrito; su <code>Coche</code>, no — hasta que lo escriban. Eso se ve en la unidad 2.</p></div>
+ </div>
+</section>
+
+<!-- 16 · PASO POR VALOR -->
+<section>
+ <div class="eyebrow">Variables de referencia · pasar a un método</div>
+ <h2>Java siempre pasa por valor. Siempre.</h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <p class="lbl" style="text-align:left">Con una primitiva</p>
+    <pre class="mono-xs"><code><span class="k">static void</span> subir(<span class="t">int</span> n) { n = n + <span class="n">10</span>; }
+
+<span class="t">int</span> edad = <span class="n">20</span>;
+subir(edad);
+System.out.println(edad);  <span class="n">// 20 · no cambió</span></code></pre>
+    <p class="mini" style="margin-top:.5em">Se copió el <b>número</b>. El método movió su copia.</p>
+   </div>
+   <div>
+    <p class="lbl" style="text-align:left">Con una referencia</p>
+    <pre class="mono-xs"><code><span class="k">static void</span> subir(<span class="t">Coche</span> c) { c.anio = <span class="n">2020</span>; }
+
+<span class="t">Coche</span> mio = <span class="k">new</span> <span class="t">Coche</span>(<span class="s">"Tsuru"</span>, <span class="n">1998</span>);
+subir(mio);
+System.out.println(mio.anio);  <span class="n">// 2020 · sí cambió</span></code></pre>
+    <p class="mini" style="margin-top:.5em">Se copió la <b>dirección</b>. Las dos apuntan a la misma caja.</p>
+   </div>
+  </div>
+  <div class="def dos" style="margin-top:.9em">
+   <div class="dt">Se copia lo que la variable guarda</div>
+   <div class="dd">Con una primitiva se copia el valor; con una referencia se copia la dirección. En los dos casos el método recibe <em>una copia</em> — por eso puede <b>modificar el objeto</b>, pero no puede <b>reapuntar tu variable</b>.</div>
+   <div class="clave">Si dentro del método escribes <code>c = new Coche(...)</code>, afuera no pasa nada.</div>
+  </div>
+ </div>
+</section>
+
+<!-- 17 · DEF · ARREGLO -->
+<section>
+ <div class="eyebrow">Bloque 3 · Arreglos</div>
+ <div class="body">
+  <div class="def">
+   <div class="dt">Arreglo</div>
+   <div class="dd">Colección de <em>tamaño fijo</em> de elementos <em>del mismo tipo</em>, guardados uno tras otro y accesibles por su <em>posición</em>. En Java un arreglo <b>es un objeto</b>: la variable guarda su dirección, igual que todo lo del bloque anterior.</div>
+   <div class="clave">El tamaño se decide al crearlo y ya no cambia. Si necesitas uno más grande, creas otro.</div>
+  </div>
+  <div class="g2" style="margin-top:1em">
+   <pre class="mono-s"><code><span class="t">int</span>[] notas = <span class="k">new int</span>[<span class="n">5</span>];</code></pre>
+   <p class="mini" style="align-self:center">Un <code class="k">new</code>, como con cualquier objeto. Por eso lo vemos hoy y no antes: sin referencias, un arreglo no se entiende.</p>
+  </div>
+ </div>
+</section>
+
+<!-- 18 · DECLARAR E INICIALIZAR -->
+<section>
+ <div class="eyebrow">Arreglos · crearlos</div>
+ <h2>Tres formas de crear uno</h2>
+ <div class="body">
+  <pre class="mono-s"><code><span class="t">int</span>[] a = <span class="k">new int</span>[<span class="n">5</span>];            <span class="n">// 5 posiciones, todas en 0</span>
+<span class="t">int</span>[] b = {<span class="n">8</span>, <span class="n">9</span>, <span class="n">10</span>, <span class="n">7</span>, <span class="n">6</span>};       <span class="n">// literal: tamaño y valores de un golpe</span>
+<span class="t">String</span>[] c = <span class="k">new</span> <span class="t">String</span>[<span class="n">3</span>];      <span class="n">// 3 posiciones, todas en null</span></code></pre>
+  <div class="g2" style="margin-top:.9em">
+   <table>
+    <tr><th>Si el tipo es…</th><th>Arranca en</th></tr>
+    <tr><td><code class="t">int</code>, <code class="t">long</code>, <code class="t">short</code>, <code class="t">byte</code></td><td><code>0</code></td></tr>
+    <tr><td><code class="t">double</code>, <code class="t">float</code></td><td><code>0.0</code></td></tr>
+    <tr><td><code class="t">boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><b>cualquier objeto</b></td><td><b><code class="k">null</code></b></td></tr>
+   </table>
+   <div class="def dos" style="margin-top:0;align-self:center">
+    <div class="dt">Un arreglo nuevo <em>nunca</em> está vacío</div>
+    <div class="dd">Siempre trae sus posiciones llenas con el valor por defecto del tipo. Aquí sí aplican los valores de la primera lámina, aunque sea una variable local.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 19 · ÍNDICE Y LENGTH -->
+<section>
+ <div class="eyebrow">Arreglos · llegar a un elemento</div>
+ <h2>El índice arranca en cero</h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <pre class="mono-s"><code><span class="t">int</span>[] notas = {<span class="n">8</span>, <span class="n">9</span>, <span class="n">10</span>, <span class="n">7</span>, <span class="n">6</span>};
+
+notas[<span class="n">0</span>]         <span class="n">// 8  · el primero</span>
+notas[<span class="n">4</span>]         <span class="n">// 6  · el último</span>
+notas.length      <span class="n">// 5  · cuántos hay</span>
+notas[<span class="n">5</span>]         <span class="n">// ✗ revienta</span></code></pre>
+   </div>
+   <div>
+    <div class="err">
+     <div class="msg">Exception in thread "main"
+java.lang.ArrayIndexOutOfBounds
+Exception: Index 5 out of bounds
+for length 5</div>
+    </div>
+    <div class="def dos" style="margin-top:.7em">
+     <div class="dt">El último índice es <code>length - 1</code></div>
+     <div class="dd">Cinco elementos van del <code>0</code> al <code>4</code>. El <code>5</code> no existe.</div>
+    </div>
+   </div>
+  </div>
+  <div class="ok" style="margin-top:.85em"><p class="mini"><b><code>length</code> no lleva paréntesis</b>: es un <b>atributo</b> del objeto arreglo. En cambio <code>"texto".length()</code> sí los lleva, porque ahí es un <b>método</b> de <code class="t">String</code>. Se confunden siempre.</p></div>
+ </div>
+</section>
+
+<!-- 20 · RECORRER -->
+<section>
+ <div class="eyebrow">Arreglos · recorrerlos</div>
+ <h2>El molde para pasar por todos</h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <p class="lbl" style="text-align:left">Con índice · cuando necesitas saber en cuál vas</p>
+    <pre class="mono-s"><code><span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>; i &lt; notas.length; i++) {
+    System.out.println(i + <span class="s">": "</span> + notas[i]);
+}</code></pre>
+   </div>
+   <div>
+    <p class="lbl" style="text-align:left">Sin índice · cuando solo quieres los valores</p>
+    <pre class="mono-s"><code><span class="k">for</span> (<span class="t">int</span> n : notas) {
+    System.out.println(n);
+}</code></pre>
+   </div>
+  </div>
+  <div class="def dos" style="margin-top:.9em">
+   <div class="dt">Hoy es un molde; el lunes 28 es un tema</div>
+   <div class="dd">El <code class="k">for</code> completo —junto con <code class="k">while</code> y <code class="k">do-while</code>— se ve el <em>28 de septiembre</em>. Hoy solo necesitan copiar este molde para la <b>P4</b>: <code>i</code> arranca en <code>0</code>, sigue mientras sea <code>&lt; length</code>, y sube de uno en uno.</div>
+   <div class="clave"><code>i &lt; length</code>, nunca <code>i &lt;= length</code>. Ese <code>=</code> de más es el desbordamiento de la lámina anterior.</div>
+  </div>
+ </div>
+</section>
+
+<!-- 21 · EL ARREGLO ES UNA REFERENCIA -->
+<section>
+ <div class="eyebrow">Arreglos · y aquí se juntan los dos bloques</div>
+ <h2>Un arreglo es una referencia, con todo lo que eso trae</h2>
+ <div class="body">
+  <div class="g2">
+   <pre class="mono-s"><code><span class="t">int</span>[] notas = {<span class="n">8</span>, <span class="n">9</span>, <span class="n">10</span>};
+<span class="t">int</span>[] copia = notas;   <span class="n">// ¿copia?</span>
+
+copia[<span class="n">0</span>] = <span class="n">5</span>;
+
+System.out.println(notas[<span class="n">0</span>]);  <span class="n">// 5</span></code></pre>
+   <div class="mem" style="grid-template-columns:1fr 1.1fr">
+    <div class="zona">
+     <div class="zt">Stack</div>
+     <div class="slot"><span class="sn">notas</span><span class="sv"><span class="addr">#D33A</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+     <div class="slot"><span class="sn">copia</span><span class="sv"><span class="addr">#D33A</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+    </div>
+    <div class="zona heap">
+     <div class="zt">Heap</div>
+     <div class="obj"><div class="oh"><span>int[3]</span><span class="addr">#D33A</span></div>
+      <div class="ob"><div>[0]=<b>5</b> [1]=<b>9</b> [2]=<b>10</b></div></div></div>
+    </div>
+   </div>
+  </div>
+  <div class="g2" style="margin-top:.85em">
+   <div class="ok"><p class="mini"><b>Para copiar de verdad:</b> <code>int[] copia = notas.clone();</code> o recorrer y copiar posición por posición.</p></div>
+   <p class="mini">Es exactamente el aliasing de hace veinte minutos. No es una regla nueva de los arreglos: <b>es la misma regla de siempre</b>, porque el arreglo es un objeto.</p>
+  </div>
+ </div>
+</section>
+
+<!-- 22 · ARREGLOS DE OBJETOS -->
+<section>
+ <div class="eyebrow">Arreglos · el caso que tumba a todos</div>
+ <h2>Un arreglo de objetos necesita <em>dos</em> rondas de <code class="k">new</code></h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <pre class="mono-s"><code><span class="t">Coche</span>[] flota = <span class="k">new</span> <span class="t">Coche</span>[<span class="n">3</span>];
+
+flota[<span class="n">0</span>].modelo;   <span class="n">// ✗ NullPointerException</span>
+
+flota[<span class="n">0</span>] = <span class="k">new</span> <span class="t">Coche</span>(<span class="s">"Tsuru"</span>, <span class="n">1998</span>);
+flota[<span class="n">0</span>].modelo;   <span class="n">// ahora sí</span></code></pre>
+    <p class="mini" style="margin-top:.55em">El primer <code class="k">new</code> crea <b>el arreglo</b>: tres cajones. Cada cajón arranca en <code class="k">null</code>. El segundo <code class="k">new</code> crea <b>el coche</b> que va en el cajón.</p>
+   </div>
+   <div class="mem" style="grid-template-columns:1fr 1.15fr">
+    <div class="zona">
+     <div class="zt">Stack</div>
+     <div class="slot"><span class="sn">flota</span><span class="sv"><span class="addr">#A7C0</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+    </div>
+    <div class="zona heap">
+     <div class="zt">Heap</div>
+     <div class="obj"><div class="oh"><span>Coche[3]</span><span class="addr">#A7C0</span></div>
+      <div class="ob"><div>[0]=<span class="addr">#B111</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></div><div>[1]=<span class="vacio">null</span></div><div>[2]=<span class="vacio">null</span></div></div></div>
+     <div class="obj"><div class="oh"><span>Coche</span><span class="addr">#B111</span></div>
+      <div class="ob"><div><b>"Tsuru"</b>, <b>1998</b></div></div></div>
+    </div>
+   </div>
+  </div>
+  <div class="err" style="margin-top:.85em"><p class="mini"><b>Viene en la guía 04 del manual</b>, así: <code>MiClase[] lista = new MiClase[5];</code>. Eso crea <b>cinco <code class="k">null</code></b>, no cinco objetos. Faltan cinco <code class="k">new</code> más.</p></div>
+ </div>
+</section>
+
+<!-- 23 · MULTIDIMENSIONALES -->
+<section>
+ <div class="eyebrow">Arreglos · dos dimensiones</div>
+ <h2>Un arreglo de arreglos</h2>
+ <div class="body">
+  <div class="g2">
+   <pre class="mono-s"><code><span class="t">int</span>[][] tabla = <span class="k">new int</span>[<span class="n">3</span>][<span class="n">4</span>];
+
+tabla[<span class="n">1</span>][<span class="n">2</span>] = <span class="n">7</span>;
+
+tabla.length       <span class="n">// 3 · renglones</span>
+tabla[<span class="n">0</span>].length    <span class="n">// 4 · columnas</span></code></pre>
+   <div>
+    <div class="def dos" style="margin-top:0">
+     <div class="dt">No hay tablas en Java, hay arreglos de arreglos</div>
+     <div class="dd">Por eso el número de renglones es <code>tabla.length</code> y el de columnas es <code>tabla[0].length</code>: cada renglón <em>es</em> un arreglo con su propio <code>length</code>.</div>
+    </div>
+    <pre class="mono-xs" style="margin-top:.7em"><code><span class="k">for</span> (<span class="t">int</span> f = <span class="n">0</span>; f &lt; tabla.length; f++)
+  <span class="k">for</span> (<span class="t">int</span> c = <span class="n">0</span>; c &lt; tabla[f].length; c++)
+      System.out.print(tabla[f][c]);</code></pre>
+   </div>
+  </div>
+  <div class="trivia">
+   <span class="tq">Al chat</span>
+   <span class="pregunta">¿Cuántos enteros guarda <code>new int[3][4]</code> en total?</span>
+   <span class="resp rev">12, todos en 0</span>
+   <span class="chat">V para revelar</span>
+  </div>
+ </div>
+</section>
+
+<!-- 24 · CADENAS: LITERAL VS NEW -->
+<section>
+ <div class="eyebrow">Bloque 3 · Cadenas</div>
+ <h2>Dos formas de crear un <code class="t">String</code>, y no son iguales</h2>
+ <div class="body">
+  <div class="g2">
+   <pre class="mono-s"><code><span class="t">String</span> a = <span class="s">"Hola"</span>;
+<span class="t">String</span> b = <span class="s">"Hola"</span>;
+<span class="t">String</span> c = <span class="k">new</span> <span class="t">String</span>(<span class="s">"Hola"</span>);
+
+a == b          <span class="n">// true</span>
+a == c          <span class="n">// false</span>
+a.equals(c)     <span class="n">// true</span></code></pre>
+   <div class="mem" style="grid-template-columns:1fr 1.15fr">
+    <div class="zona">
+     <div class="zt">Stack</div>
+     <div class="slot"><span class="sn">a</span><span class="sv"><span class="addr">#E100</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+     <div class="slot"><span class="sn">b</span><span class="sv"><span class="addr">#E100</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+     <div class="slot"><span class="sn">c</span><span class="sv"><span class="addr">#E200</span><svg class="fl" viewBox="0 0 30 10" width="30" height="10"><path d="M0 5h22" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"/><path d="M21 1l8 4-8 4z" fill="#b45309"/></svg></span></div>
+    </div>
+    <div class="zona heap">
+     <div class="zt">Heap</div>
+     <div class="obj"><div class="oh"><span>String · pool</span><span class="addr">#E100</span></div><div class="ob"><div><b>"Hola"</b></div></div></div>
+     <div class="obj"><div class="oh"><span>String · new</span><span class="addr">#E200</span></div><div class="ob"><div><b>"Hola"</b></div></div></div>
+    </div>
+   </div>
+  </div>
+  <div class="err" style="margin-top:.85em"><p class="mini"><b>Por eso <code>==</code> con cadenas es tan traicionero:</b> con literales <em>parece</em> funcionar, porque Java los reutiliza de una zona común llamada <b>pool</b>. En cuanto la cadena viene de un <code class="k">new</code>, del teclado o de concatenar, deja de funcionar. <b>Siempre <code>.equals()</code>.</b></p></div>
+ </div>
+</section>
+
+<!-- 25 · DEF · STRING INMUTABLE -->
+<section>
+ <div class="eyebrow">Cadenas · la propiedad que lo explica todo</div>
+ <div class="body">
+  <div class="def">
+   <div class="dt">Un <code class="t">String</code> es inmutable</div>
+   <div class="dd">Una vez creado, su contenido <em>no se puede cambiar</em>. Todos sus métodos —<code>toUpperCase()</code>, <code>trim()</code>, <code>replace()</code>, <code>substring()</code>— <em>devuelven una cadena nueva</em> y dejan la original intacta.</div>
+   <div class="clave">Si no guardas lo que devuelven, no pasó nada.</div>
+  </div>
+  <div class="g2" style="margin-top:1em">
+   <div class="err">
+    <pre class="mono-s" style="background:#fff;border-color:#f2c4c4"><code><span class="t">String</span> s = <span class="s">"hola"</span>;
+s.toUpperCase();
+System.out.println(s);  <span class="n">// hola</span></code></pre>
+    <p class="mini" style="margin-top:.4em"><b>No hizo nada.</b> Devolvió <code>"HOLA"</code> y lo tiró a la basura.</p>
+   </div>
+   <div class="ok">
+    <pre class="mono-s" style="background:#fff;border-color:#bbe6c8"><code><span class="t">String</span> s = <span class="s">"hola"</span>;
+s = s.toUpperCase();
+System.out.println(s);  <span class="n">// HOLA</span></code></pre>
+    <p class="mini" style="margin-top:.4em"><b>Así sí.</b> La variable ahora apunta a la cadena nueva.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 26 · CONCATENAR CUESTA -->
+<section>
+ <div class="eyebrow">Cadenas · el costo escondido</div>
+ <h2>Concatenar no modifica: crea</h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <pre class="mono-s"><code><span class="t">String</span> s = <span class="s">""</span>;
+<span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>; i &lt; <span class="n">1000</span>; i++) {
+    s = s + i + <span class="s">", "</span>;
+}</code></pre>
+    <p class="mini" style="margin-top:.55em">Se ve inocente. Creó <b>mil objetos</b> <code>String</code>, cada uno copiando entero al anterior, y tiró 999 a la basura.</p>
+   </div>
+   <div class="mem" style="grid-template-columns:1fr">
+    <div class="zona heap">
+     <div class="zt">Heap · <span>después del ciclo</span></div>
+     <div class="obj"><div class="oh"><span>String</span><span class="addr">#F001</span></div><div class="ob"><div class="vacio">"0, " — basura</div></div></div>
+     <div class="obj"><div class="oh"><span>String</span><span class="addr">#F002</span></div><div class="ob"><div class="vacio">"0, 1, " — basura</div></div></div>
+     <div class="obj" style="border-color:var(--gr)"><div class="oh" style="background:var(--grsoft);border-bottom-color:#bbe6c8"><span>String</span><span class="addr" style="background:#d9f2e2;color:var(--gr);border-color:#bbe6c8">#F3E8</span></div><div class="ob"><div><b>"0, 1, 2, …"</b> — el único vivo</div></div></div>
+    </div>
+   </div>
+  </div>
+  <p style="margin-top:.85em;text-align:center">Con 1000 no lo notan. Con 100 000 el programa se arrastra. <strong>Hay una clase hecha justo para esto.</strong></p>
+ </div>
+</section>
+
+<!-- 27 · STRINGBUILDER -->
+<section>
+ <div class="eyebrow">Cadenas · la herramienta correcta</div>
+ <h2><code class="t">StringBuilder</code>: la cadena que sí se modifica</h2>
+ <div class="body">
+  <div class="g2">
+   <pre class="mono-s"><code><span class="t">StringBuilder</span> sb = <span class="k">new</span> <span class="t">StringBuilder</span>();
+
+<span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>; i &lt; <span class="n">1000</span>; i++) {
+    sb.append(i).append(<span class="s">", "</span>);
+}
+
+<span class="t">String</span> s = sb.toString();  <span class="n">// al final, una vez</span></code></pre>
+   <table>
+    <tr><th></th><th>String</th><th>StringBuilder</th></tr>
+    <tr><td><b>¿Se modifica?</b></td><td>No, inmutable</td><td><b>Sí</b></td></tr>
+    <tr><td><b>Concatenar</b></td><td>crea un objeto</td><td><b>modifica el mismo</b></td></tr>
+    <tr><td><b>Para</b></td><td>texto que no cambia</td><td><b>armar texto en un ciclo</b></td></tr>
+   </table>
+  </div>
+  <div class="def dos" style="margin-top:.9em">
+   <div class="dt">Cuándo usar cuál</div>
+   <div class="dd">Concatenar <em>dos o tres</em> cadenas sueltas: <code class="t">String</code> con <code>+</code>, se lee mejor. Armar texto <em>dentro de un ciclo</em>: <code class="t">StringBuilder</code>.</div>
+  </div>
+ </div>
+</section>
+
+<!-- 28 · MÉTODOS DE STRING -->
+<section>
+ <div class="eyebrow">Cadenas · el kit que van a usar</div>
+ <h2>Los métodos de <code class="t">String</code> que aparecen en la P4</h2>
+ <div class="body">
+  <div class="g2">
+   <table>
+    <tr><th>Método</th><th>Devuelve</th></tr>
+    <tr><td><code>length()</code></td><td>cuántos caracteres</td></tr>
+    <tr><td><code>charAt(i)</code></td><td>el carácter en la posición <code>i</code></td></tr>
+    <tr><td><code>substring(a, b)</code></td><td>un pedazo, de <code>a</code> a <code>b-1</code></td></tr>
+    <tr><td><code>indexOf("x")</code></td><td>dónde aparece, o <code>-1</code></td></tr>
+   </table>
+   <table>
+    <tr><th>Método</th><th>Devuelve</th></tr>
+    <tr><td><code>equals(s)</code></td><td><b>compara contenido</b></td></tr>
+    <tr><td><code>equalsIgnoreCase(s)</code></td><td>igual, sin distinguir mayúsculas</td></tr>
+    <tr><td><code>trim()</code></td><td>sin espacios en los extremos</td></tr>
+    <tr><td><code>split(",")</code></td><td>un <code>String[]</code> con los pedazos</td></tr>
+   </table>
+  </div>
+  <div class="ok" style="margin-top:.9em"><p class="mini"><b>Todos devuelven algo y ninguno modifica la cadena original.</b> Si el método devuelve un valor y no lo guardas, lo perdiste. Es la misma regla de la lámina de inmutabilidad.</p></div>
+  <div class="trivia">
+   <span class="tq">Al chat</span>
+   <span class="pregunta">¿Qué imprime <code>"  Ana  ".trim().length()</code>?</span>
+   <span class="resp rev">3</span>
+   <span class="chat">V para revelar</span>
+  </div>
+ </div>
+</section>
+
+<!-- 29 · DEF · WRAPPER -->
+<section>
+ <div class="eyebrow">Bloque 4 · Wrappers</div>
+ <div class="body">
+  <div class="def">
+   <div class="dt">Wrapper · clase envolvente</div>
+   <div class="dd">Clase que <em>envuelve</em> un tipo primitivo para que pueda usarse donde se exige un objeto. Cada primitivo tiene la suya: <code class="t">int</code> → <code class="t">Integer</code>, <code class="t">double</code> → <code class="t">Double</code>…</div>
+   <div class="clave">Un <code class="t">int</code> es un valor. Un <code class="t">Integer</code> es un objeto que contiene un valor — y por lo tanto, una referencia.</div>
+  </div>
+  <p style="margin-top:1em;text-align:center">¿Para qué existen? Porque hay lugares en Java donde <strong>un primitivo no cabe</strong>: las colecciones de la guía 06, por ejemplo, solo guardan objetos. Y porque traen herramientas útiles.</p>
+ </div>
+</section>
+
+<!-- 30 · LOS OCHO WRAPPERS -->
+<section>
+ <div class="eyebrow">Wrappers · la tabla</div>
+ <h2>Uno por cada primitivo</h2>
+ <div class="body">
+  <div class="g2">
+   <table>
+    <tr><th>Primitivo</th><th>Wrapper</th></tr>
+    <tr><td><code class="t">byte</code></td><td><code class="t">Byte</code></td></tr>
+    <tr><td><code class="t">short</code></td><td><code class="t">Short</code></td></tr>
+    <tr><td><code class="t">int</code></td><td><b><code class="t">Integer</code></b></td></tr>
+    <tr><td><code class="t">long</code></td><td><code class="t">Long</code></td></tr>
+   </table>
+   <table>
+    <tr><th>Primitivo</th><th>Wrapper</th></tr>
+    <tr><td><code class="t">float</code></td><td><code class="t">Float</code></td></tr>
+    <tr><td><code class="t">double</code></td><td><b><code class="t">Double</code></b></td></tr>
+    <tr><td><code class="t">char</code></td><td><code class="t">Character</code></td></tr>
+    <tr><td><code class="t">boolean</code></td><td><code class="t">Boolean</code></td></tr>
+   </table>
+  </div>
+  <div class="g2" style="margin-top:.9em">
+   <div class="card"><h3>Dos que sí van a usar</h3>
+    <pre class="mono-xs" style="margin-top:.3em"><code><span class="t">int</span> n = <span class="t">Integer</span>.parseInt(<span class="s">"42"</span>);
+<span class="t">double</span> d = <span class="t">Double</span>.parseDouble(<span class="s">"3.14"</span>);</code></pre>
+    <p class="mini" style="margin-top:.35em">Convierten <b>texto a número</b>. Los van a necesitar en cuanto lean algo del teclado o de la línea de comandos.</p>
+   </div>
+   <div class="card"><h3>Ojo con la mayúscula</h3>
+    <p><code class="t">int</code> con minúscula es el primitivo. <code class="t">Integer</code> con mayúscula es la clase. <b>Se escriben distinto y se comparan distinto.</b></p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 31 · AUTOBOXING Y LA TRAMPA -->
+<section>
+ <div class="eyebrow">Wrappers · lo que Java hace por ti</div>
+ <h2>Autoboxing, unboxing y la trampa que dejan</h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <pre class="mono-s"><code><span class="t">Integer</span> n = <span class="n">42</span>;   <span class="n">// autoboxing:  int → Integer</span>
+<span class="t">int</span> m = n;         <span class="n">// unboxing:    Integer → int</span></code></pre>
+    <p class="mini" style="margin-top:.55em">Java lo hace solo. El manual lo escribe así:</p>
+    <pre class="mono-xs" style="margin-top:.35em"><code><span class="t">Integer</span> n = <span class="k">new</span> <span class="t">Integer</span>(p);   <span class="n">// equivale a…</span>
+<span class="t">Integer</span> n = p;                 <span class="n">// …esto</span></code></pre>
+   </div>
+   <div class="err">
+    <p class="mini" style="margin-bottom:.35em"><b>Y aquí está la trampa:</b></p>
+    <pre class="mono-xs" style="background:#fff;border-color:#f2c4c4"><code><span class="t">Integer</span> a = <span class="n">127</span>, b = <span class="n">127</span>;
+System.out.println(a == b);   <span class="n">// true</span>
+
+<span class="t">Integer</span> c = <span class="n">128</span>, d = <span class="n">128</span>;
+System.out.println(c == d);   <span class="n">// false</span></code></pre>
+   </div>
+  </div>
+  <div class="def dos" style="margin-top:.85em">
+   <div class="dt">No es un capricho: son referencias</div>
+   <div class="dd">Java guarda en caché los <code class="t">Integer</code> de <code>-128</code> a <code>127</code> y los reutiliza — como el <b>pool</b> de las cadenas. Fuera de ese rango crea objetos nuevos, y <code>==</code> compara direcciones distintas.</div>
+   <div class="clave">La regla no cambia: con objetos, <code>.equals()</code>. Siempre.</div>
+  </div>
+ </div>
+</section>
+
+<!-- 32 · ARGUMENTOS POR LÍNEA DE COMANDOS -->
+<section>
+ <div class="eyebrow">Bloque 5 · Argumentos por línea de comandos</div>
+ <h2>Ese <code>String[] args</code> que llevan copiando desde agosto</h2>
+ <div class="body">
+  <div class="g2">
+   <pre class="mono-s"><code><span class="k">public class</span> <span class="t">Saludo</span> {
+  <span class="k">public static void</span> main(<span class="t">String</span>[] args) {
+    System.out.println(<span class="s">"Hola "</span> + args[<span class="n">0</span>]);
+    System.out.println(<span class="s">"Son "</span> + args.length);
+  }
+}</code></pre>
+   <div>
+    <div class="term">
+     <code><span class="c2">$</span> java Saludo Ana Luis
+Hola Ana
+Son 2</code>
+    </div>
+    <p class="mini" style="margin-top:.6em"><code>args</code> es <b>un arreglo de cadenas</b> — o sea, una referencia, como todo lo de hoy. Trae lo que escribiste después del nombre de la clase.</p>
+   </div>
+  </div>
+  <div class="g2" style="margin-top:.85em">
+   <div class="err"><p class="mini"><b>Si no pasas nada</b>, <code>args</code> tiene longitud <code>0</code> y <code>args[0]</code> revienta con <code>ArrayIndexOutOfBoundsException</code>. Se revisa antes con un <code class="k">if</code>, que es justo el tema del <b>lunes 21</b>.</p></div>
+   <div class="ok"><p class="mini"><b>Y llegan como texto.</b> <code>java Suma 3 4</code> te da <code>"3"</code> y <code>"4"</code>, no números. Para sumarlos: <code>Integer.parseInt(args[0])</code>.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- 33 · ERRORES COMUNES DE HOY -->
+<section>
+ <div class="eyebrow">Cierre · el resumen que sirve el día 23</div>
+ <h2>Los seis de hoy</h2>
+ <div class="body">
+  <table>
+   <tr><th>Síntoma</th><th>Qué pasó</th><th>Se arregla</th></tr>
+   <tr><td><code>NullPointerException</code></td><td>La referencia no apunta a ningún objeto</td><td>Falta el <code class="k">new</code>, o revisar <code>!= null</code> antes</td></tr>
+   <tr><td><b>Comparar texto nunca da <code>true</code></b></td><td>Comparaste objetos con <code>==</code></td><td><code>.equals()</code></td></tr>
+   <tr><td>Cambié uno y se cambiaron los dos</td><td>Copiaste la referencia, no el objeto</td><td>Un <code class="k">new</code> por cada objeto</td></tr>
+   <tr><td><code>s.toUpperCase()</code> no hace nada</td><td><code class="t">String</code> es inmutable</td><td>Guardar lo que devuelve: <code>s = s.toUpperCase()</code></td></tr>
+   <tr><td><code>ArrayIndexOutOfBounds</code></td><td>Te pasaste del último índice</td><td><code>i &lt; length</code>, nunca <code>&lt;=</code></td></tr>
+   <tr><td><code>NullPointerException</code> <b>en un arreglo de objetos</b></td><td>Creaste el arreglo pero no los objetos</td><td>Un <code class="k">new</code> por cada cajón</td></tr>
+  </table>
+  <div class="quote" style="margin-top:1em">Cuatro de los seis son el mismo error con distinta ropa: <em>confundir la etiqueta con la caja</em>.</div>
+ </div>
+</section>
+
+<!-- 34 · CIERRE -->
+<section>
+ <div class="eyebrow">Cierre · qué sigue</div>
+ <h2>Lo que se llevan</h2>
+ <div class="body">
+  <div class="g2">
+   <div>
+    <ul>
+     <li>Una primitiva guarda <b>el valor</b>; una referencia guarda <b>la dirección</b>.</li>
+     <li>Asignar una referencia <b>no copia el objeto</b>. Dos objetos exigen dos <code class="k">new</code>.</li>
+     <li>Con objetos se compara con <b><code>.equals()</code></b>, nunca con <code>==</code>.</li>
+     <li><code class="t">String</code> es <b>inmutable</b>: sus métodos devuelven una cadena nueva.</li>
+     <li>Un <b>arreglo es un objeto</b>: se crea con <code class="k">new</code>, se recorre de <code>0</code> a <code>length-1</code>, y copiarlo no lo duplica.</li>
+     <li>Un arreglo <b>de objetos</b> necesita un <code class="k">new</code> para el arreglo y <b>otro por cada elemento</b>.</li>
+    </ul>
+   </div>
+   <div>
+    <div class="card" style="border-color:var(--am);margin-bottom:.7em">
+     <h3 style="color:var(--am)"><span class="num">→</span>Hoy, 23:59 · Tarea 1</h3>
+     <p><b>Radiografías con contexto</b>, en <code>entregas/apellido_nombre/tareas/t01/</code>. Un <code>push</code> a su rama, sin pull request.</p>
+    </div>
+    <div class="card" style="margin-bottom:.7em">
+     <h3><span class="num">21</span>Lunes 21 · teoría</h3>
+     <p><b>Toda la selección:</b> <code class="k">if</code>, <code class="k">else-if</code>, <code class="k">switch</code>, <code class="k">enum</code> y la clase <code class="t">Math</code>. Es justo lo que pide la <b>P5</b>.</p>
+    </div>
+    <div class="card" style="border-color:var(--am);margin-bottom:.7em">
+     <h3 style="color:var(--am)"><span class="num">!</span>Miércoles 7 de octubre · Parcial 1</h3>
+     <p>Presencial, aquí en el salón. Entra <b>toda la unidad 1 menos repetición</b>: tipos, referencias, cadenas, wrappers, arreglos, ámbito y selección. Los <code class="k">while</code> van en el segundo parcial.</p>
+    </div>
+    <div class="ok">
+     <p class="mini"><b>Miércoles 23 · P4</b> Variables y arreglos, en el laboratorio — lleguen con el JDK respondiendo y su rama al día. <b>Miércoles 30 · P5</b>, estructuras de selección.</p>
+    </div>
+   </div>
+  </div>
+  <div class="quote" style="margin-top:.9em">La pregunta que resuelve casi todo lo de hoy: <em>¿esta variable guarda el dato, o guarda dónde está el dato?</em></div>
+ </div>
+</section>
+
+<div id="bar"></div><div id="num"></div>
+<div id="hint">← → para navegar · <b>V</b> revela · <b>F</b> pantalla completa</div>
+
+<script>
+const S=[...document.querySelectorAll('section')];let i=0;
+const bar=document.getElementById('bar'),num=document.getElementById('num');
+function show(n){i=Math.max(0,Math.min(S.length-1,n));
+ document.body.classList.remove('reveal');
+ S.forEach((s,k)=>s.classList.toggle('on',k===i));
+ bar.style.width=((i+1)/S.length*100)+'%';num.textContent=(i+1)+' / '+S.length;}
+addEventListener('keydown',e=>{
+ if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(i+1)}
+ else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}
+ else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1);
+ else if(e.key.toLowerCase()==='r')show(0);
+ else if(e.key.toLowerCase()==='v'){e.preventDefault();document.body.classList.toggle('reveal');}
+ else if(e.key.toLowerCase()==='f'||e.key==='F11'){e.preventDefault();fs();}});
+function fs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+addEventListener('dblclick',fs);
+show(0);
+</script></body></html>
