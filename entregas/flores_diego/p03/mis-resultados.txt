@@ -1,0 +1,69 @@
+
+
+########################################################################
+#   TU TABLA FINAL  ·  ESTA ES LA CAPTURA QUE TIENES QUE ENTREGAR      #
+########################################################################
+#    expresion                        predijiste        salio       
+------------------------------------------------------------------------
+1    enteroSinValor                   0                 0           ok
+2    decimalSinValor                  0.0               0.0         ok
+3    logicoSinValor                   false             false       ok
+4    (int) letraSinValor              null              0           FALLO
+5    textoSinValor                    null              null        ok
+6    7 / 2                            3                 3           ok
+7    7.0 / 2                          3.5               3.5         ok
+8    (double) 7 / 2                   3.5               3.5         ok
+9    (double) (7 / 2)                 3.0               3.0         ok
+10   7.0 / 0                          infinity          Infinity    ok
+11   0.0 / 0.0                        0.0               NaN         FALLO
+12   7 % 2                            1                 1           ok
+13   10 % 5                           0                 0           ok
+14   -7 % 2                           -1                -1          ok
+15   7 % 2.5                          2.0               2.0         ok
+16   12345 % 10                       5                 5           ok
+17   12345 / 10                       1234              1234        ok
+18   (int) 3.9                        3                 3           ok
+19   (int) -3.9                       -3                -3          ok
+20   (char) 65                        65                A           FALLO
+21   (int) 'A'                        0                 65          FALLO
+22   'A' + 1                          66                66          ok
+23   (char) ('A' + 1)                 'B'               B           ok
+24   (byte) 200                       -56               -56         ok
+25   5 > 3                            true              true        ok
+26   5 == 5.0                         true              true        ok
+27   0.1 + 0.2 == 0.3                 false             false       ok
+28   true && false                    false             false       ok
+29   true || false                    true              true        ok
+30   vidasRestantes > 0 && 10 / vida~ false             false       ok
+31   0.1 + 0.2                        0.30000000000000~ 0.30000000~ ok
+32   Integer.MAX_VALUE + 1            -2147483648       -2147483648 ok
+33   5 + 3                            8                 8           ok
+34   "5" + 3                          "53"              53          ok
+35   1 + 2 + "3"                      "33"              33          ok
+36   "1" + 2 + 3                      "123"             123         ok
+------------------------------------------------------------------------
+ACERTASTE 32 DE 36
+
+ESTAS SON LAS QUE TIENES QUE EXPLICAR EN TU DOCUMENTO:
+
+   · (int) letraSinValor
+       creiste que daba: null
+       en realidad da:   0
+       por que me equivoque: __________________________________
+
+   · 0.0 / 0.0
+       creiste que daba: 0.0
+       en realidad da:   NaN
+       por que me equivoque: __________________________________
+
+   · (char) 65
+       creiste que daba: 65
+       en realidad da:   A
+       por que me equivoque: __________________________________
+
+   · (int) 'A'
+       creiste que daba: 0
+       en realidad da:   65
+       por que me equivoque: __________________________________
+
+########################################################################
