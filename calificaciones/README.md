@@ -14,6 +14,7 @@ La hoja **Matriz** tiene un renglón por persona y una columna por práctica:
 |---|---|
 | **10** | Correcta |
 | **9** | Correcta, con un detalle de forma (dice cuál en Observaciones) |
+| **8** | Incompleta, pero aceptada |
 | **PC** | Pendiente de corrección — **tienes una hoja aparte**, con tu número de cuenta, que dice qué corregir y cómo |
 | **NP** | No presentada |
 
@@ -28,6 +29,6 @@ observación— **escríbeme por el grupo** con tu número de cuenta y qué espe
 Casi siempre es que la entrega quedó en una rama o carpeta distinta a la tuya, y se
 resuelve rápido.
 
-El corte más reciente es el del **11 de septiembre**, e incluye la **P03**.
+El corte más reciente es el del **14 de septiembre**, e incluye la **T01**.
 
-En la columna de la **T01** el guion (—) significa que aún no vence: la fecha es el lunes 14 de septiembre.
+En la columna de la **T01** el guion (—) significa que todavía no la subes: vence el **lunes 14 de septiembre, antes de la clase**. Tu `.class` se ejecuta tal cual con el **JDK 21** del curso: si no lo subiste, o lo compilaste con una versión más nueva de Java, no corre y queda como **PC**.
