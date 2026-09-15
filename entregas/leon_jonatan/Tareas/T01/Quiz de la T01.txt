@@ -1,0 +1,31 @@
+QUIZ - Tarea 1
+
+1. ¿Diferencia entre declarar, inicializar y asignar una variable?
+Declarar es crear la variable con su tipo y nombre ("int edad;"). Inicializar es darle su primer valor ("edad = 20;"). Y asignar es cambiarle el valor más adelante ("edad = 21;").
+
+2. ¿Qué es un atributo y en qué se diferencia de una variable local y de un parámetro?
+El atributo es la variable de la clase que guarda la información del objeto, la variable local solo existe dentro del método donde se creó. El parámetro es el dato que le pasas al método desde fuera para que trabaje.
+
+3. ¿Qué compone la firma de un método en Java?
+La firma es solo el nombre del método y los tipos de sus parámetros en orden, no incluye el tipo de retorno ni los modificadores.
+
+4. ¿Diferencia entre parámetro y argumento?
+El parámetro es la variable esperada en la definición del método ("double monto") y el argumento es el valor real que le mandas cuando lo llamas ("500.0").
+
+5. ¿Para qué sirve un constructor y sus reglas básicas?
+Sirve para que el objeto nazca con todos sus datos listos en el "new". Sus reglas: se llama igual a la clase, se ejecuta una sola vez y no lleva tipo de retorno.
+
+6. ¿Para qué sirve "this"?
+Sirve para referirse al objeto actual. Se usa mucho para no confundir el atributo de la clase con un parámetro cuando se llaman igual ("this.velocidad = velocidad;").
+
+7. ¿Diferencia entre tipo primitivo y de referencia?
+El primitivo guarda el valor tal cual en la variable, el de referencia guarda la dirección de memoria donde vive el objeto en el sistema .
+
+8. ¿Qué es el casting explícito y cuándo se usa?
+Es obligar a Java a convertir un tipo de dato grande a uno más chico (ejemplo: de "double" a "int"). Se usa cuando sabes que vas a perder decimales o precisión pero aun así lo necesitas.
+
+9. ¿Qué pasa al dividir enteros ("int / int") en Java?
+Da como resultado otro entero, recortandose los decimales por completo sin avisar ni marcar error.
+
+10. ¿Diferencia entre atributo de instancia y "static"?
+El de instancia es único para cada objeto que creas. El "static" pertenece a la clase y es uno solo compartido por todos los objetos.
