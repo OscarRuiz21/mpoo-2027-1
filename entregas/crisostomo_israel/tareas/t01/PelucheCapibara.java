@@ -7,24 +7,25 @@
 public class PelucheCapibara {
 
     // ===== ATRIBUTOS =====
-    double nivelSuavidad = 100.0;  
-    int diasSinLavar = 0;          
-    boolean tieneSombrerito = true;
-
+    double nivelSuavidad = 100.0;  // tipo: double  · nombre: nivelSuavidad   · valor inicial: 100.0
+    int diasSinLavar = 0;          // tipo: int     · nombre: diasSinLavar    · valor inicial: 0
+    boolean tieneSombrerito = true;// tipo: boolean · nombre: tieneSombrerito · valor inicial: true
+   
     // ===== METODOS =====
+    // firma: abrazar(double) · retorno: void · parametro: double fuerza
     void abrazar(double fuerza) {
         diasSinLavar++;                           // operador contador ++
         nivelSuavidad = nivelSuavidad - fuerza;   // reduce la suavidad temporalmente
     }
 
-    // firma: lavar(int) 
-    void lavar(int extraSuavizante) {
+// firma: lavar(int) · retorno: void · parametro: int extraSuavizante    
+        void lavar(int extraSuavizante) {
         nivelSuavidad = nivelSuavidad + extraSuavizante; // operador +
         diasSinLavar = 0;
     }
 
-    // firma: tocaLavado() 
-    boolean tocaLavado() {
+// firma: tocaLavado() · retorno: boolean · sin parametros    
+        boolean tocaLavado() {
         return diasSinLavar % 15 == 0 || nivelSuavidad == 0.0; // operadores %, == y || (OR)
     }
 

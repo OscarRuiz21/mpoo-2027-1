@@ -8,10 +8,9 @@ QUE IGNORE: El color y si tiene luz RGB, porque la consola solo necesita saber l
 public class MandoXbox {
 
     // ===== ATRIBUTOS =====
-    double bateria = 100.0;        
-    char tipoConexion = 'W';       
-    int botonesPresionados = 0;    
-
+    double bateria = 100.0;        // tipo: double · nombre: bateria            · valor inicial: 100.0
+    char tipoConexion = 'W';       // tipo: char   · nombre: tipoConexion       · valor inicial: 'W'
+    int botonesPresionados = 0;    // tipo: int    · nombre: botonesPresionados · valor inicial: 0
     // ===== METODOS =====
     // firma: jugar(double)
     void jugar(double horas) {
@@ -19,12 +18,12 @@ public class MandoXbox {
         botonesPresionados += 1500;         // el operador abreviado que tengo  +=
     }
 
-    // firma: horasRestantes() 
+    // firma: horasRestantes() · retorno: int · sin parametros
     int horasRestantes() {
         return (int) (bateria / 12.5);      // operador / y casting (int)
     }
 
-    // firma: necesitaCarga() 
+    // firma: necesitaCarga() · retorno: boolean · sin parametros
     boolean necesitaCarga() {
         return bateria <= 15.0;             // operador relacional <=
     }
