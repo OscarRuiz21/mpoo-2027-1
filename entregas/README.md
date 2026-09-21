@@ -9,7 +9,8 @@ entregas/
 └── ramirez_ana/
     ├── p01/ … p12/      ← las practicas, aqui mismo
     └── tareas/
-        └── t01/ …       ← las tareas, aparte
+        ├── t01/
+        └── t02/ …       ← las tareas, aparte
 ```
 
 **Tu carpeta ya existe y ya tiene tu trabajo.** Si antes se llamaba distinto (con mayúsculas,
