@@ -1,12 +1,10 @@
-// CONTEXTO: (¿en que programa vive este objeto? un programa sobre la funcion de una bici electrica)
+// CONTEXTO:  un programa sobre la funcion de una bici electrica)
 // QUE SABE Y POR QUE: (bateria(para saber si queda),marca(para saber la marca) velocidad,kilometraje,luces(saber si estan o no encendidad))
-// QUE SABE HACER Y POR QUE: (cada metodo: por que void o por que retorna,
-//                            y por que esos parametros)acelerar(recibe incremento, no regresa nada porque no se requiere),frenar(no recibe parametro y no requiere regsar nada),recargar(no recibe nada, y regresa un booleano para mostrarlo)
-// QUE IGNORE: (1 o 2 cosas del objeto real. quizas la autonomia de la bateria, )
-public class BiciElectrica {   // TODO: renombra la clase Y el archivo (PascalCase)
+// QUE SABE HACER Y POR QUE: acelerar(recibe incremento, no regresa nada porque no se requiere),frenar(no recibe parametro y no requiere regsar nada),recargar(no recibe nada, y regresa un booleano para mostrarlo)
+// QUE IGNORE:  quizas la autonomia de la bateria, )
+public class BiciElectrica {
 
-    // ===== ATRIBUTOS (etiqueta cada parte) =====
-    // ej:  double saldo = 0;   // tipo: double · nombre: saldo · valor inicial: 0
+    // ===== ATRIBUTOS  =====
     int bateria_max = 100; //tipo int. nombre bateria_max. valor 100
     String marca = "Patito"; //tipo string nombre marca. valor = "patito"
     int bateria = 100;   // tipo int. nombre bateria. valor 100
@@ -14,23 +12,12 @@ public class BiciElectrica {   // TODO: renombra la clase Y el archivo (PascalCa
     double kilometraje = 0.0; // tipo double. nombre kilometraje. valor = 0.0
     boolean luces = false; // tipo boolean. nombre luces. valor 0.0
     char modo = 'E';
-    // ===== CONSTRUCTOR (obligatorio en UNA de tus tres clases) =====
-    // Mismo nombre que la clase, SIN tipo de retorno (ni void).
-    // Pon aqui los datos sin los que el objeto no tiene sentido; el resto dejalos con su valor inicial.
-    // ej:  // firma: MiObjeto(double) · sin tipo de retorno
-    //      MiObjeto(double saldo) {
-    //          this.saldo = saldo;   // this.saldo = ATRIBUTO · saldo a secas = PARAMETRO
-    //      }
-    // OJO: si escribes este, new MiObjeto() deja de existir. O lo llamas con sus datos,
-    //      o escribes tambien el constructor vacio: MiObjeto() { }
-
+    // ===== CONSTRUCTOR  =====
     BiciElectrica(String marca, char modo ){
         this.marca = marca;
         this.modo= modo;
     }
-    // ===== METODOS (etiqueta cada parte y su firma) =====
-    // ej:  // firma: retirar(double) · retorno: void · parametro: double monto
-    //firma acelerar(double). retorno void. parametro incremento
+    // ===== METODOS =====
     void acelerar(double incremento){
         if(bateria > 0){
             velocidad += incremento;
@@ -68,7 +55,6 @@ public class BiciElectrica {   // TODO: renombra la clase Y el archivo (PascalCa
     public static void main(String[] args) {
         System.out.println("RADIOGRAFÍA: BiciElectrica");
 
-        // Instanciamos una bicicleta de marca "Volt" en modo Turbo ('T')
         BiciElectrica miBici = new BiciElectrica("Evobike", 'T');
 
         System.out.println("\n[Estado Inicial]");
