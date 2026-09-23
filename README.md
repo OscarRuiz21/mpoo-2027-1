@@ -5,6 +5,15 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 
 **¿Primera vez aquí? Empieza en [`EMPIEZA-AQUI.md`](EMPIEZA-AQUI.md).**
 
+## Avisos
+
+**Documentos de referencia obligatoria.** Léelos antes de tu siguiente laboratorio:
+
+- [Reglamento del Laboratorio (REDO-01)](http://lcp02.fi-b.unam.mx/)
+- [Reglamento General de Uso de Laboratorios y Talleres](https://consejofi.fi-a.unam.mx/documentos_relacionados/Normatividad/Reglamento%20General%20de%20Uso%20de%20Laboratorios%20y%20Talleres.pdf)
+
+**Formulario de la materia.** Respóndelo durante esta semana: <https://forms.gle/DouTJKftJf4njttS9>
+
 ## Los enlaces del curso
 
 | Qué es | Dónde |
