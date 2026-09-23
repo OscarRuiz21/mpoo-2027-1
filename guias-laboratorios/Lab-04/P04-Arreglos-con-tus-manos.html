@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · P4 · Arreglos con tus manos</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:62ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.83rem;color:#33465e;white-space:pre;overflow-x:auto}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+</style>
+</head>
+
+<body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · Practica 4 · miercoles 23 de septiembre</div>
+  <h1>Arreglos con tus manos</h1>
+  <p>Diez metodos. Dos ya resueltos, como ejemplo. Los otros ocho los escribes tu, y el propio programa te dice cual pasa y cual no.</p>
+  <p style="margin-top:1em"><a href="P4Arreglos.java" download style="display:inline-block;background:#f2b705;color:#12203a;text-decoration:none;font-weight:800;padding:.55em 1.3em;border-radius:10px">Descargar P4Arreglos.java</a></p>
+</div></header>
+
+<div class="wrap">
+
+<h2>En una linea</h2>
+<p>Corres <code>P4Arreglos.java</code> y ves ocho <b>FALLA</b>. Completas los metodos de uno en uno, vuelves a correr, y terminas cuando la tabla diga <b>8 DE 8</b>. Entregas el archivo, su <code>.class</code> y la captura de esa tabla.</p>
+
+<h2>Parte 0 · Que se entrega y como se califica</h2>
+<table>
+  <tr><th>Que</th><th>Detalle</th></tr>
+  <tr><td><b>Cuando</b></td><td><b>Viernes 25 de septiembre, 23:59.</b> Se empieza en el laboratorio del miercoles y ahi mismo se resuelven las dudas.</td></tr>
+  <tr><td><b>Donde</b></td><td>Tu rama <code>entregas_apellido_nombre</code>, carpeta <code>entregas/apellido_nombre/p04/</code>. Solo push, sin pull request.</td></tr>
+  <tr><td><b>Que archivos</b></td><td><code>P4Arreglos.java</code> con tus ocho metodos escritos, <code>P4Arreglos.class</code> y la <b>captura de la tabla final</b>. Tres archivos.</td></tr>
+  <tr><td><b>Como se califica</b></td><td>Cuantos de los ocho pasan, y que el codigo sea tuyo. Si alguno no te sale, entregalo igual y escribe en un <code>README.md</code> donde te atoraste: eso cuenta y no es lo mismo que no intentarlo.</td></tr>
+</table>
+
+<h2>Parte 1 · El <code>for</code> en cinco minutos</h2>
+<p>De esto hablamos de pasada el lunes 14. Aqui lo vas a escribir. Un arreglo guarda varios valores en cajitas numeradas, y el <code>for</code> es la forma de pasar por todas.</p>
+
+<div class="out"><b>las posiciones</b>int[] notas = { 7, 9, 5, 10, 8 };
+
+posicion:   0    1    2    3    4        notas.length es 5
+valor:      7    9    5   10    8        la ultima posicion es 4</div>
+
+<p>La primera posicion es <b>0</b> y la ultima es <code>length - 1</code>. Por eso la condicion del <code>for</code> lleva <code>&lt;</code> y no <code>&lt;=</code>: si escribes <code>&lt;=</code> le pides a Java la cajita 5, que no existe, y truena con <code>ArrayIndexOutOfBoundsException</code>.</p>
+
+<h3>Forma 1 · el for clasico, cuando necesitas la posicion</h3>
+<pre><code class="java">for (int i = 0; i &lt; numeros.length; i++) {
+    total = total + numeros[i];
+}
+//   ^empieza    ^mientras se cumpla   ^suma 1 cada vuelta</code></pre>
+<p><code>i</code> es la <b>posicion</b>, no el valor. El valor que vive ahi es <code>numeros[i]</code>. Es el <b>EJEMPLO A</b> del archivo, ya resuelto: leelo antes de empezar.</p>
+
+<h3>Forma 2 · el for-each, cuando solo te importa el valor</h3>
+<pre><code class="java">for (int valor : numeros) {
+    if (valor &gt; umbral) {
+        cuantos = cuantos + 1;
+    }
+}</code></pre>
+<p>Se lee "para cada valor de numeros". No tienes la posicion, y no siempre hace falta. Es el <b>EJEMPLO B</b>.</p>
+
+<div class="box tip"><h4>Cual uso</h4>
+<p>Si necesitas saber <b>en que posicion</b> estas (buscar un indice, construir otro arreglo al reves), usa el clasico. Si solo vas a mirar los valores (sumar, contar, comparar), el for-each se lee mejor.</p></div>
+
+<h2>Parte 2 · Los ocho ejercicios</h2>
+<p>Estan en orden de dificultad. No te saltes: el 2 se apoya en el ejemplo A, el 3 y el 4 son el mismo recorrido con otra pregunta.</p>
+<table>
+  <tr><th>#</th><th>Metodo</th><th>Que tiene que hacer</th></tr>
+  <tr><td>1</td><td><code>primerosCinco()</code></td><td>Devolver un arreglo con 10, 20, 30, 40 y 50. Aqui no hace falta ningun <code>for</code>.</td></tr>
+  <tr><td>2</td><td><code>promedio(int[])</code></td><td>El promedio. Cuidado con la division entera: <code>suma / cantidad</code> entre enteros te da un entero.</td></tr>
+  <tr><td>3</td><td><code>maximo(int[])</code></td><td>El numero mas grande. Guarda el primero como candidato y recorre el resto comparando.</td></tr>
+  <tr><td>4</td><td><code>posicionDe(int[], int)</code></td><td>La posicion donde vive un valor, o <code>-1</code> si no esta. Si aparece dos veces, la primera.</td></tr>
+  <tr><td>5</td><td><code>invertido(int[])</code></td><td>Un arreglo <b>nuevo</b> con los valores al reves. El que recibes no se toca.</td></tr>
+  <tr><td>6</td><td><code>nombreDelMasAlto(Alumno[])</code></td><td>Recorrer un arreglo de <b>objetos</b> y devolver el nombre del de mayor calificacion. Se llega al dato con <code>alumnos[i].calificacion</code>.</td></tr>
+  <tr><td>7</td><td><code>sumaDeFila(int[][], int)</code></td><td>Sumar una fila de una matriz. <code>matriz[fila]</code> es a su vez un arreglo.</td></tr>
+  <tr><td>8</td><td><code>limpiaYJunta(String)</code></td><td>De <code>"  ana , beto ,cris "</code> a <code>"ana | beto | cris"</code>. Con <code>split(",")</code> y <code>trim()</code>.</td></tr>
+</table>
+
+<h2>Parte 3 · Como sabes que quedo</h2>
+<p>Compila y corre las veces que haga falta:</p>
+<pre><code class="java">javac P4Arreglos.java
+java P4Arreglos</code></pre>
+<div class="out"><b>cuando ya esta</b>#   ejercicio                  esperado               obtuviste
+------------------------------------------------------------------------
+1   primerosCinco()            [10, 20, 30, 40, 50]   [10, 20, 30, 40, 50]   ok
+...
+8   limpiaYJunta(linea)        ana | beto | cris      ana | beto | cris      ok
+------------------------------------------------------------------------
+  8 DE 8
+  Listo. Toma la captura de esta tabla y entregala.</div>
+
+<div class="box warn"><h4>Lo que mas truena</h4>
+<ul>
+  <li><code>ArrayIndexOutOfBoundsException</code>: pediste una posicion que no existe. Revisa el <code>&lt;</code> de tu <code>for</code>.</li>
+  <li><b>El promedio sale sin decimales</b>: estas dividiendo entero entre entero. Convierte uno a <code>double</code>.</li>
+  <li><code>NullPointerException</code> en el 1 o el 5: te faltó crear el arreglo con <code>new</code> o devolverlo.</li>
+  <li><b>El aviso de que modificaste el original</b> en el 5: construye un arreglo nuevo, no reacomodes el que recibiste.</li>
+</ul></div>
+
+<h2>La entrega, paso a paso</h2>
+<pre><code class="java">git checkout entregas_apellido_nombre
+git pull origin main
+mkdir -p entregas/apellido_nombre/p04
+# copia aqui P4Arreglos.java, P4Arreglos.class y tu captura
+git add entregas/apellido_nombre/p04
+git status
+git commit -m "P4: arreglos con tus manos"
+git push</code></pre>
+<p>En <code>git status</code> deben aparecer los tres archivos, el <code>.class</code> incluido. Si no aparece, avisame: ya corregimos la causa, pero quiero saber si a alguien le sigue pasando.</p>
+
+<footer>
+  <p><strong>Modelos de Programacion Orientada a Objetos 2027-1 · Grupo 6 · Facultad de Ingenieria, UNAM</strong><br>
+  Prof. Oscar Manuel Ruiz Hurtado · Practica 4 · septiembre de 2026</p>
+</footer>
+</div>
+</body></html>
