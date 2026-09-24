@@ -12,6 +12,8 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 - [Reglamento del Laboratorio (REDO-01)](http://lcp02.fi-b.unam.mx/)
 - [Reglamento General de Uso de Laboratorios y Talleres](https://consejofi.fi-a.unam.mx/documentos_relacionados/Normatividad/Reglamento%20General%20de%20Uso%20de%20Laboratorios%20y%20Talleres.pdf)
 
+**Lab 4 · nueva fecha: viernes 9 de octubre, 23:59.** Se entrega en parejas: el `.java`, el `.class` y una bitácora en PDF con los integrantes, lo que se les complicó y la captura de la tabla final. Cada integrante lo sube en su propia carpeta. Detalles en la [guía](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-04/P04-Arreglos-con-tus-manos.html).
+
 **Formulario de la materia.** Respóndelo durante esta semana: <https://forms.gle/DouTJKftJf4njttS9>
 
 ## Los enlaces del curso
@@ -25,7 +27,7 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | Cheatsheet de Git · la rutina en corto | [`GIT-CHEATSHEET.md`](GIT-CHEATSHEET.md) |
 | **Manual de prácticas (MADO-21)** · las 12 prácticas oficiales | [`guias-laboratorios/MADO-21_MPOO.pdf`](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/MADO-21_MPOO.pdf) |
 | **Tarea 1 · Radiografías con contexto** (entrega lun 14-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/tareas/t01/T01-Radiografias-con-contexto.html> |
-| **Lab 4 · Arreglos con tus manos** (mié 23-sep, entrega vie 25) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-04/P04-Arreglos-con-tus-manos.html> |
+| **Lab 4 · Arreglos con tus manos** (mié 23-sep, en parejas, entrega vie 9-oct) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-04/P04-Arreglos-con-tus-manos.html> |
 | ↳ el archivo del Lab 4 · `P4Arreglos.java` | [`guias-laboratorios/Lab-04/P4Arreglos.java`](guias-laboratorios/Lab-04/P4Arreglos.java) |
 | **Tarea 2 · Año bisiesto y clasificador de calificaciones** (entrega dom 27-sep) | [`tareas/t02/README.md`](tareas/t02/README.md) |
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |
