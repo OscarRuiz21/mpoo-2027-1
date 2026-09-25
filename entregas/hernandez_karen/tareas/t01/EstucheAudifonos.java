@@ -33,7 +33,7 @@ public class EstucheAudifonos {
 
 
     public static void main(String[] args) {
-        System.out.println("RADIOGRAFIA: MiObjeto");
+        System.out.println("RADIOGRAFIA: EstucheAudifonos");
         EstucheAudifonos estuche1=new EstucheAudifonos();
 
         System.out.println("[estado inicial]");

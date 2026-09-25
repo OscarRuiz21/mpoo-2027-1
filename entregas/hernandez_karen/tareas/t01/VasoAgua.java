@@ -31,7 +31,7 @@ public class VasoAgua {
     }
 
     public static void main(String[] args) {
-        System.out.println("RADIOGRAFIA: MiObjeto");
+        System.out.println("RADIOGRAFIA: VasoAgua");
         VasoAgua v1= new VasoAgua();
 
         System.out.println("[estado inicial]");    // 2: imprime cada atributo

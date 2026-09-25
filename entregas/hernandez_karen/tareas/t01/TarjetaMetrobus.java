@@ -38,7 +38,7 @@
         }
 
         public static void main(String[] args) {
-            System.out.println("RADIOGRAFIA: MiObjeto");
+            System.out.println("RADIOGRAFIA: TarjetaMetrobus");
             TarjetaMetrobus t1=new TarjetaMetrobus("CDI17200218");
 
             System.out.println("[estado inicial]");    // 2: imprime cada atributo
