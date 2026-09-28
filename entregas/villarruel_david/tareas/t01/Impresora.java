@@ -2,6 +2,7 @@
 CONTEXTO: La impresora la uso para imprimir trabajos y documentos de la universidad.
 QUE SABE Y POR QUE: Sabe cuántas hojas tiene y si está encendida porque eso representa su estado.
 QUE SABE HACER Y POR QUE: Puede imprimir hojas y calcular cuántas quedan después de imprimir.
+QUE IGNORE: el color y la marca de la impresora
 */
 
 public class Impresora {

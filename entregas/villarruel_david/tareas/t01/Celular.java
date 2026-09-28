@@ -2,6 +2,7 @@
 CONTEXTO: El celular lo uso para comunicarme y hacer actividades de la universidad.
 QUE SABE Y POR QUE: Sabe su bateria y si esta encendido porque son datos importantes de su estado.
 QUE SABE HACER Y POR QUE: Puede cargar bateria y revisar si esta listo para usarse.
+QUE IGNORE: la marca y el modelo del celular
 */
 
 public class Celular {

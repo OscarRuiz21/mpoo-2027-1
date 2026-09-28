@@ -2,6 +2,7 @@
 CONTEXTO: La mochila la uso para llevar mis cosas de la universidad.
 QUE SABE Y POR QUE: Sabe su peso y cuántos compartimentos tiene porque son características de la mochila.
 QUE SABE HACER Y POR QUE: Puede agregar peso y calcular cuánto peso lleva para representar su uso.
+QUE IGNORE: el color y la marca de la mochila
 */
 
 public class Mochila {
