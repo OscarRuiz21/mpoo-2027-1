@@ -1,3 +1,4 @@
+//Leon Carrasco Jonatan Abdel
 import java.util.Scanner;
 
 public class TuTurnoCalificaciones {
@@ -23,10 +24,6 @@ public class TuTurnoCalificaciones {
             return "Calificacion invalida";
         }
 
-        // Dividir entre 10 mediante division entera:
-        // 100 / 10 = 10
-        // 90 a 99 / 10 = 9
-        // 80 a 89 / 10 = 8, etc.
         return switch (calificacion / 10) {
             case 10, 9 -> "A";
             case 8     -> "B";
