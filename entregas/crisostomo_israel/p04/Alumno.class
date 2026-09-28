@@ -1,0 +1,10 @@
+// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
+class Alumno {
+   String nombre;
+   int calificacion;
+
+   Alumno(String var1, int var2) {
+      this.nombre = var1;
+      this.calificacion = var2;
+   }
+}
