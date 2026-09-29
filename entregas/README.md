@@ -7,14 +7,6 @@ prácticas van **directo en tu carpeta**, con dos dígitos; las tareas van dentr
 ```
 entregas/
 └── ramirez_ana/
-<<<<<<< HEAD
-    ├── p01/
-    └── p02/ … p12/
-```
-
-Cada práctica se entrega desde una rama `pNN-apellido` como **pull request** al
-repositorio. Tu carpeta la creas en el Lab 0. Cada quien toca solo la suya.
-=======
     ├── p01/ … p12/      ← las practicas, aqui mismo
     └── tareas/
         ├── t01/
@@ -31,4 +23,3 @@ son las prácticas 0 a 2, ya revisadas, y no van a crecer durante el semestre. P
 traes material nuevo con `git pull origin main`, **no se te descarga el trabajo de nadie más**. La rutina completa está en el [`GIT-CHEATSHEET.md`](../GIT-CHEATSHEET.md),
 que incluye cómo hacer que en tu computadora **solo aparezca tu carpeta** y no las de tus
 compañeros. Cada quien toca solo la suya.
->>>>>>> dee213ebe7d4852d1350ae9b9d8c57a472b68da8
