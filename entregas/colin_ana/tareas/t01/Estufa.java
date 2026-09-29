@@ -13,6 +13,7 @@ public class Estufa {
     int quemadoresActivos = 0;
 
     // ===== CONSTRUCTOR =====
+    // firma: Estufa(String, int, double)
     Estufa(String modelo, int cantidadQuemadores, double temperaturaHorno) {
         this.modelo = modelo;
         this.cantidadQuemadores = cantidadQuemadores;
@@ -22,6 +23,7 @@ public class Estufa {
     // ===== METODOS =====
 
     // Método void CON parámetros
+    // firma: encenderQuemadores(int, String)
     void encenderQuemadores(int cuantos, String zona) {
         // Uso de suma (+) y módulo (%)
         int nuevosActivos = (this.quemadoresActivos + cuantos) % (this.cantidadQuemadores + 1);
@@ -31,6 +33,7 @@ public class Estufa {
     }
 
     // Método con retorno
+    // firma: calcularTiempoCoccion(double)
     double calcularTiempoCoccion(double pesoKilos) {
         // Uso de multiplicación (*), división (/), resta (-)
         double tiempoBase = (pesoKilos * 45.0) / (this.temperaturaHorno / 100.0);
@@ -38,6 +41,7 @@ public class Estufa {
         return tiempoAjustado;
     }
 
+    // firma: main(String[])
     public static void main(String[] args) {
         System.out.println("RADIOGRAFIA: Estufa");
 

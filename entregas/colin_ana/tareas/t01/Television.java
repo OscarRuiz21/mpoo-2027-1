@@ -13,6 +13,7 @@ public class Television {
     int volumen = 10;
 
     // ===== CONSTRUCTOR =====
+    // firma: Television(String, int, double)
     Television(String marca, int resolucionVertical, double tamanoPulgadas) {
         this.marca = marca;
         this.resolucionVertical = resolucionVertical;
@@ -22,6 +23,7 @@ public class Television {
     // ===== METODOS =====
 
     // Método void CON parámetros
+    // firma: ajustarConfiguracion(int, String)
     void ajustarConfiguracion(int nuevoVolumen, String modoImagen) {
         this.estaEncendida = true;
         // Uso de suma (+) y módulo (%)
@@ -30,6 +32,7 @@ public class Television {
     }
 
     // Método con retorno
+    // firma: calcularPrecioPulgada(double, double)
     double calcularPrecioPulgada(double precioTotal, double descuento) {
         // Uso de multiplicación (*), división (/), resta (-)
         double precioConDescuento = precioTotal - descuento;
@@ -37,6 +40,7 @@ public class Television {
         return precioPorPulgada;
     }
 
+    // firma: main(String[])
     public static void main(String[] args) {
         System.out.println("RADIOGRAFIA: Television");
 

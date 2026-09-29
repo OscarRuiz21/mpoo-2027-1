@@ -12,6 +12,7 @@ public class Computadora {
     boolean estaConectadaRed = false;        // tipo: boolean
 
     // ===== CONSTRUCTOR =====
+    // firma: Computadora(String, int, double)
     Computadora(String nombreEquipo, int capacidadRamGB, double almacenamientoLibreGB) {
         this.nombreEquipo = nombreEquipo;
         this.capacidadRamGB = capacidadRamGB;
@@ -21,6 +22,7 @@ public class Computadora {
     // ===== METODOS =====
 
     // Método void CON parámetros
+    // firma: conectarRed(String, int)
     void conectarRed(String nombreRed, int velocidadMbps) {
         this.estaConectadaRed = true;
         // Uso de suma (+) y módulo (%)
@@ -29,6 +31,7 @@ public class Computadora {
     }
 
     // Método con retorno
+    // firma: calcularEspacioRestante(double, int)
     double calcularEspacioRestante(double tamaArchivoGB, int cantidad) {
         // Uso de multiplicación (*), división (/), resta (-)
         double totalDescargado = tamaArchivoGB * cantidad;
@@ -37,6 +40,7 @@ public class Computadora {
         return espacioFinal;
     }
 
+    // firma: main(String[])
     public static void main(String[] args) {
         System.out.println("RADIOGRAFIA: Computadora");
 
