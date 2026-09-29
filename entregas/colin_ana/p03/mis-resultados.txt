@@ -1,116 +1,253 @@
+
+
 ########################################################################
 #   TU TABLA FINAL  ·  ESTA ES LA CAPTURA QUE TIENES QUE ENTREGAR      #
 ########################################################################
-#    expresion                        predijiste        salio
+#    expresion                        predijiste        salio       
 ------------------------------------------------------------------------
-1    enteroSinValor                   0                 0           ok
-2    decimalSinValor                  0.0               0.0         ok
-3    logicoSinValor                   false             false       ok
-4    (int) letraSinValor              0                 0           ok
-5    textoSinValor                    null              null        ok
-6    7 / 2                            3                 3           ok
-7    7.0 / 2                          3.5               3.5         ok
-8    (double) 7 / 2                   3.5               3.5         ok
-9    (double) (7 / 2)                 3                 3.0         ok
-10   7.0 / 0                          infinity          Infinity    ok
-11   0.0 / 0.0                        null              NaN         FALLO
-12   7 % 2                            false             1           FALLO
-13   10 % 5                           true              0           FALLO
-14   -7 % 2                           false             -1          FALLO
-15   7 % 2.5                          false             2.0         FALLO
-16   12345 % 10                       true              5           FALLO
-17   12345 / 10                       1234              1234        ok
-18   (int) 3.9                        3                 3           ok
-19   (int) -3.9                       -3                -3          ok
-20   (char) 65                        6                 A           FALLO
-21   (int) 'A'                        65                65          ok
-22   'A' + 1                          66                66          ok
-23   (char) ('A' + 1)                 65                B           FALLO
-24   (byte) 200                       -56               -56         ok
-25   5 > 3                            true              true        ok
-26   5 == 5.0                         true              true        ok
-27   0.1 + 0.2 == 0.3                 true              false       FALLO
-28   true && false                    false             false       ok
-29   true || false                    true              true        ok
-30   vidasRestantes > 0 && 10 / vida~ false             false       ok
-31   0.1 + 0.2                        0.3               0.30000000~ FALLO
-32   Integer.MAX_VALUE + 1            -2147483648       -2147483648 ok
-33   5 + 3                            8                 8           ok
-34   "5" + 3                          53                53          ok
-35   1 + 2 + "3"                      33                33          ok
-36   "1" + 2 + 3                      15                123         FALLO
-37   5 / 2.0                          2.5               2.5         ok
-38   47 % 2 == 0                      true              false       FALLO
-39   (int) 9.99                       9                 9           ok
-40   Math.abs((0.1+0.2)-0.3)<0.000001 true              true        ok
-41   divisor!=0 && (10/divisor)>0     infinity          false       FALLO
+1    enteroSinValor                   1                 0           FALLO
+2    decimalSinValor                  1                 0.0         FALLO
+3    logicoSinValor                   1                 false       FALLO
+4    (int) letraSinValor              1                 0           FALLO
+5    textoSinValor                    1                 null        FALLO
+6    7 / 2                            1                 3           FALLO
+7    7.0 / 2                          1                 3.5         FALLO
+8    (double) 7 / 2                   1                 3.5         FALLO
+9    (double) (7 / 2)                 1                 3.0         FALLO
+10   7.0 / 0                          1                 Infinity    FALLO
+11   0.0 / 0.0                        1                 NaN         FALLO
+12   7 % 2                            1                 1           ok
+13   10 % 5                           1                 0           FALLO
+14   -7 % 2                           1                 -1          FALLO
+15   7 % 2.5                          1                 2.0         FALLO
+16   12345 % 10                       11                5           FALLO
+17   12345 / 10                       1                 1234        FALLO
+18   (int) 3.9                        1                 3           FALLO
+19   (int) -3.9                       11                -3          FALLO
+20   (char) 65                        11                A           FALLO
+21   (int) 'A'                        1                 65          FALLO
+22   'A' + 1                          1                 66          FALLO
+23   (char) ('A' + 1)                 1                 B           FALLO
+24   (byte) 200                       1                 -56         FALLO
+25   5 > 3                            1                 true        FALLO
+26   5 == 5.0                         1                 true        FALLO
+27   0.1 + 0.2 == 0.3                 1                 false       FALLO
+28   true && false                    1                 false       FALLO
+29   true || false                    1                 true        FALLO
+30   vidasRestantes > 0 && 10 / vida~ 1                 false       FALLO
+31   0.1 + 0.2                        1                 0.30000000~ FALLO
+32   Integer.MAX_VALUE + 1            1                 -2147483648 FALLO
+33   5 + 3                            11                8           FALLO
+34   "5" + 3                          1                 53          FALLO
+35   1 + 2 + "3"                      1                 33          FALLO
+36   "1" + 2 + 3                      1                 123         FALLO
+37   5 / 2.0                          1                 2.5         FALLO
+38   47 % 2 == 0                      1                 false       FALLO
+39   (int) 9.99                       1                 9           FALLO
+40   Math.abs((0.1+0.2)-0.3)<0.000001 1                 true        FALLO
+41   divisor!=0 && (10/divisor)>0     1                 false       FALLO
 ------------------------------------------------------------------------
-ACERTASTE 28 DE 41
+ACERTASTE 1 DE 41
 
 ESTAS SON LAS QUE TIENES QUE EXPLICAR EN TU DOCUMENTO:
 
+   · enteroSinValor
+       creiste que daba: 1
+       en realidad da:   0
+       por que me equivoque: __________________________________
+
+   · decimalSinValor
+       creiste que daba: 1
+       en realidad da:   0.0
+       por que me equivoque: __________________________________
+
+   · logicoSinValor
+       creiste que daba: 1
+       en realidad da:   false
+       por que me equivoque: __________________________________
+
+   · (int) letraSinValor
+       creiste que daba: 1
+       en realidad da:   0
+       por que me equivoque: __________________________________
+
+   · textoSinValor
+       creiste que daba: 1
+       en realidad da:   null
+       por que me equivoque: __________________________________
+
+   · 7 / 2
+       creiste que daba: 1
+       en realidad da:   3
+       por que me equivoque: __________________________________
+
+   · 7.0 / 2
+       creiste que daba: 1
+       en realidad da:   3.5
+       por que me equivoque: __________________________________
+
+   · (double) 7 / 2
+       creiste que daba: 1
+       en realidad da:   3.5
+       por que me equivoque: __________________________________
+
+   · (double) (7 / 2)
+       creiste que daba: 1
+       en realidad da:   3.0
+       por que me equivoque: __________________________________
+
+   · 7.0 / 0
+       creiste que daba: 1
+       en realidad da:   Infinity
+       por que me equivoque: __________________________________
+
    · 0.0 / 0.0
-       creiste que daba: null
+       creiste que daba: 1
        en realidad da:   NaN
        por que me equivoque: __________________________________
 
-   · 7 % 2
-       creiste que daba: false
-       en realidad da:   1
-       por que me equivoque: __________________________________
-
    · 10 % 5
-       creiste que daba: true
+       creiste que daba: 1
        en realidad da:   0
        por que me equivoque: __________________________________
 
    · -7 % 2
-       creiste que daba: false
+       creiste que daba: 1
        en realidad da:   -1
        por que me equivoque: __________________________________
 
    · 7 % 2.5
-       creiste que daba: false
+       creiste que daba: 1
        en realidad da:   2.0
        por que me equivoque: __________________________________
 
    · 12345 % 10
-       creiste que daba: true
+       creiste que daba: 11
        en realidad da:   5
        por que me equivoque: __________________________________
 
+   · 12345 / 10
+       creiste que daba: 1
+       en realidad da:   1234
+       por que me equivoque: __________________________________
+
+   · (int) 3.9
+       creiste que daba: 1
+       en realidad da:   3
+       por que me equivoque: __________________________________
+
+   · (int) -3.9
+       creiste que daba: 11
+       en realidad da:   -3
+       por que me equivoque: __________________________________
+
    · (char) 65
-       creiste que daba: 6
+       creiste que daba: 11
        en realidad da:   A
        por que me equivoque: __________________________________
 
+   · (int) 'A'
+       creiste que daba: 1
+       en realidad da:   65
+       por que me equivoque: __________________________________
+
+   · 'A' + 1
+       creiste que daba: 1
+       en realidad da:   66
+       por que me equivoque: __________________________________
+
    · (char) ('A' + 1)
-       creiste que daba: 65
+       creiste que daba: 1
        en realidad da:   B
        por que me equivoque: __________________________________
 
+   · (byte) 200
+       creiste que daba: 1
+       en realidad da:   -56
+       por que me equivoque: __________________________________
+
+   · 5 > 3
+       creiste que daba: 1
+       en realidad da:   true
+       por que me equivoque: __________________________________
+
+   · 5 == 5.0
+       creiste que daba: 1
+       en realidad da:   true
+       por que me equivoque: __________________________________
+
    · 0.1 + 0.2 == 0.3
-       creiste que daba: true
+       creiste que daba: 1
+       en realidad da:   false
+       por que me equivoque: __________________________________
+
+   · true && false
+       creiste que daba: 1
+       en realidad da:   false
+       por que me equivoque: __________________________________
+
+   · true || false
+       creiste que daba: 1
+       en realidad da:   true
+       por que me equivoque: __________________________________
+
+   · vidasRestantes > 0 && 10 / vidasRestantes > 1
+       creiste que daba: 1
        en realidad da:   false
        por que me equivoque: __________________________________
 
    · 0.1 + 0.2
-       creiste que daba: 0.3
+       creiste que daba: 1
        en realidad da:   0.30000000000000004
        por que me equivoque: __________________________________
 
+   · Integer.MAX_VALUE + 1
+       creiste que daba: 1
+       en realidad da:   -2147483648
+       por que me equivoque: __________________________________
+
+   · 5 + 3
+       creiste que daba: 11
+       en realidad da:   8
+       por que me equivoque: __________________________________
+
+   · "5" + 3
+       creiste que daba: 1
+       en realidad da:   53
+       por que me equivoque: __________________________________
+
+   · 1 + 2 + "3"
+       creiste que daba: 1
+       en realidad da:   33
+       por que me equivoque: __________________________________
+
    · "1" + 2 + 3
-       creiste que daba: 15
+       creiste que daba: 1
        en realidad da:   123
        por que me equivoque: __________________________________
 
+   · 5 / 2.0
+       creiste que daba: 1
+       en realidad da:   2.5
+       por que me equivoque: __________________________________
+
    · 47 % 2 == 0
-       creiste que daba: true
+       creiste que daba: 1
        en realidad da:   false
        por que me equivoque: __________________________________
 
+   · (int) 9.99
+       creiste que daba: 1
+       en realidad da:   9
+       por que me equivoque: __________________________________
+
+   · Math.abs((0.1+0.2)-0.3)<0.000001
+       creiste que daba: 1
+       en realidad da:   true
+       por que me equivoque: __________________________________
+
    · divisor!=0 && (10/divisor)>0
-       creiste que daba: infinity
+       creiste que daba: 1
        en realidad da:   false
        por que me equivoque: __________________________________
 

@@ -7,6 +7,14 @@ Este es el repositorio del curso. Aquí subo yo las guías y el material de apoy
 entregas tú tus prácticas. Todo el semestre pasa por este lugar, y **todos trabajamos en
 este mismo repositorio**, como un equipo en una empresa.
 
+## Dónde es la clase
+
+**Teoría · lunes de 15:00 a 17:00 · en línea por Zoom**
+<https://cuaed-unam-mx.zoom.us/j/88126568099> — ID de reunión `881 2656 8099`
+
+Es la misma liga todos los lunes, del 14 de septiembre al 30 de noviembre. Guárdala en tus
+marcadores. **El laboratorio de los miércoles es presencial**, no por Zoom.
+
 ## Tu primer paso
 
 **[Laboratorio 0 · Entorno de trabajo y primer pull request](https://oscarruiz21.github.io/mpoo-2027-1/guias/Lab-00-Entorno-y-Git.html)**
@@ -23,8 +31,13 @@ mpoo-2027-1/
 ├── apoyo/           ← código de ejemplo de cada tema (lo subo yo)
 └── entregas/        ← aquí van tus prácticas, en tu carpeta
     └── apellido_nombre/
+<<<<<<< HEAD
         ├── p01/
         └── p02/ … p12/
+=======
+        ├── p01/ … p12/
+        └── tareas/t01/, t02/ …
+>>>>>>> dee213ebe7d4852d1350ae9b9d8c57a472b68da8
 ```
 
 Cuatro reglas:
