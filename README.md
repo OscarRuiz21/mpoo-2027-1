@@ -27,6 +27,8 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | **Tarea 1 · Radiografías con contexto** (entrega lun 14-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/tareas/t01/T01-Radiografias-con-contexto.html> |
 | **Lab 4 · Arreglos con tus manos** (mié 23-sep, entrega vie 25) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-04/P04-Arreglos-con-tus-manos.html> |
 | ↳ el archivo del Lab 4 · `P4Arreglos.java` | [`guias-laboratorios/Lab-04/P4Arreglos.java`](guias-laboratorios/Lab-04/P4Arreglos.java) |
+| **Lab 5 · Estructuras de selección** (mié 30-sep, en parejas, entrega vie 2-oct) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-05/P05-Estructuras-de-seleccion.html> |
+| ↳ los archivos del Lab 5 · `P05-archivos.zip` | [`guias-laboratorios/Lab-05/P05-archivos.zip`](guias-laboratorios/Lab-05/P05-archivos.zip) |
 | **Tarea 2 · Año bisiesto y clasificador de calificaciones** (entrega dom 27-sep) | [`tareas/t02/README.md`](tareas/t02/README.md) |
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |
 | ↳ el archivo del Lab 3 · `Laboratorio.java` | [`guias-laboratorios/Lab-03/Laboratorio.java`](guias-laboratorios/Lab-03/Laboratorio.java) |
