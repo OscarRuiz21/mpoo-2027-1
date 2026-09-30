@@ -1,7 +1,9 @@
 // ============================================================================
 // P4 · ARREGLOS CON TUS MANOS · MPOO 2027-1 · Grupo 6
 //
-// ESCRIBE TU NOMBRE AQUI:
+// ESCRIBE TU NOMBRE AQUI: 
+//Medina Reyes Miguel Angel
+//Velasco Gómez Iker Alejandro
 // ============================================================================
 //
 // QUE HACE ESTE PROGRAMA
@@ -10,7 +12,7 @@
 //   prueba cada metodo con datos conocidos y te dice cual pasa y cual no.
 //
 // COMO SE TRABAJA
-//   1. Compila y corre:   javac P4Arreglos.java    y luego    java P4Arreglos
+//   1. Compila y corre:    javac P4Arreglos.java     y luego    java P4Arreglos
 //   2. Vas a ver ocho FALLA. Esta bien: todavia no escribes nada.
 //   3. Resuelve de uno en uno, en orden. Vuelve a compilar y a correr despues
 //      de cada uno: la tabla te dice si ya quedo.
@@ -20,8 +22,8 @@
 // SI NUNCA HAS ESCRITO UN for
 //   Lee el EJEMPLO A. Es el recorrido de un arreglo, entero:
 //
-//       for (int i = 0; i < numeros.length; i++) { ... numeros[i] ... }
-//            ^inicia     ^mientras se cumpla     ^y suma 1 cada vuelta
+//         for (int i = 0; i < numeros.length; i++) { ... numeros[i] ... }
+//             ^inicia     ^mientras se cumpla     ^y suma 1 cada vuelta
 //
 //   i es la POSICION, no el valor. numeros[i] es el valor que vive ahi.
 //   Las posiciones van de 0 a length - 1. Por eso la condicion es < y no <=.
@@ -67,8 +69,7 @@ public class P4Arreglos {
     // Crea y devuelve un arreglo de int con estos cinco valores, en este orden:
     // 10, 20, 30, 40, 50.  Aqui no hace falta ningun for.
     static int[] primerosCinco() {
-        // TODO: escribe tu codigo aqui
-        return null;
+        return new int[] { 10, 20, 30, 40, 50 };
     }
 
     // =============================== EJERCICIO 2 ===============================
@@ -76,23 +77,34 @@ public class P4Arreglos {
     // si sumas int y divides entre int, Java te devuelve int.
     // Pista: puedes apoyarte en suma(numeros), que ya esta resuelto.
     static double promedio(int[] numeros) {
-        // TODO: escribe tu codigo aqui
-        return 0.0;
+        if (numeros.length == 0) {
+            return 0.0;
+        }
+        return (double) suma(numeros) / numeros.length;
     }
 
     // =============================== EJERCICIO 3 ===============================
     // Devuelve el numero mas grande del arreglo.
     // Pista: guarda el primero como candidato y recorre el resto comparando.
     static int maximo(int[] numeros) {
-        // TODO: escribe tu codigo aqui
-        return 0;
+        int max = numeros[0];
+        for (int i = 1; i < numeros.length; i++) {
+            if (numeros[i] > max) {
+                max = numeros[i];
+            }
+        }
+        return max;
     }
 
     // =============================== EJERCICIO 4 ===============================
     // Devuelve la POSICION donde vive el valor buscado, o -1 si no esta.
     // Si aparece dos veces, devuelve la primera.
     static int posicionDe(int[] numeros, int buscado) {
-        // TODO: escribe tu codigo aqui
+        for (int i = 0; i < numeros.length; i++) {
+            if (numeros[i] == buscado) {
+                return i;
+            }
+        }
         return -1;
     }
 
@@ -100,8 +112,11 @@ public class P4Arreglos {
     // Devuelve un arreglo NUEVO con los mismos valores al reves.
     // El arreglo que recibes no se toca.
     static int[] invertido(int[] numeros) {
-        // TODO: escribe tu codigo aqui
-        return null;
+        int[] nuevo = new int[numeros.length];
+        for (int i = 0; i < numeros.length; i++) {
+            nuevo[i] = numeros[numeros.length - 1 - i];
+        }
+        return nuevo;
     }
 
     // =============================== EJERCICIO 6 ===============================
@@ -109,27 +124,49 @@ public class P4Arreglos {
     // la calificacion mas alta. La clase Alumno esta hasta abajo.
     // Se llega al dato asi:  alumnos[i].nombre     alumnos[i].calificacion
     static String nombreDelMasAlto(Alumno[] alumnos) {
-        // TODO: escribe tu codigo aqui
-        return "";
+        if (alumnos.length == 0) {
+            return "";
+        }
+        String mejorNombre = alumnos[0].nombre;
+        int maxCalificacion = alumnos[0].calificacion;
+        for (int i = 1; i < alumnos.length; i++) {
+            if (alumnos[i].calificacion > maxCalificacion) {
+                maxCalificacion = alumnos[i].calificacion;
+                mejorNombre = alumnos[i].nombre;
+            }
+        }
+        return mejorNombre;
     }
 
     // =============================== EJERCICIO 7 ===============================
     // Suma los valores de UNA fila de una matriz.
     // En una matriz, matriz[fila] es a su vez un arreglo: matriz[fila][columna].
     static int sumaDeFila(int[][] matriz, int fila) {
-        // TODO: escribe tu codigo aqui
-        return 0;
+        int sumaFila = 0;
+        for (int j = 0; j < matriz[fila].length; j++) {
+            sumaFila += matriz[fila][j];
+        }
+        return sumaFila;
     }
 
     // =============================== EJERCICIO 8 ===============================
     // Recibe una linea con nombres separados por coma, posiblemente con espacios
     // de sobra, y devuelve un solo String con los nombres limpios y separados
-    // por " | ".   "  ana , beto ,cris "   ->   "ana | beto | cris"
+    // por " | ".    "  ana , beto ,cris "    ->    "ana | beto | cris"
     // Pistas: linea.split(",") te devuelve un arreglo de String;
     //         texto.trim() quita los espacios de las orillas.
     static String limpiaYJunta(String linea) {
-        // TODO: escribe tu codigo aqui
-        return "";
+        String[] partes = linea.split(",");
+        String resultado = "";
+        for (int i = 0; i < partes.length; i++) {
+            String limpio = partes[i].trim();
+            if (i == 0) {
+                resultado = limpio;
+            } else {
+                resultado = resultado + " | " + limpio;
+            }
+        }
+        return resultado;
     }
 
     // ============================================================================
