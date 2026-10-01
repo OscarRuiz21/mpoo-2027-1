@@ -8,19 +8,20 @@ todo el grupo, así que no llevan nombres ni usuarios de GitHub.
 
 ## Cómo leerlo
 
-La hoja **Matriz** tiene un renglón por persona y una columna por práctica:
+Desde el corte del 1 de octubre el archivo trae una sola hoja, **Calificaciones**: un renglón
+por persona, una columna por práctica o tarea, y tus **Observaciones**.
 
 | Símbolo | Qué significa |
 |---|---|
 | **10** | Correcta |
-| **9** | Correcta, con un detalle de forma (dice cuál en Observaciones) |
+| **9** | Correcta, con un detalle (dice cuál en Observaciones) |
 | **8** | Incompleta, pero aceptada |
-| **PC** | Pendiente de corrección — **tienes una hoja aparte**, con tu número de cuenta, que dice qué corregir y cómo |
-| **NP** | No presentada |
+| **PC** | Pendiente de corrección: en Observaciones dice qué falta. Cuando lo subas, avísame y la recalifico |
+| **NP** | No presentada al corte |
+| **8/8, 0/8…** | Solo en la P04: cuántas pruebas pasa tu `.class`. Es un avance: la P04 vence el viernes 9 de octubre |
+| **amarillo** | Se entregó después de la fecha solicitada (P03: vie 11-sep · T01: lun 14-sep, con prórroga al 15 · T02: dom 27-sep) |
 
-Si tu renglón dice **PC**, busca abajo la pestaña con tu número de cuenta: ahí está el
-detalle, en dos columnas (qué está mal · cómo se corrige) y los comandos para subir la
-corrección.
+Lo entregado tarde se califica por su contenido; el amarillo solo lo señala.
 
 ## Si algo no coincide
 
@@ -29,6 +30,6 @@ observación— **escríbeme por el grupo** con tu número de cuenta y qué espe
 Casi siempre es que la entrega quedó en una rama o carpeta distinta a la tuya, y se
 resuelve rápido.
 
-El corte más reciente es el del **14 de septiembre**, e incluye la **T01**.
+El corte más reciente es el del **1 de octubre**: incluye de la **P00** a la **P03**, la **T01**, la **T02** y el avance de la **P04**.
 
-En la columna de la **T01** el guion (—) significa que todavía no la subes: vence el **lunes 14 de septiembre, antes de la clase**. Tu `.class` se ejecuta tal cual con el **JDK 21** del curso: si no lo subiste, o lo compilaste con una versión más nueva de Java, no corre y queda como **PC**.
+Tu `.class` se ejecuta tal cual con el **JDK 21** del curso: si no lo subiste, o lo compilaste con una versión más nueva de Java, no corre y queda como **PC**.
