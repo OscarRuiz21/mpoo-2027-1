@@ -1,0 +1,37 @@
+Bitácora P05: Estructuras de selección
+
+Nombre: Villarruel Sánchez David Uriel
+Materia: MPOO
+Práctica: P05
+
+Objetivo
+
+Completar las clases Producto.java y Expendedora.java para que la máquina pueda vender productos, recibir monedas y revisar cuántas piezas quedan.
+
+Desarrollo
+Producto.java
+
+En esta clase se trabajó con la información de cada producto: su nombre, precio y cantidad de piezas.
+
+Se completaron los métodos para consultar el precio y las piezas, revisar si todavía hay productos, quitar una pieza y mostrar si está disponible, si quedan pocas piezas o si ya se terminó.
+
+También se agregó una revisión para que la cantidad de piezas no fuera menor que cero ni mayor que 10.
+
+Expendedora.java
+
+En esta clase se trabajó con el funcionamiento de la máquina.
+
+Se completaron los métodos para buscar productos por su código, recibir monedas y realizar compras. También se agregó la revisión del dinero para saber si alcanza para comprar y calcular el cambio.
+
+Además, se trabajó con los métodos para revisar si la máquina tiene productos, mostrar su ubicación, cancelar una compra y contar las ventas realizadas.
+
+Problemas y cómo se resolvieron
+
+Lo que más se tuvo que revisar fue que la máquina respondiera correctamente en cada situación. Por ejemplo, cuando el código no existe, cuando un producto está agotado o cuando el dinero no alcanza.
+
+Para resolverlo se utilizaron condiciones y opciones de selección como if, else y switch.
+
+Evidencia
+En la carpeta llamda"evidencias"
+
+
