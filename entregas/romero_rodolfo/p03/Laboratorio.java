@@ -300,35 +300,24 @@ public class Laboratorio {
         int desde = totalDePreguntas;
 
         // 7.1  Que imprima exactamente 2.5, partiendo de los numeros 5 y 2.
-        //      Pista: si los dos quedan enteros nunca te dara 2.5. Haz que uno
-        //      sea decimal, con un casting o escribiendolo como 2.0
-        predecir(7, "7.1 = (5 / 2.0)");
-        System.out.println("7.1 = " + (5 / 2.0)); 
+        predecir(7, "5 / 2.0");
 
         // 7.2  Con % , una expresion que diga si 47 es par. Debe imprimir false
-        predecir(7, "7.2 = (47 % 2 == 0)");
-        System.out.println("7.2 = " + (47 % 2 == 0));
+        predecir(7, "47 % 2 == 0");
 
         // 7.3  Un casting que convierta 9.99 en entero.
-        //      En el comentario escribe cuanto se perdio y por que
         //      Se perdió 0.99 debido a que el casting explícito a int (int)
         //      trunca/descarta la parte decimal, no la redondea.
-        predecir(7, "7.3 = ((int) 9.99)");
-        System.out.println("7.3 = " + ((int) 9.99));
+        predecir(7, "(int) 9.99");
 
         // 7.4  Comparar 0.1 + 0.2 contra 0.3 SIN usar == , y que imprima true.
-        //      Pista: restalos y pregunta si la diferencia es menor que
-        //      0.000001 . Para que la resta nunca salga negativa usa
-        //      Math.abs( ... ) , que devuelve el valor absoluto
-        predecir(7, "7.4 = (Math.abs((0.1 + 0.2) - 0.3) < 0.000001)");
-        System.out.println("7.4 = " + (Math.abs((0.1 + 0.2) - 0.3) < 0.000001)); 
+        predecir(7, "Math.abs((0.1 + 0.2) - 0.3) < 0.000001");
 
         // 7.5  Un && que aproveche el corto circuito para NO dividir entre cero.
-        //      Declara un int en 0 con un nombre que diga que es, por ejemplo
-        //      divisor , y usalo en la condicion. Que no truene
         int divisorParaVerificar = 0;
-        predecir(7, "7.5 = (divisorParaVerificar != 0 && (10 / divisorParaVerificar) > 0)");
-        System.out.println("7.5 = " + (divisorParaVerificar != 0 && (10 / divisorParaVerificar) > 0)); 
+        predecir(7, "divisorParaVerificar != 0 && (10 / divisorParaVerificar) > 0");
+
+        // Registramos los resultados reales calculados en el orden exacto de 'desde'
         registrarResultados(desde,
             "" + (5 / 2.0),
             "" + (47 % 2 == 0),
