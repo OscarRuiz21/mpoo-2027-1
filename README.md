@@ -29,6 +29,8 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | ↳ el archivo del Lab 4 · `P4Arreglos.java` | [`guias-laboratorios/Lab-04/P4Arreglos.java`](guias-laboratorios/Lab-04/P4Arreglos.java) |
 | **Lab 5 · Estructuras de selección** (mié 30-sep, en parejas, entrega vie 2-oct) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-05/P05-Estructuras-de-seleccion.html> |
 | ↳ los archivos del Lab 5 · `P05-archivos.zip` | [`guias-laboratorios/Lab-05/P05-archivos.zip`](guias-laboratorios/Lab-05/P05-archivos.zip) |
+| **Lab 7 · Herencia, primera parte** (mié 14-oct, en parejas, entrega vie 16-oct) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-07/P07-Herencia.html> |
+| ↳ los archivos del Lab 7 · `P07-archivos.zip` | [`guias-laboratorios/Lab-07/P07-archivos.zip`](guias-laboratorios/Lab-07/P07-archivos.zip) |
 | **Tarea 2 · Año bisiesto y clasificador de calificaciones** (entrega dom 27-sep) | [`tareas/t02/README.md`](tareas/t02/README.md) |
 | **Tarea 3 · Contraseña, calculadora y un programa tuyo** (entrega dom 4-oct) | [`tareas/t03/README.md`](tareas/t03/README.md) |
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |
