@@ -1,7 +1,7 @@
 // ============================================================================
 // P4 · ARREGLOS CON TUS MANOS · MPOO 2027-1 · Grupo 6
 //
-// ESCRIBE TU NOMBRE AQUI: Jonatan
+// ESCRIBE TU NOMBRE AQUI: Leon Carrasco Jonatan Abdel
 // ============================================================================
 //
 // QUE HACE ESTE PROGRAMA
