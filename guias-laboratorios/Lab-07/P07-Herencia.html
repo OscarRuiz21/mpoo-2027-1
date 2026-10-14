@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · P7 · Herencia, primera parte</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:62ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.83rem;color:#33465e;white-space:pre;overflow-x:auto}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+.tw{overflow-x:auto}
+@media print{header,pre,.box,.cp{-webkit-print-color-adjust:exact;print-color-adjust:exact}pre,pre code{white-space:pre-wrap;overflow:visible}.out{font-size:.72rem;overflow:visible}tr{break-inside:avoid}pre,.box,.out{break-inside:avoid}h2{break-after:avoid}footer{break-inside:avoid}}
+</style>
+</head>
+
+<body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · Práctica 7 · miércoles 14 de octubre</div>
+  <h1>Herencia, primera parte</h1>
+  <p>Dos jerarquías de tres niveles, cada clase en su archivo. Primero <code style="background:#1d3a60;color:#fff;border-color:#2c4f7c">Animal</code>, junto con el profesor; después <code style="background:#1d3a60;color:#fff;border-color:#2c4f7c">Personaje</code>, por tu cuenta. En las dos usas lo del lunes: <code style="background:#1d3a60;color:#fff;border-color:#2c4f7c">extends</code>, <code style="background:#1d3a60;color:#fff;border-color:#2c4f7c">super(...)</code> y <code style="background:#1d3a60;color:#fff;border-color:#2c4f7c">@Override</code>.</p>
+  <p style="margin-top:1em"><a href="P07-archivos.zip" download style="display:inline-block;background:#f2b705;color:#12203a;text-decoration:none;font-weight:800;padding:.55em 1.3em;border-radius:10px">Descargar los archivos (.zip)</a></p>
+</div></header>
+
+<div class="wrap">
+
+<h2>En una línea</h2>
+<p>Escribes ocho clases. Terminas cuando <code>MainAnimales</code> y <code>MainPersonajes</code> imprimen <b>exactamente</b> lo que dice esta guía.</p>
+<table>
+  <tr><th>Archivo</th><th>Qué es</th><th>Qué haces</th></tr>
+  <tr><td><code>MainAnimales.java</code></td><td>El <code>main</code> de la parte 1</td><td>Correrlo. No se toca</td></tr>
+  <tr><td><code>Animal</code>, <code>Perro</code>, <code>PerroGuia</code>, <code>Gato</code></td><td>Parte 1, con el profesor</td><td>Escribirlas</td></tr>
+  <tr><td><code>MainPersonajes.java</code></td><td>El <code>main</code> de la parte 2</td><td>Agregarlo <b>cuando empieces la parte 2</b>. No se toca</td></tr>
+  <tr><td><code>Personaje</code>, <code>Caballero</code>, <code>Paladin</code>, <code>Mago</code></td><td>Parte 2, por tu cuenta</td><td>Escribirlas</td></tr>
+</table>
+<p>Todo va <b>junto en la misma carpeta</b> (en IntelliJ, en <code>src</code>). <code>MainPersonajes.java</code> se agrega hasta la parte 2 porque IntelliJ compila todo lo que hay en <code>src</code>: si lo pones antes, la parte 1 no corre, porque <code>Personaje</code> todavía no existe.</p>
+
+<h2>Parte 0 · Qué se entrega y cómo se califica</h2>
+<table>
+  <tr><th>Qué</th><th>Detalle</th></tr>
+  <tr><td><b>Cuándo</b></td><td><b>Viernes 16 de octubre, 23:59.</b> Se empieza en el laboratorio y ahí mismo se resuelven las dudas. Sin IA, como siempre.</td></tr>
+  <tr><td><b>Con quién</b></td><td>En parejas, o de tres si alguien se queda sin pareja. Se reparten el trabajo como quieran, pero <b>cada integrante sube la entrega completa en su propia carpeta</b>.</td></tr>
+  <tr><td><b>Dónde</b></td><td>Tu rama <code>entregas_apellido_nombre</code>, carpeta <code>entregas/apellido_nombre/p07/</code>. Solo push, sin pull request.</td></tr>
+  <tr><td><b>Qué archivos</b></td><td>Los <b>diez</b> <code>.java</code> (ocho clases y dos <code>main</code>), <b>todos</b> los <code>.class</code> y una <b>bitácora en PDF</b> con: los integrantes (nombre y número de cuenta), la <b>captura de las dos salidas</b>, la <b>parte 3</b> resuelta y qué se les complicó y cómo lo resolvieron.</td></tr>
+</table>
+<p>Se califica leyendo tu código, sobre 10:</p>
+<table>
+  <tr><th>Qué reviso</th><th>Puntos</th></tr>
+  <tr><td><b>Corre y la salida es la de la guía</b>, en las dos partes</td><td>3</td></tr>
+  <tr><td><b>Cápsula:</b> atributos <code>private</code>, sus getters y las validaciones que pide cada constructor</td><td>2</td></tr>
+  <tr><td><b>Constructores en cadena:</b> cada hijo llama a <code>super(...)</code> en su primera línea y no repite los atributos del padre</td><td>2</td></tr>
+  <tr><td><b>Sobrescritura:</b> <code>@Override</code> en cada método sobrescrito, y <code>super.toString()</code> y <code>super.atacar()</code> donde se piden</td><td>2</td></tr>
+  <tr><td><b>Bitácora:</b> las dos capturas y la parte 3 explicada con tus palabras</td><td>1</td></tr>
+</table>
+<p>El código tiene que ser suyo. Si algo no les sale, entréguenlo igual y cuenten en la bitácora dónde se atoraron.</p>
+
+<h2>Parte 1 · Animales, junto con el profesor</h2>
+<div class="tree"><span class="d">Animal</span>            nombre, edad          sonido() da "..."
+├── <span class="d">Perro</span>         + raza                sonido() da "Guau"
+│   └── <span class="d">PerroGuia</span> + asistido            (sonido lo hereda de Perro)
+└── <span class="d">Gato</span>          + interior            sonido() da "Miau"</div>
+<p>El profesor teclea <code>Animal</code> y <code>Perro</code> en el proyector y tú las tecleas con él. Así quedan:</p>
+<pre><code>public class Animal {
+
+    <span class="c">// private: ni sus hijos los tocan</span>
+    private String nombre;
+    private int edad;
+
+    public Animal(String nombre, int edad) {
+        this.nombre = nombre;
+        <span class="c">// la cápsula: el constructor valida</span>
+        if (edad &lt; 0) {
+            this.edad = 0;
+        } else {
+            this.edad = edad;
+        }
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public String sonido() {
+        return "...";                   <span class="c">// un animal a secas</span>
+    }
+
+    <span class="c">// sobrescribe el toString de Object</span>
+    @Override
+    public String toString() {
+        return nombre + ", edad " + edad;
+    }
+}</code></pre>
+<pre><code><span class="c">// un Perro ES UN Animal</span>
+public class Perro extends Animal {
+
+    <span class="c">// solo lo nuevo: nombre y edad vienen de Animal</span>
+    private String raza;
+
+    public Perro(String nombre, int edad, String raza) {
+        <span class="c">// SIEMPRE la primera línea: Animal guarda lo suyo</span>
+        super(nombre, edad);
+        this.raza = raza;               <span class="c">// y luego Perro, lo suyo</span>
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    @Override
+    public String sonido() {
+        return "Guau";
+    }
+
+    @Override
+    public String toString() {
+        <span class="c">// reutiliza el del padre y le agrega</span>
+        return super.toString() + " | " + raza;
+    }
+}</code></pre>
+
+<h3>Ahora tú: PerroGuia y Gato</h3>
+<p>Siguen el mismo patrón. Escríbelas antes de que el profesor las muestre.</p>
+<div class="tw"><table>
+  <tr><th>Clase</th><th>Hereda de</th><th>Atributo nuevo</th><th>Constructor</th><th>Sobrescribe</th></tr>
+  <tr><td><code>PerroGuia</code></td><td><code>Perro</code></td><td><code>String asistido</code>, con su getter</td><td><code>PerroGuia(String nombre, int edad, String raza, String asistido)</code></td><td><code>toString</code>: lo del padre más <code>" | asiste a Marta"</code>. <b><code>sonido</code> no</b></td></tr>
+  <tr><td><code>Gato</code></td><td><code>Animal</code></td><td><code>boolean interior</code>, con su getter <code>isInterior()</code></td><td><code>Gato(String nombre, int edad, boolean interior)</code></td><td><code>sonido</code>: <code>"Miau"</code>. <code>toString</code>: lo del padre más <code>" | de interior"</code> o <code>" | de exterior"</code></td></tr>
+</table></div>
+<p>Con las cuatro listas, corre <code>MainAnimales</code>:</p>
+<pre><code>public class MainAnimales {
+    public static void main(String[] args) {
+        Animal a = new Animal("Lomito", -2);
+        Perro p = new Perro("Firulais", 3, "criollo");
+        PerroGuia g = new PerroGuia("Max", 5, "labrador", "Marta");
+        Gato c = new Gato("Michi", 2, true);
+
+        System.out.println(a + " dice " + a.sonido());
+        System.out.println(p + " dice " + p.sonido());
+        System.out.println(g + " dice " + g.sonido());
+        System.out.println(c + " dice " + c.sonido());
+        System.out.println(g.getNombre() + " es " + g.getRaza() + ", edad " + g.getEdad());
+    }
+}</code></pre>
+<div class="out"><b>debe salir</b>Lomito, edad 0 dice ...
+Firulais, edad 3 | criollo dice Guau
+Max, edad 5 | labrador | asiste a Marta dice Guau
+Michi, edad 2 | de interior dice Miau
+Max es labrador, edad 5</div>
+<p>Fíjate en la tercera línea: <code>PerroGuia</code> no escribió <code>sonido()</code> y aun así dice <code>Guau</code>, porque lo hereda de <code>Perro</code>, su padre inmediato, no de <code>Animal</code>. Y en la última, <code>g.getNombre()</code> funciona aunque <code>PerroGuia</code> nunca escribió ese método: viene de dos niveles arriba.</p>
+
+<h2>Parte 2 · Personajes de videojuego, por tu cuenta</h2>
+<div class="tree"><span class="d">Personaje</span>         nombre, vida          atacar() da 10
+├── <span class="d">Caballero</span>      + fuerza              atacar() da lo del padre + fuerza
+│   └── <span class="d">Paladin</span>   + fe                  atacar() da lo del padre + fe / 2
+└── <span class="d">Mago</span>          + mana                atacar() da mana / 2</div>
+<p>Mismo patrón que los animales, sin código de ejemplo. Todos los atributos son <code>private</code> y cada uno tiene su getter (<code>getNombre()</code>, <code>getVida()</code>, <code>getFuerza()</code>, <code>getFe()</code>, <code>getMana()</code>).</p>
+<div class="tw"><table>
+  <tr><th>Clase</th><th>Constructor</th><th>Valida</th><th><code>atacar()</code></th><th><code>toString()</code></th></tr>
+  <tr><td><code>Personaje</code></td><td><code>Personaje(String nombre, int vida)</code></td><td>Vida menor que 0 se guarda como 0; mayor que 100, como 100</td><td><code>10</code></td><td><code>"Brakus | vida 80"</code></td></tr>
+  <tr><td><code>Caballero</code><br>extends <code>Personaje</code></td><td><code>Caballero(String nombre, int vida, int fuerza)</code></td><td></td><td>Lo del padre más la fuerza. <b>Usa <code>super.atacar()</code></b></td><td>Lo del padre más <code>" | fuerza 15"</code></td></tr>
+  <tr><td><code>Paladin</code><br>extends <code>Caballero</code></td><td><code>Paladin(String nombre, int vida, int fuerza, int fe)</code></td><td></td><td>Lo del padre más la mitad de la fe (división entera). <b>Usa <code>super.atacar()</code></b></td><td>Lo del padre más <code>" | fe 40"</code></td></tr>
+  <tr><td><code>Mago</code><br>extends <code>Personaje</code></td><td><code>Mago(String nombre, int vida, int mana)</code></td><td>Mana menor que 0 se guarda como 0</td><td>La mitad del mana. <b>No</b> usa el del padre</td><td>Lo del padre más <code>" | mana 50"</code></td></tr>
+</table></div>
+<p>Con las cuatro listas, agrega <code>MainPersonajes.java</code> y córrelo:</p>
+<pre><code>public class MainPersonajes {
+    public static void main(String[] args) {
+        Personaje aldeano = new Personaje("Aldeano", 150);
+        Caballero g = new Caballero("Brakus", 80, 15);
+        Paladin p = new Paladin("Lunara", -5, 12, 40);
+        Mago m = new Mago("Zafiro", 60, 50);
+
+        System.out.println(aldeano + " ataca con " + aldeano.atacar());
+        System.out.println(g + " ataca con " + g.atacar());
+        System.out.println(p + " ataca con " + p.atacar());
+        System.out.println(m + " ataca con " + m.atacar());
+        System.out.println(p.getNombre() + " tiene fuerza " + p.getFuerza() + " y fe " + p.getFe());
+    }
+}</code></pre>
+<div class="out"><b>debe salir</b>Aldeano | vida 100 ataca con 10
+Brakus | vida 80 | fuerza 15 ataca con 25
+Lunara | vida 0 | fuerza 12 | fe 40 ataca con 42
+Zafiro | vida 60 | mana 50 ataca con 25
+Lunara tiene fuerza 12 y fe 40</div>
+<p>El 42 de Lunara se arma en cadena: <code>Personaje</code> da 10, <code>Caballero</code> le suma su fuerza (10 + 12 = 22) y <code>Paladin</code> le suma la mitad de su fe (22 + 20 = 42). Cada clase solo sabe sumar lo suyo.</p>
+
+<h2>Parte 3 · El orden de construcción, para la bitácora</h2>
+<ol>
+  <li>Agrega <b>al final</b> del constructor de <code>Personaje</code>, de <code>Caballero</code> y de <code>Paladin</code> un <code>System.out.println</code> que diga <code>"Personaje listo"</code>, <code>"Caballero listo"</code> y <code>"Paladin listo"</code>.</li>
+  <li>Corre <code>MainPersonajes</code> y toma la captura.</li>
+  <li>Contesta en la bitácora, con tus palabras: <b>¿en qué orden salen las líneas al crear a Lunara, y por qué?</b> ¿Por qué al crear a Brakus salen dos líneas y al crear a Lunara, tres?</li>
+  <li>Quita los tres <code>println</code> antes de entregar: la salida que se califica es la de la parte 2.</li>
+</ol>
+
+<h2>Lo que más truena</h2>
+<div class="box warn"><h4>No compila</h4>
+<ul>
+  <li><b><code>constructor Personaje in class Personaje cannot be applied to given types</code></b>: a tu <code>Caballero</code> le falta <code>super(nombre, vida);</code>. Si no lo escribes, Java pone <code>super()</code> sin argumentos, y <code>Personaje</code> no tiene ese constructor.</li>
+  <li><b><code>call to super must be first statement in constructor</code></b>: el <code>super(...)</code> tiene que ser la primera línea del constructor, antes de guardar lo tuyo.</li>
+  <li><b><code>nombre has private access in Personaje</code></b>: quisiste usar <code>nombre</code> desde <code>Caballero</code>. Es privado del padre: usa <code>super.toString()</code> o <code>getNombre()</code>. Lo mismo con <code>fuerza</code> desde <code>Paladin</code>: usa <code>super.atacar()</code>.</li>
+  <li><b><code>method does not override or implement a method from a supertype</code></b>: escribiste mal el nombre (<code>tostring</code>, <code>Atacar</code>) y el <code>@Override</code> te avisó. Para eso está.</li>
+</ul></div>
+<div class="box tip"><h4>Compila, pero la salida no es la de la guía</h4>
+<ul>
+  <li><b>A Lunara le falta <code>| fe 40</code></b>: tu <code>toString</code> de <code>Paladin</code> está mal escrito y no tiene <code>@Override</code>, así que se usa el del padre sin avisar. Ponle <code>@Override</code> y verás el error.</li>
+  <li><b>Lunara ataca con 20 en vez de 42</b>: tu <code>atacar()</code> de <code>Paladin</code> no llama a <code>super.atacar()</code>.</li>
+  <li><b>El Aldeano sale con vida 150</b>: el constructor de <code>Personaje</code> no valida.</li>
+</ul></div>
+
+<h2>La entrega, paso a paso</h2>
+<pre><code>git checkout entregas_apellido_nombre
+git pull origin main
+mkdir -p entregas/apellido_nombre/p07
+<span class="c"># copia aquí los diez .java, todos los .class y la bitácora en PDF</span>
+git add entregas/apellido_nombre/p07
+git status
+git commit -m "P7: herencia, primera parte"
+git push</code></pre>
+<p>En IntelliJ, los <code>.class</code> quedan en <code>out/production/</code>. Súbelos todos. Si no aparecen en <code>git status</code>, usa <code>git add -f</code>.</p>
+
+<footer>
+  <p><strong>Modelos de Programación Orientada a Objetos 2027-1 · Grupo 6 · Facultad de Ingeniería, UNAM</strong><br>
+  Prof. Oscar Manuel Ruiz Hurtado · Práctica 7 · Herencia, primera parte (MADO-21, guía 7) · octubre de 2026</p>
+</footer>
+</div>
+</body></html>
