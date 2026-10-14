@@ -18,8 +18,7 @@ por persona, una columna por práctica o tarea, y tus **Observaciones**.
 | **8** | Incompleta, pero aceptada |
 | **PC** | Pendiente de corrección: en Observaciones dice qué falta. Cuando lo subas, avísame y la recalifico |
 | **NP** | No presentada al corte |
-| **8/8, 0/8…** | Solo en la P04: cuántas pruebas pasa tu `.class`. Es un avance: la P04 vence el viernes 9 de octubre |
-| **amarillo** | Se entregó después de la fecha solicitada (P03: vie 11-sep · T01: lun 14-sep, con prórroga al 15 · T02: dom 27-sep) |
+| **amarillo** | Se entregó después de la fecha solicitada (P03: vie 11-sep · T01: lun 14-sep, con prórroga al 15 · T02: dom 27-sep · P05: vie 2-oct · T03: dom 4-oct · P04: vie 9-oct) |
 
 Lo entregado tarde se califica por su contenido; el amarillo solo lo señala.
 
@@ -31,9 +30,13 @@ Casi siempre es que la entrega quedó en una rama o carpeta distinta a la tuya, 
 resuelve rápido.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 El corte más reciente es el del **13 de octubre**: incluye de la **P00** a la **P05** y de la **T01** a la **T03**. La P04 ya venció y se califica completa. La P06 no entra: su guía no se publicó.
 =======
 El corte más reciente es el del **1 de octubre**: incluye de la **P00** a la **P03**, la **T01**, la **T02** y el avance de la **P04**.
 >>>>>>> 58df0d2 (Corte de calificaciones del 1 de octubre (#97))
+=======
+El corte más reciente es el del **13 de octubre**: incluye de la **P00** a la **P05** y de la **T01** a la **T03**. La P04 ya venció y se califica completa. La P06 no entra: su guía no se publicó.
+>>>>>>> 1f984af (Corte de calificaciones del 13 de octubre)
 
 Tu `.class` se ejecuta tal cual con el **JDK 21** del curso: si no lo subiste, o lo compilaste con una versión más nueva de Java, no corre y queda como **PC**.
