@@ -11,6 +11,7 @@ public class Personaje {
         } else {
             this.vida = vida;
         }
+        System.out.println("Personaje listo");
     }
 
     public String getNombre() {

@@ -4,6 +4,7 @@ public class Caballero extends Personaje {
     public Caballero(String nombre, int vida, int fuerza) {
         super(nombre, vida);
         this.fuerza = fuerza;
+        System.out.println("Caballero listo");
     }
 
     public int getFuerza() {

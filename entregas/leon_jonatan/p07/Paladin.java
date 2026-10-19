@@ -4,6 +4,7 @@ public class Paladin extends Caballero {
     public Paladin(String nombre, int vida, int fuerza, int fe) {
         super(nombre, vida, fuerza);
         this.fe = fe;
+        System.out.println("Paladin listo");
     }
 
     public int getFe() {
