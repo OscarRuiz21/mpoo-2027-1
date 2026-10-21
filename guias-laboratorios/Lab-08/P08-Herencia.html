@@ -106,23 +106,64 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
 <p style="color:var(--ink)">Un actuador se enciende y se apaga, y <b>reacciona</b> a lo que dicen los sensores. Hay tres: la <b>banda transportadora</b> (avanza o se detiene), el <b>semáforo</b> (tiene tres <b>luces</b>, roja, amarilla y verde, que se fabrican con él) y la <b>alarma</b> (suena a un volumen de 0 a 10).</p>
 <p style="color:var(--ink)">En cada ciclo, la estación lee todos sus sensores; si <b>alguno</b> da alerta, la banda se detiene, el semáforo se pone en rojo y suena la alarma. Si un sensor sale a mantenimiento, <b>sigue existiendo</b> y se puede volver a instalar.</p></div>
 
+<h2>El mapa: cómo debe quedar</h2>
+<p>Antes de dibujar o programar, ubícate. Así queda la estación cuando terminas.</p>
+<h3>La herencia y las relaciones</h3>
+<div class="tree"><span class="d">Dispositivo</span> <span class="c">(abstract)</span>        dispositivos  ◆ 1 Bateria
+├── <span class="d">Sensor</span> <span class="c">(abstract)</span>         dispositivos
+│   ├── <span class="d">SensorPresencia</span>       sensores
+│   ├── <span class="d">SensorPeso</span>            sensores
+│   └── <span class="d">SensorTemperatura</span>     sensores
+└── <span class="d">Actuador</span> <span class="c">(abstract)</span>       dispositivos
+    ├── <span class="d">BandaTransportadora</span>   actuadores
+    ├── <span class="d">Semaforo</span>              actuadores    ◆ 3 Luz
+    └── <span class="d">Alarma</span>                actuadores
+
+<span class="d">Estacion</span>   estacion      ◇ 1..5 Sensor y ◇ 1..5 Actuador
+<span class="d">Bateria</span>    dispositivos  ◆ la crea Dispositivo con new
+<span class="d">Luz</span>        dispositivos  ◆ las crea Semaforo con new</div>
+<p>Cada <code>├──</code> es un <b>«es un»</b> (<code>extends</code>): un <code>SensorPeso</code> es un <code>Sensor</code>, que es un <code>Dispositivo</code>. Cada ◆ y ◇ es un <b>«tiene un»</b>, un atributo que es otro objeto. ◆ <b>composición</b>: el dueño hace el <code>new</code> y la parte muere con él. ◇ <b>agregación</b>: la parte llega de afuera (aquí, de <code>Main</code>) y sobrevive aunque la saquen.</p>
+<h3>Las carpetas y los archivos</h3>
+<div class="tree">src
+├── <span class="d">dispositivos</span>
+│   ├── Bateria.java              <span class="c">parte 2</span>
+│   ├── Dispositivo.java          <span class="c">parte 2</span>
+│   ├── Sensor.java               <span class="c">parte 2</span>
+│   ├── Actuador.java             <span class="c">parte 3</span>
+│   └── Luz.java                  <span class="c">viene en el .zip</span>
+├── <span class="d">sensores</span>
+│   ├── SensorTemperatura.java    <span class="c">parte 2</span>
+│   ├── SensorPresencia.java      <span class="c">parte 3</span>
+│   └── SensorPeso.java           <span class="c">parte 3</span>
+├── <span class="d">actuadores</span>
+│   ├── BandaTransportadora.java  <span class="c">parte 3</span>
+│   ├── Semaforo.java             <span class="c">parte 3</span>
+│   └── Alarma.java               <span class="c">parte 3</span>
+└── <span class="d">estacion</span>
+    ├── Estacion.java             <span class="c">parte 3</span>
+    ├── PruebaTemperatura.java    <span class="c">viene en el .zip</span>
+    └── Main.java                 <span class="c">viene en el .zip, va al final</span></div>
+<p>Cada archivo empieza con el <code>package</code> de su carpeta (por ejemplo <code>package sensores;</code>) y hace <code>import</code> de lo que usa de otro paquete. Si arrastras las clases en IntelliJ y aceptas el <b>Refactor</b>, él pone el <code>package</code> por ti.</p>
+<h3>El orden para construir</h3>
+<p>De arriba hacia abajo: nunca escribas una hija antes que su padre, ni la estación antes que lo que va a recibir.</p>
+<ol>
+  <li><b>Parte 2:</b> <code>Bateria</code> → <code>Dispositivo</code> → <code>Sensor</code> → <code>SensorTemperatura</code>. Punto de control: corre <code>PruebaTemperatura</code>.</li>
+  <li><b>Parte 3:</b> <code>SensorPresencia</code> y <code>SensorPeso</code> → <code>Actuador</code> → <code>Alarma</code>, <code>BandaTransportadora</code> y <code>Semaforo</code> → <code>Estacion</code> → agrega <code>Main</code> y córrelo.</li>
+</ol>
+
 <h2>Parte 1 · El diagrama de clases, antes de programar</h2>
 <p>En pareja, en papel o en <a href="https://app.diagrams.net">draw.io</a>. Tienen 15 minutos; luego se proyecta la solución y corrigen el suyo. <b>El diagrama corregido es su mapa para la parte 3.</b></p>
 <ol>
-  <li><b>Subraya los sustantivos</b> del enunciado: esas son tus clases. Deben salir 12 cajas contando <code>Luz</code> y <code>Bateria</code> (sin <code>Main</code> ni <code>PruebaTemperatura</code>).</li>
-  <li><b>Busca cada «es un»</b>: es herencia, triángulo vacío que apunta al padre. ¿Cuáles son <b>abstractas</b>? Van en cursiva.</li>
-  <li><b>Busca cada «tiene un»</b> y pregúntate <b>quién hace el <code>new</code></b>: si lo crea el dueño y muere con él, es composición (◆ lleno, del lado del dueño); si llega de afuera y sobrevive, es agregación (◇ vacío).</li>
-  <li><b>Pon la multiplicidad</b>: <code>1</code>, <code>3</code>, <code>1..5</code>.</li>
-  <li><b>Llena las cajas</b> con los atributos y métodos de las tablas de las partes 2 y 3, con su símbolo: <code>+</code> public, <code>-</code> private, <code>#</code> protected, <code>~</code> de paquete.</li>
+  <li><b>Una caja por clase del mapa</b>: son 12 (sin <code>Main</code> ni <code>PruebaTemperatura</code>). Tres compartimentos: nombre, atributos y métodos. Las <b>abstractas</b> llevan el nombre en cursiva o <code>«abstract»</code>, y sus métodos sin cuerpo también en cursiva.</li>
+  <li><b>La herencia</b>: una flecha con triángulo vacío de cada hija a su padre, siguiendo el árbol.</li>
+  <li><b>La composición y la agregación</b>: ◆ lleno del lado del dueño en <code>Dispositivo</code>–<code>Bateria</code> y <code>Semaforo</code>–<code>Luz</code>; ◇ vacío del lado de <code>Estacion</code> hacia <code>Sensor</code> y hacia <code>Actuador</code>.</li>
+  <li><b>La multiplicidad</b> en cada ◆ y ◇: <code>1</code>, <code>3</code>, <code>1..5</code>.</li>
+  <li><b>Llena las cajas</b> con los atributos y métodos de las tablas de las partes 2 y 3, cada uno con su símbolo: <code>+</code> public, <code>-</code> private, <code>#</code> protected, <code>~</code> de paquete.</li>
 </ol>
 
 <h2>Parte 2 · Los cimientos</h2>
-<p>Primero los paquetes. En IntelliJ: clic derecho en <code>src</code> → <b>New → Package</b>, cuatro veces. Del .zip, copia <code>Luz.java</code> a <code>dispositivos</code> y <code>PruebaTemperatura.java</code> a <code>estacion</code>. <code>Main.java</code> espera hasta el final.</p>
-<div class="tree">src
-├── <span class="d">dispositivos</span>   Bateria  Dispositivo  Sensor  Actuador  Luz
-├── <span class="d">sensores</span>       SensorTemperatura  SensorPresencia  SensorPeso
-├── <span class="d">actuadores</span>     BandaTransportadora  Semaforo  Alarma
-└── <span class="d">estacion</span>       Estacion  PruebaTemperatura  Main</div>
+<p>Primero los paquetes del mapa. En IntelliJ: clic derecho en <code>src</code> → <b>New → Package</b>, cuatro veces. Del .zip, copia <code>Luz.java</code> a <code>dispositivos</code> y <code>PruebaTemperatura.java</code> a <code>estacion</code>. <code>Main.java</code> espera hasta el final.</p>
+<p>Las carpetas, como en el mapa.</p>
 <p>Escribe estas cuatro clases, en este orden. Son la base de todo lo demás: cuando <code>PruebaTemperatura</code> imprima lo de abajo, pasas a la parte 3.</p>
 <h3><code>Bateria</code>, en <code>dispositivos</code>: sin <code>public</code>, a propósito</h3>
 <div class="tw"><table>
