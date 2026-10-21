@@ -1,7 +1,7 @@
 // ============================================================================
 // P5 · ESTRUCTURAS DE SELECCION · MPOO 2027-1 · Grupo 6
 //
-// ESCRIBE TU NOMBRE AQUI: 
+// ESCRIBE TU NOMBRE AQUI: Medina Reyes Miguel Angel, Ikeralejandro Velasco Gomez
 // ============================================================================
 //
 // LOS CUATRO ARCHIVOS VAN JUNTOS, EN LA MISMA CARPETA:
