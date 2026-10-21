@@ -39,6 +39,14 @@ observación— **escríbeme por el grupo** con tu número de cuenta y qué espe
 Casi siempre es que la entrega quedó en una rama o carpeta distinta a la tuya, y se
 resuelve rápido.
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 El corte más reciente es el del **13 de octubre**: incluye de la **P00** a la **P05** y de la **T01** a la **T03**. La P04 ya venció y se califica completa. La P06 no entra: su guía no se publicó.
+=======
+El corte más reciente es el del **1 de octubre**: incluye de la **P00** a la **P03**, la **T01**, la **T02** y el avance de la **P04**.
+>>>>>>> 58df0d2 (Corte de calificaciones del 1 de octubre (#97))
+=======
+El corte más reciente es el del **13 de octubre**: incluye de la **P00** a la **P05** y de la **T01** a la **T03**. La P04 ya venció y se califica completa. La P06 no entra: su guía no se publicó.
+>>>>>>> 1f984af (Corte de calificaciones del 13 de octubre)
 
 Tu `.class` se ejecuta tal cual con el **JDK 21** del curso: si no lo subiste, o lo compilaste con una versión más nueva de Java, no corre y queda como **PC**.
