@@ -54,7 +54,7 @@ font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1
 footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
 .tw{overflow-x:auto}
 @media print{header,pre,.box,.cp{-webkit-print-color-adjust:exact;print-color-adjust:exact}pre,pre code{white-space:pre-wrap;overflow:visible}.out{font-size:.72rem;overflow:visible}tr{break-inside:avoid}pre,.box,.out{break-inside:avoid}h2{break-after:avoid}footer{break-inside:avoid}}
-.ficha pre code{font-size:.82rem;line-height:1.6}@media print{.ficha{break-inside:avoid}.ficha pre code{font-size:.66rem;white-space:pre}.ficha pre{overflow:visible}}
+.ficha code{white-space:pre-wrap;word-break:break-word}.ficha ul{margin-top:.3rem}.ficha li{margin:.3rem 0}.ficha pre code{font-size:.82rem;line-height:1.6}@media print{.ficha{break-inside:avoid}.ficha pre code{font-size:.66rem;white-space:pre}.ficha pre{overflow:visible}}
 .ficha h3{margin-bottom:.2rem}.ficha p{margin:.2rem 0 .4rem}
 .steps{counter-reset:s;list-style:none;margin:1rem 0;padding:0}.steps li{counter-increment:s;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem .8rem 3.2rem;margin:.6rem 0;position:relative;color:var(--ink)}.steps li::before{content:counter(s);position:absolute;left:1rem;top:.8rem;background:var(--am);color:#fff;width:1.6em;height:1.6em;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em}.steps li span{display:block;color:var(--dim);font-size:.92rem}
 </style>
@@ -125,7 +125,7 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
 
 <h2>Paso 1 · El diagrama de clases</h2>
 <ul>
-  <li><b>Una caja por clase del mapa</b> (son 12, sin <code>Main</code> ni <code>PruebaTemperatura</code>), con sus atributos y métodos copiados de las fichas de los pasos 2 y 3.</li>
+  <li><b>Una caja por clase del mapa</b> (son 12, sin <code>Main</code> ni <code>PruebaTemperatura</code>), con los atributos y métodos que salen de las descripciones de los pasos 2 y 3.</li>
   <li><b>Los símbolos:</b> <code>+</code> public, <code>-</code> private, <code>#</code> protected, <code>~</code> sin modificador. Las clases y métodos <code>abstract</code>, en cursiva.</li>
   <li><b>Las flechas, como en el mapa:</b> triángulo vacío hacia el padre; ◆ y ◇ del lado del dueño, con su número (<code>1</code>, <code>3</code>, <code>1..5</code>).</li>
 </ul>
@@ -133,60 +133,11 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
 
 <h2>Paso 2 · Los cimientos</h2>
 <p>Crea los cuatro paquetes y copia del .zip <code>Luz.java</code> (a <code>dispositivos</code>) y <code>PruebaTemperatura.java</code> (a <code>estacion</code>). <b><code>Main.java</code> todavía no</b>: usa clases que aún no existen y nada correría.</p>
-<p><b>Cómo leer una ficha:</b> es el esqueleto de la clase. Escribe cada línea tal cual y, donde hay un método, ponle su cuerpo <code>{ ... }</code> haciendo lo que dice el comentario. Las líneas con <code>;</code> al final (los <code>abstract</code>) no llevan cuerpo.</p>
-<div class="ficha"><h3>1 · <code>Bateria</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en dispositivos</span></h3><p>La batería de cada dispositivo.</p><pre><code>package dispositivos;
-
-class Bateria {                              <span class="c">// sin public: solo la ve su paquete</span>
-    private int carga;                       <span class="c">// de 0 a 100</span>
-
-    Bateria(int carga)                       <span class="c">// menor que 0 → 0; mayor que 100 → 100</span>
-    int getCarga()
-    void descargar(int puntos)               <span class="c">// resta, sin bajar de 0 (Math.max)</span>
-}</code></pre></div>
-<div class="ficha"><h3>2 · <code>Dispositivo</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en dispositivos</span></h3><p>El padre de todos. Fíjate en el <code>new Bateria</code> dentro del constructor y en el segundo constructor, que solo llama al primero con <code>this</code>.</p><pre><code>package dispositivos;
-
-public abstract class Dispositivo {
-    private final String id;
-    private final Bateria bateria;           <span class="c">// ◆ composición</span>
-
-    public Dispositivo(String id, int carga) <span class="c">// guarda el id y hace new Bateria(carga)</span>
-    public Dispositivo(String id)            <span class="c">// this(id, 100)</span>
-    public String getId()
-    public int getCarga()                    <span class="c">// la carga de su batería</span>
-    protected void gastar(int puntos)        <span class="c">// descarga su batería</span>
-    @Override public String toString()       <span class="c">// &quot;S3 (100%)&quot;</span>
-}</code></pre></div>
-<div class="ficha"><h3>3 · <code>Sensor</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en dispositivos</span></h3><p>Abstracta y hija de otra abstracta. Sabe <b>leer</b>, pero cada sensor decide cómo <b>medir</b>.</p><pre><code>package dispositivos;
-
-public abstract class Sensor extends Dispositivo {
-    private final String unidad;
-    private double senal;
-
-    public Sensor(String id, String unidad, int carga)  <span class="c">// super(id, carga)</span>
-    public Sensor(String id, String unidad)             <span class="c">// this(id, unidad, 100)</span>
-    public String getUnidad()
-    public void recibir(double senal)        <span class="c">// Main simula la señal</span>
-    protected double getSenal()
-    public abstract double medir();
-    public abstract boolean hayAlerta();
-    public final String leer()               <span class="c">// gastar(1) y &quot;S3 mide 40.0 C&quot;</span>
-                                             <span class="c">// más &quot; ALERTA&quot; si hayAlerta()</span>
-    @Override public String toString()       <span class="c">// &quot;Sensor &quot; + lo del padre</span>
-}</code></pre></div>
-<div class="ficha"><h3>4 · <code>SensorTemperatura</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en sensores</span></h3><p>El primer sensor de verdad. Vive en otro paquete: por eso el <code>import</code>.</p><pre><code>package sensores;
-
-import dispositivos.Sensor;
-
-public class SensorTemperatura extends Sensor {
-    private double calibracion;
-    private double maxima;
-
-    public SensorTemperatura(String id, double calibracion, double maxima)
-                                             <span class="c">// unidad &quot;C&quot;</span>
-    @Override public double medir()          <span class="c">// señal + calibración</span>
-    @Override public boolean hayAlerta()     <span class="c">// medir() &gt; maxima</span>
-    @Override public String toString()       <span class="c">// lo del padre + &quot; temperatura, max 45.0&quot;</span>
-}</code></pre></div>
+<p>Cada clase viene descrita: qué guarda, cómo se crea, qué sabe hacer y cómo se presenta. <b>Tú decides</b> los atributos, sus tipos, los modificadores y las firmas de los métodos; los nombres de los métodos y los textos entre comillas tienen que quedar tal cual, porque <code>Main</code> los usa y la salida se compara letra por letra.</p>
+<div class="ficha box"><h3 style="margin-top:0">1 · <code>Bateria</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en dispositivos</span></h3><p style="color:var(--ink)">La batería de cada dispositivo. Nadie fuera del paquete <code>dispositivos</code> debe poder verla ni crearla, así que la clase, su constructor y sus métodos van <b>sin modificador</b>.</p><ul><li>Guarda su carga, un entero de 0 a 100. Si al crearla le dan menos de 0, se queda en 0; si le dan más de 100, en 100.</li><li>Sabe decir su carga y descargarse cierta cantidad de puntos, sin bajar nunca de 0.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">2 · <code>Dispositivo</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en dispositivos</span></h3><p style="color:var(--ink)">El padre de todos. Es <b>abstracta</b>: no existe un dispositivo a secas.</p><ul><li>Tiene un identificador que nunca cambia y una <code>Bateria</code>.</li><li>La batería la crea él mismo con <code>new</code> dentro de su constructor: es su <b>composición</b>.</li><li>Se puede crear de dos formas: con id y carga inicial, o solo con id, y entonces la batería nace al 100. La segunda no repite código: llama a la primera con <code>this(...)</code>.</li><li>Sabe dar su id (<code>getId</code>) y su carga (<code>getCarga</code>). Tiene un método <code>gastar</code> que descarga la batería y que <b>solo sus hijas</b> pueden usar.</li><li>Se presenta (<code>toString</code>) así: <code>S3 (100%)</code>.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">3 · <code>Sensor</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en dispositivos</span></h3><p style="color:var(--ink)">Un dispositivo que mide. También es <b>abstracta</b>.</p><ul><li>Además de lo que hereda, guarda su unidad (<code>C</code>, <code>kg</code> o <code>cm</code>), que nunca cambia, y la última señal que recibió.</li><li>Se crea con id, unidad y carga, o solo con id y unidad (batería al 100). Uno usa <code>super(...)</code> y el otro <code>this(...)</code>.</li><li><code>recibir</code> guarda una señal: así <code>Main</code> simula lo que llega del mundo real. Sus hijas leen esa señal con <code>getSenal</code>, que <b>solo ellas</b> pueden usar.</li><li>Deja dos métodos <b>sin cuerpo</b>, que cada sensor resuelve a su manera: <code>medir</code>, que da un número con decimales, y <code>hayAlerta</code>, que da verdadero o falso.</li><li><code>leer</code> gasta 1 de batería y devuelve un texto como <code>S3 mide 40.0 C</code>, con <code> ALERTA</code> al final si hay alerta. <b>Ninguna hija puede cambiar</b> este método.</li><li>Se presenta como <code>Sensor</code> seguido de lo de su padre: <code>Sensor S3 (100%)</code>.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">4 · <code>SensorTemperatura</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en sensores</span></h3><p style="color:var(--ink)">Mide la temperatura del motor. Vive en otro paquete, así que necesita importar a su padre.</p><ul><li>Se crea con id, una calibración y una temperatura máxima. Su unidad es <code>C</code> y su batería nace al 100.</li><li>Mide la señal más su calibración.</li><li>Hay alerta si mide más que su máxima.</li><li>Se presenta con lo de su padre más <code> temperatura, max 45.0</code>.</li></ul></div>
 <p>Corre <code>PruebaTemperatura</code>:</p>
 <pre><code>package estacion;
 
@@ -211,119 +162,13 @@ Sensor S3 (98%) temperatura, max 45.0</div>
 
 <h2>Paso 3 · La estación</h2>
 <p>Las demás clases, en este orden.</p>
-<div class="ficha"><h3>5 · <code>SensorPresencia</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en sensores</span></h3><p>Igual que la de temperatura, con otra forma de medir.</p><pre><code>package sensores;
-
-import dispositivos.Sensor;
-
-public class SensorPresencia extends Sensor {
-
-    public SensorPresencia(String id)        <span class="c">// unidad &quot;cm&quot;</span>
-    @Override public double medir()          <span class="c">// llega en milímetros: señal / 10</span>
-    @Override public boolean hayAlerta()     <span class="c">// medir() &lt; 2: el paquete se atoró</span>
-    @Override public String toString()       <span class="c">// lo del padre + &quot; presencia&quot;</span>
-}</code></pre></div>
-<div class="ficha"><h3>6 · <code>SensorPeso</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en sensores</span></h3><p>Tiene dos constructores, como <code>Dispositivo</code>.</p><pre><code>package sensores;
-
-import dispositivos.Sensor;
-
-public class SensorPeso extends Sensor {
-    private double limite;
-
-    public SensorPeso(String id, int carga, double limite)
-                                             <span class="c">// unidad &quot;kg&quot;; límite 0 o menos → 1</span>
-    public SensorPeso(String id, double limite)   <span class="c">// this(id, 100, limite)</span>
-    @Override public double medir()          <span class="c">// llega en gramos: señal / 1000</span>
-    @Override public boolean hayAlerta()     <span class="c">// medir() &gt; limite</span>
-    @Override public String toString()       <span class="c">// lo del padre + &quot; peso, limite 25.0&quot;</span>
-}</code></pre></div>
-<div class="ficha"><h3>7 · <code>Actuador</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en dispositivos</span></h3><p>El otro hijo de <code>Dispositivo</code>, hermano de <code>Sensor</code>.</p><pre><code>package dispositivos;
-
-public abstract class Actuador extends Dispositivo {
-    private boolean encendido;               <span class="c">// nace en false</span>
-
-    public Actuador(String id, int carga)    <span class="c">// super(id, carga)</span>
-    public Actuador(String id)               <span class="c">// this(id, 100)</span>
-    public boolean isEncendido()
-    public void encender()
-    public void apagar()
-    public abstract String reaccionar(boolean alerta);
-    @Override public String toString()       <span class="c">// &quot;Actuador &quot; + lo del padre</span>
-}</code></pre></div>
-<div class="ficha"><h3>8 · <code>Alarma</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en actuadores</span></h3><p>El actuador más sencillo.</p><pre><code>package actuadores;
-
-import dispositivos.Actuador;
-
-public class Alarma extends Actuador {
-    private int volumen;                     <span class="c">// de 0 a 10</span>
-
-    public Alarma(String id, int volumen)    <span class="c">// menor que 0 → 0; mayor que 10 → 10</span>
-    public int getVolumen()
-    @Override public String reaccionar(boolean alerta)
-        <span class="c">// con alerta: encender() y &quot;A3 suena a volumen 10&quot;</span>
-        <span class="c">// sin alerta: apagar() y &quot;A3 en silencio&quot;</span>
-    @Override public String toString()       <span class="c">// lo del padre + &quot; alarma, volumen 10&quot;</span>
-}</code></pre></div>
-<div class="ficha"><h3>9 · <code>BandaTransportadora</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en actuadores</span></h3><p>Dos métodos <code>avanzar</code>: el que no recibe nada llama al otro.</p><pre><code>package actuadores;
-
-import dispositivos.Actuador;
-
-public class BandaTransportadora extends Actuador {
-    private int velocidad;                   <span class="c">// metros por ciclo; menor que 1 → 1</span>
-    private int recorrido;                   <span class="c">// metros acumulados</span>
-
-    public BandaTransportadora(String id, int velocidad)
-    public int getRecorrido()
-    public String avanzar()                  <span class="c">// return avanzar(velocidad);</span>
-    public String avanzar(int metros)
-        <span class="c">// apagada:   &quot;A1 apagada, no avanza&quot;</span>
-        <span class="c">// encendida: suma los metros, gastar(metros) y &quot;A1 avanza 2 m, lleva 2 m&quot;</span>
-    @Override public String reaccionar(boolean alerta)
-        <span class="c">// con alerta: apagar() y &quot;A1 se detiene&quot;</span>
-        <span class="c">// sin alerta: encender() y return avanzar();</span>
-    @Override public String toString()       <span class="c">// lo del padre + &quot; banda, 2 m por ciclo&quot;</span>
-}</code></pre></div>
-<div class="ficha"><h3>10 · <code>Semaforo</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en actuadores</span></h3><p>Crea sus tres luces. <code>Luz</code> ya viene en el .zip.</p><pre><code>package actuadores;
-
-import dispositivos.Actuador;
-import dispositivos.Luz;
-
-public class Semaforo extends Actuador {
-    private final Luz[] luces;               <span class="c">// ◆ composición</span>
-
-    public Semaforo(String id)               <span class="c">// 3 new Luz: &quot;rojo&quot;, &quot;amarillo&quot;, &quot;verde&quot;</span>
-    public void ponerEn(String color)        <span class="c">// enciende esa luz y apaga las otras</span>
-    public String getColor()                 <span class="c">// el color de la encendida, o &quot;apagado&quot;</span>
-    @Override public String reaccionar(boolean alerta)
-        <span class="c">// encender(); ponerEn(&quot;rojo&quot;) con alerta, ponerEn(&quot;verde&quot;) sin ella</span>
-        <span class="c">// y &quot;A2 en verde&quot;</span>
-    @Override public String toString()       <span class="c">// lo del padre + &quot; semaforo en verde&quot;</span>
-}</code></pre></div>
-<div class="ficha"><h3>11 · <code>Estacion</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en estacion</span></h3><p>Recibe los dispositivos que crea <code>Main</code> y en cada ciclo los pone a trabajar.</p><pre><code>package estacion;
-
-import dispositivos.Actuador;
-import dispositivos.Sensor;
-
-public class Estacion {
-    private final String nombre;
-    private Sensor[] sensores;               <span class="c">// ◇ agregación: new Sensor[5], vacío</span>
-    private Actuador[] actuadores;           <span class="c">// ◇ agregación: new Actuador[5], vacío</span>
-    private int numSensores;
-    private int numActuadores;
-    private int ciclos;
-
-    public Estacion(String nombre)
-    public void instalar(Sensor s)           <span class="c">// en el siguiente lugar libre</span>
-    public void instalar(Actuador a)         <span class="c">//   y &quot;Instalado: &quot; + el dispositivo</span>
-                                             <span class="c">//   si no cabe: &quot;Sin lugar para S1&quot;</span>
-    public Sensor retirar(String id)
-        <span class="c">// lo busca por id, recorre los que siguen un lugar a la izquierda,</span>
-        <span class="c">// &quot;Retirado: S2&quot; y lo devuelve; si no está, devuelve null</span>
-    public void ciclo()
-        <span class="c">// 1. ciclos++ y &quot;== Ciclo 1 en Anden 3&quot;</span>
-        <span class="c">// 2. cada sensor: &quot;  &quot; + leer(); si alguno hayAlerta(), hay alerta</span>
-        <span class="c">// 3. cada actuador: &quot;  &quot; + reaccionar(alerta)</span>
-    @Override public String toString()       <span class="c">// &quot;Anden 3: 3 sensores, 3 actuadores, 3 ciclos&quot;</span>
-}</code></pre></div>
+<div class="ficha box"><h3 style="margin-top:0">5 · <code>SensorPresencia</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en sensores</span></h3><p style="color:var(--ink)">Ve qué tan cerca está el paquete.</p><ul><li>Se crea solo con su id. Su unidad es <code>cm</code>.</li><li>La señal le llega en milímetros y él mide en centímetros.</li><li>Hay alerta si mide menos de 2 cm: el paquete se atoró.</li><li>Se presenta con lo de su padre más <code> presencia</code>.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">6 · <code>SensorPeso</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en sensores</span></h3><p style="color:var(--ink)">La báscula.</p><ul><li>Guarda su límite en kilos. Si le dan un límite de 0 o menos, se queda en 1.</li><li>Se crea de dos formas: con id, carga y límite, o con id y límite, y la batería nace al 100 (sin repetir código). Su unidad es <code>kg</code>.</li><li>La señal le llega en gramos y él mide en kilos.</li><li>Hay alerta si mide más que su límite.</li><li>Se presenta con lo de su padre más <code> peso, limite 25.0</code>.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">7 · <code>Actuador</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en dispositivos</span></h3><p style="color:var(--ink)">Un dispositivo que hace algo. Es <b>abstracta</b> y hermana de <code>Sensor</code>.</p><ul><li>Guarda si está encendido. Nace apagado.</li><li>Se crea igual que <code>Dispositivo</code>: con id y carga, o solo con id.</li><li>Sabe encenderse, apagarse y decir si está encendido (<code>encender</code>, <code>apagar</code>, <code>isEncendido</code>).</li><li>Deja <b>sin cuerpo</b> el método <code>reaccionar</code>, que recibe si hay alerta y devuelve un texto con lo que hizo.</li><li>Se presenta como <code>Actuador</code> seguido de lo de su padre.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">8 · <code>Alarma</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en actuadores</span></h3><p style="color:var(--ink)">El actuador más sencillo.</p><ul><li>Se crea con id y volumen. El volumen se queda entre 0 y 10: si le dan 15, guarda 10.</li><li>Al reaccionar con alerta, se enciende y devuelve <code>A3 suena a volumen 10</code>. Sin alerta, se apaga y devuelve <code>A3 en silencio</code>.</li><li>Se presenta con lo de su padre más <code> alarma, volumen 10</code>.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">9 · <code>BandaTransportadora</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en actuadores</span></h3><p style="color:var(--ink)">Mueve los paquetes.</p><ul><li>Se crea con id y velocidad, en metros por ciclo; si la velocidad es menor que 1, guarda 1. Lleva la cuenta de los metros que ha recorrido.</li><li>Sabe <code>avanzar</code> de dos formas: diciéndole cuántos metros, o sin decirle nada, y entonces avanza su velocidad. La segunda forma usa la primera.</li><li>Al avanzar: si está apagada, devuelve <code>A1 apagada, no avanza</code>. Si está encendida, suma los metros, gasta esa misma cantidad de batería y devuelve <code>A1 avanza 2 m, lleva 2 m</code>.</li><li>Al reaccionar con alerta, se apaga y devuelve <code>A1 se detiene</code>. Sin alerta, se enciende y avanza.</li><li>Se presenta con lo de su padre más <code> banda, 2 m por ciclo</code>.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">10 · <code>Semaforo</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en actuadores</span></h3><p style="color:var(--ink)">Avisa con colores. <code>Luz</code> ya viene en el .zip.</p><ul><li>Tiene tres luces, <code>rojo</code>, <code>amarillo</code> y <code>verde</code>, que <b>crea él mismo</b> en su constructor y guarda en un arreglo.</li><li><code>ponerEn</code> enciende la luz del color que le digan y apaga las otras. <code>getColor</code> dice el color de la luz encendida, o <code>apagado</code> si ninguna lo está.</li><li>Al reaccionar, se enciende y se pone en rojo si hay alerta, o en verde si no. Devuelve <code>A2 en verde</code>.</li><li>Se presenta con lo de su padre más <code> semaforo en verde</code>.</li></ul></div>
+<div class="ficha box"><h3 style="margin-top:0">11 · <code>Estacion</code> <span style="font-weight:400;color:var(--dim);font-size:.85em">en estacion</span></h3><p style="color:var(--ink)">La estación <b>no crea</b> sus dispositivos: los recibe de <code>Main</code> (<b>agregación</b>).</p><ul><li>Tiene un nombre que no cambia, lugar para 5 sensores y 5 actuadores (dos arreglos, cada uno con su contador) y la cuenta de ciclos.</li><li><code>instalar</code> sirve para un sensor y para un actuador: son <b>dos métodos con el mismo nombre</b>. Pone el dispositivo en el siguiente lugar libre e imprime <code>Instalado: </code> seguido del dispositivo. Si ya no cabe, imprime <code>Sin lugar para S1</code>.</li><li><code>retirar</code> recibe un id, busca ese sensor, lo saca recorriendo los que siguen un lugar a la izquierda, imprime <code>Retirado: S2</code> y <b>lo devuelve</b>. Si no lo encuentra, devuelve <code>null</code>.</li><li><code>ciclo</code> cuenta un ciclo más e imprime <code>== Ciclo 1 en Anden 3</code>. Luego imprime, con dos espacios al inicio, lo que lee cada sensor; si <b>alguno</b> dio alerta, hay alerta. Al final imprime, también con dos espacios, lo que hace cada actuador al reaccionar.</li><li>Se presenta así: <code>Anden 3: 3 sensores, 3 actuadores, 3 ciclos</code>.</li></ul></div>
 <p>Con todo listo, copia <code>Main.java</code> a <code>estacion</code> y córrelo:</p>
 <pre><code>package estacion;
 
@@ -451,9 +296,9 @@ Anden 3: 3 sensores, 3 actuadores, 3 ciclos</div>
   <tr><th>Qué reviso</th><th>Puntos</th></tr>
   <tr><td><b>Diagrama:</b> las 12 cajas con sus símbolos, herencia, ◆, ◇ y multiplicidad</td><td>2</td></tr>
   <tr><td><b>Corre</b> y la salida es la de la guía</td><td>2</td></tr>
-  <tr><td><b>Constructores:</b> <code>super(...)</code> y <code>this(...)</code> donde dicen las fichas</td><td>2</td></tr>
+  <tr><td><b>Constructores:</b> <code>super(...)</code> en cada hija y <code>this(...)</code> en los constructores que no repiten código</td><td>2</td></tr>
   <tr><td><b>Sobrecarga y sobrescritura:</b> <code>instalar</code>, <code>avanzar</code> y los <code>@Override</code></td><td>1.5</td></tr>
-  <tr><td><b>Modificadores y paquetes:</b> como en las fichas y el mapa</td><td>1.5</td></tr>
+  <tr><td><b>Modificadores y paquetes:</b> atributos <code>private</code>, lo que solo usan las hijas <code>protected</code>, <code>Bateria</code> sin modificador, cada clase en su paquete del mapa</td><td>1.5</td></tr>
   <tr><td><b>Bitácora:</b> las tres respuestas</td><td>1</td></tr>
 </table>
 <pre><code>git checkout entregas_apellido_nombre
