@@ -74,8 +74,8 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
   <tr><th>Qué</th><th>Quién</th><th>Dónde va</th></tr>
   <tr><td><b>Diagrama de clases</b> (parte 1)</td><td>Tú, en pareja, antes de programar</td><td>Papel o draw.io; va en la bitácora</td></tr>
   <tr><td><code>Luz.java</code>, <code>PruebaTemperatura.java</code>, <code>Main.java</code></td><td>Vienen en el .zip. <b>No se tocan</b></td><td><code>dispositivos</code> y <code>estacion</code></td></tr>
-  <tr><td><code>Bateria</code>, <code>Dispositivo</code>, <code>Sensor</code>, <code>SensorTemperatura</code> (parte 2)</td><td>Con el profesor, en el proyector</td><td><code>dispositivos</code> y <code>sensores</code></td></tr>
-  <tr><td><code>SensorPresencia</code>, <code>SensorPeso</code>, <code>Actuador</code>, <code>BandaTransportadora</code>, <code>Semaforo</code>, <code>Alarma</code>, <code>Estacion</code> (parte 3)</td><td>Tú, por tu cuenta</td><td><code>sensores</code>, <code>dispositivos</code>, <code>actuadores</code> y <code>estacion</code></td></tr>
+  <tr><td><code>Bateria</code>, <code>Dispositivo</code>, <code>Sensor</code>, <code>SensorTemperatura</code> (parte 2)</td><td>Tú, en pareja</td><td><code>dispositivos</code> y <code>sensores</code></td></tr>
+  <tr><td><code>SensorPresencia</code>, <code>SensorPeso</code>, <code>Actuador</code>, <code>BandaTransportadora</code>, <code>Semaforo</code>, <code>Alarma</code>, <code>Estacion</code> (parte 3)</td><td>Tú, en pareja</td><td><code>sensores</code>, <code>dispositivos</code>, <code>actuadores</code> y <code>estacion</code></td></tr>
 </table></div>
 <p><code>Main.java</code> se agrega <b>hasta el final de la parte 3</b>: IntelliJ compila todo lo que hay en <code>src</code> y, si lo pones antes, nada corre porque usa clases que todavía no existen.</p>
 
@@ -107,7 +107,7 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
 <p style="color:var(--ink)">En cada ciclo, la estación lee todos sus sensores; si <b>alguno</b> da alerta, la banda se detiene, el semáforo se pone en rojo y suena la alarma. Si un sensor sale a mantenimiento, <b>sigue existiendo</b> y se puede volver a instalar.</p></div>
 
 <h2>Parte 1 · El diagrama de clases, antes de programar</h2>
-<p>En pareja, en papel o en <a href="https://app.diagrams.net">draw.io</a>. Tienen 15 minutos; luego el profesor proyecta el suyo y corrigen el de ustedes. <b>El diagrama corregido es su mapa para la parte 3.</b></p>
+<p>En pareja, en papel o en <a href="https://app.diagrams.net">draw.io</a>. Tienen 15 minutos; luego se proyecta la solución y corrigen el suyo. <b>El diagrama corregido es su mapa para la parte 3.</b></p>
 <ol>
   <li><b>Subraya los sustantivos</b> del enunciado: esas son tus clases. Deben salir 12 cajas contando <code>Luz</code> y <code>Bateria</code> (sin <code>Main</code> ni <code>PruebaTemperatura</code>).</li>
   <li><b>Busca cada «es un»</b>: es herencia, triángulo vacío que apunta al padre. ¿Cuáles son <b>abstractas</b>? Van en cursiva.</li>
@@ -116,158 +116,53 @@ footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color
   <li><b>Llena las cajas</b> con los atributos y métodos de las tablas de las partes 2 y 3, con su símbolo: <code>+</code> public, <code>-</code> private, <code>#</code> protected, <code>~</code> de paquete.</li>
 </ol>
 
-<h2>Parte 2 · Junto con el profesor</h2>
+<h2>Parte 2 · Los cimientos</h2>
 <p>Primero los paquetes. En IntelliJ: clic derecho en <code>src</code> → <b>New → Package</b>, cuatro veces. Del .zip, copia <code>Luz.java</code> a <code>dispositivos</code> y <code>PruebaTemperatura.java</code> a <code>estacion</code>. <code>Main.java</code> espera hasta el final.</p>
 <div class="tree">src
 ├── <span class="d">dispositivos</span>   Bateria  Dispositivo  Sensor  Actuador  Luz
 ├── <span class="d">sensores</span>       SensorTemperatura  SensorPresencia  SensorPeso
 ├── <span class="d">actuadores</span>     BandaTransportadora  Semaforo  Alarma
 └── <span class="d">estacion</span>       Estacion  PruebaTemperatura  Main</div>
-<p>El profesor teclea estas cuatro clases en el proyector y tú con él.</p>
-<h3><code>Bateria</code>: sin <code>public</code>, a propósito</h3>
-<pre><code>package dispositivos;
-
-<span class="c">// sin public: solo el paquete dispositivos la ve</span>
-class Bateria {
-    private int carga;
-
-    Bateria(int carga) {
-        if (carga &lt; 0) {
-            this.carga = 0;
-        } else if (carga &gt; 100) {
-            this.carga = 100;
-        } else {
-            this.carga = carga;
-        }
-    }
-
-    int getCarga() {
-        return carga;
-    }
-
-    void descargar(int puntos) {
-        carga = Math.max(0, carga - puntos);
-    }
-}</code></pre>
-<p>Nadie fuera de <code>dispositivos</code> puede ver la batería, ni hacer <code>new Bateria(...)</code>. Solo el dispositivo la usa.</p>
-<h3><code>Dispositivo</code>: abstracta, con composición y <code>this(...)</code></h3>
-<pre><code>package dispositivos;
-
-public abstract class Dispositivo {
-    private final String id;
-    private final Bateria bateria;
-
-    public Dispositivo(String id, int carga) {
-        this.id = id;
-        <span class="c">// composición: la batería nace y muere con el dispositivo</span>
-        this.bateria = new Bateria(carga);
-    }
-
-    <span class="c">// sobrecarga: sin carga, nace al 100</span>
-    public Dispositivo(String id) {
-        this(id, 100);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public int getCarga() {
-        return bateria.getCarga();
-    }
-
-    <span class="c">// solo las hijas gastan batería</span>
-    protected void gastar(int puntos) {
-        bateria.descargar(puntos);
-    }
-
-    @Override
-    public String toString() {
-        return id + &quot; (&quot; + bateria.getCarga() + &quot;%)&quot;;
-    }
-}</code></pre>
-<p>Dos constructores con el mismo nombre y distintos parámetros: eso es <b>sobrecarga</b>. El segundo no repite nada: le pasa el trabajo al primero con <code>this(id, 100)</code>, que tiene que ser su primera línea.</p>
-<h3><code>Sensor</code>: abstracta, hija de otra abstracta</h3>
-<pre><code>package dispositivos;
-
-public abstract class Sensor extends Dispositivo {
-    private final String unidad;
-    private double senal;
-
-    public Sensor(String id, String unidad, int carga) {
-        super(id, carga);
-        this.unidad = unidad;
-    }
-
-    public Sensor(String id, String unidad) {
-        this(id, unidad, 100);
-    }
-
-    public String getUnidad() {
-        return unidad;
-    }
-
-    <span class="c">// Main simula lo que llega del mundo real</span>
-    public void recibir(double senal) {
-        this.senal = senal;
-    }
-
-    <span class="c">// las hijas leen la señal cruda</span>
-    protected double getSenal() {
-        return senal;
-    }
-
-    public abstract double medir();
-
-    public abstract boolean hayAlerta();
-
-    <span class="c">// final: ninguna hija cambia cómo se reporta una lectura</span>
-    public final String leer() {
-        gastar(1);
-        String texto = getId() + &quot; mide &quot; + medir() + &quot; &quot; + unidad;
-        if (hayAlerta()) {
-            texto = texto + &quot; ALERTA&quot;;
-        }
-        return texto;
-    }
-
-    @Override
-    public String toString() {
-        return &quot;Sensor &quot; + super.toString();
-    }
-}</code></pre>
-<p><code>leer()</code> es <code>final</code> y llama a <code>medir()</code> y <code>hayAlerta()</code>, que todavía no existen: cada hija pone su versión. <code>getSenal()</code> es <code>protected</code> porque solo las hijas la necesitan, y ellas viven en <b>otro paquete</b>.</p>
-<h3><code>SensorTemperatura</code>: la primera hoja</h3>
-<pre><code>package sensores;
-
-import dispositivos.Sensor;
-
-public class SensorTemperatura extends Sensor {
-    private double calibracion;
-    private double maxima;
-
-    public SensorTemperatura(String id, double calibracion, double maxima) {
-        super(id, &quot;C&quot;);
-        this.calibracion = calibracion;
-        this.maxima = maxima;
-    }
-
-    @Override
-    public double medir() {
-        return getSenal() + calibracion;
-    }
-
-    @Override
-    public boolean hayAlerta() {
-        return medir() &gt; maxima;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + &quot; temperatura, max &quot; + maxima;
-    }
-}</code></pre>
-<p>Corre <code>PruebaTemperatura</code>:</p>
+<p>Escribe estas cuatro clases, en este orden. Son la base de todo lo demás: cuando <code>PruebaTemperatura</code> imprima lo de abajo, pasas a la parte 3.</p>
+<h3><code>Bateria</code>, en <code>dispositivos</code>: sin <code>public</code>, a propósito</h3>
+<div class="tw"><table>
+  <tr><th>Qué</th><th>Cómo</th></tr>
+  <tr><td>Declaración</td><td><code>class Bateria</code>, <b>sin modificador</b>: solo su paquete la ve. Sus métodos y su constructor, también sin modificador</td></tr>
+  <tr><td>Atributo</td><td><code>int carga</code>, de 0 a 100</td></tr>
+  <tr><td>Constructor</td><td><code>Bateria(int carga)</code>: menor que 0 se guarda 0; mayor que 100, 100</td></tr>
+  <tr><td>Métodos</td><td><code>getCarga()</code>, y <code>descargar(int puntos)</code>, que resta sin bajar de 0 (pista: <code>Math.max</code>)</td></tr>
+</table></div>
+<h3><code>Dispositivo</code>, en <code>dispositivos</code>: abstracta, con composición y <code>this(...)</code></h3>
+<div class="tw"><table>
+  <tr><th>Qué</th><th>Cómo</th></tr>
+  <tr><td>Declaración</td><td><code>public abstract class Dispositivo</code></td></tr>
+  <tr><td>Atributos</td><td><code>final String id</code> y <code>final Bateria bateria</code></td></tr>
+  <tr><td>Constructores</td><td><b>Dos.</b> <code>Dispositivo(String id, int carga)</code> guarda el id y hace el <code>new Bateria(carga)</code> <b>ahí adentro</b>: eso es composición. <code>Dispositivo(String id)</code> no repite nada: llama al otro con <code>this(id, 100)</code> en su primera línea</td></tr>
+  <tr><td>Métodos</td><td><code>getId()</code>; <code>getCarga()</code>, que le pregunta a su batería; y <code>gastar(int puntos)</code>, <b><code>protected</code></b>: solo las hijas gastan batería</td></tr>
+  <tr><td><code>toString()</code></td><td><code>"S3 (100%)"</code>: el id y la carga</td></tr>
+</table></div>
+<h3><code>Sensor</code>, en <code>dispositivos</code>: abstracta, hija de otra abstracta</h3>
+<div class="tw"><table>
+  <tr><th>Qué</th><th>Cómo</th></tr>
+  <tr><td>Declaración</td><td><code>public abstract class Sensor extends Dispositivo</code></td></tr>
+  <tr><td>Atributos</td><td><code>final String unidad</code> y <code>double senal</code></td></tr>
+  <tr><td>Constructores</td><td><b>Dos.</b> <code>Sensor(String id, String unidad, int carga)</code> con <code>super(id, carga)</code>, y <code>Sensor(String id, String unidad)</code> con <code>this(...)</code> y la batería en 100</td></tr>
+  <tr><td>Métodos</td><td><code>getUnidad()</code>; <code>recibir(double senal)</code>, con el que <code>Main</code> simula la señal del mundo real; y <code>getSenal()</code>, <b><code>protected</code></b>, porque solo las hijas leen la señal cruda, y viven en otro paquete</td></tr>
+  <tr><td>Abstractos</td><td><code>double medir()</code> y <code>boolean hayAlerta()</code>, sin cuerpo: cada sensor pone el suyo</td></tr>
+  <tr><td><code>leer()</code></td><td><b><code>public final</code></b>: ninguna hija lo cambia. Gasta 1 de batería y devuelve <code>"S3 mide 40.0 C"</code> (id, <code>" mide "</code>, <code>medir()</code>, un espacio y la unidad), con <code>" ALERTA"</code> al final si <code>hayAlerta()</code></td></tr>
+  <tr><td><code>toString()</code></td><td><code>"Sensor "</code> más lo del padre</td></tr>
+</table></div>
+<h3><code>SensorTemperatura</code>, en <code>sensores</code>: la primera hoja</h3>
+<div class="tw"><table>
+  <tr><th>Qué</th><th>Cómo</th></tr>
+  <tr><td>Declaración</td><td><code>public class SensorTemperatura extends Sensor</code>. Vive en otro paquete: necesita <code>import dispositivos.Sensor;</code></td></tr>
+  <tr><td>Atributos</td><td><code>double calibracion</code> y <code>double maxima</code></td></tr>
+  <tr><td>Constructor</td><td><code>SensorTemperatura(String id, double calibracion, double maxima)</code>, con unidad <code>"C"</code> y la batería en 100</td></tr>
+  <tr><td><code>medir()</code></td><td>La señal más la calibración</td></tr>
+  <tr><td><code>hayAlerta()</code></td><td>Si mide más que su máxima</td></tr>
+  <tr><td><code>toString()</code></td><td>Lo del padre más <code>" temperatura, max 45.0"</code></td></tr>
+</table></div>
+<p>Con las cuatro listas, corre <code>PruebaTemperatura</code>:</p>
 <pre><code>package estacion;
 
 import sensores.SensorTemperatura;
@@ -287,10 +182,10 @@ public class PruebaTemperatura {
 S3 mide 40.0 C
 S3 mide 48.5 C ALERTA
 Sensor S3 (98%) temperatura, max 45.0</div>
-<p>La última línea dice <code>98%</code>: cada <code>leer()</code> gastó un punto de la batería que el sensor trae adentro.</p>
+<p>La última línea dice <code>98%</code>: cada <code>leer()</code> gastó un punto de la batería que el sensor trae adentro. Y <code>getSenal()</code> funcionó desde <code>sensores</code>, otro paquete, porque <code>SensorTemperatura</code> es hija.</p>
 
-<h2>Parte 3 · Por tu cuenta</h2>
-<p>Mismo patrón que la parte 2, sin código de ejemplo. Todos los atributos son <code>private</code>. Las clases y lo que se usa desde otro paquete, <code>public</code>.</p>
+<h2>Parte 3 · La estación completa</h2>
+<p>Mismo patrón que la parte 2. Todos los atributos son <code>private</code>. Las clases y lo que se usa desde otro paquete, <code>public</code>.</p>
 <h3>Los otros dos sensores, en <code>sensores</code></h3>
 <div class="tw"><table>
   <tr><th>Clase</th><th>Constructor</th><th><code>medir()</code></th><th><code>hayAlerta()</code></th><th><code>toString()</code></th></tr>
