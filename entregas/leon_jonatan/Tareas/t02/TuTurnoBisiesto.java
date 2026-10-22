@@ -4,7 +4,7 @@
 // Es bisiesto si es divisible entre 4, EXCEPTO los divisibles entre 100,
 // SALVO que tambien lo sean entre 400.
 // Pista: combina %, ==, != , && y ||
-
+//Leon Carrasco Jonatan Abdel
 public class TuTurnoBisiesto {
 
     public static boolean esBisiesto(int anio) {
