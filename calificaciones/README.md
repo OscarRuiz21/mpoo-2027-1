@@ -22,6 +22,16 @@ por persona, una columna por práctica o tarea, y tus **Observaciones**.
 
 Lo entregado tarde se califica por su contenido; el amarillo solo lo señala.
 
+## Parcial 1
+
+**[`Parcial1-calificaciones.xlsx`](Parcial1-calificaciones.xlsx)**: tu calificación del Parcial 1 (7 de octubre), también por número de cuenta.
+
+| Columna | Qué es |
+|---|---|
+| **CalifV1** | Tu calificación original: puntos obtenidos entre 10 |
+| **CalifV2** | Con la curva: una curva lineal que lleva la calificación más baja del grupo a 5 y la más alta a 10, y reparte a todos los demás en proporción entre esos dos puntos. **Es la que cuenta** |
+| **NP** | No presentó |
+
 ## Si algo no coincide
 
 Si crees que hay un error —entregaste algo que aparece como NP, o no reconoces una
