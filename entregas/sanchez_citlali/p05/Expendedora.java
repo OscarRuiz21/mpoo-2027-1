@@ -29,26 +29,74 @@
 public class Expendedora {
 
     // --- ATRIBUTOS ---------------------------------------------------------
-    static int ventasTotales = 0; //[cite: 10]
-    String ubicacion;             //[cite: 10]
-    int saldo;                    //[cite: 10]
-    Producto papas;               //[cite: 10]
-    Producto refresco;            //[cite: 10]
-    Producto chocolate;           //[cite: 10]
+    // TODO: un atributo static que cuente las ventas de TODAS las maquinas.
+    static int ventasTodas = 0;
+    // TODO: los atributos de cada maquina: su ubicacion, su saldo y sus tres
+    //       productos.
+    String ubicacion;
+    int saldo;
+    Producto papas;
+    Producto refresco;
+    Producto chocolate;
+    //
+    // Un atributo puede ser un OBJETO de otra clase. EJEMPLO con otra clase,
+    // Grupo, que tiene alumnos:
+    //     static int totalGrupos = 0;     // static: uno para todos los grupos
+    //     String salon;
+    //     Alumno jefe;                    // un atributo que es un Alumno
+
 
     // --- CONSTRUCTOR -------------------------------------------------------
+    // Nace con saldo 0 y crea sus tres productos con new, cada uno con su
+    // precio de la tabla y con las piezas que te pasan.
+    // Si la ubicacion viene en blanco, guarda "SIN UBICACION".   (ternario)
+    // Pista: texto.isBlank() es true si solo trae espacios.
+    //
+    // QUE DEBE PASAR:
+    //     new Expendedora("Edificio Q", 15)  -> ubicacion "Edificio Q",
+    //                                           papas, refresco y chocolate con 10
+    //     new Expendedora("   ", 0)          -> ubicacion "SIN UBICACION",
+    //                                           los tres con 0 piezas
+    //
+    // EJEMPLO con otra clase, Grupo:
+    //     Grupo(String salon, String nombreDelJefe) {
+    //         this.salon = salon.isBlank() ? "SIN SALON" : salon;   // ternario
+    //         this.jefe = new Alumno(nombreDelJefe, 19);             // crea el objeto
+    //     }
     Expendedora(String ubicacion, int piezas) {
-        this.ubicacion = ubicacion.isBlank() ? "SIN UBICACION" : ubicacion; //[cite: 1, 10]
+        this.ubicacion = ubicacion.isBlank() ? "SIN UBICACION" : ubicacion;
         this.saldo = 0;
-        this.papas = new Producto("papas", 18, piezas);         //[cite: 1, 9, 10]
-        this.refresco = new Producto("refresco", 22, piezas);   //[cite: 1, 9, 10]
-        this.chocolate = new Producto("chocolate", 15, piezas); //[cite: 1, 9, 10]
+        this.papas = new Producto("papas", 18, piezas);
+        this.refresco = new Producto("refresco", 22, piezas);
+        this.chocolate = new Producto("chocolate", 15, piezas);
+        // TODO
     }
 
     // --- METODOS -----------------------------------------------------------
-    Producto buscar(String codigo) {
-        String limpio = codigo.trim().toUpperCase(); //[cite: 1, 10]
-        switch (limpio) {
+
+    // Regresa el Producto de ese codigo, o null si no existe.
+    // Limpia el codigo con trim() y toUpperCase().
+    //                                          (switch clasico con break y default)
+    //     buscar("A1")     -> el Producto de las papas
+    //     buscar(" b1 ")   -> el Producto del chocolate
+    //     buscar("Z9")     -> null
+    //
+    // EJEMPLO de switch clasico con otra cosa:
+    //     int numero;
+    //     switch (dia.trim().toUpperCase()) {
+    //         case "LUNES":
+    //             numero = 1;
+    //             break;
+    //         case "MARTES":
+    //             numero = 2;
+    //             break;
+    //         default:
+    //             numero = -1;
+    //     }
+    //     return numero;
+    Producto buscar(String codigo) { //no se pq esta mal la vdd :()
+        codigo = codigo.trim().toUpperCase();
+        switch (codigo) {
             case "A1":
                 return this.papas;
             case "A2":
@@ -60,8 +108,19 @@ public class Expendedora {
         }
     }
 
+    // Suma al saldo el valor de la moneda.            (switch sobre el enum)
+    //     saldo 0,  insertar(Moneda.DIEZ)  -> saldo 10
+    //     luego     insertar(Moneda.DOS)   -> saldo 12
+    //
+    // En un switch de enum el case se escribe sin "Moneda.":
+    //     switch (moneda) {
+    //         case UNO:
+    //             ...
+    //             break;
+    //         ...
+    //     }
     void insertar(Moneda moneda) {
-        switch (moneda) { //[cite: 1, 10]
+        switch (moneda) {
             case UNO:
                 this.saldo += 1;
                 break;
@@ -75,44 +134,62 @@ public class Expendedora {
                 this.saldo += 10;
                 break;
         }
+        
     }
 
+    // Intenta vender. Revisa en ESTE orden y regresa el primer caso que aplique:
+    //   1. codigo que no existe    -> "CODIGO INVALIDO"
+    //   2. no quedan piezas        -> "AGOTADO"
+    //   3. el saldo no alcanza     -> "FALTAN $" y lo que falta (el saldo se queda)
+    //   4. si todo esta bien       -> saca una pieza, suma 1 a las ventas,
+    //                                 regresa el cambio y deja el saldo en 0
+    //                                                     (if / else if / else)
+    //     saldo 15, comprar("A1")   -> "FALTAN $3"
+    //     saldo 18, comprar("A1")   -> "ENTREGADO, CAMBIO $0"
+    //     saldo 30, comprar("B1")   -> "ENTREGADO, CAMBIO $15"
+    //     comprar("C3")             -> "CODIGO INVALIDO"
+    //     maquina sin piezas        -> "AGOTADO"
+    //
+    // Pista: empieza con   Producto p = buscar(codigo);
+    //        y despues pregunta   p == null,  p.hayPiezas(),  p.getPrecio() ...
     String comprar(String codigo) {
-        Producto p = buscar(codigo); //[cite: 1, 10]
+        Producto p = buscar(codigo);
         if (p == null) {
             return "CODIGO INVALIDO";
-        }
-        if (!p.hayPiezas()) {
+        } else if (!p.hayPiezas()) {
             return "AGOTADO";
-        }
-        if (this.saldo < p.getPrecio()) {
+        } else if (this.saldo < p.getPrecio()) {
             return "FALTAN $" + (p.getPrecio() - this.saldo);
+        } else {
+            p.sacarUna();
+            ventasTodas++;
+            int cambio = this.saldo - p.getPrecio();
+            this.saldo = 0;
+            return "ENTREGADO, CAMBIO $" + cambio;
         }
-        
-        // Si todo está bien:
-        int cambio = this.saldo - p.getPrecio();
-        p.sacarUna();
-        ventasTotales++;
-        this.saldo = 0;
-        return "ENTREGADO, CAMBIO $" + cambio;
-    }
+    }   
 
+    // "VACIA" si NINGUNO de sus tres productos tiene piezas; si no, "DISPONIBLE".
+    // (ternario)
     String estado() {
-        boolean hayAlguno = this.papas.hayPiezas() || this.refresco.hayPiezas() || this.chocolate.hayPiezas();
-        return hayAlguno ? "DISPONIBLE" : "VACIA"; //[cite: 1, 10]
+        return (!papas.hayPiezas() && !refresco.hayPiezas() && !chocolate.hayPiezas()) ? "VACIA" : "DISPONIBLE"; 
     }
 
+    // La ubicacion y, entre parentesis, el estado:
+    // "Edificio Q (DISPONIBLE)"        "SIN UBICACION (VACIA)"
     String etiqueta() {
-        return this.ubicacion + " (" + estado() + ")"; //[cite: 1, 10]
+        return this.ubicacion + " (" + estado() + ")"; 
     }
 
+    // Devuelve el saldo que habia y lo deja en 0.
     int cancelar() {
-        int devolucion = this.saldo; //[cite: 1, 10]
+        int devuelto = this.saldo;
         this.saldo = 0;
-        return devolucion;
+        return devuelto; 
     }
 
+    // Las ventas de TODAS las maquinas juntas (el atributo static).
     static int getVentasTotales() {
-        return ventasTotales; //[cite: 1, 10]
+        return ventasTodas; 
     }
 }

@@ -1,7 +1,7 @@
 // ============================================================================
 // P5 · ESTRUCTURAS DE SELECCION · MPOO 2027-1 · Grupo 6
 //
-// ESCRIBE TU NOMBRE AQUI: 
+// ESCRIBE TU NOMBRE AQUI: Sanchez Mendez Citlali Itzel
 // ============================================================================
 //
 // LOS CUATRO ARCHIVOS VAN JUNTOS, EN LA MISMA CARPETA:

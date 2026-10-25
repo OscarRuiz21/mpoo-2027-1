@@ -1,7 +1,7 @@
 // ============================================================================
 // P4 · ARREGLOS CON TUS MANOS · MPOO 2027-1 · Grupo 6
 //
-// ESCRIBE TU NOMBRE AQUI: SANCHEZ MENDEZ CITLALI ITZEL Y HERNANDEZ NIEVES EMILY
+// ESCRIBE TU NOMBRE AQUI: Sanchez Mendez Citali Izel 
 // ============================================================================
 //
 // QUE HACE ESTE PROGRAMA
@@ -67,8 +67,7 @@ public class P4Arreglos {
     // Crea y devuelve un arreglo de int con estos cinco valores, en este orden:
     // 10, 20, 30, 40, 50.  Aqui no hace falta ningun for.
     static int[] primerosCinco() {
-        int[] numeros ={10, 20, 30, 40, 50};
-        return numeros;
+        return new int[] { 10, 20, 30, 40, 50 };
     }
 
     // =============================== EJERCICIO 2 ===============================
@@ -76,32 +75,54 @@ public class P4Arreglos {
     // si sumas int y divides entre int, Java te devuelve int.
     // Pista: puedes apoyarte en suma(numeros), que ya esta resuelto.
     static double promedio(int[] numeros) {
-        // TODO: escribe tu codigo aqui
-        return 0.0;
+        int total = 0;
+        for(int i = 0; i < numeros.length; i++){
+            total = total + numeros[i];
+        
+        }
+        double promedio = (double) total/numeros.length;
+        return promedio;
     }
 
     // =============================== EJERCICIO 3 ===============================
     // Devuelve el numero mas grande del arreglo.
     // Pista: guarda el primero como candidato y recorre el resto comparando.
     static int maximo(int[] numeros) {
-        // TODO: escribe tu codigo aqui
-        return 0;
+        int max = numeros[0];
+
+        for(int i = 1 ; i < numeros.length; i++){
+            if (numeros[i]>max){
+                max= numeros[i];
+            }
+        }
+        return max;
     }
 
     // =============================== EJERCICIO 4 ===============================
     // Devuelve la POSICION donde vive el valor buscado, o -1 si no esta.
     // Si aparece dos veces, devuelve la primera.
     static int posicionDe(int[] numeros, int buscado) {
-        // TODO: escribe tu codigo aqui
+        for (int i = 0; i < numeros.length; i++){
+            if ( buscado == numeros[i]){
+                int posicion = i;
+                return posicion;
+            }
+        }
         return -1;
     }
+
 
     // =============================== EJERCICIO 5 ===============================
     // Devuelve un arreglo NUEVO con los mismos valores al reves.
     // El arreglo que recibes no se toca.
     static int[] invertido(int[] numeros) {
-        // TODO: escribe tu codigo aqui
-        return null;
+        int temp[] = new int[numeros.length];
+        int p=0;
+        for(int i = numeros.length-1; i >= 0; i--){
+            temp[p]= numeros[i];
+            p++;
+        }
+        return temp;
     }
 
     // =============================== EJERCICIO 6 ===============================
@@ -109,16 +130,26 @@ public class P4Arreglos {
     // la calificacion mas alta. La clase Alumno esta hasta abajo.
     // Se llega al dato asi:  alumnos[i].nombre     alumnos[i].calificacion
     static String nombreDelMasAlto(Alumno[] alumnos) {
-        // TODO: escribe tu codigo aqui
-        return "";
+        double calificaciongoat = alumnos[0].calificacion;
+        String nombregoat = alumnos[0].nombre;
+        for(int i = 0; i < alumnos.length; i++){
+            if (calificaciongoat < alumnos[i].calificacion){
+                calificaciongoat = alumnos[i].calificacion;
+                nombregoat = alumnos[i].nombre;
+            }
+        }
+        return nombregoat;
     }
 
     // =============================== EJERCICIO 7 ===============================
     // Suma los valores de UNA fila de una matriz.
     // En una matriz, matriz[fila] es a su vez un arreglo: matriz[fila][columna].
     static int sumaDeFila(int[][] matriz, int fila) {
-        // TODO: escribe tu codigo aqui
-        return 0;
+        int suma = 0;
+        for(int i = 0; i < matriz[fila].length; i++){
+            suma += matriz[fila][i]; 
+        }
+        return suma;
     }
 
     // =============================== EJERCICIO 8 ===============================
@@ -128,8 +159,11 @@ public class P4Arreglos {
     // Pistas: linea.split(",") te devuelve un arreglo de String;
     //         texto.trim() quita los espacios de las orillas.
     static String limpiaYJunta(String linea) {
-        // TODO: escribe tu codigo aqui
-        return "";
+        String[] nombres = linea.split(",");
+        for(int i = 0; i < nombres.length; i++){
+            nombres[i] = nombres[i].trim();
+        }
+        return String.join(" | ", nombres);//aqui busque una forma de unir los elementos del arreglo con un separador, y encontre esta funcion que hace justo eso
     }
 
     // ============================================================================
