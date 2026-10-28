@@ -33,6 +33,8 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | ↳ los archivos del Lab 7 · `P07-archivos.zip` | [`guias-laboratorios/Lab-07/P07-archivos.zip`](guias-laboratorios/Lab-07/P07-archivos.zip) |
 | **Lab 8 · Herencia, segunda parte: la estación de clasificación** (mié 21-oct, en parejas, entrega vie 23-oct) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-08/P08-Herencia.html> |
 | ↳ los archivos del Lab 8 · `P08-archivos.zip` | [`guias-laboratorios/Lab-08/P08-archivos.zip`](guias-laboratorios/Lab-08/P08-archivos.zip) |
+| **Lab 9 · Encapsulamiento, primera parte: La mazmorra** (mié 28-oct, en parejas, entrega vie 30-oct; la P10 la continúa) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-09/P09-Encapsulamiento.html> |
+| ↳ los archivos del Lab 9 · `P09-archivos.zip` | [`guias-laboratorios/Lab-09/P09-archivos.zip`](guias-laboratorios/Lab-09/P09-archivos.zip) |
 | **Tarea 2 · Año bisiesto y clasificador de calificaciones** (entrega dom 27-sep) | [`tareas/t02/README.md`](tareas/t02/README.md) |
 | **Tarea 3 · Contraseña, calculadora y un programa tuyo** (entrega dom 4-oct) | [`tareas/t03/README.md`](tareas/t03/README.md) |
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |

@@ -17,6 +17,7 @@ navegador (es la que conviene) y **`.pdf`** para imprimir o leer sin conexión.
 | **Lab 5** · Estructuras de selección | [`Lab-05/`](Lab-05/P05-Estructuras-de-seleccion.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-05/P05-Estructuras-de-seleccion.html) · [`P05-archivos.zip`](Lab-05/P05-archivos.zip) | `p05/` |
 | **Lab 7** · Herencia, primera parte | [`Lab-07/`](Lab-07/P07-Herencia.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-07/P07-Herencia.html) · [`P07-archivos.zip`](Lab-07/P07-archivos.zip) | `p07/` |
 | **Lab 8** · Herencia, segunda parte: la estación de clasificación | [`Lab-08/`](Lab-08/P08-Herencia.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-08/P08-Herencia.html) · [`P08-archivos.zip`](Lab-08/P08-archivos.zip) | `p08/` |
+| **Lab 9** · Encapsulamiento, primera parte: La mazmorra | [`Lab-09/`](Lab-09/P09-Encapsulamiento.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-09/P09-Encapsulamiento.html) · [`P09-archivos.zip`](Lab-09/P09-archivos.zip) | `p09/` |
 
 Los laboratorios que faltan se van agregando aquí, cada uno en su carpeta, conforme
 avanza el semestre.
