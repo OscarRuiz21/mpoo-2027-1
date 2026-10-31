@@ -11,7 +11,13 @@ navegador (es la que conviene) y **`.pdf`** para imprimir o leer sin conexión.
 | Lab | Guía | Se entrega en |
 |---|---|---|
 | **Lab 0** · Entorno de trabajo y primer pull request | [`Lab-00/`](Lab-00/Lab-00-Entorno-y-Git.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-00/Lab-00-Entorno-y-Git.html) | `p00/` |
-| **Lab 3** · Laboratorio de predicciones | [`Lab-03/`](Lab-03/P03-Laboratorio-de-predicciones.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html) | `p03/` |
+| **Lab 3** · Laboratorio de predicciones | [`Lab-03/`](Lab-03/P03-Laboratorio-de-predicciones.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html) · [`Laboratorio.java`](Lab-03/Laboratorio.java) | `p03/` |
+
+| **Lab 4** · Arreglos con tus manos | [`Lab-04/`](Lab-04/P04-Arreglos-con-tus-manos.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-04/P04-Arreglos-con-tus-manos.html) · [`P4Arreglos.java`](Lab-04/P4Arreglos.java) | `p04/` |
+| **Lab 5** · Estructuras de selección | [`Lab-05/`](Lab-05/P05-Estructuras-de-seleccion.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-05/P05-Estructuras-de-seleccion.html) · [`P05-archivos.zip`](Lab-05/P05-archivos.zip) | `p05/` |
+| **Lab 7** · Herencia, primera parte | [`Lab-07/`](Lab-07/P07-Herencia.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-07/P07-Herencia.html) · [`P07-archivos.zip`](Lab-07/P07-archivos.zip) | `p07/` |
+| **Lab 8** · Herencia, segunda parte: la estación de clasificación | [`Lab-08/`](Lab-08/P08-Herencia.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-08/P08-Herencia.html) · [`P08-archivos.zip`](Lab-08/P08-archivos.zip) | `p08/` |
+| **Lab 9** · Encapsulamiento, primera parte: La mazmorra | [`Lab-09/`](Lab-09/P09-Encapsulamiento.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-09/P09-Encapsulamiento.html) · [`P09-archivos.zip`](Lab-09/P09-archivos.zip) | `p09/` |
 
 Los laboratorios que faltan se van agregando aquí, cada uno en su carpeta, conforme
 avanza el semestre.
