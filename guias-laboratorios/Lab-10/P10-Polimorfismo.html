@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · P10 · Polimorfismo, primera parte</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:62ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.83rem;color:#33465e;white-space:pre;overflow-x:auto}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+.tw{overflow-x:auto}
+@media print{header,pre,.box,.cp{-webkit-print-color-adjust:exact;print-color-adjust:exact}pre,pre code{white-space:pre-wrap;overflow:visible}.out{font-size:.72rem;overflow:visible}tr{break-inside:avoid}pre,.box,.out{break-inside:avoid}h2{break-after:avoid}footer{break-inside:avoid}}
+.ficha .porque{margin:.25rem 0 0;font-size:.92rem;color:var(--dim);font-style:italic}.ficha .lbl{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin:.7rem 0 0}.ficha code{white-space:pre-wrap;word-break:break-word}.ficha ul{margin-top:.3rem}.ficha li{margin:.3rem 0}.ficha pre code{font-size:.82rem;line-height:1.6}@media print{.ficha{break-inside:avoid}.ficha pre code{font-size:.66rem;white-space:pre}.ficha pre{overflow:visible}}
+.ficha h3{margin-bottom:.2rem}.ficha p{margin:.2rem 0 .4rem}
+.steps{counter-reset:s;list-style:none;margin:1rem 0;padding:0}.steps li{counter-increment:s;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem .8rem 3.2rem;margin:.6rem 0;position:relative;color:var(--ink)}.steps li::before{content:counter(s);position:absolute;left:1rem;top:.8rem;background:var(--am);color:#fff;width:1.6em;height:1.6em;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em}.steps li span{display:block;color:var(--dim);font-size:.92rem}
+.uml{overflow-x:auto;margin:1rem 0}.uml svg{min-width:760px}.cpt{display:inline-block;background:#e8eef8;color:#1d2b45;border:1px solid #c9d6ea;border-radius:999px;padding:.05em .7em;font-size:.8rem;font-weight:800;margin:.15rem .3rem .15rem 0;white-space:nowrap}.cpts{margin:.2rem 0 .6rem}.paso{border-left:4px solid #1d3a60;padding-left:1rem;margin:1.6rem 0}.paso h3{margin-top:0}.receta li{margin:.45rem 0}.idea{background:#12253d;color:#fff;border-radius:12px;padding:1.1rem 1.3rem;margin:1.1rem 0;font-size:1.08rem;line-height:1.5}.idea b{color:#ffb340}.idea code{background:#1d3a60;border-color:#2c4f7c;color:#fff}.dos{margin:.8rem 0}.dos>div{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:.8rem 0;background:var(--panel)}.dos h4{margin:0 0 .3rem;font-size:.95rem}.dos pre{margin:.4rem 0}.dos pre code{font-size:.84rem}.dos .sin h4{color:var(--rd)}.dos .con h4{color:var(--gr)}.tarj td:first-child{white-space:nowrap}@media print{.uml svg{min-width:0}.uml,.idea,.dos>div,.paso{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · Práctica 10 · miércoles 4 de noviembre</div>
+  <h1>La mazmorra, parte 2</h1>
+  <p>Polimorfismo, primera parte. Las herramientas dejan de ser todas iguales: cada una grita y golpea a su manera, y el juego las usa sin preguntar cuál es cuál.</p>
+  <p style="margin-top:1em"><a href="P10-archivos.zip" download style="display:inline-block;background:#f2b705;color:#12203a;text-decoration:none;font-weight:800;padding:.55em 1.3em;border-radius:10px">Descargar los archivos (.zip)</a></p>
+</div></header>
+
+<div class="wrap">
+
+<h2>Qué vas a hacer</h2>
+<p>En pareja (o solo), sobre <b>tu código de la P9</b>. Si no la terminaste, el .zip trae una base lista:</p>
+<ol class="steps">
+  <li><b>De dónde venimos y qué es el polimorfismo</b> <span>15 min · la P9 en una tabla, la idea de hoy y el diagrama</span></li>
+  <li><b>Parte A, ejemplo guiado</b> <span>30 min · <code>Herramienta</code> abstracta, el <code>Arco</code>, el personaje con una herramienta y el punto de control</span></li>
+  <li><b>Parte B, por tu cuenta</b> <span>20 min · la <code>Espada</code> y el <code>Baston</code>, con el mismo patrón que el arco</span></li>
+  <li><b>Parte C, sin y con polimorfismo</b> <span>20 min · el mismo recorrido con <code>instanceof</code> y sin él</span></li>
+  <li><b>Parte D, los moldes</b> <span>10 min · upcast, <code>instanceof</code> y downcast</span></li>
+</ol>
+<p>Lo que no termines en clase lo terminas en casa. La entrega es el <b>viernes 6 de noviembre, 23:59</b>, en <code>p10/</code>.</p>
+<div class="box warn"><h4>Esta vez sin JUnit</h4>
+<p style="color:var(--ink)">Tus pruebas de la P9 hacen <code>new Herramienta(...)</code>, y hoy <code>Herramienta</code> se vuelve abstracta: ya no compilan, y está bien. <b>No las borres; solo no las compiles</b>: todos los comandos de hoy son sobre <code>src/</code>.</p></div>
+
+<h2>De dónde venimos: la P9 en una tabla</h2>
+<p>La P9 fue <b>La mazmorra</b>: un videojuego de texto con personajes que cargan herramientas y pelean. Si no la hiciste, el .zip trae <code>base-p09/</code> con las siete clases terminadas; léelas antes de empezar.</p>
+<div class="tw" style="overflow-x:auto"><table class="mini">
+  <tr><th>De la P9</th><th>Qué era</th><th>Hoy</th></tr>
+  <tr><td><code>Personaje</code> abstracta; <code>Caballero</code>, <code>Mago</code>, <code>Arquero</code></td><td>Herencia: cada tipo tiene su vida y su <code>calcularDanio</code></td><td>Las hijas no cambian; <code>Personaje</code> carga una herramienta en vez del inventario</td></tr>
+  <tr><td><code>Herramienta</code></td><td>Una sola clase: nombre, daño y durabilidad; <code>usar()</code> desgasta y devuelve el daño</td><td><b>Se vuelve abstracta</b> y le salen tres hijas</td></tr>
+  <tr><td><code>Inventario</code></td><td>Composición: hasta tres herramientas por personaje; <code>usarMejor()</code> usa la sana que más pega</td><td><b>Desaparece</b>: cada personaje carga <b>una</b> herramienta, la de su tipo (el caballero la espada, el mago el bastón, el arquero el arco)</td></tr>
+  <tr><td><code>companero</code>, encapsulamiento</td><td>Asociación entre personajes; atributos privados, trampas que no compilan</td><td>No cambian</td></tr>
+</table></div>
+<p>En la P9 ya usaste <code>abstract</code>, <code>extends</code> y <code>@Override</code>. Hoy ves <b>para qué sirven</b>: para que el juego dé una orden y cada objeto responda a su manera. Eso se llama <b>polimorfismo</b>.</p>
+
+<h2>Qué es el polimorfismo</h2>
+<div class="idea">Polimorfismo quiere decir «muchas formas». <b>Una misma orden, <code>h.golpear()</code>, y cada objeto responde con lo suyo:</b> la espada da un tajo, el arco dispara dos flechas, el bastón lanza un hechizo. Quien da la orden no pregunta qué herramienta tiene enfrente.</div>
+<p>Para que eso funcione hacen falta tres ingredientes. Los tres aparecen en el código de hoy:</p>
+<div class="tw" style="overflow-x:auto"><table>
+  <tr><th>Ingrediente</th><th>Qué es</th><th>En esta práctica</th></tr>
+  <tr><td><b>1 · La clase base dice <em>qué</em></b></td><td>Una clase abstracta declara los métodos que toda hija debe tener, sin decir cómo: <code>public abstract String grito();</code></td><td><code>Herramienta</code>, con <code>grito()</code> y <code>golpear()</code></td></tr>
+  <tr><td><b>2 · Cada hija dice <em>cómo</em></b></td><td>Cada clase hija escribe esos métodos a su manera, con <code>@Override</code></td><td><code>Espada</code>, <code>Arco</code> y <code>Baston</code>: tres gritos y tres reglas de golpe</td></tr>
+  <tr><td><b>3 · El juego llama sin preguntar</b></td><td>Una variable del tipo base, <code>Herramienta h</code>, puede guardar cualquier hija. Al llamar <code>h.golpear()</code>, Java mira <b>el objeto</b>, no la variable, y corre el método de su clase</td><td><code>Personaje.atacar</code> y el <code>for</code> de <code>Comparar</code></td></tr>
+</table></div>
+<p><b>Ya lo usaste en la P9 sin nombrarlo.</b> <code>Personaje.atacar</code> llama a <code>calcularDanio(base)</code>, y según el objeto corre el del caballero (suma 5), el del mago (duplica) o el del arquero (suma 3). <code>atacar</code> no pregunta de qué tipo es el personaje: Java lo decide por el objeto. Hoy haces lo mismo, a propósito, con las herramientas.</p>
+
+<h2>El diagrama</h2>
+<p>Así queda la familia de herramientas. En cada clase aparece <b>solo lo que esa clase escribe</b>; lo heredado no se repite.</p>
+<div class="uml"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 910 560" role="img" aria-label="Diagrama de clases de las herramientas de La mazmorra" style="width:100%;height:auto;background:#fff;border-radius:10px">
+<rect x="520" y="40" width="370" height="266" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="520" y="40" width="370" height="30" fill="#fff3dc" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="705.0" y="60" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45" font-style="italic">Herramienta  {abstract}</text>
+<text x="528" y="84" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- nombre: String {final}</text>
+<text x="528" y="102" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- danio: int {final}</text>
+<text x="528" y="120" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- durabilidad: int</text>
+<line x1="520" y1="129.0" x2="890" y2="129.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="528" y="144" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45"># Herramienta(nombre: String, danio: int)</text>
+<text x="528" y="162" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ grito(): String</text>
+<text x="528" y="180" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ golpear(): int</text>
+<text x="528" y="198" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getNombre(): String</text>
+<text x="528" y="216" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getDanio(): int</text>
+<text x="528" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getDurabilidad(): int</text>
+<text x="528" y="252" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ estaRota(): boolean</text>
+<text x="528" y="270" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ usar(): int</text>
+<text x="528" y="288" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ reparar()</text>
+<rect x="20" y="40" width="370" height="266" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="20" y="40" width="370" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="205.0" y="60" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45" font-style="italic">Personaje  {abstract}</text>
+<text x="28" y="84" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- nombre: String {final}</text>
+<text x="28" y="102" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- vidaMaxima: int {final}</text>
+<text x="28" y="120" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- vida: int</text>
+<text x="28" y="138" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- herramienta: Herramienta</text>
+<text x="28" y="156" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- companero: Personaje</text>
+<line x1="20" y1="165.0" x2="390" y2="165.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="28" y="180" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45"># Personaje(nombre: String, vidaMaxima: int)</text>
+<text x="28" y="198" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ getTipo(): String</text>
+<text x="28" y="216" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700"># calcularDanio(base: int): int</text>
+<text x="28" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getHerramienta(): Herramienta</text>
+<text x="28" y="252" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ equipar(h: Herramienta)</text>
+<text x="28" y="270" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ atacar(objetivo: Personaje)   (llama a golpear)</text>
+<text x="28" y="288" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">... lo demas, como en la P9</text>
+<polygon points="390,150 402,143 414,150 402,157" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="414" y1="150" x2="520" y2="150" stroke="#1d2b45" stroke-width="1.5"/>
+<text x="512" y="142" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">0..1</text>
+<text x="465.0" y="170" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">carga una</text>
+<text x="28" y="330" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Inventario desaparece. Caballero, Mago y Arquero</text>
+<text x="28" y="350" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">no cambian: siguen como en la P9.</text>
+<rect x="20" y="406" width="270" height="104" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="20" y="406" width="270" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="155.0" y="426" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Espada</text>
+<line x1="20" y1="441.0" x2="290" y2="441.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="28" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Espada(danio: int)</text>
+<text x="28" y="474" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ grito(): String</text>
+<text x="28" y="492" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ golpear(): int</text>
+<rect x="320" y="406" width="270" height="104" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="320" y="406" width="270" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="455.0" y="426" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Arco</text>
+<line x1="320" y1="441.0" x2="590" y2="441.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="328" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Arco(danio: int)</text>
+<text x="328" y="474" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ grito(): String</text>
+<text x="328" y="492" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ golpear(): int</text>
+<rect x="620" y="406" width="270" height="104" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="620" y="406" width="270" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="755.0" y="426" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Baston</text>
+<line x1="620" y1="441.0" x2="890" y2="441.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="628" y="456" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Baston(danio: int)</text>
+<text x="628" y="474" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ grito(): String</text>
+<text x="628" y="492" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ golpear(): int</text>
+<line x1="155.0" y1="406" x2="155.0" y2="366" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="455.0" y1="406" x2="455.0" y2="366" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="755.0" y1="406" x2="755.0" y2="366" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="155.0" y1="366" x2="755.0" y2="366" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="705.0" y1="366" x2="705.0" y2="324" stroke="#1d2b45" stroke-width="1.5"/>
+<polygon points="705.0,306 694.0,324 716.0,324" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5"/>
+<text x="721.0" y="358" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">es una (extends)</text>
+<text x="20" y="544" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">cursiva: abstracto, cada hija lo escribe con @Override.  Amarillo: lo nuevo de esta practica.</text>
+</svg></div>
+
+<h2>Prepara tu proyecto</h2>
+<ol>
+  <li>Copia tu carpeta de la P9 completa (o la <code>base-p09</code> del .zip) y llámala <code>p10</code>. Trabaja en la copia.</li>
+  <li>Del .zip, <b>reemplaza</b> tu <code>src/mazmorra/Main.java</code> por el nuevo y copia <code>Comparar.java</code> y <code>Moldes.java</code> junto a él.</li>
+</ol>
+<pre><code>p10/
+  src/mazmorra/   <span class="c"># tus clases de la P9 con el Main nuevo, Comparar y Moldes</span>
+  lib/  test/     <span class="c"># de la P9: no los toques ni los compiles</span></code></pre>
+<div class="box tip"><h4>¿Arrancas de la base del .zip?</h4>
+<p style="color:var(--ink)">Antes de cambiar nada, compílala y córrela con el <code>Main</code> de la P9 para ver que funciona: Legolas debe quedar en 75. Luego reemplaza el <code>Main</code>.</p>
+<pre><code>javac -d out src/mazmorra/*.java
+<span class="c"># compila las siete clases de la P9 y deja los .class en out</span>
+java -cp out mazmorra.Main
+<span class="c"># corre el Main de la P9 buscando las clases en out</span></code></pre>
+<p style="color:var(--ink)">En Windows usa <code>\</code> en vez de <code>/</code> en las rutas.</p></div>
+
+<h2>Parte A · Ejemplo guiado: la clase base y su primera hija</h2>
+<p>Este ejemplo hace los tres ingredientes con <b>una</b> herramienta, el arco. Síguelo en orden y escríbelo en tu proyecto: cada paso trae el código completo y el concepto que aplica. En el paso A4 compruebas que funciona. En la Parte B repites el patrón con la espada y el bastón.</p>
+
+<div class="paso">
+<h3>A1 · La clase base dice qué: <code>Herramienta</code> se vuelve abstracta</h3>
+<div class="cpts"><span class="cpt">clase abstracta</span><span class="cpt">método abstracto</span><span class="cpt">constructor protected</span></div>
+<p>En el juego ya no existe «una herramienta» a secas: toda herramienta es espada, arco o bastón. Por eso <code>Herramienta</code> se vuelve <b>abstracta</b>, como <code>Personaje</code> en la P9: sirve para agrupar a sus hijas, no para crear objetos. Así queda tu <code>Herramienta.java</code> completo; lo nuevo son la primera línea, el <code>protected</code> del constructor y los dos métodos abstractos:</p>
+<pre><code>package mazmorra;
+
+<span class="c">// Ya no existe &quot;una herramienta&quot; a secas: toda herramienta es una</span>
+<span class="c">// espada, un arco o un baston. Por eso la clase es abstracta.</span>
+public abstract class Herramienta {
+    private final String nombre;
+    private final int danio;
+    private int durabilidad;
+
+    protected Herramienta(String nombre, int danio) {
+        this.nombre = nombre;
+        this.danio = entre(danio, 1, 50);
+        this.durabilidad = 100;
+    }
+
+    <span class="c">// 1. GRITO: cada herramienta suena distinto al atacar</span>
+    public abstract String grito();
+
+    <span class="c">// 2. GOLPE: cada herramienta decide cuanto dano hace un golpe</span>
+    public abstract int golpear();
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getDanio() {
+        return danio;
+    }
+
+    public int getDurabilidad() {
+        return durabilidad;
+    }
+
+    public boolean estaRota() {
+        return durabilidad == 0;
+    }
+
+    <span class="c">// rota no hace dano; si no, se desgasta un punto</span>
+    public int usar() {
+        if (estaRota()) {
+            return 0;
+        }
+        durabilidad--;
+        return danio;
+    }
+
+    public void reparar() {
+        durabilidad = 100;
+    }
+
+    private int entre(int valor, int min, int max) {
+        return Math.max(min, Math.min(max, valor));
+    }
+}</code></pre>
+<ul>
+  <li>Un <b>método abstracto</b> no tiene cuerpo: termina en <code>;</code>. Dice «toda herramienta sabe gritar y golpear», pero no dice cómo. <b>Cada hija está obligada a escribirlo</b>; si no, no compila.</li>
+  <li><code>usar()</code> sigue igual que en la P9: desgasta un punto y devuelve el daño. <code>golpear()</code> es nuevo: cada hija decide cómo convierte un uso en un golpe.</li>
+  <li>El constructor pasa a <code>protected</code> porque ya solo lo llaman las hijas, con <code>super(...)</code>.</li>
+</ul>
+<p>Desde este momento <b>no se pueden crear objetos <code>Herramienta</code></b>. Por eso el .zip trae un <code>Main</code> nuevo: el de la P9 hacía <code>new Herramienta("Espada", 20)</code>, y si lo compilas sale:</p>
+<div class="out"><b>el Main de la P9 ya no compila</b>Main.java:5: error: Herramienta is abstract; cannot be instantiated
+Main.java:6: error: Herramienta is abstract; cannot be instantiated
+Main.java:7: error: Herramienta is abstract; cannot be instantiated</div>
+</div>
+
+<div class="paso">
+<h3>A2 · La hija dice cómo: el <code>Arco</code></h3>
+<div class="cpts"><span class="cpt">herencia (extends)</span><span class="cpt">super(...)</span><span class="cpt">sobrescritura (@Override)</span></div>
+<p>Crea <code>src/mazmorra/Arco.java</code>:</p>
+<pre><code>package mazmorra;
+
+public class Arco extends Herramienta {
+    public Arco(int danio) {
+        super(&quot;Arco&quot;, danio);
+    }
+
+    @Override
+    public String grito() {
+        return &quot;dispara dos flechas&quot;;
+    }
+
+    <span class="c">// solo el arco tiene flechas: Herramienta no sabe de esto</span>
+    public int getFlechas() {
+        return 2;
+    }
+
+    <span class="c">// dos flechas: el arco se usa dos veces en un solo golpe</span>
+    @Override
+    public int golpear() {
+        return usar() + usar();
+    }
+}</code></pre>
+<ul>
+  <li><b>El constructor</b> recibe solo el daño y le pasa a <code>super</code> el nombre <code>"Arco"</code>. El daño se ajusta de 1 a 50 en <code>Herramienta</code>, como en la P9.</li>
+  <li><b>Los dos <code>@Override</code></b> son la respuesta del arco a las dos obligaciones: su grito y su regla de golpe. El arco dispara dos flechas: usa el arco dos veces en un solo golpe, así que pega el doble y se desgasta dos puntos.</li>
+  <li><code>getFlechas()</code> es un método <b>que solo tiene el arco</b>: <code>Herramienta</code> no sabe de flechas. Lo vas a necesitar en la Parte D, donde se ve cómo llegar a él desde una variable <code>Herramienta</code>.</li>
+  <li><code>usar()</code>, <code>getDanio()</code> y lo demás no aparecen: el arco los hereda tal cual.</li>
+</ul>
+<p>Si a una hija le falta uno de los dos métodos, no compila. Por ejemplo, sin <code>grito()</code>:</p>
+<div class="out"><b>sale</b>Arco.java:3: error: Arco is not abstract and does not override abstract method grito() in Herramienta</div>
+<p>Y si lo escribes sin <code>public</code>, sale <code>attempting to assign weaker access privileges; was public</code>: una hija no puede cerrar lo que la madre dejó abierto.</p>
+</div>
+
+<div class="paso">
+<h3>A3 · El juego llama sin preguntar: el personaje carga una herramienta</h3>
+<div class="cpts"><span class="cpt">agregación</span><span class="cpt">referencia de la clase base</span><span class="cpt">enlace dinámico</span></div>
+<p>En la parte 2 <b>el inventario desaparece</b>: cada personaje carga una sola herramienta, la de su tipo. Borra <code>Inventario.java</code> y, en <code>Personaje</code>, cambia el atributo <code>inventario</code> por este y quita el <code>new Inventario()</code> del constructor:</p>
+<pre><code>private Herramienta herramienta;       <span class="c">// agregacion: se forja afuera</span></code></pre>
+<p>Luego cambia <code>getCuantasHerramientas()</code> y <code>getHerramienta(i)</code> por un solo <code>getHerramienta()</code>, y deja <code>equipar</code> y <code>atacar</code> así (lo demás de <code>atacar</code> no cambia):</p>
+<pre><code>    public Herramienta getHerramienta() {
+        return herramienta;
+    }
+
+    <span class="c">// una sola herramienta: la nueva reemplaza a la anterior</span>
+    public void equipar(Herramienta h) {
+        this.herramienta = h;
+    }
+
+    public void atacar(Personaje objetivo) {
+        if (!estaVivo() || herramienta == null) {
+            return;
+        }
+        int base = herramienta.golpear();   <span class="c">// P10: la herramienta decide</span>
+        if (base &gt; 0) {
+            objetivo.recibirDanio(calcularDanio(base));
+        }
+    }</code></pre>
+<ul>
+  <li>La herramienta se forja afuera y llega por <code>equipar</code>: es <b>agregación</b>, como en la P9. Si equipas otra, reemplaza a la anterior.</li>
+  <li>El atributo <code>herramienta</code> es una <b>variable de tipo <code>Herramienta</code></b>: el personaje <b>no sabe</b> si carga un arco o una espada. Cuando llama a <code>herramienta.golpear()</code>, Java mira el <b>objeto</b> y corre el <code>golpear</code> de su clase. Eso es el <b>enlace dinámico</b>: el método se decide por el objeto, no por el tipo de la variable.</li>
+</ul>
+<p>Si se te olvida quitar algo del inventario, sale <code>cannot find symbol</code> sobre <code>Inventario</code>:</p>
+<div class="out"><b>sale</b>Personaje.java:7: error: cannot find symbol
+Personaje.java:14: error: cannot find symbol</div>
+</div>
+
+<div class="paso">
+<h3>A4 · Punto de control: corre el <code>Main</code></h3>
+<p>Con <code>Herramienta</code>, <code>Arco</code> y el cambio a <code>Personaje</code>, el juego ya compila. Este es el <code>Main</code> del .zip: Legolas, el arquero, carga su arco (los otros dos personajes reciben lo suyo en la Parte C):</p>
+<pre><code>package mazmorra;
+
+public class Main {
+    public static void main(String[] args) {
+        Herramienta arco = new Arco(15);  <span class="c">// tipo Herramienta, objeto Arco</span>
+        Personaje legolas = new Arquero(&quot;Legolas&quot;);
+        Personaje conan = new Caballero(&quot;Conan&quot;);
+        legolas.equipar(arco);
+
+        System.out.println(&quot;Legolas &quot; + arco.grito());
+        legolas.atacar(conan);
+        System.out.println(conan);
+        System.out.println(arco.getNombre() + &quot;: durabilidad &quot;
+                + arco.getDurabilidad());
+    }
+}</code></pre>
+<pre><code>javac -d out src/mazmorra/*.java
+<span class="c"># compila el juego y deja los .class en out</span>
+java -cp out mazmorra.Main
+<span class="c"># corre el Main buscando las clases en out</span></code></pre>
+<div class="out"><b>debe salir</b>Legolas dispara dos flechas
+Conan (Caballero) 87/120
+Arco: durabilidad 98</div>
+<p>Sigue el ataque de Legolas: <code>atacar</code> llama a <code>herramienta.golpear()</code>; el objeto es un <code>Arco</code>, así que corren dos flechas de 15: <b>30</b>, y el arco baja a 98. Luego <code>calcularDanio(30)</code>: Legolas es <code>Arquero</code>, suma 3. Conan recibe <b>33</b> y queda en 87. Dos decisiones, la de la herramienta y la del personaje, y ningún <code>if</code> que pregunte qué es cada uno.</p>
+<p>Si Conan te queda en 102 y el arco en 99, tu <code>atacar</code> llama a <code>usar()</code> en vez de <code>golpear()</code>: vuelve al paso A3.</p>
+<div class="cp"><h4><span class="n">✓</span>El patrón que acabas de seguir</h4>
+<ol class="receta">
+  <li><b>La hija:</b> <code>extends Herramienta</code> y un constructor que llama a <code>super("Nombre", danio)</code>.</li>
+  <li><b>Su grito:</b> <code>grito()</code> con <code>@Override</code>.</li>
+  <li><b>Su regla de golpe:</b> <code>golpear()</code> con <code>@Override</code>, usando <code>usar()</code> o <code>getDanio()</code>.</li>
+</ol></div>
+</div>
+
+<h2>Parte B · Por tu cuenta: la espada y el bastón</h2>
+<p>Crea <code>Espada.java</code> (la del caballero) y <code>Baston.java</code> (el del mago) en <code>src/mazmorra</code> con <b>el mismo patrón que el arco</b>. Solo cambian el nombre que va en <code>super(...)</code>, el grito y la regla de golpe. Esta es la tarjeta de cada herramienta:</p>
+<div class="tw" style="overflow-x:auto"><table class="tarj">
+  <tr><th>Clase</th><th><code>super(...)</code></th><th><code>grito()</code> devuelve</th><th><code>golpear()</code>: su regla</th></tr>
+  <tr><td><code>Arco</code> (hecho en la Parte A)</td><td><code>"Arco"</code></td><td><code>"dispara dos flechas"</code></td><td>solo el arco tiene flechas: Herramienta no sabe de esto: <code>return usar() + usar();</code></td></tr>
+  <tr><td><code>Espada</code></td><td><code>"Espada"</code></td><td><code>"lanza un tajo"</code></td><td>un tajo: todo el dano, y la espada se desgasta: <code>return usar();</code></td></tr>
+  <tr><td><code>Baston</code></td><td><code>"Baston"</code></td><td><code>"lanza un hechizo"</code></td><td>un hechizo: todo el dano, y la magia no desgasta el baston: <code>return getDanio();</code></td></tr>
+</table></div>
+<p>Compila después de cada clase con <code>javac -d out src/mazmorra/*.java</code>. El <code>Main</code> tiene que seguir dando lo mismo que en A4. Comprobarás las tres en la Parte C.</p>
+
+<h2>Parte C · Sin y con polimorfismo</h2>
+<div class="cpts"><span class="cpt">referencia de la clase base</span><span class="cpt">instancias de las clases derivadas</span><span class="cpt">enlace dinámico</span></div>
+<p>Este es el momento de la práctica. Vas a ver el mismo trabajo hecho de dos maneras: una que pregunta qué es cada herramienta y otra que no pregunta nada.</p>
+<h3>C1 · El archivo completo</h3>
+<p>Este es <code>Comparar.java</code> tal como viene en el .zip. Léelo completo antes de escribir:</p>
+<pre><code>package mazmorra;
+
+<span class="c">// El mismo recorrido dos veces: primero preguntando que es cada</span>
+<span class="c">// herramienta, luego sin preguntar.</span>
+public class Comparar {
+    public static void main(String[] args) {
+        System.out.println(&quot;-- Sin polimorfismo --&quot;);
+        sinPolimorfismo(arsenal());
+        System.out.println(&quot;-- Con polimorfismo --&quot;);
+        conPolimorfismo(arsenal());
+    }
+
+    <span class="c">// un arreglo del tipo base con objetos de tres clases distintas</span>
+    static Herramienta[] arsenal() {
+        return new Herramienta[] {
+            new Espada(20), new Arco(15), new Baston(10)
+        };
+    }
+
+    <span class="c">// el juego pregunta que herramienta es cada una y decide por ella</span>
+    static void sinPolimorfismo(Herramienta[] arsenal) {
+        for (Herramienta h : arsenal) {
+            String grito;
+            int golpe;
+            if (h instanceof Espada) {
+                grito = &quot;lanza un tajo&quot;;
+                golpe = h.usar();
+            } else if (h instanceof Arco) {
+                grito = &quot;dispara dos flechas&quot;;
+                golpe = h.usar() + h.usar();
+            } else if (h instanceof Baston) {
+                grito = &quot;lanza un hechizo&quot;;
+                golpe = h.getDanio();
+            } else {
+                grito = &quot;no se que es esto&quot;;
+                golpe = 0;
+            }
+            imprimir(h, grito, golpe);
+        }
+    }
+
+    <span class="c">// el juego solo da la orden; cada herramienta responde con lo suyo</span>
+    static void conPolimorfismo(Herramienta[] arsenal) {
+        <span class="c">// TU CODIGO: un for-each sobre arsenal que, por cada h, llame a</span>
+        <span class="c">// imprimir(h, h.grito(), h.golpear()). Sin ningun instanceof.</span>
+    }
+
+    static void imprimir(Herramienta h, String grito, int golpe) {
+        System.out.println(h.getNombre() + &quot; &quot; + grito + &quot;: golpe de &quot;
+                + golpe + &quot;, durabilidad &quot; + h.getDurabilidad());
+    }
+}</code></pre>
+<p>Tiene cinco partes:</p>
+<table class="mini">
+  <tr><th>Parte</th><th>Qué hace</th></tr>
+  <tr><td><code>main</code></td><td>Corre el recorrido dos veces: primero sin polimorfismo y luego con polimorfismo.</td></tr>
+  <tr><td><code>arsenal()</code></td><td>Crea <b>un arreglo del tipo base</b>, <code>Herramienta[]</code>, con objetos de <b>tres clases distintas</b>: una espada, un arco y un bastón. Es justo lo que pide el manual: una referencia de la clase más general e instancias de las derivadas.</td></tr>
+  <tr><td><code>sinPolimorfismo</code></td><td><b>Ya viene hecho.</b> Para cada herramienta pregunta qué es con <code>instanceof</code> (3 preguntas) y decide por ella qué grito y qué golpe le tocan. Si no la reconoce, cae en «no se que es esto».</td></tr>
+  <tr><td><code>conPolimorfismo</code></td><td><b>Lo escribes tú.</b> Hace lo mismo, pero sin preguntar.</td></tr>
+  <tr><td><code>imprimir</code></td><td>Escribe un renglón con el nombre, el grito, el golpe y la durabilidad. Las dos mitades lo usan.</td></tr>
+</table>
+<h3>C2 · Tu parte: la mitad con polimorfismo</h3>
+<p>Dentro de <code>conPolimorfismo</code>, donde dice <code>TU CODIGO</code>, escribe un <code>for-each</code> sobre <code>arsenal</code> que, por cada herramienta <code>h</code>, llame a <code>imprimir(h, h.grito(), h.golpear())</code>. <b>Sin un solo <code>instanceof</code></b>. Luego compila y corre:</p>
+<pre><code>javac -d out src/mazmorra/*.java
+<span class="c"># compila el juego con las tres herramientas y Comparar</span>
+java -cp out mazmorra.Comparar
+<span class="c"># corre las dos mitades</span></code></pre>
+<div class="out"><b>debe salir</b>-- Sin polimorfismo --
+Espada lanza un tajo: golpe de 20, durabilidad 99
+Arco dispara dos flechas: golpe de 30, durabilidad 98
+Baston lanza un hechizo: golpe de 10, durabilidad 100
+-- Con polimorfismo --
+Espada lanza un tajo: golpe de 20, durabilidad 99
+Arco dispara dos flechas: golpe de 30, durabilidad 98
+Baston lanza un hechizo: golpe de 10, durabilidad 100</div>
+<p>Así queda tu método cuando está bien:</p>
+<pre><code>    <span class="c">// el juego solo da la orden; cada herramienta responde con lo suyo</span>
+    static void conPolimorfismo(Herramienta[] arsenal) {
+        for (Herramienta h : arsenal) {
+            imprimir(h, h.grito(), h.golpear());
+        }
+    }</code></pre>
+<h3>C3 · Qué acabas de ver</h3>
+<p><b>Las dos mitades imprimen exactamente lo mismo.</b> La diferencia está en el código: la primera tiene que conocer todas las herramientas y decidir por ellas; la segunda no conoce ninguna. Solo da la orden, <code>h.grito()</code> y <code>h.golpear()</code>, y Java corre el método de la clase de cada objeto.</p>
+<p>Piensa que mañana llega un hacha. En la mitad que pregunta hay que abrir <code>Comparar</code> y agregar otro <code>else if</code>; si alguien lo olvida, el hacha cae en «no se que es esto». En la mitad con polimorfismo <b>no se toca nada</b>: basta escribir la clase <code>Hacha</code> y ponerla en el arreglo. Cada objeto trae sus respuestas consigo.</p>
+
+<h2>Parte D · Los moldes</h2>
+<div class="cpts"><span class="cpt">upcast</span><span class="cpt">instanceof</span><span class="cpt">downcast</span></div>
+<h3>D1 · La teoría: dos tipos en cada línea</h3>
+<p>En <code>Herramienta h = new Arco(15);</code> hay <b>dos tipos</b>, y no son lo mismo:</p>
+<table class="mini">
+  <tr><th></th><th>El tipo de la variable</th><th>El tipo del objeto</th></tr>
+  <tr><td><b>En el ejemplo</b></td><td><code>Herramienta</code>, lo que va a la izquierda</td><td><code>Arco</code>, lo que va después del <code>new</code></td></tr>
+  <tr><td><b>Quién lo mira</b></td><td>el <b>compilador</b>, al hacer <code>javac</code></td><td><b>Java</b>, al correr el programa</td></tr>
+  <tr><td><b>Qué decide</b></td><td><b>qué métodos puedes llamar</b>: solo los que tiene <code>Herramienta</code></td><td><b>cuál versión corre</b>: la del arco</td></tr>
+  <tr><td><b>¿Cambia?</b></td><td>no, se fija al declararla</td><td>la variable puede apuntar después a otro objeto</td></tr>
+</table>
+<p>Por eso <code>h.grito()</code> compila (toda herramienta grita) y corre el grito del arco. Pero <code>h.getFlechas()</code> <b>no compila</b>, aunque el objeto sí sea un arco: el compilador solo ve una <code>Herramienta</code>, y no toda herramienta tiene flechas.</p>
+<p>A cambiar el tipo de la variable se le llama <b>cast</b> o <b>moldeo</b>. Hay dos direcciones:</p>
+<table class="mini">
+  <tr><th></th><th>Upcast: hacia arriba</th><th>Downcast: hacia abajo</th></tr>
+  <tr><td><b>Va de</b></td><td>la hija a la base: <code>Arco</code> → <code>Herramienta</code></td><td>la base a la hija: <code>Herramienta</code> → <code>Arco</code></td></tr>
+  <tr><td><b>Cómo se escribe</b></td><td>solo, sin nada: <code>Herramienta h = new Arco(15);</code></td><td>con el tipo entre paréntesis: <code>Arco a = (Arco) h;</code></td></tr>
+  <tr><td><b>¿Puede fallar?</b></td><td>nunca: un arco <b>siempre es</b> una herramienta</td><td>sí: una herramienta <b>puede no ser</b> un arco</td></tr>
+  <tr><td><b>Para qué sirve</b></td><td>tratar a todas igual, como en el arreglo de la Parte C</td><td>usar lo que solo tiene la hija, como <code>getFlechas()</code></td></tr>
+</table>
+<p>Como el downcast puede fallar, antes se pregunta con <b><code>instanceof</code></b>: <code>h instanceof Arco</code> da <code>true</code> si el objeto es un arco (o una hija del arco) y <code>false</code> si no. Pregunta por el <b>objeto</b>, no por la variable.</p>
+<h3>D2 · Los moldes en código</h3>
+<p>Para este ejemplo, el <code>Arco</code> tiene un método que solo él tiene, <code>getFlechas()</code>: cuántas flechas dispara. Está en tu <code>Arco</code> del paso A2. Este es <code>Moldes.java</code>:</p>
+<pre><code>package mazmorra;
+
+<span class="c">// La variable es de un tipo; el objeto puede ser de ese tipo o de un hijo.</span>
+public class Moldes {
+    public static void main(String[] args) {
+        Herramienta h = new Arco(15);           <span class="c">// 1 upcast: automatico</span>
+        System.out.println(&quot;1 &quot; + h.grito());   <span class="c">//   manda el objeto</span>
+
+        <span class="c">// h.getFlechas();                      // 2 no compila</span>
+
+        System.out.println(&quot;3 &quot; + (h instanceof Arco));
+        System.out.println(&quot;3 &quot; + (h instanceof Espada));
+
+        Arco a = (Arco) h;                      <span class="c">// 4 downcast: se escribe</span>
+        System.out.println(&quot;4 flechas: &quot; + a.getFlechas());
+
+        <span class="c">// Espada e = (Espada) h;               // 5 compila, pero truena</span>
+    }
+}</code></pre>
+<pre><code>java -cp out mazmorra.Moldes
+<span class="c"># corre los moldes (ya está compilado con lo demás)</span></code></pre>
+<div class="out"><b>debe salir</b>1 dispara dos flechas
+3 true
+3 false
+4 flechas: 2</div>
+<ul>
+  <li><b>1, upcast:</b> la variable es <code>Herramienta</code> y el objeto es un <code>Arco</code>. El grito es el del arco: manda el objeto.</li>
+  <li><b>3, <code>instanceof</code>:</b> el objeto es un arco (<code>true</code>), no una espada (<code>false</code>).</li>
+  <li><b>4, downcast:</b> <code>(Arco) h</code> da una variable de tipo <code>Arco</code>, y con ella sí puedes llamar a <code>getFlechas()</code>. Funciona porque el objeto sí es un arco.</li>
+</ul>
+<h3>D3 · Los dos errores</h3>
+<p>Quita el <code>//</code> de la <b>línea 2</b> y compila. <b>No compila</b>: la variable es <code>Herramienta</code>, y <code>Herramienta</code> no tiene <code>getFlechas()</code>. El compilador no mira el objeto:</p>
+<div class="out"><b>sale</b>Moldes.java:9: error: cannot find symbol
+symbol:   method getFlechas()
+location: variable h of type Herramienta</div>
+<p>Vuelve a poner el <code>//</code>. Ahora quítalo de la <b>línea 5</b>, compila y corre. Esta vez <b>sí compila</b>, porque una herramienta <i>podría</i> ser una espada, pero <b>truena al correr</b>: Java mira el objeto, ve un arco, y un arco no se puede convertir en espada:</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-all"><b>sale</b>Exception in thread &quot;main&quot; java.lang.ClassCastException: class mazmorra.Arco cannot be cast to class mazmorra.Espada (mazmorra.Arco and mazmorra.Espada are in unnamed module of loader &#x27;app&#x27;)</div>
+<p>Vuelve a poner el <code>//</code>. Resumen: <b>el compilador revisa el tipo de la variable y Java revisa el tipo del objeto.</b> Por eso un downcast va siempre después de un <code>instanceof</code>. Y si te descubres escribiendo <code>instanceof</code> y cast para decidir qué hacer, como en la mitad sin polimorfismo, casi siempre lo que falta es un método en la clase base.</p>
+
+<h2>Si terminas: retos</h2>
+<ul>
+  <li><b>El hacha:</b> escribe <code>Hacha</code> con su grito y su regla de golpe (inventa una) y agrégala al arreglo de <code>Comparar</code>. Corre y mira qué dice cada mitad. Luego arregla la mitad que pregunta.</li>
+  <li><b>Una ronda completa:</b> en el <code>Main</code>, dale su espada a Conan y su bastón a un mago, y haz una ronda como en la P9. ¿Qué durabilidad tiene cada herramienta al final?</li>
+</ul>
+
+<h2>Si algo truena</h2>
+<div class="box warn"><h4>No compila</h4>
+<ul>
+  <li><b><code>Herramienta is abstract; cannot be instantiated</code></b>: queda algún <code>new Herramienta(...)</code>. ¿Reemplazaste el <code>Main</code>? ¿Estás compilando <code>test/</code>? No lo compiles.</li>
+  <li><b><code>... is not abstract and does not override abstract method ... in Herramienta</code></b>: a esa hija le falta <code>grito()</code> o <code>golpear()</code>.</li>
+  <li><b><code>attempting to assign weaker access privileges; was public</code></b>: escribiste un método sobrescrito sin <code>public</code>.</li>
+  <li><b><code>cannot find symbol: method golpear()</code></b>: en <code>Herramienta</code> falta el método abstracto, o lo escribiste con otro nombre.</li>
+  <li><b><code>cannot find symbol</code> sobre <code>Inventario</code> o <code>inventario</code></b>: quedó algo del inventario en <code>Personaje</code>; repasa el paso A3.</li>
+</ul></div>
+<div class="box tip"><h4>Compila, pero algo sale distinto</h4>
+<ul>
+  <li><b>Conan queda en 102 y el arco en 99</b>: <code>atacar</code> llama a <code>usar()</code> en vez de <code>golpear()</code>.</li>
+  <li><b>La mitad «con» de <code>Comparar</code> sale vacía</b>: todavía no escribes el <code>for</code>.</li>
+  <li><b>Las dos mitades salen distintas</b>: tu grito o tu regla de golpe no son los de la tarjeta. La mitad que pregunta los tiene bien; compárala con tu clase.</li>
+</ul></div>
+
+<h2>La entrega</h2>
+<table>
+  <tr><th>Qué</th><th>Detalle</th></tr>
+  <tr><td><b>Cuándo</b></td><td><b>Viernes 6 de noviembre, 23:59.</b> Sin IA, como siempre.</td></tr>
+  <tr><td><b>Con quién</b></td><td>En pareja (o solo). <b>Cada integrante sube todo en su propia carpeta.</b></td></tr>
+  <tr><td><b>Dónde</b></td><td>Tu rama <code>entregas_apellido_nombre</code>, carpeta <code>entregas/apellido_nombre/p10/</code>. Solo push.</td></tr>
+  <tr><td><b>Qué</b></td><td>Tu carpeta <code>src</code> y una <b>bitácora en PDF</b></td></tr>
+</table>
+<p><b>La bitácora lleva:</b> los integrantes (nombre y número de cuenta); capturas del <code>Main</code>, de <code>Comparar</code> y de <code>Moldes</code> (también con la línea 2 y la 5 probadas); y estas tres respuestas con tus palabras:</p>
+<ol>
+  <li><b>Una orden, muchas respuestas:</b> en <code>Personaje</code>, ¿qué línea manda a llamar a <code>golpear</code>? Cuando Legolas le quita 33 a Conan, ¿qué clase decidió las dos flechas y cuál el +3? ¿Lo decidió el tipo de la variable o el del objeto?</li>
+  <li><b>Sin y con polimorfismo:</b> si mañana llega un hacha, ¿qué tendrías que cambiar en cada mitad de <code>Comparar</code>? ¿Qué imprime la mitad que pregunta si nadie la actualiza?</li>
+  <li><b>Los moldes:</b> copia el error de la línea 2 y lo que truena en la línea 5. Explica cada uno con el tipo de la variable y el del objeto: ¿quién encontró el problema, el compilador o Java al correr?</li>
+</ol>
+<p><b>Cómo se califica</b>, sobre 10:</p>
+<table>
+  <tr><th>Qué reviso</th><th>Puntos</th></tr>
+  <tr><td><b>Fiel al diagrama:</b> <code>Herramienta</code> abstracta con sus dos métodos abstractos; <code>Espada</code>, <code>Arco</code> y <code>Baston</code> con <code>extends</code>, <code>super(...)</code>, <code>@Override</code> y la regla de su tarjeta; <code>Personaje</code> con una sola herramienta y <code>atacar</code> llamando a <code>golpear()</code> (paso A3)</td><td>3.5</td></tr>
+  <tr><td><b>Corre:</b> el <code>Main</code> y <code>Comparar</code> dan la salida de la guía, y tu mitad «con» es un <code>for</code> sin ningún <code>instanceof</code></td><td>3</td></tr>
+  <tr><td><b>Moldes:</b> corre y la línea 2 y la 5 están probadas</td><td>1</td></tr>
+  <tr><td><b>Bitácora:</b> las capturas y las tres respuestas</td><td>2.5</td></tr>
+</table>
+<p>Cada comando de abajo, con lo que hace:</p>
+<pre><code>git checkout entregas_apellido_nombre
+<span class="c"># te pasa a tu rama de entregas</span>
+git pull origin main
+<span class="c"># trae lo nuevo del repositorio del grupo</span>
+mkdir -p entregas/apellido_nombre/p10
+<span class="c"># crea tu carpeta de esta práctica; copia ahí src y la bitácora en PDF</span>
+git add entregas/apellido_nombre/p10
+<span class="c"># marca lo que vas a entregar</span>
+git commit -m &quot;P10: polimorfismo, primera parte&quot;
+<span class="c"># lo guarda con un mensaje</span>
+git push
+<span class="c"># lo sube: esto es la entrega</span></code></pre>
+<p><b>Guarda tu proyecto completo:</b> la P11 (miércoles 11 de noviembre, interfaces) sigue sobre este código. Si los <code>.class</code> de <code>out</code> se cuelan, no pasa nada. El código tiene que ser suyo; si algo no sale, entréguenlo igual y cuenten en la bitácora dónde se atoraron.</p>
+
+<footer>
+  <p><strong>Modelos de Programación Orientada a Objetos 2027-1 · Grupo 6 · Facultad de Ingeniería, UNAM</strong><br>
+  Prof. Oscar Manuel Ruiz Hurtado · Práctica 10 · Polimorfismo, primera parte (MADO-21, guía 10: jerarquía de clases, referencia de la clase base más general, instancias de las clases derivadas, cast e <code>instanceof</code>, polimorfismo en métodos) · noviembre de 2026</p>
+</footer>
+</div>
+</body></html>
