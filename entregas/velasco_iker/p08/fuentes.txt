@@ -1,0 +1,14 @@
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\actuadores\Alarma.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\actuadores\BandaTransportadora.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\actuadores\Semaforo.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\dispositivos\Actuador.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\dispositivos\Bateria.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\dispositivos\Dispositivo.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\dispositivos\Luz.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\dispositivos\Sensor.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\estacion\Estacion.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\estacion\Main.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\estacion\PruebaTemperatura.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\sensores\SensorPeso.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\sensores\SensorPresencia.java
+C:\Users\aleve\mpoo\mpoo-2027-1\entregas\velasco_iker\p08\src\sensores\SensorTemperatura.java
