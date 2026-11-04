@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · P9 · Encapsulamiento, primera parte</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:62ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.83rem;color:#33465e;white-space:pre;overflow-x:auto}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+.tw{overflow-x:auto}
+@media print{header,pre,.box,.cp{-webkit-print-color-adjust:exact;print-color-adjust:exact}pre,pre code{white-space:pre-wrap;overflow:visible}.out{font-size:.72rem;overflow:visible}tr{break-inside:avoid}pre,.box,.out{break-inside:avoid}h2{break-after:avoid}footer{break-inside:avoid}}
+.ficha .porque{margin:.25rem 0 0;font-size:.92rem;color:var(--dim);font-style:italic}.ficha .lbl{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin:.7rem 0 0}.ficha code{white-space:pre-wrap;word-break:break-word}.ficha ul{margin-top:.3rem}.ficha li{margin:.3rem 0}.ficha pre code{font-size:.82rem;line-height:1.6}@media print{.ficha{break-inside:avoid}.ficha pre code{font-size:.66rem;white-space:pre}.ficha pre{overflow:visible}}
+.ficha h3{margin-bottom:.2rem}.ficha p{margin:.2rem 0 .4rem}
+.steps{counter-reset:s;list-style:none;margin:1rem 0;padding:0}.steps li{counter-increment:s;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem .8rem 3.2rem;margin:.6rem 0;position:relative;color:var(--ink)}.steps li::before{content:counter(s);position:absolute;left:1rem;top:.8rem;background:var(--am);color:#fff;width:1.6em;height:1.6em;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em}.steps li span{display:block;color:var(--dim);font-size:.92rem}
+.pred{background:var(--panel);border:1px dashed var(--am);border-radius:12px;padding:.6rem 1rem;margin:.8rem 0}.pred summary{cursor:pointer;font-weight:800;color:var(--am)}.pred[open] summary{margin-bottom:.4rem}.mini th,.mini td{padding:.35rem .6rem}.uml{overflow-x:auto;margin:1rem 0}.uml svg{min-width:640px}@media print{.uml svg{min-width:0}.uml{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · Práctica 9 · miércoles 28 de octubre</div>
+  <h1>La mazmorra</h1>
+  <p>Encapsulamiento, primera parte. Te damos el diagrama de clases de un videojuego con caballeros, magos y arqueros; tú lo programas, lo atacas con trampas y escribes tus primeras pruebas con JUnit.</p>
+  <p style="margin-top:1em"><a href="P09-archivos.zip" download style="display:inline-block;background:#f2b705;color:#12203a;text-decoration:none;font-weight:800;padding:.55em 1.3em;border-radius:10px">Descargar los archivos (.zip)</a></p>
+</div></header>
+
+<div class="wrap">
+
+<h2>Qué vas a hacer</h2>
+<p>En pareja (o solo). Cinco pasos:</p>
+<ol class="steps">
+  <li><b>Lee el diagrama</b> <span>5 min · encuentra la herencia, la composición, la agregación y la asociación</span></li>
+  <li><b>Prográmalo</b> <span>25 min · siete clases, tal como dice el diagrama</span></li>
+  <li><b>Ataca tu código con las trampas</b> <span>5 min · si alguna funciona, hay un hueco</span></li>
+  <li><b>Tu primera prueba con JUnit</b> <span>10 min · una en verde y dos en rojo, a propósito</span></li>
+  <li><b>Tus propias pruebas</b> <span>5 min en clase y el resto en casa · al menos cuatro</span></li>
+</ol>
+<p>La entrega es el <b>viernes 30 de octubre, 23:59</b>, en <code>p09/</code>.</p>
+<div class="box warn"><h4>Esta práctica sigue la próxima semana</h4>
+<p style="color:var(--ink)">La <b>P10 (miércoles 4 de noviembre)</b> es el complemento de esta: arranca <b>con tu código de La mazmorra</b> y le agrega herencia a las herramientas y polimorfismo. Si no terminas hoy, <b>termínala en casa</b>: sin tus siete clases funcionando, con las trampas bloqueadas y las pruebas en verde, no vas a poder hacer la P10.</p></div>
+
+<h2>La historia</h2>
+<div class="box"><p style="color:var(--ink)">Un videojuego de mazmorras con tres tipos de personaje: el <b>caballero</b> aguanta más, el <b>mago</b> pega el doble pero aguanta menos y el <b>arquero</b> queda en medio. Cada personaje carga un <b>inventario</b> con hasta tres <b>herramientas</b> (espada, bastón, arco), que se desgastan al usarlas. Dos personajes pueden ser <b>compañeros</b> y curarse.</p>
+<p style="color:var(--ink)">Hay jugadores <b>tramposos</b>: quieren vida infinita, espadas de 5000 o una cuarta herramienta. El <b>encapsulamiento</b> es lo que los detiene: los datos quedan dentro del objeto, los demás solo piden cosas por sus métodos y el objeto decide qué acepta.</p></div>
+
+<h2>Paso 1 · Lee el diagrama</h2>
+<p>Este es el diseño completo. No lo inventas tú: lo programas tal cual, como en un equipo real, donde alguien diseña y otro implementa.</p>
+<div class="uml"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 0 1045 742" role="img" aria-label="Diagrama de clases de La mazmorra" style="width:100%;height:auto;background:#fff;border-radius:10px">
+<rect x="110" y="20" width="420" height="464" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="110" y="20" width="420" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="320.0" y="40" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45" font-style="italic">Personaje  {abstract}</text>
+<text x="118" y="64" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- nombre: String {final}</text>
+<text x="118" y="82" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- vidaMaxima: int {final}</text>
+<text x="118" y="100" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- vida: int</text>
+<text x="118" y="118" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- inventario: Inventario {final}</text>
+<text x="118" y="136" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- companero: Personaje</text>
+<line x1="110" y1="145.0" x2="530" y2="145.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="118" y="160" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45"># Personaje(nombre: String, vidaMaxima: int)</text>
+<text x="118" y="178" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic">+ getTipo(): String</text>
+<text x="118" y="196" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic"># calcularDanio(base: int): int</text>
+<text x="118" y="214" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getNombre(): String</text>
+<text x="118" y="232" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getVida(): int</text>
+<text x="118" y="250" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getVidaMaxima(): int</text>
+<text x="118" y="268" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getCuantasHerramientas(): int</text>
+<text x="118" y="286" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getHerramienta(i: int): Herramienta</text>
+<text x="118" y="304" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getCompanero(): Personaje</text>
+<text x="118" y="322" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ equipar(h: Herramienta): boolean</text>
+<text x="118" y="340" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ setCompanero(companero: Personaje)</text>
+<text x="118" y="358" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ estaVivo(): boolean</text>
+<text x="118" y="376" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ recibirDanio(puntos: int)</text>
+<text x="118" y="394" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ curar(puntos: int)</text>
+<text x="118" y="412" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ atacar(objetivo: Personaje)</text>
+<text x="118" y="430" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ ayudarCompanero()</text>
+<text x="118" y="448" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ toString(): String</text>
+<text x="118" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- limitar(valor: int): int</text>
+<rect x="645" y="40" width="360" height="176" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="645" y="40" width="360" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="825.0" y="60" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Inventario</text>
+<text x="653" y="84" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- herramientas: Herramienta[3] {final}</text>
+<text x="653" y="102" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- cuantas: int</text>
+<line x1="645" y1="111.0" x2="1005" y2="111.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="653" y="126" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Inventario()</text>
+<text x="653" y="144" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ agregar(h: Herramienta): boolean</text>
+<text x="653" y="162" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getCuantas(): int</text>
+<text x="653" y="180" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getHerramienta(i: int): Herramienta</text>
+<text x="653" y="198" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ usarMejor(): int</text>
+<rect x="645" y="290" width="360" height="248" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="645" y="290" width="360" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="825.0" y="310" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Herramienta</text>
+<text x="653" y="334" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- nombre: String {final}</text>
+<text x="653" y="352" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- danio: int {final}</text>
+<text x="653" y="370" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- durabilidad: int</text>
+<line x1="645" y1="379.0" x2="1005" y2="379.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="653" y="394" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Herramienta(nombre: String, danio: int)</text>
+<text x="653" y="412" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getNombre(): String</text>
+<text x="653" y="430" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getDanio(): int</text>
+<text x="653" y="448" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getDurabilidad(): int</text>
+<text x="653" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ estaRota(): boolean</text>
+<text x="653" y="484" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ usar(): int</text>
+<text x="653" y="502" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ reparar()</text>
+<text x="653" y="520" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- entre(valor: int, min: int, max: int): int</text>
+<rect x="40" y="618" width="280" height="104" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="40" y="618" width="280" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="180.0" y="638" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Caballero</text>
+<line x1="40" y1="653.0" x2="320" y2="653.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="48" y="668" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Caballero(nombre: String)</text>
+<text x="48" y="686" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getTipo(): String</text>
+<text x="48" y="704" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45"># calcularDanio(base: int): int</text>
+<rect x="350" y="618" width="280" height="104" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="350" y="618" width="280" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="490.0" y="638" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Mago</text>
+<line x1="350" y1="653.0" x2="630" y2="653.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="358" y="668" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Mago(nombre: String)</text>
+<text x="358" y="686" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getTipo(): String</text>
+<text x="358" y="704" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45"># calcularDanio(base: int): int</text>
+<rect x="660" y="618" width="280" height="104" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<rect x="660" y="618" width="280" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.5" rx="3"/>
+<text x="800.0" y="638" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Arquero</text>
+<line x1="660" y1="653.0" x2="940" y2="653.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="668" y="668" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Arquero(nombre: String)</text>
+<text x="668" y="686" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getTipo(): String</text>
+<text x="668" y="704" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45"># calcularDanio(base: int): int</text>
+<line x1="180" y1="618" x2="180" y2="578" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="490" y1="618" x2="490" y2="578" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="800" y1="618" x2="800" y2="578" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="180" y1="578" x2="800" y2="578" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="320.0" y1="578" x2="320.0" y2="502" stroke="#1d2b45" stroke-width="1.5"/>
+<polygon points="320.0,484 309.0,502 331.0,502" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5"/>
+<text x="336.0" y="570" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">herencia (extends)</text>
+<polygon points="530,100 542,93 554,100 542,107" fill="#1d2b45" stroke="#1d2b45"/>
+<line x1="554" y1="100" x2="645" y2="100" stroke="#1d2b45" stroke-width="1.5"/>
+<text x="560" y="92" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">1</text>
+<text x="637" y="92" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">1</text>
+<text x="593.5" y="120" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">composición</text>
+<polygon points="705,216 698,228 705,240 712,228" fill="#ffffff" stroke="#1d2b45" stroke-width="1.5"/>
+<line x1="705" y1="240" x2="705" y2="290" stroke="#1d2b45" stroke-width="1.5"/>
+<text x="715" y="238" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">*</text>
+<text x="715" y="284" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">0..3</text>
+<text x="755" y="257.0" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">agregación</text>
+<polyline points="110,80 65,80 65,170 110,170" fill="none" stroke="#1d2b45" stroke-width="1.5"/>
+<text x="104" y="186" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">compañero 0..1</text>
+<text x="58" y="129.0" text-anchor="end" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">asociación</text>
+</svg></div>
+<p>Cómo se lee:</p>
+<div class="tw" style="overflow-x:auto"><table class="mini">
+  <tr><th>En el diagrama</th><th>Quiere decir</th><th>En Java</th></tr>
+  <tr><td><code>-</code> <code>+</code> <code>#</code></td><td>privado, público, protegido</td><td><code>private</code>, <code>public</code>, <code>protected</code></td></tr>
+  <tr><td><code>{final}</code></td><td>no cambia después del constructor</td><td><code>final</code></td></tr>
+  <tr><td><i>cursiva</i> y <code>{abstract}</code></td><td>clase o método abstracto</td><td><code>abstract</code></td></tr>
+  <tr><td>triángulo vacío</td><td><b>herencia</b>: «es un»</td><td><code>extends</code>, <code>super(...)</code>, <code>@Override</code></td></tr>
+  <tr><td>◆ rombo lleno</td><td><b>composición</b>: el dueño fabrica la parte y la parte muere con él</td><td><code>new</code> dentro del constructor del dueño</td></tr>
+  <tr><td>◇ rombo vacío</td><td><b>agregación</b>: la parte se hizo afuera y sobrevive sin el dueño</td><td>llega como parámetro y solo se guarda</td></tr>
+  <tr><td>línea con nombre</td><td><b>asociación</b>: se conocen, pero ninguno es parte del otro</td><td>un atributo que se conecta después, con un <code>set</code></td></tr>
+  <tr><td><code>1</code>, <code>0..1</code>, <code>0..3</code>, <code>*</code></td><td>cuántos objetos de cada lado</td><td>un atributo, uno que puede ser <code>null</code>, un arreglo de 3, varios</td></tr>
+</table></div>
+<details class="pred"><summary>Predice: ¿quién hace el <code>new</code> del inventario? ¿Y de las herramientas?</summary><p style='margin:0;color:var(--ink)'>El <b>inventario</b> lo hace el personaje, en su constructor: es <b>composición</b> (◆) y muere con él. Las <b>herramientas</b> se crean afuera, en <code>Main</code>, y llegan por <code>equipar</code>: es <b>agregación</b> (◇). Por eso una misma espada puede estar en dos inventarios (el <code>*</code>). El <b>compañero</b> es otro personaje que se conecta con <code>setCompanero</code>: <b>asociación</b>.</p></details>
+<p>El diagrama dice qué hay; lo que <b>no</b> dice son las reglas. Estas son:</p>
+<div class="tw" style="overflow-x:auto"><table>
+  <tr><th>Clase</th><th>Reglas que tu código tiene que cumplir</th></tr>
+  <tr><td><code>Herramienta</code></td><td>El daño queda <b>entre 1 y 50</b> (lo ajusta <code>entre</code>); la durabilidad arranca en 100. <code>usar()</code>: si está rota devuelve 0; si no, gasta 1 de durabilidad y devuelve el daño. <code>reparar()</code> la deja en 100.</td></tr>
+  <tr><td><code>Inventario</code></td><td>Tiene <b>3 lugares</b>. <code>agregar</code> devuelve <code>false</code> si está lleno o si le dan <code>null</code>. <code>getHerramienta(i)</code> devuelve <code>null</code> si en esa posición no hay nada (también con -1 o 99). <code>usarMejor()</code> usa la herramienta <b>sana</b> con más daño y devuelve lo que dio; si no hay ninguna, 0. <b>El arreglo nunca sale de la clase.</b></td></tr>
+  <tr><td><code>Personaje</code></td><td>El constructor deja la vida en su máximo y crea el inventario con <code>new</code>. La vida siempre queda <b>entre 0 y <code>vidaMaxima</code></b> (lo ajusta <code>limitar</code>). <code>recibirDanio</code> y <code>curar</code> solo aceptan puntos mayores que 0, y <b>un personaje muerto no se cura</b>. <code>atacar</code>: si está vivo, pide <code>inventario.usarMejor()</code>; si dio más de 0, el objetivo recibe <code>calcularDanio(eso)</code>. <code>ayudarCompanero</code> cura 10 al compañero, si tiene. <code>toString()</code> devuelve <code>Conan (Caballero) 120/120</code>.</td></tr>
+  <tr><td><code>Caballero</code>, <code>Mago</code>, <code>Arquero</code></td><td>Llaman a <code>super(nombre, vidaMaxima)</code> con <b>120</b>, <b>80</b> y <b>100</b>. <code>getTipo()</code> devuelve su nombre de clase. <code>calcularDanio(base)</code>: el caballero suma 5, el mago lo duplica y el arquero suma 3.</td></tr>
+</table></div>
+
+<h2>Paso 2 · Prográmalo</h2>
+<p>Descomprime el .zip: trae <code>src/mazmorra/Main.java</code>, la carpeta <code>src/trampas</code> (para el paso 3) y la carpeta <code>lib</code> con JUnit (para el paso 4). Escribe las clases en <code>src/mazmorra</code>, cada una en su archivo y con <code>package mazmorra;</code>, en este orden:</p>
+<ol>
+  <li><code>Herramienta</code> (no depende de nadie)</li>
+  <li><code>Inventario</code> (usa <code>Herramienta</code>)</li>
+  <li><code>Personaje</code> (abstracta: usa las dos)</li>
+  <li><code>Caballero</code>, <code>Mago</code> y <code>Arquero</code> (cada una con <code>extends Personaje</code>)</li>
+</ol>
+<p>Los nombres, tal cual el diagrama: <code>Main</code>, las trampas y las pruebas los usan.</p>
+<div class="box tip"><h4>Lo que el diagrama NO tiene, a propósito</h4>
+<ul>
+  <li><b>No hay <code>setVida</code></b>: si lo hubiera, cualquiera pondría la vida en 9999. La vida solo cambia con <code>recibirDanio</code> y <code>curar</code>, que tienen reglas.</li>
+  <li><b>No hay <code>getInventario</code> ni <code>getHerramientas</code></b>: si entregaras el arreglo, cualquiera metería una cuarta herramienta sin pasar por <code>agregar</code>. Quien quiera saber algo pregunta <code>getCuantasHerramientas()</code> o <code>getHerramienta(i)</code>.</li>
+  <li><b>No todo lleva setter</b>: lo que es <code>{final}</code> no cambia nunca, y lo demás cambia solo por métodos con intención (<code>usar</code>, <code>equipar</code>).</li>
+</ul></div>
+<p>Cuando tengas las siete, compila y corre <code>Main</code> desde la carpeta donde está <code>src</code>:</p>
+<pre><code>javac -d out src/mazmorra/*.java
+<span class="c"># compila todas las clases del juego y deja los .class en la carpeta out</span>
+java -cp out mazmorra.Main
+<span class="c"># corre el Main buscando las clases en out</span></code></pre>
+<p>En Windows usa <code>\</code> en vez de <code>/</code> en las rutas (<code>src\mazmorra\*.java</code>).</p>
+<pre><code>package mazmorra;
+
+public class Main {
+    public static void main(String[] args) {
+        Herramienta espada = new Herramienta(&quot;Espada&quot;, 20);
+        Herramienta baston = new Herramienta(&quot;Baston&quot;, 10);
+        Herramienta arco = new Herramienta(&quot;Arco&quot;, 15);
+
+        Personaje conan = new Caballero(&quot;Conan&quot;);
+        Personaje merlin = new Mago(&quot;Merlin&quot;);
+        Personaje legolas = new Arquero(&quot;Legolas&quot;);
+        conan.equipar(espada);
+        merlin.equipar(baston);
+        legolas.equipar(arco);
+        merlin.setCompanero(conan);
+
+        System.out.println(&quot;Al empezar:&quot;);
+        System.out.println(conan);
+        System.out.println(merlin);
+        System.out.println(legolas);
+
+        conan.atacar(legolas);
+        merlin.atacar(conan);
+        legolas.atacar(merlin);
+        merlin.ayudarCompanero();
+
+        System.out.println(&quot;Despues de una ronda:&quot;);
+        System.out.println(conan);
+        System.out.println(merlin);
+        System.out.println(legolas);
+        System.out.println(espada.getNombre() + &quot;: durabilidad &quot; + espada.getDurabilidad());
+    }
+}</code></pre>
+<details class="pred"><summary>Predice: antes de correrlo: ¿cuánta vida le queda a Legolas después de la ronda?</summary><p style='margin:0;color:var(--ink)'><b>75.</b> Conan ataca con la espada (20) y, por ser caballero, suma 5: 25 de daño a 100. Así sale todo:</p><div class="out"><b>debe salir</b>Al empezar:
+Conan (Caballero) 120/120
+Merlin (Mago) 80/80
+Legolas (Arquero) 100/100
+Despues de una ronda:
+Conan (Caballero) 110/120
+Merlin (Mago) 62/80
+Legolas (Arquero) 75/100
+Espada: durabilidad 99</div></details>
+<p>Merlín pega <b>20</b> con un bastón de 10 porque el mago duplica; Conan queda en 100 y sube a <b>110</b> porque Merlín es su compañero y lo ayuda; Legolas pega 15 + 3 = <b>18</b>. La espada bajó a <b>99</b>.</p>
+
+<h2>Paso 3 · Ataca tu código con las trampas</h2>
+<p>En <code>src/trampas</code> hay dos tramposos. Viven en <b>otro paquete</b>, como cualquier jugador de afuera.</p>
+<h3>3a · Trampas de acceso: este archivo NO debe compilar</h3>
+<pre><code>package trampas;
+
+import mazmorra.*;
+
+<span class="c">// Trampas de acceso: este archivo NO debe compilar.</span>
+<span class="c">// Cada error del compilador es una trampa bloqueada.</span>
+public class TrampasDeAcceso {
+    public static void main(String[] args) {
+        Personaje heroe = new Caballero(&quot;Heroe&quot;);
+        heroe.vida = 9999;
+        heroe.inventario = new Inventario();
+
+        Herramienta espada = new Herramienta(&quot;Espada&quot;, 20);
+        espada.durabilidad = 1000000;
+
+        Inventario bolsa = new Inventario();
+        bolsa.herramientas[0] = espada;
+        bolsa.cuantas = 50;
+    }
+}</code></pre>
+<pre><code>javac -cp out -d out src/trampas/TrampasDeAcceso.java
+<span class="c"># intenta compilar el tramposo usando tus clases, que ya están en out</span></code></pre>
+<div class="out"><b>debe salir</b>TrampasDeAcceso.java:10: error: vida has private access in Personaje
+TrampasDeAcceso.java:11: error: inventario has private access in Personaje
+TrampasDeAcceso.java:14: error: durabilidad has private access in Herramienta
+TrampasDeAcceso.java:17: error: herramientas has private access in Inventario
+TrampasDeAcceso.java:18: error: cuantas has private access in Inventario</div>
+<p><b>Cada error es una trampa bloqueada</b>: «ese atributo es privado, no lo puedes tocar». Si alguna de esas líneas <b>sí compila</b>, ese atributo no es <code>private</code> en tu código: corrígelo. Que este archivo no compile es lo esperado; no lo arregles.</p>
+
+<h3>3b · Trampas de reglas: estas sí compilan, y tu código tiene que ignorarlas</h3>
+<pre><code>javac -cp out -d out src/trampas/Tramposo.java
+<span class="c"># compila el segundo tramposo</span>
+java -cp out trampas.Tramposo
+<span class="c"># lo corre: intenta siete trampas y dice cuáles funcionaron</span></code></pre>
+<div class="out"><b>debe salir</b>BLOQUEADA  1) golpe negativo para curarse
+BLOQUEADA  2) curarse arriba del tope de vida
+BLOQUEADA  3) forjar una espada de 5000 de poder
+BLOQUEADA  4) cargar una cuarta herramienta
+BLOQUEADA  5) pedir la herramienta 99
+BLOQUEADA  6) atacar sin ninguna herramienta
+BLOQUEADA  7) revivir a un personaje muerto</div>
+<p>Si alguna dice <b>FUNCIONA</b>, encontraste un hueco:</p>
+<div class="tw" style="overflow-x:auto"><table>
+  <tr><th>Trampa</th><th>Si dice FUNCIONA, revisa</th></tr>
+  <tr><td>1 · golpe negativo para curarse</td><td><code>recibirDanio</code>: solo puntos mayores que 0</td></tr>
+  <tr><td>2 · curarse arriba del tope</td><td><code>curar</code> y <code>limitar</code>: el tope es <code>vidaMaxima</code>, no 100</td></tr>
+  <tr><td>3 · espada de 5000</td><td>el constructor de <code>Herramienta</code> y <code>entre</code></td></tr>
+  <tr><td>4 · cuarta herramienta</td><td><code>agregar</code>: tres lugares y luego <code>false</code></td></tr>
+  <tr><td>5 · herramienta 99</td><td><code>getHerramienta</code>: posición fuera del rango, <code>null</code></td></tr>
+  <tr><td>6 · atacar sin herramienta</td><td><code>usarMejor</code> devuelve 0 y <code>atacar</code> no hace daño con 0</td></tr>
+  <tr><td>7 · revivir a un muerto</td><td><code>curar</code>: un personaje muerto no se cura</td></tr>
+</table></div>
+<p>Si en lugar de terminar truena con <code style="overflow-wrap:anywhere">ArrayIndexOutOfBoundsException</code>, la trampa 5 encontró el hueco: tu <code>getHerramienta</code> buscó en una posición que no existe. Cada vez que cambies algo, vuelve a compilar el juego (paso 2) y el tramposo.</p>
+
+<h2>Paso 4 · Tu primera prueba con JUnit</h2>
+<p>Una <b>prueba</b> es un método que arma un objeto, le hace algo y <b>afirma</b> qué debería pasar. Si lo afirmado es cierto, sale en <b>verde</b>; si no, en <b>rojo</b>. El tramposo lo tuviste que leer tú; una prueba la revisa la computadora, cada vez que quieras.</p>
+<ol class="steps">
+  <li><b>Crea la carpeta de pruebas</b> <span>Junto a <code>src</code> crea <code>test</code>, y dentro <code>mazmorra</code>: <code>test/mazmorra/</code>.</span></li>
+  <li><b>Crea <code>PersonajeTest.java</code></b> <span>Dentro de <code>test/mazmorra</code>, con el código de abajo.</span></li>
+  <li><b>Compila y corre</b> <span>Con los dos comandos de abajo. JUnit es el <code>.jar</code> de la carpeta <code>lib</code>.</span></li>
+</ol>
+<pre><code>package mazmorra;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class PersonajeTest {
+    @Test
+    void laVidaNuncaPasaDeLaMaxima() {
+        Personaje p = new Caballero(&quot;Conan&quot;);
+        p.curar(50);
+        assertEquals(120, p.getVida());
+    }
+}</code></pre>
+<p><code>@Test</code> marca el método como prueba. <code>assertEquals(120, p.getVida())</code> afirma que lo <b>esperado</b> (primero) es igual a lo <b>real</b> (segundo).</p>
+<pre><code>javac -cp lib/junit-platform-console-standalone-1.11.4.jar -d out src/mazmorra/*.java test/mazmorra/*.java
+<span class="c"># compila el juego y las pruebas; -cp le dice dónde está JUnit</span>
+java -jar lib/junit-platform-console-standalone-1.11.4.jar execute --class-path out --scan-class-path
+<span class="c"># corre todas las pruebas que encuentre en out</span></code></pre>
+<details class="pred"><summary>Predice: ¿en qué color sale?</summary><p style='margin:0;color:var(--ink)'>En <b>verde</b>: el caballero ya tiene 120, <code>curar(50)</code> no lo pasa de su máximo. Verás algo así:</p><div class="out"><b>verás</b>╷
+├─ JUnit Jupiter ✔
+│  └─ PersonajeTest ✔
+│     └─ laVidaNuncaPasaDeLaMaxima() ✔
+[         1 tests successful      ]
+[         0 tests failed          ]</div></details>
+
+<h3>4b · Tu primera prueba en rojo</h3>
+<p>Abajo de la primera, dentro de la misma clase, agrega esta. Compila y corre otra vez:</p>
+<pre><code>    @Test
+    void recibirDanioRestaLosPuntos() {
+        Personaje p = new Mago(&quot;Merlin&quot;);
+        p.recibirDanio(30);
+        assertEquals(70, p.getVida());
+    }</code></pre>
+<div class="out"><b>verás</b>╷
+├─ JUnit Jupiter ✔
+│  └─ PersonajeTest ✔
+│     ├─ laVidaNuncaPasaDeLaMaxima() ✔
+│     └─ recibirDanioRestaLosPuntos() ✘ expected: &lt;70&gt; but was: &lt;50&gt;
+    =&gt; org.opentest4j.AssertionFailedError: expected: &lt;70&gt; but was: &lt;50&gt;
+       mazmorra.PersonajeTest.recibirDanioRestaLosPuntos(PersonajeTest.java:18)
+[         1 tests successful      ]
+[         1 tests failed          ]</div>
+<p>Dice «esperaba 70, pero salió 50». <b>¿Quién está mal: el código o la prueba?</b></p>
+<details class="pred"><summary>Predice: ¿quién está mal?</summary><p style='margin:0;color:var(--ink)'><b>La prueba.</b> Quien la escribió pensó que todos empiezan con 100, pero el mago empieza con <b>80</b>: 80 menos 30 son 50, y el código lo hizo bien. Cambia el <code>70</code> por <code>50</code>: verde. <b>Una prueba roja puede ser un error del código o de la prueba</b>; el mensaje te dice cuánto esperabas y cuánto salió.</p></details>
+
+<h3>4c · Rompe el código a propósito</h3>
+<p>Ahora una prueba buena que descubre un código malo. En <code>Personaje</code>, deja <code>limitar</code> así (comenta el original, no lo borres):</p>
+<pre><code>    private int limitar(int valor) {
+        return valor;   <span class="c">// el Math.max y Math.min ya no están</span>
+    }</code></pre>
+<p>Compila y corre: la primera prueba sale en rojo con <code>expected: &lt;120&gt; but was: &lt;170&gt;</code>. Esta vez el error <b>sí</b> estaba en el código, y la prueba lo atrapó sin que corrieras nada más. <b>Regresa <code>limitar</code></b> y comprueba que vuelve a verde.</p>
+
+<h2>Paso 5 · Tus propias pruebas</h2>
+<p>Escribe <b>al menos cuatro pruebas propias</b> en <code>PersonajeTest</code> o en clases nuevas (<code>InventarioTest</code>, <code>HerramientaTest</code>) dentro de <code>test/mazmorra</code>. Cada una arma objetos, les hace algo y afirma. Un nombre que diga lo que comprueba: <code>unMuertoNoSeCura</code>, no <code>prueba2</code>. Al menos <b>una de herencia</b> y <b>una de una relación</b>. Ideas:</p>
+<div class="tw" style="overflow-x:auto"><table>
+  <tr><th>Qué comprueba</th><th>Idea</th></tr>
+  <tr><td><b>Una trampa</b></td><td>convierte una trampa del tramposo en prueba: una espada de 5000 tiene daño 50; la cuarta herramienta devuelve <code>false</code>; <code>getHerramienta(99)</code> da <code>null</code></td></tr>
+  <tr><td><b>Herencia</b></td><td>cada tipo empieza con su vida (120, 80, 100); un caballero con espada de 20 le quita 25 a un arquero; un mago con bastón de 10 le quita 20</td></tr>
+  <tr><td><b>Composición</b></td><td>cada personaje tiene <b>su propio</b> inventario: uno equipa dos herramientas y el otro sigue con 0</td></tr>
+  <tr><td><b>Agregación</b></td><td>dos personajes equipan <b>la misma</b> hacha: <code>assertSame</code> sobre las dos, y cuando uno ataca, la durabilidad de la hacha del otro también baja</td></tr>
+  <tr><td><b>Asociación</b></td><td>un mago con un compañero herido: al ayudarlo, el compañero sube 10</td></tr>
+</table></div>
+<div class="tw" style="overflow-x:auto"><table class="mini">
+  <tr><th>Afirmación</th><th>Cuándo</th></tr>
+  <tr><td><code>assertEquals(esperado, real)</code></td><td>los dos valores deben ser iguales</td></tr>
+  <tr><td><code>assertTrue(...)</code> y <code>assertFalse(...)</code></td><td>un <code>boolean</code>, como <code>estaVivo()</code> o lo que devuelve <code>equipar</code></td></tr>
+  <tr><td><code>assertNull(...)</code></td><td>debe ser <code>null</code>, como <code>getHerramienta(99)</code></td></tr>
+  <tr><td><code>assertSame(a, b)</code></td><td><code>a</code> y <code>b</code> son <b>el mismo objeto</b>, no dos iguales</td></tr>
+</table></div>
+
+<h2>Si algo truena</h2>
+<div class="box warn"><h4>No compila</h4>
+<ul>
+  <li><b><code>Caballero is not abstract and does not override abstract method calcularDanio(int) in Personaje</code></b>: a una hija le falta uno de los dos métodos abstractos (<code>getTipo</code> o <code>calcularDanio</code>).</li>
+  <li><b><code>constructor Personaje in class Personaje cannot be applied to given types</code></b>: a la hija le falta <code>super(nombre, 120)</code> como primera línea del constructor.</li>
+  <li><b><code>attempting to assign weaker access privileges; was protected</code></b>: escribiste <code>calcularDanio</code> como <code>private</code> en la hija; tiene que ser <code>protected</code> (o <code>public</code>), igual o más abierto que en el padre.</li>
+  <li><b><code>package org.junit.jupiter.api does not exist</code></b>: al compilar las pruebas te faltó <code>-cp lib/junit-platform-console-standalone-1.11.4.jar</code>.</li>
+  <li><b><code>cannot find symbol</code> sobre <code>Caballero</code> en la prueba</b>: la prueba debe estar en <code>test/mazmorra</code> y empezar con <code>package mazmorra;</code>.</li>
+</ul></div>
+<div class="box tip"><h4>Compila, pero algo sale distinto</h4>
+<ul>
+  <li><b>Conan termina en 100 y no en 110</b>: <code>ayudarCompanero</code> no cura, o en <code>Main</code> falta <code>setCompanero</code>.</li>
+  <li><b>Merlín pega 10 en vez de 20</b>: <code>atacar</code> usa el daño de la herramienta directo; tiene que pasar por <code>calcularDanio</code>.</li>
+  <li><b>Una prueba roja</b>: lee <code>expected ... but was ...</code> antes de tocar nada, y revisa los dos lados: el código y lo que la prueba afirma.</li>
+</ul></div>
+
+<h2>La entrega</h2>
+<table>
+  <tr><th>Qué</th><th>Detalle</th></tr>
+  <tr><td><b>Cuándo</b></td><td><b>Viernes 30 de octubre, 23:59.</b> Sin IA, como siempre.</td></tr>
+  <tr><td><b>Con quién</b></td><td>En pareja (o solo). <b>Cada integrante sube todo en su propia carpeta.</b></td></tr>
+  <tr><td><b>Dónde</b></td><td>Tu rama <code>entregas_apellido_nombre</code>, carpeta <code>entregas/apellido_nombre/p09/</code>. Solo push.</td></tr>
+  <tr><td><b>Qué</b></td><td>Tus carpetas <code>src</code> y <code>test</code>, y una <b>bitácora en PDF</b></td></tr>
+</table>
+<p><b>La bitácora lleva:</b> los integrantes (nombre y número de cuenta); capturas de la salida de <code>Main</code>, del <code>Tramposo</code> con las siete <b>BLOQUEADA</b>, de los errores de <code>TrampasDeAcceso</code> y de <b>todas tus pruebas en verde</b>; y estas tres respuestas con tus palabras:</p>
+<ol>
+  <li><b>Las cuatro relaciones:</b> para herencia, composición, agregación y asociación, copia la línea de tu código donde se ve cada una y di qué le pasa a la parte si el dueño desaparece (para la herencia, qué hace <code>super(...)</code>).</li>
+  <li><b>Los huecos:</b> ¿alguna trampa funcionó la primera vez? ¿Qué cambiaste? Si ninguna funcionó, elige una y explica qué línea de tu código la bloquea. ¿Por qué el diagrama no tiene <code>setVida</code> ni <code>getHerramientas</code>?</li>
+  <li><b>Una prueba roja:</b> copia el mensaje del paso 4b y explica qué significa cada número y quién estaba mal.</li>
+</ol>
+<p><b>Cómo se califica</b>, sobre 10:</p>
+<table>
+  <tr><th>Qué reviso</th><th>Puntos</th></tr>
+  <tr><td><b>Fiel al diagrama:</b> las siete clases con sus visibilidades, <code>final</code> y <code>abstract</code>; las hijas con <code>super(...)</code> y <code>@Override</code>; el inventario con <code>new</code> adentro; las herramientas por <code>equipar</code>; el compañero por <code>setCompanero</code></td><td>3</td></tr>
+  <tr><td><b>Encapsulamiento:</b> <code>TrampasDeAcceso</code> no compila por los cinco atributos y el <code>Tramposo</code> da siete BLOQUEADA</td><td>2.5</td></tr>
+  <tr><td><b>Corre</b> y la salida de <code>Main</code> es la de la guía</td><td>1</td></tr>
+  <tr><td><b>Pruebas:</b> la de la guía y al menos cuatro propias (una de herencia y una de relación), todas en verde y con nombres que dicen qué comprueban</td><td>2</td></tr>
+  <tr><td><b>Bitácora:</b> las capturas y las tres respuestas</td><td>1.5</td></tr>
+</table>
+<p>Cada comando de abajo, con lo que hace:</p>
+<pre><code>git checkout entregas_apellido_nombre
+<span class="c"># te pasa a tu rama de entregas</span>
+git pull origin main
+<span class="c"># trae lo nuevo del repositorio del grupo</span>
+mkdir -p entregas/apellido_nombre/p09
+<span class="c"># crea tu carpeta de esta práctica</span>
+<span class="c"># copia aquí src, test y la bitácora en PDF</span>
+git add entregas/apellido_nombre/p09
+<span class="c"># marca lo que vas a entregar</span>
+git commit -m "P9: encapsulamiento, primera parte"
+<span class="c"># lo guarda con un mensaje</span>
+git push
+<span class="c"># lo sube: esto es la entrega</span></code></pre>
+<p><b>Guarda tu proyecto completo</b> (con <code>lib</code> y <code>src/trampas</code>): la P10 empieza justo donde termina esta.</p>
+<p>Si los <code>.class</code> de <code>out</code> se cuelan, no pasa nada; no hace falta subirlos. El código tiene que ser suyo; si algo no sale, entréguenlo igual y cuenten en la bitácora dónde se atoraron.</p>
+
+<footer>
+  <p><strong>Modelos de Programación Orientada a Objetos 2027-1 · Grupo 6 · Facultad de Ingeniería, UNAM</strong><br>
+  Prof. Oscar Manuel Ruiz Hurtado · Práctica 9 · Encapsulamiento, primera parte (MADO-21, guía 9: datos y métodos miembro, modificadores de acceso, métodos de acceso, composición) con herencia, agregación, asociación e introducción a JUnit · octubre de 2026</p>
+</footer>
+</div>
+</body></html>
