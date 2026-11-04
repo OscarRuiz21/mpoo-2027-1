@@ -19,6 +19,6 @@ public class Gato extends Animal {
     @Override
     public String toString() {
         String tipo = interior ? "de interior" : "de exterior";
-        return super.toString() + " " + tipo;
+        return super.toString() + " | " + tipo; // Aquí agregamos el " | "
     }
 }

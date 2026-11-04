@@ -10,8 +10,9 @@ public class PerroGuia extends Perro {
     public String getAsistido() {
         return asistido;
     }
-        @Override
-        public String toString() {
-            return super.toString() + " asiste a " + asistido;
-        }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | asiste a " + asistido; // Agregamos la barra " | "
+    }
 }
