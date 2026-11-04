@@ -7,12 +7,17 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 
 ## Avisos
 
-**Documentos de referencia obligatoria.** Léelos antes de tu siguiente laboratorio:
+**Formulario del reglamento del laboratorio.** Respóndelo **del 3 al 13 de noviembre**, en el día y horario de clase: <https://forms.gle/D4JtCKJweRL5CdwZ6>
+
+1. Ten presentes las disposiciones y protocolos que revisamos en la primera sesión de laboratorio.
+2. Entra al formulario con la liga de arriba.
+3. Captura tus datos generales: fecha, materia, grupo, profesor, nombre y número de cuenta.
+4. Responde el cuestionario sobre el reglamento y confirma tu aceptación al final.
+
+**Documentos de referencia obligatoria.** El cuestionario es sobre estos dos reglamentos:
 
 - [Reglamento del Laboratorio (REDO-01)](http://lcp02.fi-b.unam.mx/)
 - [Reglamento General de Uso de Laboratorios y Talleres](https://consejofi.fi-a.unam.mx/documentos_relacionados/Normatividad/Reglamento%20General%20de%20Uso%20de%20Laboratorios%20y%20Talleres.pdf)
-
-**Formulario de la materia.** Respóndelo durante esta semana: <https://forms.gle/DouTJKftJf4njttS9>
 
 ## Los enlaces del curso
 
