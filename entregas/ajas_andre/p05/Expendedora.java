@@ -29,39 +29,15 @@
 public class Expendedora {
 
     // --- ATRIBUTOS ---------------------------------------------------------
-    // TODO: un atributo static que cuente las ventas de TODAS las maquinas.
-    // TODO: los atributos de cada maquina: su ubicacion, su saldo y sus tres
-    //       productos.
     static int ventasTotales = 0;
     String ubicacion;
     int saldo;
     Producto papas;
     Producto refresco;
     Producto chocolate;
-    // Un atributo puede ser un OBJETO de otra clase. EJEMPLO con otra clase,
-    // Grupo, que tiene alumnos:
-    //     static int totalGrupos = 0;     // static: uno para todos los grupos
-    //     String salon;
-    //     Alumno jefe;                    // un atributo que es un Alumno
 
 
     // --- CONSTRUCTOR -------------------------------------------------------
-    // Nace con saldo 0 y crea sus tres productos con new, cada uno con su
-    // precio de la tabla y con las piezas que te pasan.
-    // Si la ubicacion viene en blanco, guarda "SIN UBICACION".   (ternario)
-    // Pista: texto.isBlank() es true si solo trae espacios.
-    //
-    // QUE DEBE PASAR:
-    //     new Expendedora("Edificio Q", 15)  -> ubicacion "Edificio Q",
-    //                                           papas, refresco y chocolate con 10
-    //     new Expendedora("   ", 0)          -> ubicacion "SIN UBICACION",
-    //                                           los tres con 0 piezas
-    //
-    // EJEMPLO con otra clase, Grupo:
-    //     Grupo(String salon, String nombreDelJefe) {
-    //         this.salon = salon.isBlank() ? "SIN SALON" : salon;   // ternario
-    //         this.jefe = new Alumno(nombreDelJefe, 19);             // crea el objeto
-    //     }
     Expendedora(String ubicacion, int piezas) {
         this.ubicacion = ubicacion.isBlank() ? "SIN UBICACION" : ubicacion;
         this.saldo = 0;
@@ -73,26 +49,10 @@ public class Expendedora {
     // --- METODOS -----------------------------------------------------------
 
     // Regresa el Producto de ese codigo, o null si no existe.
-    // Limpia el codigo con trim() y toUpperCase().
-    //                                          (switch clasico con break y default)
-    //     buscar("A1")     -> el Producto de las papas
-    //     buscar(" b1 ")   -> el Producto del chocolate
-    //     buscar("Z9")     -> null
-    //
-    // EJEMPLO de switch clasico con otra cosa:
-    //     int numero;
-    //     switch (dia.trim().toUpperCase()) {
-    //         case "LUNES":
-    //             numero = 1;
-    //             break;
-    //         case "MARTES":
-    //             numero = 2;
-    //             break;
-    //         default:
-    //             numero = -1;
-    //     }
-    //     return numero;
     Producto buscar(String codigo) {
+        if (codigo == null) {
+            return null;
+        }
         switch (codigo.trim().toUpperCase()) {
             case "A1":
                 return papas;
@@ -105,17 +65,7 @@ public class Expendedora {
         }
     }
 
-    // Suma al saldo el valor de la moneda.            (switch sobre el enum)
-    //     saldo 0,  insertar(Moneda.DIEZ)  -> saldo 10
-    //     luego     insertar(Moneda.DOS)   -> saldo 12
-    //
-    // En un switch de enum el case se escribe sin "Moneda.":
-    //     switch (moneda) {
-    //         case UNO:
-    //             ...
-    //             break;
-    //         ...
-    //     }
+    // Suma al saldo el valor de la moneda.
     void insertar(Moneda moneda) {
         switch (moneda) {
             case UNO:
@@ -134,20 +84,6 @@ public class Expendedora {
     }
 
     // Intenta vender. Revisa en ESTE orden y regresa el primer caso que aplique:
-    //   1. codigo que no existe    -> "CODIGO INVALIDO"
-    //   2. no quedan piezas        -> "AGOTADO"
-    //   3. el saldo no alcanza     -> "FALTAN $" y lo que falta (el saldo se queda)
-    //   4. si todo esta bien       -> saca una pieza, suma 1 a las ventas,
-    //                                 regresa el cambio y deja el saldo en 0
-    //                                                     (if / else if / else)
-    //     saldo 15, comprar("A1")   -> "FALTAN $3"
-    //     saldo 18, comprar("A1")   -> "ENTREGADO, CAMBIO $0"
-    //     saldo 30, comprar("B1")   -> "ENTREGADO, CAMBIO $15"
-    //     comprar("C3")             -> "CODIGO INVALIDO"
-    //     maquina sin piezas        -> "AGOTADO"
-    //
-    // Pista: empieza con   Producto p = buscar(codigo);
-    //        y despues pregunta   p == null,  p.hayPiezas(),  p.getPrecio() ...
     String comprar(String codigo) {
         Producto p = buscar(codigo);
         if (p == null) {
@@ -158,38 +94,32 @@ public class Expendedora {
             int faltante = p.getPrecio() - saldo;
             return "FALTAN $" + faltante;
         } else {
-            p.sacarUna(); 
-            ventasTotales++;
             int cambio = saldo - p.getPrecio();
+            p.sacarUna();
+            ventasTotales++;
             saldo = 0;
             return "ENTREGADO, CAMBIO $" + cambio;
         }
     }
 
     // "VACIA" si NINGUNO de sus tres productos tiene piezas; si no, "DISPONIBLE".
-    //                                                            (ternario)
-    //     new Expendedora("Q", 15)  -> "DISPONIBLE"
-    //     new Expendedora("Q", 0)   -> "VACIA"
     String estado() {
         return (!papas.hayPiezas() && !refresco.hayPiezas() && !chocolate.hayPiezas()) ? "VACIA" : "DISPONIBLE";
     }
 
     // La ubicacion y, entre parentesis, el estado:
-    //     "Edificio Q (DISPONIBLE)"        "SIN UBICACION (VACIA)"
     String etiqueta() {
         return ubicacion + " (" + estado() + ")";
     }
 
     // Devuelve el saldo que habia y lo deja en 0.
-    //     saldo 10:  cancelar() -> 10,  y otra vez  cancelar() -> 0
     int cancelar() {
-        int dineroDevuelto = saldo;
+        int temp = saldo;
         saldo = 0;
-        return dineroDevuelto;
+        return temp;
     }
 
     // Las ventas de TODAS las maquinas juntas (el atributo static).
-    //     si la maquina A vendio 2 y la B vendio 1  -> 3
     static int getVentasTotales() {
         return ventasTotales;
     }
