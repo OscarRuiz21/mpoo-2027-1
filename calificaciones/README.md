@@ -16,9 +16,10 @@ por persona, una columna por práctica o tarea, y tus **Observaciones**.
 | **10** | Correcta |
 | **9** | Correcta, con un detalle (dice cuál en Observaciones) |
 | **8** | Incompleta, pero aceptada |
+| **7** | Aceptada **solo en este corte**: tu entrega trae contenido de un asistente de IA (por ejemplo, marcas `[cite: N]`). En Observaciones dice cuál; bórralo |
 | **PC** | Pendiente de corrección: en Observaciones dice qué falta. Cuando lo subas, avísame y la recalifico |
 | **NP** | No presentada al corte |
-| **amarillo** | Se entregó después de la fecha solicitada (P03: vie 11-sep · T01: lun 14-sep, con prórroga al 15 · T02: dom 27-sep · P05: vie 2-oct · T03: dom 4-oct · P04: vie 9-oct) |
+| **amarillo** | Se entregó después de la fecha solicitada (P03: vie 11-sep · T01: lun 14-sep, con prórroga al 15 · T02: dom 27-sep · P05: vie 2-oct · T03: dom 4-oct · P04: vie 9-oct · P07: vie 16-oct · P08: vie 23-oct · P09: vie 30-oct) |
 
 Lo entregado tarde se califica por su contenido; el amarillo solo lo señala.
 
@@ -39,6 +40,6 @@ observación— **escríbeme por el grupo** con tu número de cuenta y qué espe
 Casi siempre es que la entrega quedó en una rama o carpeta distinta a la tuya, y se
 resuelve rápido.
 
-El corte más reciente es el del **13 de octubre**: incluye de la **P00** a la **P05** y de la **T01** a la **T03**. La P04 ya venció y se califica completa. La P06 no entra: su guía no se publicó.
+El corte más reciente es el del **4 de noviembre**: **[`P00-P09-corte-04nov.xlsx`](P00-P09-corte-04nov.xlsx)**. Incluye de la **P00** a la **P09** (sin la P06, cuya guía no se publicó) y de la **T01** a la **T03**. No entran la P10, que vence el 6 de noviembre, ni el parcial, que va aparte.
 
-Tu `.class` se ejecuta tal cual con el **JDK 21** del curso: si no lo subiste, o lo compilaste con una versión más nueva de Java, no corre y queda como **PC**.
+Tu `.class` se ejecuta tal cual con el **JDK 21** del curso. Si no lo subiste, en este corte se compiló tu `.java` y se calificó lo que hace; aun así, súbelo. Las diferencias de formato en la salida (espacios, separadores) cuentan como un solo detalle.
