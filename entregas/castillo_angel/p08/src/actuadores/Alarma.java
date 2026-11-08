@@ -33,5 +33,10 @@ public class Alarma extends Actuador{
             return getId() + " en silencio";
         }
     }
+
+    @Override 
+    public String toString(){
+        return super.toString() + " alarma," + " volumen " + volumen;
+    }
     
 }

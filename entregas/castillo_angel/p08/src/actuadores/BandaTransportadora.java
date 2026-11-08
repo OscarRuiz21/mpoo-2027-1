@@ -28,7 +28,7 @@ public class BandaTransportadora extends Actuador{
         } else {
             recorrido += metros;
             gastar(metros);
-            return getId() + " avanza " + metros + "m, lleva " + recorrido + " m";
+            return getId() + " avanza " + metros + " m, lleva " + recorrido + " m";
         }
     }
 
@@ -39,11 +39,11 @@ public class BandaTransportadora extends Actuador{
     @Override 
     public String reaccionar(boolean alerta){
         if (alerta){
-            encender();
-            return avanzar();
-        } else {
             apagar();
             return getId() + " se detiene";
+        } else {
+            encender();
+            return avanzar();
         }
     }
 

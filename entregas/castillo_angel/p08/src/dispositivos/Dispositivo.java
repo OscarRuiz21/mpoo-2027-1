@@ -27,7 +27,7 @@ public abstract class Dispositivo {
 
     @Override 
     public String toString(){
-        return id + "(" + getCarga() + "%)";
+        return id + " (" + getCarga() + "%)";
     }
     
 }

@@ -30,7 +30,7 @@ public abstract class Sensor extends Dispositivo {
 
     public final String leer(){
         gastar(1);
-        return getId() + "mide " + medir() + " " + getUnidad() + (hayAlerta()? "ALERTA" : "");
+        return getId() + " mide " + medir() + " " + getUnidad() + (hayAlerta()? " ALERTA" : "");
     }
 
     @Override
