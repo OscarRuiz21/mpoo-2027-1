@@ -18,6 +18,7 @@ navegador (es la que conviene) y **`.pdf`** para imprimir o leer sin conexión.
 | **Lab 7** · Herencia, primera parte | [`Lab-07/`](Lab-07/P07-Herencia.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-07/P07-Herencia.html) · [`P07-archivos.zip`](Lab-07/P07-archivos.zip) | `p07/` |
 | **Lab 8** · Herencia, segunda parte: la estación de clasificación | [`Lab-08/`](Lab-08/P08-Herencia.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-08/P08-Herencia.html) · [`P08-archivos.zip`](Lab-08/P08-archivos.zip) | `p08/` |
 | **Lab 9** · Encapsulamiento, primera parte: La mazmorra | [`Lab-09/`](Lab-09/P09-Encapsulamiento.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-09/P09-Encapsulamiento.html) · [`P09-archivos.zip`](Lab-09/P09-archivos.zip) | `p09/` |
+| **Lab 10** · Polimorfismo, primera parte: La mazmorra, parte 2 | [`Lab-10/`](Lab-10/P10-Polimorfismo.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-10/P10-Polimorfismo.html) · [`P10-archivos.zip`](Lab-10/P10-archivos.zip) | `p10/` |
 
 Los laboratorios que faltan se van agregando aquí, cada uno en su carpeta, conforme
 avanza el semestre.
