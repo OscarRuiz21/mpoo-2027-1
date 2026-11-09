@@ -50,6 +50,7 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | Instalación del entorno, versión texto | [`guias-laboratorios/referencia/README-Instalacion.md`](guias-laboratorios/referencia/README-Instalacion.md) |
 | **Cómo va tu entrega** · cortes por número de cuenta | [`calificaciones/`](calificaciones/) |
 | Cómo entregar · carpetas y ramas | [`entregas/README.md`](entregas/README.md) |
+| **Proyecto final** · qué entregan y rúbrica (presentación mié 25-nov) | [`proyecto/README.md`](proyecto/README.md) |
 | Decks de las clases de teoría | [`material/`](material/) |
 | Código de ejemplo de cada tema | [`apoyo/`](apoyo/) |
 
