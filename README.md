@@ -53,6 +53,7 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | **Cómo va tu entrega** · cortes por número de cuenta | [`calificaciones/`](calificaciones/) |
 | Cómo entregar · carpetas y ramas | [`entregas/README.md`](entregas/README.md) |
 | **Proyecto final** · qué entregan y rúbrica (presentación mié 25-nov) | [`proyecto/README.md`](proyecto/README.md) |
+| **Guía de estudio del Parcial 2** · examen mié 18-nov | [`material/S25/Guia-Parcial2.pdf`](material/S25/Guia-Parcial2.pdf) · [HTML](material/S25/Guia-Parcial2.html) |
 | Decks de las clases de teoría | [`material/`](material/) |
 | Código de ejemplo de cada tema | [`apoyo/`](apoyo/) |
 
