@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · P11 · Polimorfismo, segunda parte</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:62ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.83rem;color:#33465e;white-space:pre;overflow-x:auto}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+.tw{overflow-x:auto}
+@media print{header,pre,.box,.cp{-webkit-print-color-adjust:exact;print-color-adjust:exact}pre,pre code{white-space:pre-wrap;overflow:visible}.out{font-size:.72rem;overflow:visible}tr{break-inside:avoid}pre,.box,.out{break-inside:avoid}h2{break-after:avoid}footer{break-inside:avoid}}
+.ficha .porque{margin:.25rem 0 0;font-size:.92rem;color:var(--dim);font-style:italic}.ficha .lbl{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin:.7rem 0 0}.ficha code{white-space:pre-wrap;word-break:break-word}.ficha ul{margin-top:.3rem}.ficha li{margin:.3rem 0}.ficha pre code{font-size:.82rem;line-height:1.6}@media print{.ficha{break-inside:avoid}.ficha pre code{font-size:.66rem;white-space:pre}.ficha pre{overflow:visible}}
+.ficha h3{margin-bottom:.2rem}.ficha p{margin:.2rem 0 .4rem}
+.steps{counter-reset:s;list-style:none;margin:1rem 0;padding:0}.steps li{counter-increment:s;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem .8rem 3.2rem;margin:.6rem 0;position:relative;color:var(--ink)}.steps li::before{content:counter(s);position:absolute;left:1rem;top:.8rem;background:var(--am);color:#fff;width:1.6em;height:1.6em;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9em}.steps li span{display:block;color:var(--dim);font-size:.92rem}
+.uml{overflow-x:auto;margin:1rem 0}.uml svg{min-width:760px}.cpt{display:inline-block;background:#e8eef8;color:#1d2b45;border:1px solid #c9d6ea;border-radius:999px;padding:.05em .7em;font-size:.8rem;font-weight:800;margin:.15rem .3rem .15rem 0;white-space:nowrap}.cpts{margin:.2rem 0 .6rem}.paso{border-left:4px solid #1d3a60;padding-left:1rem;margin:1.6rem 0}.paso h3{margin-top:0}.receta li{margin:.45rem 0}.idea{background:#12253d;color:#fff;border-radius:12px;padding:1.1rem 1.3rem;margin:1.1rem 0;font-size:1.08rem;line-height:1.5}.idea b{color:#ffb340}.idea code{background:#1d3a60;border-color:#2c4f7c;color:#fff}.dos{margin:.8rem 0}.dos>div{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:.8rem 0;background:var(--panel)}.dos h4{margin:0 0 .3rem;font-size:.95rem}.dos pre{margin:.4rem 0}.dos pre code{font-size:.84rem}.dos .sin h4{color:var(--rd)}.dos .con h4{color:var(--gr)}.tarj td:first-child{white-space:nowrap}@media print{.uml svg{min-width:0}.uml,.idea,.dos>div,.paso{break-inside:avoid}}
+.pista{border:1px solid var(--line);border-radius:10px;margin:.5rem 0;background:var(--panel)}.pista summary{cursor:pointer;padding:.55rem .9rem;font-weight:800;color:#1d3a60}.pista>div{padding:0 .9rem .7rem}.pista[open] summary{border-bottom:1px dashed var(--line)}.cap td,.cap th{text-align:center}.cap td:first-child,.cap td:last-child,.cap th:last-child{text-align:left}.si{color:#177245;font-weight:900}.no{color:#b42318;font-weight:900}.azul{color:#1f5fbf;font-weight:800}.verde{color:#177245;font-weight:800}.tarjeta{border:2px solid #1d3a60;border-radius:12px;padding:.8rem 1rem;margin:1rem 0;background:#f7f9fd}.tarjeta h4{margin:.1rem 0 .5rem}.tarjeta table{margin:.3rem 0}.manual{border-left:5px solid #b42318;background:#fff4f2;padding:.7rem 1rem;border-radius:8px;margin:1rem 0}@media print{.paso,.dos>div{break-inside:auto}.pista,.tarjeta,.out,.cp{break-inside:avoid}.solo-pantalla{display:none}h2,h3{break-after:avoid}html{font-size:13px}body{font-size:13px}pre code{font-size:11px}.out{font-size:11px}}@page{size:Letter;margin:11mm 10mm}
+</style>
+</head>
+<body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · Práctica 11 · miércoles 11 de noviembre</div>
+  <h1>La plataforma de streaming</h1>
+  <p>Polimorfismo, segunda parte. Una app como las que usas para oír música y ver series: todo se reproduce, pero no todo se descarga ni todo se califica. La clase abstracta dice qué <b>es</b> cada cosa; las interfaces, qué <b>sabe hacer</b>.</p>
+  <p style="margin-top:1em"><a href="P11-archivos.zip" download style="display:inline-block;background:#f2b705;color:#12203a;text-decoration:none;font-weight:800;padding:.55em 1.3em;border-radius:10px">Descargar los archivos (.zip)</a></p>
+</div></header>
+
+<div class="wrap">
+
+<h2>Qué vas a hacer</h2>
+<p>En pareja (o solo). <b>Hoy empiezas un proyecto nuevo</b>: no necesitas el código de la P10. Vas a escribir <b>9 archivos</b>: una clase abstracta, dos interfaces, cinco clases y el <code>Main</code>, que ya viene en el .zip.</p>
+<ol class="steps">
+  <li><b>Antes de empezar</b> <span>10 min · la idea de hoy, la tabla de capacidades y el diagrama</span></li>
+  <li><b>Parte A, ejemplo guiado</b> <span>25 min · <code>Contenido</code>, la interfaz <code>Descargable</code> y la <code>Cancion</code>, con el código completo</span></li>
+  <li><b>Parte B, medio guiada</b> <span>20 min · la interfaz <code>Calificable</code> y el <code>Video</code> vienen completos; la <code>Pelicula</code> <code>final</code> la escribes tú</span></li>
+  <li><b>Parte C, por tu cuenta</b> <span>20 min · el <code>Podcast</code>, con dos interfaces, y la <code>App</code>, que no es de la familia</span></li>
+  <li><b>Parte D, tu código en el <code>Main</code></b> <span>15 min · un <code>try-catch</code> y un <code>instanceof</code></span></li>
+  <li><b>Parte E, los candados</b> <span>10 min · tres errores a propósito</span></li>
+</ol>
+<p>Cada parte termina en un <b>punto de control</b>: corres el <code>Main</code> y comparas con la salida de la guía. Lo que no termines en clase lo terminas en casa. La entrega es el <b>viernes 13 de noviembre, 23:59</b>, en <code>p11/</code>.</p>
+<div class="box tip"><h4>Las pistas</h4>
+<p style="color:var(--ink)">Donde escribes tú, la guía trae pistas cerradas, de la más suave a la más directa. <b>Intenta primero; abre una pista solo si te atoras</b>, y una a la vez.</p>
+<details class="pista"><summary>Así se ve una pista</summary><div><p>Aquí adentro va la ayuda. La última pista de cada paso trae el esqueleto con huecos <code>___</code> para llenar.</p></div></details></div>
+
+<h2>De dónde venimos</h2>
+<div class="tw" style="overflow-x:auto"><table class="mini">
+  <tr><th>Ya lo viste</th><th>Dónde</th><th>Hoy aparece en</th></tr>
+  <tr><td>Clase abstracta, método abstracto, <code>@Override</code></td><td>P9 y P10 (<code>Herramienta</code>)</td><td><code>Contenido</code></td></tr>
+  <tr><td>Una variable del tipo de la madre que guarda objetos de las hijas; el <code>for</code> que no pregunta</td><td>P10 (<code>Herramienta[]</code>)</td><td>la maratón, Parte C</td></tr>
+  <tr><td><code>instanceof</code> y cast</td><td>P10 (<code>Moldes</code>)</td><td>Parte D2</td></tr>
+  <tr><td><code>interface</code>, <code>implements</code>, varias interfaces</td><td>lunes 9 (<code>Pato implements Volador, Nadador</code>)</td><td><code>Descargable</code> y <code>Calificable</code></td></tr>
+  <tr><td><code>throw</code> y <code>try-catch</code></td><td>lunes 9 (el menú que no truena)</td><td><code>calificar</code> y la Parte D1</td></tr>
+  <tr><td><code>final</code> en atributos</td><td>P9 y P10</td><td><b>una clase <code>final</code></b>: el último eslabón</td></tr>
+</table></div>
+
+<h2>La idea de hoy</h2>
+<div class="idea">Una <b>clase abstracta</b> dice qué <b>es</b> un objeto; una <b>interfaz</b> dice qué <b>sabe hacer</b>. Una canción <b>es</b> un contenido y <b>sabe</b> descargarse. Una app <b>no es</b> un contenido, pero <b>también sabe</b> descargarse: por eso una canción y una app pueden ir en la misma lista de descargas.</div>
+<p>Cada clase de hoy se decide con tres preguntas. Esta tabla es el mapa de la práctica:</p>
+<div class="tw" style="overflow-x:auto"><table class="cap">
+  <tr><th>Clase</th><th>¿Se reproduce?</th><th>¿Se descarga?</th><th>¿Se califica?</th><th>Por eso su primera línea es</th></tr>
+  <tr><td><code>Cancion</code></td><td><span class="si">✔</span></td><td><span class="si">✔</span></td><td><span class="no">✘</span></td><td><code>public class Cancion extends Contenido implements Descargable</code></td></tr>
+  <tr><td><code>Video</code></td><td><span class="si">✔</span></td><td><span class="no">✘</span></td><td><span class="si">✔</span></td><td><code>public class Video extends Contenido implements Calificable</code></td></tr>
+  <tr><td><code>Pelicula</code></td><td><span class="si">✔</span></td><td><span class="si">✔</span></td><td><span class="si">✔</span> (lo hereda de <code>Video</code>)</td><td><i>la escribes tú en la Parte B</i></td></tr>
+  <tr><td><code>Podcast</code></td><td><span class="si">✔</span></td><td><span class="si">✔</span></td><td><span class="si">✔</span></td><td><i>la escribes tú en la Parte C</i></td></tr>
+  <tr><td><code>App</code></td><td><span class="no">✘</span></td><td><span class="si">✔</span></td><td><span class="si">✔</span></td><td><i>la escribes tú en la Parte C</i></td></tr>
+</table></div>
+<p><b>La regla para leerla:</b> ✔ en «se reproduce» se vuelve <code>extends Contenido</code>; ✔ en «se descarga», <code>implements <span class="azul">Descargable</span></code>; ✔ en «se califica», <code>implements <span class="verde">Calificable</span></code>. Si una clase tiene dos interfaces, van separadas por coma.</p>
+
+<h3>Clase abstracta contra interfaz</h3>
+<div class="tw" style="overflow-x:auto"><table>
+  <tr><th></th><th>Clase abstracta: <code>Contenido</code></th><th>Interfaz: <code>Descargable</code></th></tr>
+  <tr><td><b>Responde</b></td><td>¿qué <b>es</b>?</td><td>¿qué <b>sabe hacer</b>?</td></tr>
+  <tr><td><b>Se declara con</b></td><td><code>public abstract class Contenido</code></td><td><code>public interface Descargable</code></td></tr>
+  <tr><td><b>Una clase la usa con</b></td><td><code>extends</code>: <b>solo una</b></td><td><code>implements</code>: <b>las que quieras</b>, separadas por coma</td></tr>
+  <tr><td><b>¿Guarda datos?</b></td><td>sí: <code>titulo</code> y <code>minutos</code></td><td>no: solo constantes (<code>public static final</code>)</td></tr>
+  <tr><td><b>¿Tiene constructor?</b></td><td>sí, y las hijas lo llaman con <code>super(...)</code></td><td>no</td></tr>
+  <tr><td><b>Sus métodos</b></td><td>abstractos y normales</td><td>abstractos; desde Java 8 también <code>default</code>, con cuerpo (lo viste el lunes)</td></tr>
+  <tr><td><b>¿Se puede hacer <code>new</code>?</b></td><td>no</td><td>no</td></tr>
+</table></div>
+<div class="manual"><b>Ojo con el manual.</b> La guía 11 del MADO-21 dice que una interfaz es «una clase abstracta pura» y que todos sus métodos son abstractos. Eso era cierto hasta Java 7. Desde Java 8 una interfaz puede tener métodos <code>default</code>, con cuerpo, como viste el lunes. La diferencia que sí importa hoy es la de la tabla: <b>la interfaz no guarda datos ni tiene constructor</b>.</div>
+
+<h2>El diagrama</h2>
+<p>Así queda la plataforma. Lo de arriba es lo más general y lo de abajo lo más específico: <code>Contenido</code>, luego <code>Video</code> y al final <code>Pelicula</code>, que es <code>final</code>. Las líneas <span class="azul">azules</span> van a <code>Descargable</code> y las <span class="verde">verdes</span> a <code>Calificable</code>.</p>
+<div class="uml"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1386 918" role="img" aria-label="Diagrama de clases de La plataforma de streaming" style="width:100%;height:auto;background:#fff;border-radius:10px">
+<rect x="342.0" y="20" width="360" height="172" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="342.0" y="20" width="360" height="44" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="522.0" y="38" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45" font-style="italic">Contenido</text>
+<text x="522.0" y="55" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">{abstract}</text>
+<text x="350.0" y="78" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- titulo: String {final}</text>
+<text x="350.0" y="96" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- minutos: int {final}</text>
+<line x1="342.0" y1="105.0" x2="702.0" y2="105.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="350.0" y="120" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45"># Contenido(titulo: String, minutos: int)</text>
+<text x="350.0" y="138" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ reproducir(): String</text>
+<text x="350.0" y="156" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getTitulo(): String</text>
+<text x="350.0" y="174" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getMinutos(): int</text>
+<rect x="20" y="272" width="320" height="104" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="20" y="272" width="320" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="180.0" y="292" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Cancion</text>
+<line x1="20" y1="307.0" x2="340" y2="307.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="28" y="322" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Cancion(titulo: String, minutos: int)</text>
+<text x="28" y="340" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ reproducir(): String</text>
+<text x="28" y="358" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ megas(): double</text>
+<rect x="362" y="272" width="320" height="158" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="362" y="272" width="320" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="522.0" y="292" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Video</text>
+<text x="370" y="316" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- sumaEstrellas: int</text>
+<text x="370" y="334" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- calificaciones: int</text>
+<line x1="362" y1="343.0" x2="682" y2="343.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="370" y="358" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Video(titulo: String, minutos: int)</text>
+<text x="370" y="376" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ reproducir(): String</text>
+<text x="370" y="394" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ calificar(estrellas: int)</text>
+<text x="370" y="412" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ promedio(): double</text>
+<rect x="704" y="272" width="320" height="176" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="704" y="272" width="320" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="864.0" y="292" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Podcast</text>
+<text x="712" y="316" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- sumaEstrellas: int</text>
+<text x="712" y="334" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- calificaciones: int</text>
+<line x1="704" y1="343.0" x2="1024" y2="343.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="712" y="358" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Podcast(titulo: String, minutos: int)</text>
+<text x="712" y="376" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ reproducir(): String</text>
+<text x="712" y="394" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ megas(): double</text>
+<text x="712" y="412" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ calificar(estrellas: int)</text>
+<text x="712" y="430" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ promedio(): double</text>
+<rect x="1046" y="272" width="320" height="212" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="1046" y="272" width="320" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="1206.0" y="292" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">App</text>
+<text x="1054" y="316" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- nombre: String {final}</text>
+<text x="1054" y="334" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- tamanio: double {final}</text>
+<text x="1054" y="352" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- sumaEstrellas: int</text>
+<text x="1054" y="370" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- calificaciones: int</text>
+<line x1="1046" y1="379.0" x2="1366" y2="379.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="1054" y="394" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ App(nombre: String, tamanio: double)</text>
+<text x="1054" y="412" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getNombre(): String</text>
+<text x="1054" y="430" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ megas(): double</text>
+<text x="1054" y="448" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ calificar(estrellas: int)</text>
+<text x="1054" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ promedio(): double</text>
+<line x1="180.0" y1="272" x2="180.0" y2="232" stroke="#1d2b45" stroke-width="1.6"/>
+<line x1="522.0" y1="272" x2="522.0" y2="232" stroke="#1d2b45" stroke-width="1.6"/>
+<line x1="864.0" y1="272" x2="864.0" y2="232" stroke="#1d2b45" stroke-width="1.6"/>
+<line x1="180.0" y1="232" x2="864.0" y2="232" stroke="#1d2b45" stroke-width="1.6"/>
+<line x1="522.0" y1="232" x2="522.0" y2="210" stroke="#1d2b45" stroke-width="1.6"/>
+<polygon points="522.0,192 511.0,210 533.0,210" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6"/>
+<text x="538.0" y="224" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">es un (extends)</text>
+<text x="1206.0" y="250" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">sin extends:</text>
+<text x="1206.0" y="266" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">no es un Contenido</text>
+<rect x="310" y="490" width="332" height="118" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="310" y="490" width="332" height="44" fill="#fff3dc" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="476.0" y="508" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Pelicula</text>
+<text x="476.0" y="525" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">{final}</text>
+<line x1="310" y1="539.0" x2="642" y2="539.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="318" y="554" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Pelicula(titulo: String, minutos: int)</text>
+<text x="318" y="572" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ reproducir(): String</text>
+<text x="318" y="590" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ megas(): double</text>
+<line x1="482" y1="490" x2="482" y2="448" stroke="#1d2b45" stroke-width="1.6"/>
+<polygon points="482,430 471,448 493,448" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6"/>
+<rect x="60" y="736" width="300" height="82" fill="#ffffff" stroke="#1f5fbf" stroke-width="1.6" rx="3"/>
+<rect x="60" y="736" width="300" height="44" fill="#e3edfb" stroke="#1f5fbf" stroke-width="1.6" rx="3"/>
+<text x="210.0" y="752" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1f5fbf">«interface»</text>
+<text x="210.0" y="770" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1f5fbf">Descargable</text>
+<line x1="60" y1="785.0" x2="360" y2="785.0" stroke="#1f5fbf" stroke-width="1"/>
+<text x="68" y="800" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ megas(): double</text>
+<rect x="764" y="736" width="300" height="100" fill="#ffffff" stroke="#177245" stroke-width="1.6" rx="3"/>
+<rect x="764" y="736" width="300" height="44" fill="#e2f3ea" stroke="#177245" stroke-width="1.6" rx="3"/>
+<text x="914.0" y="752" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#177245">«interface»</text>
+<text x="914.0" y="770" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#177245">Calificable</text>
+<line x1="764" y1="785.0" x2="1064" y2="785.0" stroke="#177245" stroke-width="1"/>
+<text x="772" y="800" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ calificar(estrellas: int)</text>
+<text x="772" y="818" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ promedio(): double</text>
+<line x1="80" y1="376" x2="80" y2="666" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="370" y1="608" x2="370" y2="666" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="764" y1="448" x2="764" y2="666" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="1106" y1="484" x2="1106" y2="666" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="80" y1="666" x2="1106" y2="666" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="210.0" y1="666" x2="210.0" y2="718" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<polygon points="210.0,736 199.0,718 221.0,718" fill="#ffffff" stroke="#1f5fbf" stroke-width="1.6"/>
+<line x1="664" y1="430" x2="664" y2="642" stroke="#177245" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="974" y1="448" x2="974" y2="642" stroke="#177245" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="1316" y1="484" x2="1316" y2="642" stroke="#177245" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="664" y1="642" x2="1316" y2="642" stroke="#177245" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="914.0" y1="642" x2="914.0" y2="718" stroke="#177245" stroke-width="1.6" stroke-dasharray="7 5"/>
+<polygon points="914.0,736 903.0,718 925.0,718" fill="#ffffff" stroke="#177245" stroke-width="1.6"/>
+<text x="224.0" y="706" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1f5fbf">sabe descargarse (implements)</text>
+<text x="928.0" y="706" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#177245">sabe calificarse (implements)</text>
+<text x="20" y="862" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">Linea continua con triangulo: extends (es un).  Punteada con triangulo: implements (sabe hacer).</text>
+<text x="20" y="882" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">Cursiva: abstracto, cada clase lo escribe con @Override.  Amarillo: final, el ultimo eslabon.</text>
+<text x="20" y="902" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">En cada clase aparece solo lo que esa clase escribe; lo heredado no se repite.</text>
+</svg></div>
+
+<h2>Prepara tu proyecto</h2>
+<ol>
+  <li>Crea una carpeta nueva <code>p11</code> y adentro <code>src/streaming/</code>. En IntelliJ: proyecto nuevo, clic derecho en <code>src</code>, <b>New → Package</b>, y lo llamas <code>streaming</code>.</li>
+  <li>Del .zip, copia <code>Main.java</code> dentro de <code>src/streaming/</code>.</li>
+  <li>Para crear cada archivo: clic derecho en <code>streaming</code>, <b>New → Java Class</b>. Para una interfaz, en esa misma ventana eliges <b>Interface</b> en vez de <b>Class</b>.</li>
+</ol>
+<pre><code>p11/
+  src/streaming/   <span class="c"># Main.java del .zip y tus 8 archivos</span></code></pre>
+<p>Para compilar y correr, desde la carpeta <code>p11</code> (o con el botón ▶ de IntelliJ sobre el <code>Main</code>):</p>
+<pre><code>javac -d out src/streaming/*.java
+<span class="c"># compila todos los archivos de streaming y deja los .class en out</span>
+java -cp out streaming.Main
+<span class="c"># corre el Main buscando las clases en out</span></code></pre>
+<p style="color:var(--mut)">En Windows usa <code>\</code> en vez de <code>/</code> en las rutas.</p>
+<div class="box warn"><h4>El <code>Main</code> viene con las partes B, C y D apagadas</h4>
+<p style="color:var(--ink)">Cada parte del <code>Main</code> está dentro de un comentario <code>/* ... */</code>, para que compile aunque todavía no existan sus clases. Cuando termines una parte la «enciendes»: borras la línea que empieza con <code>/* ===== PARTE</code> y la línea que termina con <code>*/</code>. Las dos dicen «borra esta linea».</p></div>
+<details class="pista solo-pantalla"><summary>Ver el Main completo del .zip</summary><div><pre><code>package streaming;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        <span class="c">// ===== PARTE A: una cancion, tres variables =====</span>
+        Cancion cancion = new Cancion(&quot;Lluvia en CU&quot;, 4);
+        Contenido comoContenido = cancion;       <span class="c">// toda cancion es un contenido</span>
+        Descargable comoDescargable = cancion;   <span class="c">// toda cancion es descargable</span>
+        System.out.println(comoContenido.reproducir());
+        System.out.println(&quot;Ocupa &quot; + comoDescargable.megas() + &quot; MB&quot;);
+        <span class="c">// comoDescargable.reproducir();          // LINEA A: quitale el // en el paso A4</span>
+
+        /* ===== PARTE B: borra esta linea cuando termines la Parte B =====
+        Video tutorial = new Video(&quot;Tutorial de Git&quot;, 12);
+        Pelicula peli = new Pelicula(&quot;El ultimo commit&quot;, 110);
+        tutorial.calificar(5);
+        tutorial.calificar(4);
+        peli.calificar(5);
+        System.out.println(tutorial.reproducir());
+        System.out.println(peli.reproducir());
+        System.out.println(&quot;Tutorial: &quot; + tutorial.promedio() + &quot; estrellas&quot;);
+        System.out.println(&quot;Pelicula: &quot; + peli.promedio() + &quot; estrellas, ocupa &quot; + peli.megas() + &quot; MB&quot;);
+        ===== fin de la PARTE B: borra esta linea ===== */
+
+        /* ===== PARTE C: borra esta linea cuando termines la Parte C =====
+        Podcast podcast = new Podcast(&quot;Cafe con Java&quot;, 40);
+        App mapa = new App(&quot;Mapa de CU&quot;, 80);
+        mapa.calificar(4);
+        mapa.calificar(2);
+        System.out.println(mapa.getNombre() + &quot;: &quot; + mapa.promedio() + &quot; estrellas&quot;);
+
+        <span class="c">// La maraton: un arreglo del tipo mas general de la familia, Contenido</span>
+        System.out.println(&quot;-- Maraton --&quot;);
+        Contenido[] maraton = { cancion, tutorial, peli, podcast };
+        int minutos = 0;
+        for (Contenido c : maraton) {
+            System.out.println(c.reproducir());
+            minutos += c.getMinutos();
+        }
+        System.out.println(&quot;Total: &quot; + minutos + &quot; minutos&quot;);
+
+        <span class="c">// Las descargas: un arreglo de tipo interfaz; mezcla clases sin padre comun</span>
+        System.out.println(&quot;-- Descargas --&quot;);
+        Descargable[] descargas = { cancion, peli, podcast, mapa };
+        double megas = 0;
+        for (Descargable d : descargas) {
+            megas += d.megas();
+        }
+        System.out.println(&quot;Total: &quot; + megas + &quot; MB&quot;);
+        if (megas &lt;= 2048) {
+            System.out.println(&quot;Cabe en tus 2 GB de datos&quot;);
+        } else {
+            System.out.println(&quot;No cabe en tus 2 GB de datos: sobran &quot; + (megas - 2048) + &quot; MB&quot;);
+        }
+        ===== fin de la PARTE C: borra esta linea ===== */
+
+        /* ===== PARTE D: borra esta linea cuando empieces la Parte D =====
+        <span class="c">// D1: las calificaciones del grupo para el podcast. Dos no valen.</span>
+        System.out.println(&quot;-- Calificaciones del podcast --&quot;);
+        int[] estrellas = { 5, 6, 4, 0, 3 };
+        for (int e : estrellas) {
+            <span class="c">// TU CODIGO (D1)</span>
+        }
+        System.out.println(&quot;Podcast: &quot; + podcast.promedio() + &quot; estrellas&quot;);
+
+        <span class="c">// D2: de la maraton, que se califica y que no</span>
+        System.out.println(&quot;-- Que se califica --&quot;);
+        for (Contenido c : maraton) {
+            <span class="c">// TU CODIGO (D2)</span>
+        }
+        ===== fin de la PARTE D: borra esta linea ===== */
+    }
+}</code></pre></div></details>
+
+<h2>Parte A · Ejemplo guiado: el contenido, la primera interfaz y la canción</h2>
+<p>Esta parte trae el código completo. Escríbelo en tu proyecto (no lo pegues: al teclearlo lo entiendes) y lee lo que explica cada paso.</p>
+
+<div class="paso">
+<h3>A1 · Lo que todos son: <code>Contenido</code></h3>
+<div class="cpts"><span class="cpt">clase abstracta</span><span class="cpt">método abstracto</span><span class="cpt">constructor protected</span><span class="cpt">atributos final</span></div>
+<p>Crea <code>Contenido.java</code>:</p>
+<pre><code>package streaming;
+
+<span class="c">// Contenido: todo lo que se puede reproducir en la plataforma.</span>
+<span class="c">// Es abstracta: no existe &quot;un contenido&quot; a secas; siempre es una cancion, un video o un podcast.</span>
+public abstract class Contenido {
+
+    private final String titulo;
+    private final int minutos;
+
+    protected Contenido(String titulo, int minutos) {
+        this.titulo = titulo;
+        this.minutos = minutos;
+    }
+
+    <span class="c">// Todo contenido se reproduce, pero cada hija dice como</span>
+    public abstract String reproducir();
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public int getMinutos() {
+        return minutos;
+    }
+}</code></pre>
+<ul>
+  <li><b>Es abstracta</b> porque en la plataforma no existe «un contenido» a secas: siempre es una canción, un video o un podcast. Es lo más general de la jerarquía.</li>
+  <li><code>reproducir()</code> es <b>abstracto</b>: no tiene cuerpo, termina en <code>;</code>. Dice «todo contenido se reproduce», pero cada hija dice cómo.</li>
+  <li>Los atributos son <code>final</code>: el título y los minutos se asignan <b>una vez</b>, en el constructor, y ya no cambian.</li>
+</ul>
+</div>
+
+<div class="paso">
+<h3>A2 · Lo que algunos saben hacer: la interfaz <code>Descargable</code></h3>
+<div class="cpts"><span class="cpt">interface</span><span class="cpt">método abstracto implícito</span></div>
+<p>Crea <code>Descargable.java</code> (en IntelliJ: <b>New → Java Class → Interface</b>):</p>
+<pre><code>package streaming;
+
+<span class="c">// Descargable: lo que se puede bajar al celular para verlo sin internet.</span>
+public interface Descargable {
+
+    <span class="c">// Cuantos megas ocupa al bajarlo</span>
+    double megas();
+}</code></pre>
+<ul>
+  <li>Dice <b>una promesa</b>: «lo que sea descargable sabe decir cuántos megas ocupa». No dice cómo se calcula.</li>
+  <li><code>megas()</code> no lleva <code>public</code> ni <code>abstract</code>: en una interfaz, <b>todo método sin cuerpo es público y abstracto</b> solo por estar ahí.</li>
+  <li>No tiene atributos ni constructor: la interfaz no sabe cuántos minutos dura nada. Solo promete.</li>
+</ul>
+</div>
+
+<div class="paso">
+<h3>A3 · Es un contenido y sabe descargarse: la <code>Cancion</code></h3>
+<div class="cpts"><span class="cpt">extends</span><span class="cpt">implements</span><span class="cpt">super(...)</span><span class="cpt">@Override</span></div>
+<p>Crea <code>Cancion.java</code>:</p>
+<pre><code>package streaming;
+
+<span class="c">// Cancion: se reproduce y se descarga. No se califica.</span>
+public class Cancion extends Contenido implements Descargable {
+
+    public Cancion(String titulo, int minutos) {
+        super(titulo, minutos);
+    }
+
+    @Override
+    public String reproducir() {
+        return &quot;Sonando la cancion &quot; + getTitulo();
+    }
+
+    <span class="c">// 1 mega por minuto</span>
+    @Override
+    public double megas() {
+        return getMinutos() * 1.0;
+    }
+}</code></pre>
+<ul>
+  <li><b>Lee la primera línea en voz alta:</b> «<code>Cancion</code> <b>es un</b> <code>Contenido</code> y <b>sabe</b> descargarse». <code>extends</code> va primero y <code>implements</code> después.</li>
+  <li>Por eso tiene <b>dos obligaciones</b>: <code>reproducir()</code>, que le exige <code>Contenido</code>, y <code>megas()</code>, que le exige <code>Descargable</code>. Las dos con <code>@Override</code>.</li>
+  <li>El constructor le pasa el título y los minutos a la madre con <code>super(...)</code>, como en la P10.</li>
+</ul>
+<p>Si se te olvida <code>megas()</code>, la interfaz te lo cobra:</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/Cancion.java:4: error: Cancion is not abstract and does not override abstract method megas() in Descargable
+public class Cancion extends Contenido implements Descargable {
+       ^
+1 error</div>
+<p>Y si lo escribes sin <code>public</code>: la interfaz lo prometió público, y la clase no puede cerrarlo.</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/Cancion.java:17: error: megas() in Cancion cannot implement megas() in Descargable
+    double megas() {
+           ^
+  attempting to assign weaker access privileges; was public
+1 error</div>
+</div>
+
+<div class="paso">
+<h3>A4 · Punto de control: una canción, tres variables</h3>
+<div class="cpts"><span class="cpt">upcast</span><span class="cpt">tipo de la variable</span><span class="cpt">tipo del objeto</span></div>
+<p>Con <code>Contenido</code>, <code>Descargable</code> y <code>Cancion</code> el <code>Main</code> ya compila. Esta es su Parte A:</p>
+<pre><code>        <span class="c">// ===== PARTE A: una cancion, tres variables =====</span>
+        Cancion cancion = new Cancion(&quot;Lluvia en CU&quot;, 4);
+        Contenido comoContenido = cancion;       <span class="c">// toda cancion es un contenido</span>
+        Descargable comoDescargable = cancion;   <span class="c">// toda cancion es descargable</span>
+        System.out.println(comoContenido.reproducir());
+        System.out.println(&quot;Ocupa &quot; + comoDescargable.megas() + &quot; MB&quot;);
+        <span class="c">// comoDescargable.reproducir();          // LINEA A: quitale el // en el paso A4</span></code></pre>
+<pre><code>javac -d out src/streaming/*.java
+<span class="c"># compila tus tres archivos y el Main</span>
+java -cp out streaming.Main
+<span class="c"># corre el Main</span></code></pre>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>debe salir</b>Sonando la cancion Lluvia en CU
+Ocupa 4.0 MB</div>
+<p>Hay <b>un solo objeto</b>, una canción, y <b>tres variables</b> que lo apuntan. Cada variable deja llamar cosas distintas:</p>
+<div class="tw" style="overflow-x:auto"><table class="mini">
+  <tr><th>Variable</th><th>Su tipo</th><th>El objeto</th><th>Qué deja llamar</th></tr>
+  <tr><td><code>cancion</code></td><td><code>Cancion</code></td><td>la canción</td><td><code>reproducir()</code>, <code>megas()</code>, <code>getTitulo()</code>...</td></tr>
+  <tr><td><code>comoContenido</code></td><td><code>Contenido</code></td><td>la misma canción</td><td>lo de <code>Contenido</code>: <code>reproducir()</code>, <code>getTitulo()</code>, <code>getMinutos()</code></td></tr>
+  <tr><td><code>comoDescargable</code></td><td><code>Descargable</code></td><td>la misma canción</td><td><b>solo</b> <code>megas()</code></td></tr>
+</table></div>
+<p><b>Ahora pruébalo:</b> quítale el <code>//</code> a la <b>LINEA A</b> y compila.</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/Main.java:13: error: cannot find symbol
+        comoDescargable.reproducir();            // LINEA A: quitale el // en el paso A4
+                       ^
+  symbol:   method reproducir()
+  location: variable comoDescargable of type Descargable
+1 error</div>
+<p>No compila aunque el objeto <b>sí</b> sea una canción que se reproduce: el compilador solo mira <b>el tipo de la variable</b>, y a una <code>Descargable</code> solo se le puede pedir <code>megas()</code>. Es la misma regla de los moldes de la P10. <b>Vuelve a poner el <code>//</code></b>.</p>
+<div class="cp"><h4><span class="n">✓</span>El patrón que acabas de seguir</h4>
+<ol class="receta">
+  <li><b>Primera línea:</b> <code>extends</code> la madre (lo que <b>es</b>) e <code>implements</code> las interfaces (lo que <b>sabe hacer</b>).</li>
+  <li><b>Constructor:</b> llama a <code>super(...)</code>.</li>
+  <li><b>Un <code>@Override</code> por cada obligación:</b> los métodos abstractos de la madre y los de cada interfaz.</li>
+</ol></div>
+</div>
+
+<h2>Parte B · El video y la película <code>final</code></h2>
+
+<div class="paso">
+<h3>B1 · La segunda interfaz: <code>Calificable</code></h3>
+<div class="cpts"><span class="cpt">interface</span><span class="cpt">dos métodos</span></div>
+<p>Crea <code>Calificable.java</code>:</p>
+<pre><code>package streaming;
+
+<span class="c">// Calificable: lo que la gente puede calificar con estrellas.</span>
+public interface Calificable {
+
+    <span class="c">// Recibe de 1 a 5 estrellas; cualquier otro numero se rechaza</span>
+    void calificar(int estrellas);
+
+    <span class="c">// El promedio de las estrellas recibidas (0 si nadie ha calificado)</span>
+    double promedio();
+}</code></pre>
+</div>
+
+<div class="paso">
+<h3>B2 · El <code>Video</code> (completo)</h3>
+<div class="cpts"><span class="cpt">implements</span><span class="cpt">throw</span><span class="cpt">IllegalArgumentException</span></div>
+<p>Crea <code>Video.java</code>. Un video de la plataforma se ve en línea: se reproduce y se califica, pero no se descarga.</p>
+<pre><code>package streaming;
+
+<span class="c">// Video: se reproduce y se califica. No se descarga: se ve en linea.</span>
+public class Video extends Contenido implements Calificable {
+
+    private int sumaEstrellas;
+    private int calificaciones;
+
+    public Video(String titulo, int minutos) {
+        super(titulo, minutos);
+    }
+
+    @Override
+    public String reproducir() {
+        return &quot;Reproduciendo el video &quot; + getTitulo();
+    }
+
+    @Override
+    public void calificar(int estrellas) {
+        if (estrellas &lt; 1 || estrellas &gt; 5) {
+            throw new IllegalArgumentException(&quot;calificacion invalida: &quot; + estrellas + &quot; (debe ir de 1 a 5)&quot;);
+        }
+        sumaEstrellas += estrellas;
+        calificaciones++;
+    }
+
+    @Override
+    public double promedio() {
+        if (calificaciones == 0) {
+            return 0;
+        }
+        return (double) sumaEstrellas / calificaciones;
+    }
+}</code></pre>
+<ul>
+  <li><b>Los dos atributos de las estrellas</b> los lleva la clase, no la interfaz: <code>Calificable</code> solo promete <code>calificar</code> y <code>promedio</code>; quien los cumple tiene que guardar la suma y cuántas van.</li>
+  <li><b><code>calificar</code> usa <code>throw</code></b>, como el lunes: si las estrellas no van de 1 a 5, <b>no las suma</b>. Lanza una <code>IllegalArgumentException</code> con un mensaje y el método se corta ahí. Quien llamó decide qué hacer (eso lo haces tú en la Parte D).</li>
+  <li><b><code>promedio</code></b> convierte a <code>double</code> antes de dividir, para que 9 / 2 dé 4.5 y no 4. Si nadie ha calificado, devuelve 0 en vez de dividir entre cero.</li>
+</ul>
+</div>
+
+<div class="paso">
+<h3>B3 · Tu turno: la <code>Pelicula</code>, el último eslabón</h3>
+<div class="cpts"><span class="cpt">herencia en tres niveles</span><span class="cpt">clase final</span><span class="cpt">implements</span></div>
+<p>Una película <b>es un</b> video (se reproduce y se califica), pero <b>además</b> se descarga. Y es el último nivel: nadie hereda de una película. Crea <code>Pelicula.java</code> con esta tarjeta:</p>
+<div class="tarjeta"><h4>Tarjeta · <code>Pelicula</code></h4>
+<div class="tw" style="overflow-x:auto"><table class="mini">
+  <tr><td><b>Es un</b></td><td><code>Video</code> (no directamente un <code>Contenido</code>)</td></tr>
+  <tr><td><b>Además sabe</b></td><td>descargarse</td></tr>
+  <tr><td><b>Es el último eslabón</b></td><td>sí: lleva <code>final</code></td></tr>
+  <tr><td><b><code>reproducir()</code> devuelve</b></td><td><code>"Proyectando la pelicula " + getTitulo()</code></td></tr>
+  <tr><td><b><code>megas()</code></b></td><td>25 megas por minuto (calidad HD): <code>getMinutos() * 25.0</code></td></tr>
+  <tr><td><b><code>calificar</code> y <code>promedio</code></b></td><td><b>no los escribas</b>: ya los tiene por ser un <code>Video</code></td></tr>
+</table></div></div>
+<details class="pista"><summary>Pista 1 · ¿De quién hereda?</summary><div><p>Una película es un <b>video</b>: <code>extends Video</code>, no <code>extends Contenido</code>. Así se lleva gratis <code>calificar</code>, <code>promedio</code> y sus dos atributos. Lo único que agrega es lo que el video no sabe: descargarse.</p></div></details>
+<details class="pista"><summary>Pista 2 · ¿Dónde va el <code>final</code>?</summary><div><p>Antes de <code>class</code>: <code>public final class Pelicula ...</code>. Una clase <code>final</code> no puede tener hijas.</p></div></details>
+<details class="pista"><summary>Pista 3 · El esqueleto</summary><div><pre><code>package streaming;
+
+public final class Pelicula extends ___ implements ___ {
+
+    public Pelicula(String titulo, int minutos) {
+        super(___, ___);
+    }
+
+    @Override
+    public String reproducir() {
+        return ___;
+    }
+
+    @Override
+    public double megas() {
+        return ___;
+    }
+}</code></pre></div></details>
+<p><b>El error típico:</b> si pones <code>extends Contenido</code>, la película ya no sabe calificarse y el <code>Main</code> no compila en <code>peli.calificar(5)</code>:</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/Main.java:19: error: cannot find symbol
+        peli.calificar(5);
+            ^
+  symbol:   method calificar(int)
+  location: variable peli of type Pelicula
+src/streaming/Main.java:23: error: cannot find symbol
+        System.out.println(&quot;Pelicula: &quot; + peli.promedio() + &quot; estrellas, ocupa &quot; + peli.megas() + &quot; MB&quot;);
+                                              ^
+  symbol:   method promedio()
+  location: variable peli of type Pelicula
+2 errors</div>
+</div>
+
+<div class="paso">
+<h3>B4 · Punto de control: enciende la Parte B del <code>Main</code></h3>
+<p>Borra estas dos líneas del <code>Main</code> (la de arriba y la de abajo de la Parte B):</p>
+<pre><code>/* ===== PARTE B: borra esta linea cuando termines la Parte B =====
+...
+===== fin de la PARTE B: borra esta linea ===== */</code></pre>
+<p>Queda así:</p>
+<pre><code>        Video tutorial = new Video(&quot;Tutorial de Git&quot;, 12);
+        Pelicula peli = new Pelicula(&quot;El ultimo commit&quot;, 110);
+        tutorial.calificar(5);
+        tutorial.calificar(4);
+        peli.calificar(5);
+        System.out.println(tutorial.reproducir());
+        System.out.println(peli.reproducir());
+        System.out.println(&quot;Tutorial: &quot; + tutorial.promedio() + &quot; estrellas&quot;);
+        System.out.println(&quot;Pelicula: &quot; + peli.promedio() + &quot; estrellas, ocupa &quot; + peli.megas() + &quot; MB&quot;);</code></pre>
+<pre><code>javac -d out src/streaming/*.java
+<span class="c"># compila con el video y la película</span>
+java -cp out streaming.Main
+<span class="c"># corre el Main</span></code></pre>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>debe salir</b>Sonando la cancion Lluvia en CU
+Ocupa 4.0 MB
+Reproduciendo el video Tutorial de Git
+Proyectando la pelicula El ultimo commit
+Tutorial: 4.5 estrellas
+Pelicula: 5.0 estrellas, ocupa 2750.0 MB</div>
+<p>Fíjate en <code>peli.calificar(5)</code>: tú no escribiste <code>calificar</code> en <code>Pelicula</code>, y funciona. <b>Lo heredó de <code>Video</code></b>. Por eso <code>Pelicula</code> es <code>Calificable</code> sin decirlo: lo es su madre.</p>
+</div>
+
+<h2>Parte C · Por tu cuenta: el podcast y la app</h2>
+
+<div class="paso">
+<h3>C1 · El <code>Podcast</code>: dos interfaces</h3>
+<div class="cpts"><span class="cpt">extends</span><span class="cpt">dos implements</span></div>
+<div class="tarjeta"><h4>Tarjeta · <code>Podcast</code></h4>
+<div class="tw" style="overflow-x:auto"><table class="mini">
+  <tr><td><b>Es un</b></td><td><code>Contenido</code></td></tr>
+  <tr><td><b>Sabe</b></td><td>descargarse <b>y</b> calificarse: <b>dos interfaces</b></td></tr>
+  <tr><td><b><code>reproducir()</code> devuelve</b></td><td><code>"Escuchando el podcast " + getTitulo()</code></td></tr>
+  <tr><td><b><code>megas()</code></b></td><td>Medio mega por minuto (solo audio): <code>getMinutos() * 0.5</code></td></tr>
+  <tr><td><b><code>calificar</code> y <code>promedio</code></b></td><td>iguales a los de <code>Video</code>, con sus dos atributos</td></tr>
+</table></div></div>
+<details class="pista"><summary>Pista 1 · La primera línea</summary><div><p>Es un contenido que sabe <b>dos</b> cosas: <code>extends Contenido implements Descargable, Calificable</code>. Las interfaces van separadas por coma.</p></div></details>
+<details class="pista"><summary>Pista 2 · ¿Cuántos métodos?</summary><div><p>Cinco: el constructor; <code>reproducir()</code>, que le exige <code>Contenido</code>; <code>megas()</code>, que le exige <code>Descargable</code>; y <code>calificar</code> y <code>promedio</code>, que le exige <code>Calificable</code>. Los dos últimos, con sus dos atributos, son <b>iguales a los de <code>Video</code></b>: cópialos.</p></div></details>
+<details class="pista"><summary>Pista 3 · El esqueleto</summary><div><pre><code>package streaming;
+
+public class Podcast extends ___ implements ___, ___ {
+
+    private int sumaEstrellas;
+    private int calificaciones;
+
+    public Podcast(String titulo, int minutos) {
+        ___
+    }
+
+    @Override
+    public String reproducir() { ___ }
+
+    @Override
+    public double megas() { ___ }
+
+    <span class="c">// calificar y promedio: iguales a los de Video</span>
+}</code></pre></div></details>
+</div>
+
+<div class="paso">
+<h3>C2 · La <code>App</code>: fuera de la familia</h3>
+<div class="cpts"><span class="cpt">implements sin extends</span><span class="cpt">this</span></div>
+<div class="tarjeta"><h4>Tarjeta · <code>App</code></h4>
+<div class="tw" style="overflow-x:auto"><table class="mini">
+  <tr><td><b>Es un</b></td><td><b>nada de la familia</b>: una app no se reproduce, así que <b>no</b> es un <code>Contenido</code></td></tr>
+  <tr><td><b>Sabe</b></td><td>descargarse y calificarse</td></tr>
+  <tr><td><b>Atributos</b></td><td><code>nombre</code> (<code>String</code>, <code>final</code>), <code>tamanio</code> (<code>double</code>, <code>final</code>), y los dos de las estrellas</td></tr>
+  <tr><td><b>Constructor</b></td><td><code>App(String nombre, double tamanio)</code>: guarda los dos con <code>this.</code></td></tr>
+  <tr><td><b>Métodos</b></td><td><code>getNombre()</code>; <code>megas()</code> devuelve <code>tamanio</code>; <code>calificar</code> y <code>promedio</code> iguales a los de <code>Video</code></td></tr>
+</table></div></div>
+<details class="pista"><summary>Pista 1 · Sin <code>extends</code></summary><div><p>Una app no se reproduce, así que no es un contenido: su primera línea es <code>public class App implements Descargable, Calificable</code>. Sin <code>extends</code>.</p></div></details>
+<details class="pista"><summary>Pista 2 · Sin <code>super</code></summary><div><p>Como no hereda de <code>Contenido</code>, no hay <code>super(titulo, minutos)</code> ni <code>getTitulo()</code>. El constructor guarda sus propios atributos: <code>this.nombre = nombre;</code> y <code>this.tamanio = tamanio;</code>. Y <code>megas()</code> solo devuelve <code>tamanio</code>.</p></div></details>
+<details class="pista"><summary>Pista 3 · El esqueleto</summary><div><pre><code>package streaming;
+
+public class App implements ___, ___ {
+
+    private final String nombre;
+    private final double tamanio;
+    private int sumaEstrellas;
+    private int calificaciones;
+
+    public App(String nombre, double tamanio) {
+        ___
+        ___
+    }
+
+    public String getNombre() { ___ }
+
+    @Override
+    public double megas() { ___ }
+
+    <span class="c">// calificar y promedio: iguales a los de Video</span>
+}</code></pre></div></details>
+<div class="box tip"><h4>¿Por qué copiar <code>calificar</code> tres veces?</h4>
+<p style="color:var(--ink)">Porque la interfaz solo <b>promete</b>: no puede guardar la suma de estrellas. <code>Video</code>, <code>Podcast</code> y <code>App</code> la cumplen cada una por su lado. <code>Pelicula</code> no la copia porque la hereda de <code>Video</code>.</p></div>
+</div>
+
+<div class="paso">
+<h3>C3 · Punto de control: la maratón y las descargas</h3>
+<div class="cpts"><span class="cpt">referencia del tipo más general</span><span class="cpt">referencia de tipo interfaz</span><span class="cpt">enlace dinámico</span></div>
+<p>Enciende la Parte C del <code>Main</code> igual que la B. Trae dos arreglos:</p>
+<pre><code>        Podcast podcast = new Podcast(&quot;Cafe con Java&quot;, 40);
+        App mapa = new App(&quot;Mapa de CU&quot;, 80);
+        mapa.calificar(4);
+        mapa.calificar(2);
+        System.out.println(mapa.getNombre() + &quot;: &quot; + mapa.promedio() + &quot; estrellas&quot;);
+
+        <span class="c">// La maraton: un arreglo del tipo mas general de la familia, Contenido</span>
+        System.out.println(&quot;-- Maraton --&quot;);
+        Contenido[] maraton = { cancion, tutorial, peli, podcast };
+        int minutos = 0;
+        for (Contenido c : maraton) {
+            System.out.println(c.reproducir());
+            minutos += c.getMinutos();
+        }
+        System.out.println(&quot;Total: &quot; + minutos + &quot; minutos&quot;);
+
+        <span class="c">// Las descargas: un arreglo de tipo interfaz; mezcla clases sin padre comun</span>
+        System.out.println(&quot;-- Descargas --&quot;);
+        Descargable[] descargas = { cancion, peli, podcast, mapa };
+        double megas = 0;
+        for (Descargable d : descargas) {
+            megas += d.megas();
+        }
+        System.out.println(&quot;Total: &quot; + megas + &quot; MB&quot;);
+        if (megas &lt;= 2048) {
+            System.out.println(&quot;Cabe en tus 2 GB de datos&quot;);
+        } else {
+            System.out.println(&quot;No cabe en tus 2 GB de datos: sobran &quot; + (megas - 2048) + &quot; MB&quot;);
+        }</code></pre>
+<ul>
+  <li><b><code>Contenido[] maraton</code></b> es un arreglo del <b>tipo más general de la familia</b>, con objetos de cuatro clases. El <code>for</code> llama a <code>c.reproducir()</code> sin preguntar qué es cada uno, y cada objeto responde a su manera: es el enlace dinámico de la P10.</li>
+  <li><b><code>Descargable[] descargas</code></b> es un arreglo <b>de tipo interfaz</b>. Mezcla una canción, una película, un podcast y <b>la app, que no es de la familia</b>. Lo único que tienen en común es que saben decir sus megas.</li>
+</ul>
+<pre><code>javac -d out src/streaming/*.java
+<span class="c"># compila con el podcast y la app</span>
+java -cp out streaming.Main
+<span class="c"># corre el Main</span></code></pre>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>debe salir</b>Sonando la cancion Lluvia en CU
+Ocupa 4.0 MB
+Reproduciendo el video Tutorial de Git
+Proyectando la pelicula El ultimo commit
+Tutorial: 4.5 estrellas
+Pelicula: 5.0 estrellas, ocupa 2750.0 MB
+Mapa de CU: 3.0 estrellas
+-- Maraton --
+Sonando la cancion Lluvia en CU
+Reproduciendo el video Tutorial de Git
+Proyectando la pelicula El ultimo commit
+Escuchando el podcast Cafe con Java
+Total: 166 minutos
+-- Descargas --
+Total: 2854.0 MB
+No cabe en tus 2 GB de datos: sobran 806.0 MB</div>
+<p>Las cuentas: la maratón suma 4 + 12 + 110 + 40 = 166 minutos. Las descargas, 4 + 2750 + 20 + 80 = 2854 MB, y no caben en 2048.</p>
+<p><b>Pruébalo:</b> agrega <code>mapa</code> al arreglo <code>maraton</code> y compila. No cabe: la app no es un contenido.</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/Main.java:33: error: incompatible types: App cannot be converted to Contenido
+        Contenido[] maraton = { cancion, tutorial, peli, podcast, mapa };
+                                                                  ^
+1 error</div>
+<p>Quítala. <b>En la lista de descargas sí cabe y en la maratón no</b>: eso es lo que una interfaz te deja hacer y la herencia no.</p>
+</div>
+
+<h2>Parte D · Tu código en el <code>Main</code></h2>
+<p>Enciende la Parte D. Tiene dos huecos que dicen <code>TU CODIGO</code>:</p>
+<pre><code>        <span class="c">// D1: las calificaciones del grupo para el podcast. Dos no valen.</span>
+        System.out.println(&quot;-- Calificaciones del podcast --&quot;);
+        int[] estrellas = { 5, 6, 4, 0, 3 };
+        for (int e : estrellas) {
+            <span class="c">// TU CODIGO (D1)</span>
+        }
+        System.out.println(&quot;Podcast: &quot; + podcast.promedio() + &quot; estrellas&quot;);
+
+        <span class="c">// D2: de la maraton, que se califica y que no</span>
+        System.out.println(&quot;-- Que se califica --&quot;);
+        for (Contenido c : maraton) {
+            <span class="c">// TU CODIGO (D2)</span>
+        }</code></pre>
+
+<div class="paso">
+<h3>D1 · Las calificaciones del grupo: <code>try-catch</code></h3>
+<div class="cpts"><span class="cpt">try-catch</span><span class="cpt">getMessage()</span></div>
+<p>El grupo calificó el podcast con <code>5, 6, 4, 0, 3</code>. El 6 y el 0 no valen. Primero haz la prueba ingenua: en el hueco D1 escribe solo <code>podcast.calificar(e);</code>, compila y corre. El programa <b>truena en el 6</b> y ya no sigue:</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>Exception in thread &quot;main&quot; java.lang.IllegalArgumentException: calificacion invalida: 6 (debe ir de 1 a 5)
+at streaming.Podcast.calificar(Podcast.java:27)
+at streaming.Main.main(Main.java)</div>
+<p>Es lo mismo que el menú del lunes: una entrada mala tira todo el programa. <b>Tu tarea:</b> que el 6 y el 0 se rechacen con un aviso y el programa siga con las demás. El aviso es <code>"Rechazada: "</code> más el mensaje de la excepción.</p>
+<details class="pista"><summary>Pista 1 · La forma</summary><div><p><code>try</code> envuelve lo que puede fallar; <code>catch</code> dice qué hacer si falla. Si no falla, el <code>catch</code> no corre.</p></div></details>
+<details class="pista"><summary>Pista 2 · El tipo y el mensaje</summary><div><p>La traza dice qué excepción es: <code>IllegalArgumentException</code>. Si la atrapas como <code>ex</code>, su mensaje sale con <code>ex.getMessage()</code>.</p></div></details>
+<details class="pista"><summary>Pista 3 · El esqueleto</summary><div><pre><code>        for (int e : estrellas) {
+            try {
+                ___
+            } catch (___ ex) {
+                System.out.println(&quot;Rechazada: &quot; + ___);
+            }
+        }</code></pre></div></details>
+</div>
+
+<div class="paso">
+<h3>D2 · ¿Qué se califica?: <code>instanceof</code></h3>
+<div class="cpts"><span class="cpt">instanceof</span><span class="cpt">downcast</span></div>
+<p>En la maratón, unos contenidos se califican y otros no. Por cada <code>c</code> de la maratón: si es <code>Calificable</code>, imprime su título y su promedio; si no, su título y <code>no se califica</code>. Mira la salida esperada abajo para el formato exacto.</p>
+<details class="pista"><summary>Pista 1 · La pregunta</summary><div><p><code>c instanceof Calificable</code> pregunta por el <b>objeto</b>, no por la variable: da <code>true</code> para el video, la película y el podcast, y <code>false</code> para la canción.</p></div></details>
+<details class="pista"><summary>Pista 2 · Llegar a <code>promedio()</code></summary><div><p>La variable <code>c</code> es <code>Contenido</code>, y <code>Contenido</code> no tiene <code>promedio()</code>. Necesitas una variable <code>Calificable</code>: un downcast, como en la P10: <code>Calificable k = (Calificable) c;</code>. Java 21 deja hacer la pregunta y el molde en una sola línea: <code>if (c instanceof Calificable k)</code>, y adentro del <code>if</code> ya existe <code>k</code>. Cualquiera de las dos vale.</p></div></details>
+<details class="pista"><summary>Pista 3 · El esqueleto</summary><div><pre><code>        for (Contenido c : maraton) {
+            if (c instanceof ___ k) {
+                System.out.println(c.getTitulo() + &quot;: &quot; + ___ + &quot; estrellas&quot;);
+            } else {
+                System.out.println(___ + &quot;: no se califica&quot;);
+            }
+        }</code></pre></div></details>
+<div class="box tip"><h4>¿No que <code>instanceof</code> era lo malo?</h4>
+<p style="color:var(--ink)">En la P10 la cadena de <code>instanceof</code> preguntaba <b>«¿qué clase eres?»</b> para decidir por el objeto cómo golpear: eso lo resuelve el polimorfismo. Aquí preguntas <b>«¿sabes calificarte?»</b>, una capacidad que no todos tienen. La alternativa sería poner <code>promedio()</code> en <code>Contenido</code>, y entonces una canción tendría que inventarse estrellas.</p></div>
+</div>
+
+<div class="paso">
+<h3>D3 · Punto de control final</h3>
+<p>Compila y corre. Debe salir todo lo anterior y, al final:</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>debe salir</b>-- Calificaciones del podcast --
+Rechazada: calificacion invalida: 6 (debe ir de 1 a 5)
+Rechazada: calificacion invalida: 0 (debe ir de 1 a 5)
+Podcast: 4.0 estrellas
+-- Que se califica --
+Lluvia en CU: no se califica
+Tutorial de Git: 4.5 estrellas
+El ultimo commit: 5.0 estrellas
+Cafe con Java: 4.0 estrellas</div>
+<p><code>El ultimo commit</code> sale con 5.0 aunque <code>Pelicula</code> no dice <code>implements Calificable</code>: lo heredó de <code>Video</code>.</p>
+<details class="pista solo-pantalla"><summary>Ver la salida completa del Main</summary><div><div class="out" style="white-space:pre-wrap;word-break:break-word"><b>debe salir</b>Sonando la cancion Lluvia en CU
+Ocupa 4.0 MB
+Reproduciendo el video Tutorial de Git
+Proyectando la pelicula El ultimo commit
+Tutorial: 4.5 estrellas
+Pelicula: 5.0 estrellas, ocupa 2750.0 MB
+Mapa de CU: 3.0 estrellas
+-- Maraton --
+Sonando la cancion Lluvia en CU
+Reproduciendo el video Tutorial de Git
+Proyectando la pelicula El ultimo commit
+Escuchando el podcast Cafe con Java
+Total: 166 minutos
+-- Descargas --
+Total: 2854.0 MB
+No cabe en tus 2 GB de datos: sobran 806.0 MB
+-- Calificaciones del podcast --
+Rechazada: calificacion invalida: 6 (debe ir de 1 a 5)
+Rechazada: calificacion invalida: 0 (debe ir de 1 a 5)
+Podcast: 4.0 estrellas
+-- Que se califica --
+Lluvia en CU: no se califica
+Tutorial de Git: 4.5 estrellas
+El ultimo commit: 5.0 estrellas
+Cafe con Java: 4.0 estrellas</div></div></details>
+</div>
+
+<h2>Parte E · Los candados</h2>
+<p>Tres errores a propósito. En cada uno: lo provocas, lees el mensaje y lo deshaces (<b>Ctrl+Z</b>). Toma captura de cada error para la bitácora.</p>
+
+<div class="paso">
+<h3>E1 · Nadie hereda de una película</h3>
+<div class="cpts"><span class="cpt">final</span></div>
+<p>Crea <code>PeliculaDeTerror.java</code> así y compila:</p>
+<pre><code>package streaming;
+
+public class PeliculaDeTerror extends Pelicula {
+
+    public PeliculaDeTerror(String titulo, int minutos) {
+        super(titulo, minutos);
+    }
+}</code></pre>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/PeliculaDeTerror.java:3: error: cannot inherit from final Pelicula
+public class PeliculaDeTerror extends Pelicula {
+                                      ^
+1 error</div>
+<p><code>final</code> cierra la jerarquía: <code>Pelicula</code> es el último eslabón. ¿Y si quieres películas de terror? <b>El género es un dato, no una clase</b>: sería un atributo <code>genero</code> en <code>Pelicula</code>. <b>Borra el archivo.</b></p>
+</div>
+
+<div class="paso">
+<h3>E2 · Una interfaz no se instancia</h3>
+<p>En el <code>Main</code>, antes de la canción, agrega <code>Descargable algo = new Descargable();</code> y compila:</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/Main.java:8: error: Descargable is abstract; cannot be instantiated
+        Descargable algo = new Descargable();
+                           ^
+1 error</div>
+<p>Una interfaz es una <b>promesa</b>, no una cosa: no hay «un descargable» a secas, como no hay «un contenido» a secas. <b>Borra la línea.</b></p>
+</div>
+
+<div class="paso">
+<h3>E3 · La interfaz cobra</h3>
+<p>En <code>Podcast</code>, borra el método <code>megas()</code> completo y compila:</p>
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/Podcast.java:4: error: Podcast is not abstract and does not override abstract method megas() in Descargable
+public class Podcast extends Contenido implements Descargable, Calificable {
+       ^
+1 error</div>
+<p>El <code>Podcast</code> dijo <code>implements Descargable</code>: prometió <code>megas()</code> y no lo cumplió. <b>Deshazlo con Ctrl+Z.</b></p>
+</div>
+
+<h2>Si terminas: retos</h2>
+<ul>
+  <li><b>El audiolibro:</b> escribe <code>Audiolibro extends Podcast</code> (se reproduce como <code>"Leyendo el audiolibro "</code>) y agrégalo a la maratón. Luego intenta <code>Audiolibro extends Pelicula</code>: ¿por qué no se puede?</li>
+  <li><b>Un <code>default</code> útil:</b> agrega a <code>Descargable</code> el método <code>default boolean cabeEn(double libres)</code>, que devuelva <code>megas() &lt;= libres</code>. Pregúntale a cada descarga si cabe en 500 MB. ¿Cuántas clases tuviste que cambiar?</li>
+  <li><b>El choque de dos <code>default</code>:</b> agrega a <b>las dos</b> interfaces un <code>default String resumen()</code>, una que devuelva <code>"se descarga"</code> y otra <code>"se califica"</code>. Compila:
+<div class="out" style="white-space:pre-wrap;word-break:break-word"><b>sale</b>src/streaming/App.java:5: error: types Descargable and Calificable are incompatible;
+public class App implements Descargable, Calificable {
+       ^
+  class App inherits unrelated defaults for resumen() from types Descargable and Calificable
+src/streaming/Pelicula.java:5: error: types Descargable and Calificable are incompatible;
+public final class Pelicula extends Video implements Descargable {
+             ^
+  class Pelicula inherits unrelated defaults for resumen() from types Descargable and Calificable
+src/streaming/Podcast.java:4: error: types Descargable and Calificable are incompatible;
+public class Podcast extends Contenido implements Descargable, Calificable {
+       ^
+  class Podcast inherits unrelated defaults for resumen() from types Descargable and Calificable
+3 errors</div>
+  Las clases que tienen las dos interfaces no saben cuál usar. Arréglalo en <code>Podcast</code> y en <code>App</code> con <code>@Override public String resumen()</code> que devuelva <code>Descargable.super.resumen() + " y " + Calificable.super.resumen()</code>. En <code>Pelicula</code> eso no compila, porque <code>Calificable</code> no es interfaz suya sino de su madre: ahí usa <code>super.resumen()</code> para la parte de <code>Video</code>.</li>
+</ul>
+
+<h2>Si algo truena</h2>
+<div class="box warn"><h4>No compila</h4>
+<ul>
+  <li><b><code>... is not abstract and does not override abstract method ...</code></b>: a esa clase le falta un método que le exige su madre o una de sus interfaces. El mensaje dice cuál y de quién.</li>
+  <li><b><code>attempting to assign weaker access privileges; was public</code></b>: escribiste un método de la interfaz sin <code>public</code>.</li>
+  <li><b><code>cannot find symbol</code> en <code>calificar</code> o <code>promedio</code></b>: esa clase no sabe calificarse. ¿Tu <code>Pelicula</code> dice <code>extends Video</code>? ¿Tu <code>Podcast</code> dice <code>implements ..., Calificable</code>?</li>
+  <li><b><code>cannot find symbol</code> en <code>tutorial</code>, <code>peli</code>, <code>podcast</code> o <code>mapa</code></b>: encendiste una parte del <code>Main</code> antes que la anterior. Se encienden en orden: B, C, D.</li>
+  <li><b><code>... is abstract; cannot be instantiated</code></b>: hay un <code>new</code> de <code>Contenido</code>, <code>Descargable</code> o <code>Calificable</code>.</li>
+  <li><b><code>illegal start of expression</code> justo al final de una parte del <code>Main</code></b>: borraste la línea de arriba de esa parte pero no la de abajo. Borra las dos.</li>
+</ul></div>
+<div class="box tip"><h4>Compila, pero algo sale distinto</h4>
+<ul>
+  <li><b>Un promedio sale 4.0 en vez de 4.5</b>: dividiste dos <code>int</code>. Convierte a <code>double</code> antes de dividir.</li>
+  <li><b>El podcast sale con 3.6 estrellas</b>: el 6 y el 0 se sumaron. Falta la condición en <code>calificar</code> (paso B2).</li>
+  <li><b>El programa se detiene en «Exception in thread main»</b>: la llamada a <code>calificar</code> de la Parte D1 no está dentro del <code>try</code>.</li>
+  <li><b>Encendiste una parte y no sale nada nuevo</b>: borraste la línea de abajo pero no la de arriba, y el comentario se sigue hasta la parte siguiente. Borra las dos.</li>
+  <li><b>Las descargas no dan 2854.0</b>: revisa las reglas de megas de las tarjetas: 1, 25 y 0.5 por minuto, y la app su tamaño.</li>
+</ul></div>
+
+<h2>La entrega</h2>
+<div class="tw" style="overflow-x:auto"><table>
+  <tr><th>Qué</th><th>Detalle</th></tr>
+  <tr><td><b>Cuándo</b></td><td><b>Viernes 13 de noviembre, 23:59.</b> Sin IA, como siempre.</td></tr>
+  <tr><td><b>Con quién</b></td><td>En pareja (o solo). <b>Cada integrante sube todo en su propia carpeta.</b></td></tr>
+  <tr><td><b>Dónde</b></td><td>Tu rama <code>entregas_apellido_nombre</code>, carpeta <code>entregas/apellido_nombre/p11/</code>. Solo push.</td></tr>
+  <tr><td><b>Qué</b></td><td>Tu carpeta <code>src</code> y una <b>bitácora en PDF</b></td></tr>
+</table></div>
+<p><b>La bitácora lleva:</b> los integrantes (nombre y número de cuenta); captura de la salida completa del <code>Main</code>; capturas del error de la LINEA A y de los tres candados (E1, E2 y E3); y estas tres respuestas con tus palabras:</p>
+<ol>
+  <li><b>Una canción, tres variables:</b> ¿por qué la LINEA A no compila si el objeto es una canción que sí se reproduce? ¿Quién lo detectó, el compilador o Java al correr?</li>
+  <li><b>La película:</b> <code>Pelicula</code> no dice <code>implements Calificable</code>, pero en la Parte D2 sale con su promedio. ¿Por qué? ¿Por qué no compila <code>PeliculaDeTerror</code>, y cómo guardarías el género de una película sin heredar?</li>
+  <li><b>La app:</b> ¿por qué <code>mapa</code> cabe en <code>Descargable[]</code> pero no en <code>Contenido[]</code>? Con tus palabras: ¿qué te deja hacer una interfaz que no te deja la herencia?</li>
+</ol>
+<p><b>Cómo se califica</b>, sobre 10:</p>
+<div class="tw" style="overflow-x:auto"><table>
+  <tr><th>Qué reviso</th><th>Puntos</th></tr>
+  <tr><td><b>Fiel al diagrama:</b> <code>Contenido</code> abstracta; las dos interfaces; cada clase con el <code>extends</code> y los <code>implements</code> de la tabla de capacidades; <code>Pelicula</code> <code>final</code> y heredando de <code>Video</code>; <code>App</code> sin <code>extends</code>; <code>@Override</code> en cada obligación</td><td>3.5</td></tr>
+  <tr><td><b>Corre:</b> el <code>Main</code> da la salida completa de la guía</td><td>3</td></tr>
+  <tr><td><b>Parte D:</b> el <code>try-catch</code> rechaza el 6 y el 0 y el programa sigue; el <code>instanceof</code> separa lo que se califica</td><td>1.5</td></tr>
+  <tr><td><b>Bitácora:</b> las capturas y las tres respuestas</td><td>2</td></tr>
+</table></div>
+<p>Cada comando de abajo, con lo que hace:</p>
+<pre><code>git checkout entregas_apellido_nombre
+<span class="c"># te pasa a tu rama de entregas</span>
+git pull origin main
+<span class="c"># trae lo nuevo del repositorio del grupo</span>
+mkdir -p entregas/apellido_nombre/p11
+<span class="c"># crea tu carpeta de esta práctica; copia ahí src y la bitácora en PDF</span>
+git add entregas/apellido_nombre/p11
+<span class="c"># marca lo que vas a entregar</span>
+git commit -m &quot;P11: polimorfismo, segunda parte&quot;
+<span class="c"># lo guarda con un mensaje</span>
+git push
+<span class="c"># lo sube: esto es la entrega</span></code></pre>
+<p>Si los <code>.class</code> de <code>out</code> se cuelan, no pasa nada. El código tiene que ser suyo; si algo no sale, entréguenlo igual y cuenten en la bitácora dónde se atoraron.</p>
+
+<footer>
+  <p><strong>Modelos de Programación Orientada a Objetos 2027-1 · Grupo 6 · Facultad de Ingeniería, UNAM</strong><br>
+  Prof. Oscar Manuel Ruiz Hurtado · Práctica 11 · Polimorfismo, segunda parte (MADO-21, guía 11: jerarquía de clases desde lo muy abstracto hasta lo muy específico, con <code>Contenido</code>, <code>Video</code> y la clase <code>final</code> <code>Pelicula</code>; referencia de la clase base más general; instancias de las clases derivadas; interfaces) · noviembre de 2026</p>
+</footer>
+</div>
+</body></html>
