@@ -42,6 +42,8 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | ↳ los archivos del Lab 9 · `P09-archivos.zip` | [`guias-laboratorios/Lab-09/P09-archivos.zip`](guias-laboratorios/Lab-09/P09-archivos.zip) |
 | **Lab 10 · Polimorfismo, primera parte: La mazmorra, parte 2** (mié 4-nov, en parejas, entrega vie 6-nov; sobre el código de la P9, y el .zip trae una base para quien no la terminó) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-10/P10-Polimorfismo.html> |
 | ↳ los archivos del Lab 10 · `P10-archivos.zip` | [`guias-laboratorios/Lab-10/P10-archivos.zip`](guias-laboratorios/Lab-10/P10-archivos.zip) |
+| **Lab 11 · Polimorfismo, segunda parte: la plataforma de streaming** (mié 11-nov, en parejas, entrega vie 13-nov; interfaces, `final`, `instanceof` y try-catch) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-11/P11-Interfaces.html> |
+| ↳ los archivos del Lab 11 · `P11-archivos.zip` | [`guias-laboratorios/Lab-11/P11-archivos.zip`](guias-laboratorios/Lab-11/P11-archivos.zip) |
 | **Tarea 2 · Año bisiesto y clasificador de calificaciones** (entrega dom 27-sep) | [`tareas/t02/README.md`](tareas/t02/README.md) |
 | **Tarea 3 · Contraseña, calculadora y un programa tuyo** (entrega dom 4-oct) | [`tareas/t03/README.md`](tareas/t03/README.md) |
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |
