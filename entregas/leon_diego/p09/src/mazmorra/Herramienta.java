@@ -11,6 +11,9 @@ public class Herramienta {
         this.durabilidad = 100;
     }
 
+    public abstract String grito();
+    public abstract int golpear();
+
     public String getNombre() {
         return nombre;
     }
