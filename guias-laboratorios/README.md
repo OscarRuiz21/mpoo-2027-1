@@ -16,6 +16,10 @@ navegador (es la que conviene) y **`.pdf`** para imprimir o leer sin conexión.
 | **Lab 4** · Arreglos con tus manos | [`Lab-04/`](Lab-04/P04-Arreglos-con-tus-manos.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-04/P04-Arreglos-con-tus-manos.html) · [`P4Arreglos.java`](Lab-04/P4Arreglos.java) | `p04/` |
 | **Lab 5** · Estructuras de selección | [`Lab-05/`](Lab-05/P05-Estructuras-de-seleccion.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-05/P05-Estructuras-de-seleccion.html) · [`P05-archivos.zip`](Lab-05/P05-archivos.zip) | `p05/` |
 | **Lab 7** · Herencia, primera parte | [`Lab-07/`](Lab-07/P07-Herencia.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-07/P07-Herencia.html) · [`P07-archivos.zip`](Lab-07/P07-archivos.zip) | `p07/` |
+| **Lab 8** · Herencia, segunda parte: la estación de clasificación | [`Lab-08/`](Lab-08/P08-Herencia.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-08/P08-Herencia.html) · [`P08-archivos.zip`](Lab-08/P08-archivos.zip) | `p08/` |
+| **Lab 9** · Encapsulamiento, primera parte: La mazmorra | [`Lab-09/`](Lab-09/P09-Encapsulamiento.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-09/P09-Encapsulamiento.html) · [`P09-archivos.zip`](Lab-09/P09-archivos.zip) | `p09/` |
+| **Lab 10** · Polimorfismo, primera parte: La mazmorra, parte 2 | [`Lab-10/`](Lab-10/P10-Polimorfismo.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-10/P10-Polimorfismo.html) · [`P10-archivos.zip`](Lab-10/P10-archivos.zip) | `p10/` |
+| **Lab 11** · Polimorfismo, segunda parte: la plataforma de streaming | [`Lab-11/`](Lab-11/P11-Interfaces.html) · [en línea](https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-11/P11-Interfaces.html) · [`P11-archivos.zip`](Lab-11/P11-archivos.zip) | `p11/` |
 
 Los laboratorios que faltan se van agregando aquí, cada uno en su carpeta, conforme
 avanza el semestre.
