@@ -42,6 +42,8 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | ↳ los archivos del Lab 9 · `P09-archivos.zip` | [`guias-laboratorios/Lab-09/P09-archivos.zip`](guias-laboratorios/Lab-09/P09-archivos.zip) |
 | **Lab 10 · Polimorfismo, primera parte: La mazmorra, parte 2** (mié 4-nov, en parejas, entrega vie 6-nov; sobre el código de la P9, y el .zip trae una base para quien no la terminó) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-10/P10-Polimorfismo.html> |
 | ↳ los archivos del Lab 10 · `P10-archivos.zip` | [`guias-laboratorios/Lab-10/P10-archivos.zip`](guias-laboratorios/Lab-10/P10-archivos.zip) |
+| **Lab 11 · Polimorfismo, segunda parte: la plataforma de streaming** (mié 11-nov, en parejas, entrega vie 13-nov; interfaces, `final`, `instanceof` y try-catch) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-11/P11-Interfaces.html> |
+| ↳ los archivos del Lab 11 · `P11-archivos.zip` | [`guias-laboratorios/Lab-11/P11-archivos.zip`](guias-laboratorios/Lab-11/P11-archivos.zip) |
 | **Tarea 2 · Año bisiesto y clasificador de calificaciones** (entrega dom 27-sep) | [`tareas/t02/README.md`](tareas/t02/README.md) |
 | **Tarea 3 · Contraseña, calculadora y un programa tuyo** (entrega dom 4-oct) | [`tareas/t03/README.md`](tareas/t03/README.md) |
 | **Lab 3 · Laboratorio de predicciones** (mié 9-sep) | <https://oscarruiz21.github.io/mpoo-2027-1/guias-laboratorios/Lab-03/P03-Laboratorio-de-predicciones.html> |
@@ -50,6 +52,8 @@ Prof. Oscar Manuel Ruiz Hurtado · Semestre 2027-1
 | Instalación del entorno, versión texto | [`guias-laboratorios/referencia/README-Instalacion.md`](guias-laboratorios/referencia/README-Instalacion.md) |
 | **Cómo va tu entrega** · cortes por número de cuenta | [`calificaciones/`](calificaciones/) |
 | Cómo entregar · carpetas y ramas | [`entregas/README.md`](entregas/README.md) |
+| **Proyecto final** · qué entregan y rúbrica (presentación mié 25-nov) | [`proyecto/README.md`](proyecto/README.md) |
+| **Guía de estudio del Parcial 2** · examen mié 18-nov | [`material/S25/Guia-Parcial2.pdf`](material/S25/Guia-Parcial2.pdf) · [HTML](material/S25/Guia-Parcial2.html) |
 | Decks de las clases de teoría | [`material/`](material/) |
 | Código de ejemplo de cada tema | [`apoyo/`](apoyo/) |
 
