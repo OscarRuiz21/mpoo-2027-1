@@ -1,0 +1,189 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guía de estudio · Parcial 2 de MPOO</title><style>
+:root{--tinta:#1d2b45;--azul:#1f5fbf;--verde:#177245;--suave:#f4f6fa;--borde:#d5dbe6}
+*{box-sizing:border-box}
+body{font:16.5px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--tinta);max-width:1000px;margin:0 auto;padding:28px 20px 60px;background:#fff}
+h1{font-size:30px;margin:0 0 4px}h2{font-size:22px;border-bottom:3px solid var(--tinta);padding-bottom:5px;margin-top:48px}h3{font-size:17.5px;margin-top:26px}
+.sub{color:#51607a;margin-top:0}
+pre{background:var(--suave);border:1px solid var(--borde);border-radius:8px;padding:12px 14px;font:13.5px/1.45 ui-monospace,Menlo,Consolas,monospace;overflow-x:auto;white-space:pre-wrap}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:var(--suave);padding:1px 4px;border-radius:4px}
+pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid var(--borde);padding:7px 10px;text-align:left;vertical-align:top}th{background:#e8eef8}
+.caja{border:1px solid var(--borde);border-left:5px solid var(--azul);border-radius:8px;padding:12px 16px;margin:14px 0;background:#fbfcfe}
+.ojo{border-left-color:#c77700;background:#fff8ea}
+ol.reactivos>li{margin:18px 0}ol.ops{list-style:upper-alpha;margin:6px 0}
+.resp li{margin:7px 0}.ok{color:var(--verde);font-weight:700}
+svg{max-width:100%}
+@media print{body{font-size:12.5px;padding:0}h2{break-after:avoid}pre,.caja,li,tr{break-inside:avoid}.salto{break-before:page}}
+</style></head><body>
+<h1>Guía de estudio · Parcial 2</h1>
+<p class="sub">Programación Orientada a Objetos · 2027-1 · examen el miércoles 18 de noviembre de 2026, en el horario del laboratorio</p>
+
+<div class="caja"><b>Cómo usar esta guía.</b> Tiene la misma forma del examen. Resuelve cada parte en papel y después comprueba tu código en tu IDE. Esta guía no trae las respuestas: si algo no te sale, regresa a la práctica o a la clase que dice la tabla de temas.</div>
+
+<h2>1. Cómo es el examen</h2>
+<table><tr><th>Parte</th><th>Qué te pide</th><th>Puntos</th></tr>
+<tr><td><b>A</b></td><td>20 preguntas de opción múltiple. La mayoría son de los pilares (encapsulamiento, herencia, polimorfismo, abstracción e interfaces) y de excepciones; unas pocas son de la base de Java.</td><td>40</td></tr>
+<tr><td><b>B</b></td><td>Un diagrama UML como los de las prácticas y 6 preguntas abiertas sobre él. Contestas con tus palabras, en una a tres oraciones.</td><td>30</td></tr>
+<tr><td><b>C</b></td><td>Escribir código sobre el mismo diagrama: una clase hija completa y un <code>for</code> con polimorfismo.</td><td>30</td></tr></table>
+<p>Se contesta en el portal del examen, igual que el Parcial 1. Viene de todo lo visto en el curso, con el peso puesto en la programación orientada a objetos.</p>
+
+<h2>2. Qué estudiar</h2>
+<table><tr><th>Tema</th><th>Lo que debes poder explicar y usar</th><th>Dónde repasarlo</th></tr><tr><td><b>Encapsulamiento</b></td><td>private, public y protected: quién ve qué<br>getters y setters; validar en la puerta<br>final en atributos<br>this para distinguir atributo de parámetro</td><td>S16, S18 · P9</td></tr><tr><td><b>Herencia</b></td><td>extends: la hija es un tipo del padre<br>super(...) y el orden de los constructores<br>@Override y super.metodo()<br>clases abstractas y métodos abstractos; final en clases</td><td>S16, S18 · P7, P8</td></tr><tr><td><b>Polimorfismo</b></td><td>variable del tipo padre con objeto de la hija<br>enlace dinámico: el objeto decide qué método corre<br>el for sobre un arreglo del tipo general, sin if por tipo<br>sobrescribir contra sobrecargar; cast e instanceof</td><td>S20 · P10, P11</td></tr><tr><td><b>Interfaces y abstracción</b></td><td>interface e implements: un contrato de lo que la clase sabe hacer<br>una clase extiende una sola clase e implementa varias interfaces<br>ni las interfaces ni las abstractas se crean con new<br>clase abstracta (es un) contra interfaz (sabe hacer)</td><td>S20, S23 · P11</td></tr><tr><td><b>Excepciones</b></td><td>qué es una excepción y cómo leer la traza<br>try, catch y finally: qué corre y qué se salta<br>throw new IllegalArgumentException(...) para rechazar un dato<br>las comunes: NullPointer, ArrayIndexOutOfBounds, NumberFormat, InputMismatch, Arithmetic</td><td>S23</td></tr><tr><td><b>Leer UML</b></td><td>los tres compartimentos de la caja; +, -, #<br>línea continua con triángulo: extends<br>línea punteada con triángulo: implements<br>cursiva: abstracto</td><td>S18 · P8, P10, P11</td></tr><tr><td><b>Base de Java (U1)</b></td><td>tipos, arreglos, if, switch, for, while<br>return contra imprimir<br>referencias y null</td><td>S03 a S14 · P1 a P6</td></tr></table>
+
+<div class="caja ojo"><b>Los tres errores que más puntos costaron en el Parcial 1.</b>
+<ol><li><b>Imprimir en lugar de devolver.</b> Si el enunciado dice «devuelve», el método termina con <code>return</code>, no con <code>System.out.println</code>.</li>
+<li><b>Dejar el código en blanco.</b> Una clase con la cabecera, el constructor y el método a medias vale puntos. En blanco vale cero.</li>
+<li><b>Describir en lugar de contestar.</b> Si te preguntan qué imprime, escribe la salida exacta. Si te preguntan por qué, da la razón, no repitas la pregunta.</li></ol></div>
+
+<h2 class="salto">3. Práctica de la Parte A · opción múltiple</h2>
+<p>Elige una sola opción y anota por qué las otras tres no son.</p>
+<ol class="reactivos"><li><b>Herencia.</b> ¿Qué imprime new B(); ?<pre><code>class A { A() { System.out.print(&quot;A&quot;); } }
+class B extends A { B() { System.out.print(&quot;B&quot;); } }</code></pre><ol class="ops"><li>B</li><li>BA</li><li>AB</li><li>No compila</li></ol></li>
+<li><b>Herencia.</b> Padre solo tiene el constructor Padre(int x). ¿Qué pasa con esta clase?<pre><code>class Hija extends Padre {
+    Hija() { }
+}</code></pre><ol class="ops"><li>Compila: Java llama a Padre(0)</li><li>No compila: falta llamar a super(...) con un int</li><li>Compila, pero truena al crear una Hija</li><li>No compila: una hija no puede tener constructor</li></ol></li>
+<li><b>Polimorfismo.</b> Perro sobrescribe sonido() para devolver &quot;Guau&quot;. ¿Qué imprime?<pre><code>Animal a = new Perro();
+System.out.print(a.sonido());</code></pre><ol class="ops"><li>Guau</li><li>...</li><li>No compila</li><li>Truena al ejecutar</li></ol></li>
+<li><b>Polimorfismo.</b> ladrar() solo existe en Perro. ¿Qué pasa?<pre><code>Animal a = new Perro();
+a.ladrar();</code></pre><ol class="ops"><li>Ladra, porque el objeto es un Perro</li><li>Truena al ejecutar</li><li>Compila y no hace nada</li><li>No compila: la variable es de tipo Animal y Animal no tiene ladrar()</li></ol></li>
+<li><b>Polimorfismo.</b> ¿Cuál es la diferencia entre sobrescribir y sobrecargar un método?<ol class="ops"><li>Son lo mismo</li><li>Sobrescribir: mismo nombre y otros parámetros en la misma clase. Sobrecargar: misma firma en la hija</li><li>Sobrescribir: la hija vuelve a escribir un método del padre con la misma firma. Sobrecargar: mismo nombre con otros parámetros</li><li>Sobrescribir solo se puede con métodos static</li></ol></li>
+<li><b>Abstracción.</b> Figura es una clase abstracta. ¿Qué pasa con Figura f = new Figura(); ?<ol class="ops"><li>No compila: una clase abstracta no se puede instanciar</li><li>Compila y crea una figura vacía</li><li>Truena al ejecutar</li><li>Compila solo si Figura no tiene métodos abstractos</li></ol></li>
+<li><b>Interfaces.</b> ¿Cuál declaración es válida en Java?<ol class="ops"><li>class Pato extends Ave, Nadador</li><li>class Pato implements Ave extends Nadador</li><li>class Pato extends Volador implements Ave (con Volador interfaz y Ave clase)</li><li>class Pato extends Ave implements Volador, Nadador</li></ol></li>
+<li><b>Interfaces.</b> Volador declara void volar(); ¿Qué pasa con esta clase?<pre><code>class Dron implements Volador {
+    void volar() { }
+}</code></pre><ol class="ops"><li>Compila sin problema</li><li>No compila: el método debe ser public, como en la interfaz</li><li>No compila: falta la palabra abstract</li><li>Compila, pero volar() no se puede llamar</li></ol></li>
+<li><b>Encapsulamiento.</b> saldo es private en Cuenta. ¿Cómo lo consulta la clase CuentaAhorro, que hereda de Cuenta?<ol class="ops"><li>Con this.saldo</li><li>Con super.saldo</li><li>Con getSaldo(), si Cuenta lo ofrece</li><li>No hay forma</li></ol></li>
+<li><b>Encapsulamiento.</b> ¿Para qué sirve validar dentro de un setter o de un constructor?<ol class="ops"><li>Para que el programa corra más rápido</li><li>Para que el objeto nunca quede en un estado inválido, lo use quien lo use</li><li>Para poder heredar de la clase</li><li>Para no tener que escribir getters</li></ol></li>
+<li><b>Excepciones.</b> ¿Qué imprime?<pre><code>try {
+    int[] a = new int[2];
+    a[2] = 1;
+    System.out.print(&quot;A&quot;);
+} catch (ArrayIndexOutOfBoundsException ex) {
+    System.out.print(&quot;B&quot;);
+} finally {
+    System.out.print(&quot;C&quot;);
+}</code></pre><ol class="ops"><li>ABC</li><li>AC</li><li>B</li><li>BC</li></ol></li>
+<li><b>Excepciones.</b> ¿Qué excepción lanza Integer.parseInt(&quot;dos&quot;) ?<ol class="ops"><li>NumberFormatException</li><li>InputMismatchException</li><li>NullPointerException</li><li>ArithmeticException</li></ol></li>
+<li><b>Excepciones.</b> Un constructor hace throw new IllegalArgumentException(&quot;precio negativo&quot;). Quien crea el objeto no usa try-catch. ¿Qué pasa?<ol class="ops"><li>El objeto se crea con precio 0</li><li>No compila</li><li>El programa termina con la traza de la excepción</li><li>La excepción se ignora</li></ol></li>
+<li><b>Polimorfismo.</b> Perro y Gato heredan de Animal. ¿Qué pasa?<pre><code>Animal a = new Gato();
+Perro p = (Perro) a;</code></pre><ol class="ops"><li>No compila</li><li>Compila y truena con ClassCastException</li><li>Compila y convierte el gato en perro</li><li>Compila y p queda en null</li></ol></li>
+<li><b>Herencia.</b> ¿Qué efecto tiene declarar una clase como final?<ol class="ops"><li>No se pueden crear objetos de ella</li><li>Sus atributos no pueden cambiar</li><li>Todos sus métodos son abstractos</li><li>Ninguna clase puede heredar de ella</li></ol></li>
+<li><b>Herencia.</b> ¿Para qué sirve escribir @Override?<ol class="ops"><li>Para que el compilador avise si en realidad no estás sobrescribiendo nada</li><li>Para que el método corra más rápido</li><li>Es obligatorio para heredar</li><li>Para volver abstracto el método</li></ol></li>
+</ol>
+
+<h2 class="salto">4. Práctica de la Parte B · lee el diagrama</h2>
+<p>Un cine cobra por asiento cada boleto y además devuelve dinero de lo que sea reembolsable.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1270 802" role="img" aria-label="Diagrama de clases de la versión guia" style="width:100%;height:auto;background:#fff">
+<rect x="240.0" y="20" width="370" height="172" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="240.0" y="20" width="370" height="44" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="425.0" y="38" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45" font-style="italic">Boleto</text>
+<text x="425.0" y="55" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">{abstract}</text>
+<text x="248.0" y="78" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- sala: String {final}</text>
+<text x="248.0" y="96" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- asientos: int {final}</text>
+<line x1="240.0" y1="105.0" x2="610.0" y2="105.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="248.0" y="120" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45"># Boleto(sala: String, asientos: int)</text>
+<text x="248.0" y="138" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ precio(): double</text>
+<text x="248.0" y="156" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getSala(): String</text>
+<text x="248.0" y="174" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getAsientos(): int</text>
+<rect x="20" y="272" width="390" height="86" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="20" y="272" width="390" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="215.0" y="292" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Normal</text>
+<line x1="20" y1="307.0" x2="410" y2="307.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="28" y="322" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Normal(sala: String, asientos: int)</text>
+<text x="28" y="340" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ precio(): double</text>
+<rect x="440" y="272" width="390" height="86" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="440" y="272" width="390" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="635.0" y="292" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Estudiante</text>
+<line x1="440" y1="307.0" x2="830" y2="307.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="448" y="322" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Estudiante(sala: String, asientos: int)</text>
+<text x="448" y="340" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ precio(): double</text>
+<rect x="860" y="272" width="390" height="122" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="860" y="272" width="390" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="1055.0" y="292" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Combo</text>
+<text x="868" y="316" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- devuelto: int</text>
+<line x1="860" y1="325.0" x2="1250" y2="325.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="868" y="340" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Combo()</text>
+<text x="868" y="358" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ reembolsar(monto: int)</text>
+<text x="868" y="376" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getDevuelto(): int</text>
+<line x1="215.0" y1="272" x2="215.0" y2="232" stroke="#1d2b45" stroke-width="1.6"/>
+<line x1="635.0" y1="272" x2="635.0" y2="232" stroke="#1d2b45" stroke-width="1.6"/>
+<line x1="215.0" y1="232" x2="635.0" y2="232" stroke="#1d2b45" stroke-width="1.6"/>
+<line x1="425.0" y1="232" x2="425.0" y2="210" stroke="#1d2b45" stroke-width="1.6"/>
+<polygon points="425.0,192 414.0,210 436.0,210" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6"/>
+<rect x="20" y="418" width="390" height="140" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<rect x="20" y="418" width="390" height="30" fill="#e8eef8" stroke="#1d2b45" stroke-width="1.6" rx="3"/>
+<text x="215.0" y="438" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1d2b45">Vip</text>
+<text x="28" y="462" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">- devuelto: int</text>
+<line x1="20" y1="471.0" x2="410" y2="471.0" stroke="#1d2b45" stroke-width="1"/>
+<text x="28" y="486" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ Vip(sala: String, asientos: int)</text>
+<text x="28" y="504" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ precio(): double</text>
+<text x="28" y="522" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ reembolsar(monto: int)</text>
+<text x="28" y="540" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45">+ getDevuelto(): int</text>
+<line x1="215.0" y1="418" x2="215.0" y2="376" stroke="#1d2b45" stroke-width="1.6"/>
+<polygon points="215.0,358 204.0,376 226.0,376" fill="#ffffff" stroke="#1d2b45" stroke-width="1.6"/>
+<rect x="490.0" y="658" width="290" height="82" fill="#ffffff" stroke="#1f5fbf" stroke-width="1.6" rx="3"/>
+<rect x="490.0" y="658" width="290" height="44" fill="#e3edfb" stroke="#1f5fbf" stroke-width="1.6" rx="3"/>
+<text x="635.0" y="674" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1f5fbf">«interface»</text>
+<text x="635.0" y="692" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#1f5fbf">Reembolsable</text>
+<line x1="490.0" y1="707.0" x2="780.0" y2="707.0" stroke="#1f5fbf" stroke-width="1"/>
+<text x="498.0" y="722" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" fill="#1d2b45" font-style="italic" font-weight="700">+ reembolsar(monto: int)</text>
+<line x1="350" y1="558" x2="350" y2="598" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="1055.0" y1="394" x2="1055.0" y2="598" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="350" y1="598" x2="1055.0" y2="598" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="635.0" y1="598" x2="635.0" y2="640" stroke="#1f5fbf" stroke-width="1.6" stroke-dasharray="7 5"/>
+<polygon points="635.0,658 624.0,640 646.0,640" fill="#ffffff" stroke="#1f5fbf" stroke-width="1.6"/>
+<text x="20" y="766" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">Linea continua con triangulo: extends.  Punteada con triangulo: implements.</text>
+<text x="20" y="786" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="400" fill="#1d2b45">Cursiva: abstracto.  En cada clase aparece solo lo que esa clase escribe; lo heredado no se repite.</text>
+</svg>
+<p>Contesta con tus palabras, en una a tres oraciones:</p>
+<ol><li>¿Cuáles tipos del diagrama no se pueden crear con new? Di por qué en cada caso.</li><li>Se ejecuta Boleto v = new Estudiante(&quot;Sala 2&quot;, 2); y luego v.precio(). ¿De qué clase es el método precio() que corre y por qué?</li><li>¿Qué método está obligada a escribir la clase Combo y quién la obliga? ¿Qué pasa si no lo escribe?</li><li>¿Se puede guardar un objeto Combo en un arreglo Boleto[]? ¿Y en un arreglo Reembolsable[]? Explica las dos respuestas.</li><li>sala es private en Boleto. ¿Cómo obtiene ese dato un objeto Estudiante? ¿Qué pilar se está aplicando y para qué sirve?</li><li>Lista todos los métodos que puedes llamar sobre un objeto Vip, incluidos los heredados, y di de dónde viene cada uno.</li></ol>
+
+<h2 class="salto">5. Práctica de la Parte C · escribe el código</h2>
+<p>Usa el diagrama del cine. Esta es la clase <code>Boleto</code>, ya escrita:</p>
+<pre><code>public abstract class Boleto {
+    private final String sala;
+    private final int asientos;
+
+    protected Boleto(String sala, int asientos) {
+        if (asientos &lt;= 0) {
+            throw new IllegalArgumentException(&quot;Los asientos deben ser mayores que cero&quot;);
+        }
+        this.sala = sala;
+        this.asientos = asientos;
+    }
+
+    public abstract double precio();
+
+    public String getSala() {
+        return sala;
+    }
+
+    public int getAsientos() {
+        return asientos;
+    }
+}</code></pre>
+<ol>
+<li>Escribe completa la clase Estudiante del diagrama. Un boleto de estudiante cuesta 50 pesos por asiento. El método precio() devuelve el valor con return, no lo imprime.</li>
+<li>Escribe el método static double total(Boleto[] lote), que devuelve la suma de precio() de todos los boletos del arreglo. El arreglo puede traer normales, de estudiante y VIP en cualquier orden. No uses if ni instanceof para distinguir el tipo.</li>
+<li>Para practicar interfaces: escribe completa la clase <code>Combo</code> del diagrama. Su método <code>reembolsar</code> suma el monto recibido a <code>devuelto</code>.</li>
+<li>Para practicar excepciones: sin correrlo, ¿qué imprime este programa? Después explica por qué no se imprime <code>Creado</code>.
+<pre><code>public class Demo {
+    public static void main(String[] args) {
+        Reembolsable[] cosas = { new Vip(&quot;Sala 5&quot;, 2), new Combo() };
+        for (Reembolsable r : cosas) {
+            r.reembolsar(40);
+        }
+        try {
+            Boleto b = new Estudiante(&quot;Sala 2&quot;, 0);
+            System.out.println(&quot;Creado&quot;);
+        } catch (IllegalArgumentException ex) {
+            System.out.println(&quot;No se pudo: &quot; + ex.getMessage());
+        } finally {
+            System.out.println(&quot;Fin&quot;);
+        }
+    }
+}</code></pre></li>
+</ol>
+
+</body></html>
