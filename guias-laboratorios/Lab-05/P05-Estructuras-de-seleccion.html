@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPOO · P5 · Estructuras de selección</title>
+<style>
+:root{--bg:#f5f8fc;--panel:#fff;--line:#d9e2ee;--ink:#12253d;--dim:#4b6178;
+--am:#b45309;--amsoft:#fff8ef;--gr:#15803d;--grsoft:#f0fdf4;--rd:#b91c1c;--rdsoft:#fef2f2;--code:#0f1e33}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.6;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 5vw 6rem}
+header{background:linear-gradient(160deg,#12253d,#1d3a60);color:#fff;padding:3rem 5vw 2.4rem;margin-bottom:2rem}
+header .in{max-width:920px;margin:0 auto}
+.kicker{color:#ffb340;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+header h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:.35em 0 .3em;letter-spacing:-.02em}
+header p{color:#b9cde6;max-width:62ch}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);margin:2.6rem 0 .3rem;letter-spacing:-.01em;
+border-top:2px solid var(--line);padding-top:1.6rem}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:clamp(1.05rem,1.8vw,1.25rem);margin:1.7rem 0 .5rem}
+p{margin:.7rem 0;color:var(--dim)}
+p strong,li strong{color:var(--ink)}
+em{color:var(--am);font-style:normal;font-weight:700}
+ul,ol{margin:.6rem 0 .6rem 1.3rem;color:var(--dim)}li{margin:.35rem 0}
+a{color:var(--am)}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.92em;
+background:#e8eef7;border:1px solid var(--line);border-radius:5px;padding:.08em .38em;color:#12253d}
+pre{background:var(--code);border-radius:10px;padding:1rem 1.15rem;overflow:auto;margin:.7rem 0;position:relative}
+pre code{background:none;border:none;padding:0;color:#dbe7f7;font-size:.93rem;line-height:1.75;display:block}
+pre .c{color:#7d93b0}pre .o{color:#7dd3fc}pre .v{color:#fbbf24}
+.out{background:#eef3f9;border:1px solid var(--line);border-left:4px solid #64748b;border-radius:0 8px 8px 0;
+padding:.75rem 1rem;margin:.5rem 0 1rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.83rem;color:#33465e;white-space:pre;overflow-x:auto}
+.out b{display:block;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:.35rem;font-weight:800}
+.box{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:1.1rem 0;background:var(--panel)}
+.box h4{font-size:1rem;margin-bottom:.3rem;display:flex;gap:.5rem;align-items:center}
+.warn{background:var(--rdsoft);border-color:#f2c4c4}
+.warn h4{color:var(--rd)}
+.tip{background:var(--amsoft);border-color:#f0d3ab}
+.tip h4{color:var(--am)}
+.cp{background:var(--grsoft);border:1px solid #bbe6c8;border-radius:12px;padding:1rem 1.2rem;margin:1.4rem 0}
+.cp h4{color:var(--gr);font-size:1.02rem;display:flex;gap:.55rem;align-items:center;margin-bottom:.25rem}
+.cp .n{background:var(--gr);color:#fff;width:1.55em;height:1.55em;border-radius:50%;display:inline-flex;
+align-items:center;justify-content:center;font-size:.85em;font-weight:800;flex:none}
+.cp p{color:#245c38;margin:.25rem 0 0}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.92rem}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--line);text-align:left;color:var(--dim);vertical-align:top}
+th{color:var(--am);font-size:.75rem;text-transform:uppercase;letter-spacing:.09em}
+td b{color:var(--ink)}
+.tree{background:var(--code);border-radius:10px;padding:1rem 1.15rem;color:#dbe7f7;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.7;overflow:auto;white-space:pre}
+.tree .d{color:#fbbf24}.tree .c{color:#7d93b0}
+footer{border-top:2px solid var(--line);margin-top:3rem;padding-top:1.4rem;color:var(--dim);font-size:.9rem}
+.tw{overflow-x:auto}
+@media print{header,pre,.box,.cp{-webkit-print-color-adjust:exact;print-color-adjust:exact}pre,pre code{white-space:pre-wrap;overflow:visible}.out{font-size:.6rem;overflow:visible}pre,.box,.out{break-inside:avoid}h2{break-after:avoid}footer{break-inside:avoid}}
+</style>
+</head>
+
+<body>
+
+<header><div class="in">
+  <div class="kicker">MPOO 2027-1 · Grupo 6 · Práctica 5 · miércoles 30 de septiembre</div>
+  <h1>Estructuras de selección</h1>
+  <p>La máquina expendedora de la Facultad, en dos clases, cada una en su archivo: <code style="background:#1d3a60;color:#fff;border-color:#2c4f7c">Producto</code> y <code style="background:#1d3a60;color:#fff;border-color:#2c4f7c">Expendedora</code>. Tú escribes sus atributos, sus constructores y sus métodos, y en cada uno decides con if, switch o el ternario.</p>
+  <p style="margin-top:1em"><a href="P05-archivos.zip" download style="display:inline-block;background:#f2b705;color:#12203a;text-decoration:none;font-weight:800;padding:.55em 1.3em;border-radius:10px">Descargar los archivos (.zip)</a></p>
+</div></header>
+
+<div class="wrap">
+
+<h2>En una línea</h2>
+<p>Corres <code>P5Seleccion.java</code> y ves dieciocho <b>FALLA</b>. Completas <code>Producto.java</code> y luego <code>Expendedora.java</code> donde dice <code>TODO</code>, vuelves a correr, y terminas cuando la tabla diga <b>18 DE 18</b>.</p>
+<table>
+  <tr><th>Archivo</th><th>Qué es</th><th>Qué haces</th></tr>
+  <tr><td><code>P5Seleccion.java</code></td><td>El <code>main</code> con las 18 pruebas</td><td>Correrlo. No se toca</td></tr>
+  <tr><td><code>Moneda.java</code></td><td>El enum de las monedas</td><td>Nada: ya está escrito</td></tr>
+  <tr><td><code>Producto.java</code></td><td>Paso 1: pruebas 1 a 6</td><td>Completar los TODO</td></tr>
+  <tr><td><code>Expendedora.java</code></td><td>Paso 2: pruebas 7 a 18</td><td>Completar los TODO</td></tr>
+</table>
+<p>Los cuatro van <b>juntos en la misma carpeta</b> (en IntelliJ, en <code>src</code>).</p>
+
+<h2>Parte 0 · Qué se entrega y cómo se califica</h2>
+<table>
+  <tr><th>Qué</th><th>Detalle</th></tr>
+  <tr><td><b>Cuándo</b></td><td><b>Viernes 2 de octubre, 23:59.</b> Se empieza en el laboratorio y ahí mismo se resuelven las dudas.</td></tr>
+  <tr><td><b>Con quién</b></td><td>En parejas, o de tres si alguien se queda sin pareja. Se reparten el trabajo como quieran, pero <b>cada integrante sube la entrega completa en su propia carpeta</b>.</td></tr>
+  <tr><td><b>Dónde</b></td><td>Tu rama <code>entregas_apellido_nombre</code>, carpeta <code>entregas/apellido_nombre/p05/</code>. Solo push, sin pull request.</td></tr>
+  <tr><td><b>Qué archivos</b></td><td>Los <b>cuatro</b> <code>.java</code>, <b>todos</b> los <code>.class</code> que salen al compilar y una <b>bitácora en PDF</b> con: los integrantes (nombre y número de cuenta), qué se les complicó y cómo lo resolvieron, y la <b>captura de la terminal con la tabla final</b>.</td></tr>
+  <tr><td><b>Cómo se califica</b></td><td>Cuántas de las 18 pasan, que uses la estructura que pide cada método y cada constructor y que el código sea tuyo. Si algo no les sale, entréguenlo igual y cuenten en la bitácora dónde se atoraron.</td></tr>
+</table>
+
+<h2>Parte 1 · Un ejemplo completo, con otra clase</h2>
+<p>Así se ve una clase con todo lo que vas a escribir hoy. No es la de la práctica: es un <code>Alumno</code>, para que veas la forma y luego la apliques a <code>Producto</code> y <code>Expendedora</code>.</p>
+<pre><code>public class Alumno {
+
+    <span class="c">// CONSTANTE: static final, en MAYÚSCULAS, no cambia nunca</span>
+    static final int EDAD_MINIMA = 17;
+
+    <span class="c">// ATRIBUTO STATIC: uno solo, compartido por todos los alumnos</span>
+    static int totalAlumnos = 0;
+
+    <span class="c">// ATRIBUTOS: cada alumno tiene los suyos</span>
+    String nombre;
+    int edad;
+
+    <span class="c">// CONSTRUCTOR: mismo nombre que la clase, sin tipo de retorno</span>
+    Alumno(String nombre, int edad) {
+        this.nombre = nombre;           <span class="c">// this.atributo = parametro</span>
+        if (edad &lt; 0) {                 <span class="c">// if / else: validar lo que llega</span>
+            this.edad = 0;
+        } else {
+            this.edad = edad;
+        }
+        totalAlumnos++;                 <span class="c">// cuenta a este alumno</span>
+    }
+
+    <span class="c">// MÉTODO con escalera if / else if / else</span>
+    String etapa() {
+        if (edad &lt; 18) {
+            return "MENOR";
+        } else if (edad &lt; 30) {
+            return "JOVEN";
+        } else {
+            return "ADULTO";
+        }
+    }
+
+    <span class="c">// MÉTODO con ternario:  condicion ? siTrue : siFalse</span>
+    String puedeInscribirse() {
+        return edad &gt;= EDAD_MINIMA ? "SI" : "NO";
+    }
+
+    <span class="c">// MÉTODO static: se llama con el nombre de la clase</span>
+    static int getTotalAlumnos() {
+        return totalAlumnos;
+    }
+}</code></pre>
+<p>Y así se usa:</p>
+<pre><code>Alumno a = new Alumno("Ana", 19);
+Alumno b = new Alumno("Beto", -3);
+
+a.etapa()                  <span class="c">// "JOVEN"</span>
+a.puedeInscribirse()       <span class="c">// "SI"</span>
+b.etapa()                  <span class="c">// "MENOR"   (su edad se guardó como 0)</span>
+Alumno.getTotalAlumnos()   <span class="c">// 2</span></code></pre>
+
+<h3>El switch clásico, con otro ejemplo</h3>
+<pre><code>int numero;
+switch (dia.trim().toUpperCase()) {   <span class="c">// " martes " se vuelve "MARTES"</span>
+    case "LUNES":
+        numero = 1;
+        break;                        <span class="c">// sin break, sigue al case de abajo</span>
+    case "MARTES":
+        numero = 2;
+        break;
+    default:                          <span class="c">// ningún case coincidió</span>
+        numero = -1;
+}
+return numero;</code></pre>
+<p>Con un <b>enum</b> es igual. El <code>case</code> se escribe corto, <code>case DIEZ:</code>, sin el nombre del enum.</p>
+
+<h2>Parte 2 · Lo que vas a escribir</h2>
+<p>La máquina vende tres productos, recibe monedas, guarda el saldo y al comprar entrega el producto y el cambio. Le caben como máximo 10 piezas de cada producto.</p>
+<table>
+  <tr><th>Código</th><th>Producto</th><th>Precio</th></tr>
+  <tr><td><code>A1</code></td><td>papas</td><td>$18</td></tr>
+  <tr><td><code>A2</code></td><td>refresco</td><td>$22</td></tr>
+  <tr><td><code>B1</code></td><td>chocolate</td><td>$15</td></tr>
+</table>
+<div class="tw"><table>
+  <tr><th>Clase</th><th>Parte</th><th>Qué hace</th><th>Usa</th></tr>
+  <tr><td rowspan="6"><code>Producto</code></td><td>Atributos</td><td>Una constante con la capacidad (10), y de cada producto: nombre, precio y piezas</td><td></td></tr>
+  <tr><td>Constructor<br><code>Producto(String, int, int)</code></td><td>Piezas menores que 0 se guardan como 0; mayores que 10, como 10</td><td>if / else if / else</td></tr>
+  <tr><td><code>getPrecio()</code> · <code>getPiezas()</code></td><td>Regresan el atributo</td><td></td></tr>
+  <tr><td><code>hayPiezas()</code></td><td>true si queda al menos una</td><td></td></tr>
+  <tr><td><code>sacarUna()</code></td><td>Quita una pieza, pero nunca baja de 0</td><td>if</td></tr>
+  <tr><td><code>existencia()</code></td><td><code>"AGOTADO"</code>, <code>"ULTIMAS PIEZAS"</code> (1 o 2) o <code>"DISPONIBLE"</code></td><td>if / else if / else</td></tr>
+  <tr><td rowspan="8"><code>Expendedora</code></td><td>Atributos</td><td>Un contador <code>static</code> de ventas de todas las máquinas, y de cada máquina: ubicación, saldo y <b>sus tres <code>Producto</code></b></td><td></td></tr>
+  <tr><td>Constructor<br><code>Expendedora(String, int)</code></td><td>Crea sus tres productos con <code>new</code>. Ubicación en blanco: se guarda <code>"SIN UBICACION"</code></td><td>ternario</td></tr>
+  <tr><td><code>buscar(String)</code></td><td>El <code>Producto</code> de ese código, o <code>null</code>. <code>" a2 "</code> vale igual que <code>"A2"</code></td><td>switch clásico</td></tr>
+  <tr><td><code>insertar(Moneda)</code></td><td>Suma la moneda al saldo: UNO, DOS, CINCO o DIEZ</td><td>switch sobre el enum</td></tr>
+  <tr><td><code>comprar(String)</code></td><td>En este orden: <code>"CODIGO INVALIDO"</code>, <code>"AGOTADO"</code>, <code>"FALTAN $3"</code> o <code>"ENTREGADO, CAMBIO $15"</code></td><td>if / else if / else</td></tr>
+  <tr><td><code>estado()</code></td><td><code>"VACIA"</code> si ningún producto tiene piezas; si no, <code>"DISPONIBLE"</code></td><td>ternario</td></tr>
+  <tr><td><code>etiqueta()</code></td><td><code>"Edificio Q (DISPONIBLE)"</code></td><td></td></tr>
+  <tr><td><code>cancelar()</code> · <code>getVentasTotales()</code></td><td>Devuelve el saldo y lo deja en 0 · las ventas de todas las máquinas</td><td></td></tr>
+</table></div>
+
+<h3>Qué debe pasar: ejemplos</h3>
+<div class="tw"><table>
+  <tr><th>Si el main hace esto</th><th>Tu código debe dar</th></tr>
+  <tr><td><code>new Producto("papas", 18, 15).getPiezas()</code></td><td><code>10</code> (solo caben 10)</td></tr>
+  <tr><td><code>new Producto("chicles", 5, -4).getPiezas()</code></td><td><code>0</code></td></tr>
+  <tr><td><code>new Producto("gomitas", 8, 2).existencia()</code></td><td><code>"ULTIMAS PIEZAS"</code></td></tr>
+  <tr><td>gomitas con 2 piezas: <code>sacarUna()</code> tres veces</td><td>2, 1, 0 y se queda en <code>0</code></td></tr>
+  <tr><td><code>new Expendedora("   ", 0).etiqueta()</code></td><td><code>"SIN UBICACION (VACIA)"</code></td></tr>
+  <tr><td><code>m.buscar(" a2 ").getPrecio()</code></td><td><code>22</code></td></tr>
+  <tr><td><code>m.buscar("Z9")</code></td><td><code>null</code></td></tr>
+</table></div>
+
+<h3>Una compra, paso a paso</h3>
+<pre><code>Expendedora m = new Expendedora("Edificio Q", 15);  <span class="c">// 10 piezas de cada producto, saldo 0</span>
+
+m.insertar(Moneda.DIEZ);        <span class="c">// saldo 10</span>
+m.insertar(Moneda.CINCO);       <span class="c">// saldo 15</span>
+m.comprar("A1");                <span class="c">// "FALTAN $3"   las papas cuestan 18; el saldo se queda en 15</span>
+
+m.insertar(Moneda.DOS);         <span class="c">// saldo 17</span>
+m.insertar(Moneda.UNO);         <span class="c">// saldo 18</span>
+m.comprar("A1");                <span class="c">// "ENTREGADO, CAMBIO $0"   papas: 9, saldo: 0, ventas: 1</span>
+
+m.comprar("C3");                <span class="c">// "CODIGO INVALIDO"</span>
+
+m.insertar(Moneda.DIEZ);        <span class="c">// saldo 10</span>
+m.insertar(Moneda.DIEZ);        <span class="c">// saldo 20</span>
+m.insertar(Moneda.DIEZ);        <span class="c">// saldo 30</span>
+m.comprar("B1");                <span class="c">// "ENTREGADO, CAMBIO $15"   chocolate cuesta 15; ventas: 2</span></code></pre>
+<p>En una máquina creada con 0 piezas, <code>comprar("B1")</code> da <code>"AGOTADO"</code> aunque tenga saldo: primero se pregunta si hay piezas y después si alcanza el dinero.</p>
+
+<h2>Parte 3 · Cómo sabes que quedó</h2>
+<pre><code>javac P5Seleccion.java      <span class="c"># compila también Moneda, Producto y Expendedora</span>
+java P5Seleccion</code></pre>
+<div class="out"><b>cuando ya está</b>    PRODUCTO
+1   papas con 15 piezas            10                       10                       ok
+...
+18  getVentasTotales()             2                        2                        ok
+---------------------------------------------------------------------------------
+  18 DE 18
+  Listo. Toma la captura de esta tabla y pegala en tu bitacora.</div>
+
+<div class="box warn"><h4>Lo que más truena</h4>
+<ul>
+  <li><b>La 7 da <code>null (DISPONIBLE)</code></b>: te faltó <code>this.</code> al guardar la ubicación. Compila, pero no guarda nada.</li>
+  <li><b>Muchas dan <code>truena: NullPointerException</code></b>: un <code>Producto</code> de la máquina se quedó en <code>null</code>. Te faltó crearlo con <code>new</code> en el constructor.</li>
+  <li><b>La 9 truena y la 10 da <code>true, false</code></b>: no limpiaste el código con <code>trim()</code> y <code>toUpperCase()</code>.</li>
+  <li><b>La 16 da <code>FALTAN $5</code></b>: el orden de tu escalera. Primero se pregunta si hay piezas, luego si alcanza el dinero.</li>
+</ul></div>
+
+<h2>La entrega, paso a paso</h2>
+<pre><code>git checkout entregas_apellido_nombre
+git pull origin main
+mkdir -p entregas/apellido_nombre/p05
+<span class="c"># copia aquí los cuatro .java, todos los .class y la bitácora en PDF</span>
+git add entregas/apellido_nombre/p05
+git status
+git commit -m "P5: estructuras de seleccion"
+git push</code></pre>
+<p>Al compilar salen varios <code>.class</code> (<code>P5Seleccion</code>, <code>Producto</code>, <code>Expendedora</code>, <code>Moneda</code> y quizá <code>Expendedora$1</code>). Súbelos todos. Si no aparecen en <code>git status</code>, usa <code>git add -f</code>.</p>
+
+<footer>
+  <p><strong>Modelos de Programación Orientada a Objetos 2027-1 · Grupo 6 · Facultad de Ingeniería, UNAM</strong><br>
+  Prof. Oscar Manuel Ruiz Hurtado · Práctica 5 · Estructuras de selección (MADO-21, guía 5) · septiembre de 2026</p>
+</footer>
+</div>
+</body></html>
